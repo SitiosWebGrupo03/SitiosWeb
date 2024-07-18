@@ -1,0 +1,134 @@
+﻿body {
+    font-family: Montserrat;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #f0f4ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+    body::before, body::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        background: #7154FC;
+        z-index: -1;
+    }
+
+    body::before {
+        width: 500px;
+        height: 500px;
+        top: -100px;
+        left: -100px;
+    }
+
+    body::after {
+        width: 300px;
+        height: 300px;
+        bottom: -50px;
+        right: -50px;
+    }
+
+.container {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.sidebar {
+    width: 25%;
+    background-color: #f3eafc;
+    padding: 20px;
+}
+
+    .sidebar h2 {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+.main-content {
+    width: 75%;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+    .main-content h1 {
+        font-size: 2em;
+        color: #7154FC;
+    }
+
+.date {
+    margin: 20px 0;
+    font-size: 1.2em;
+    color: #7154FC;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1em;
+        color: #7154FC;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+.time-info {
+    margin: 20px 0;
+    font-size: 1em;
+    color: #7154FC;
+}
+
+.buttons {
+    margin: 20px 0;
+}
+
+    .buttons button {
+        padding: 10px 20px;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        background-color: #7154FC;
+        color: white;
+        cursor: pointer;
+        margin: 0 10px;
+    }
+
+.image {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+    .image img {
+        width: 150px;
+        height: auto;
+        border-radius: 5px;
+    }

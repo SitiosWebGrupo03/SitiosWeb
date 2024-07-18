@@ -1,0 +1,123 @@
+﻿body {
+    font-family: Montserrat;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+    body::before, body::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        background: #7154FC;
+        z-index: -1;
+    }
+
+    body::before {
+        width: 500px;
+        height: 500px;
+        top: -100px;
+        left: -100px;
+    }
+
+    body::after {
+        width: 300px;
+        height: 300px;
+        bottom: -50px;
+        right: -50px;
+    }
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.main-content {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+    .main-content h1 {
+        font-size: 2em;
+        color: #7154FC;
+        margin-bottom: 20px;
+    }
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .search-form label {
+        margin-right: 10px;
+        font-size: 1em;
+        color: #666;
+    }
+
+    .search-form select {
+        padding: 10px;
+        font-size: 1em;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .search-form button {
+        padding: 10px 20px;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        background-color: #7154FC;
+        cursor: pointer;
+    }
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+thead {
+    background-color: #7154FC;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #7154FC;
+}
+
+.image {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+    .image img {
+        width: 150px;
+        height: auto;
+        border-radius: 5px;
+    }

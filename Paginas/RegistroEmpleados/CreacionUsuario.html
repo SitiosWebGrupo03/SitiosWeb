@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/creacionUsuario.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creación de Usuario</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Creación de Usuario</h1>
+        </div>
+        <div class="form-container">
+            <div class="image-section">
+                <img src="person.png" alt="Person">
+            </div>
+            <div class="form-section">
+                <form action="#" method="post">
+                    <label for="user-code">Código de Usuario</label>
+                    <input type="text" id="user-code" name="user-code">
+
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password">
+
+                    <label for="user-type">Tipo De Usuario</label>
+                    <select id="user-type" name="user-type">
+                        <option value="combobox">Combobox</option>
+                    </select>
+
+                    <label for="collaborator-id">Cédula del Colaborador</label>
+                    <input type="text" id="collaborator-id" name="collaborator-id">
+
+                    <label>Estado</label>
+                    <div class="radio-buttons">
+                        <input type="radio" id="active" name="status" value="active">
+                        <label for="active">Activo</label>
+
+                        <input type="radio" id="inactive" name="status" value="inactive">
+                        <label for="inactive">Inactivo</label>
+                    </div>
+
+                    <label for="image-upload">Adjunte su imagen acá:</label>
+                    <div class="image-upload">
+                        <input type="file" id="image-upload" name="image-upload" accept="image/*">
+                    </div>
+
+                    <button type="submit" class="save-button">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

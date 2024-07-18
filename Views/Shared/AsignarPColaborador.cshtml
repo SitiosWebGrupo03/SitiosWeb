@@ -1,0 +1,219 @@
+﻿@model SitiosWeb.Models.Colaborador
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Puesto para Colaboradores</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <header>
+        <h1>Asignar Puesto para Colaboradores</h1>
+    </header>
+
+    <main>
+        <div class="background-container">
+            <div class="image-container">
+                <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-subscribe-737x1024.png" alt="User Photo" class="user-photo">
+            </div>
+            <div class="form-container">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <form asp-action="Create" method="post">
+                    <div class="form-group">
+                        <label asp-for="Identificacion"></label>
+                        <input asp-for="Identificacion" class="form-control" />
+                        <span asp-validation-for="Identificacion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Nombre"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Apellido"></label>
+                        <input asp-for="Apellido" class="form-control" />
+                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Departamento"></label>
+                        <select asp-for="Departamento" class="form-control">
+                            <option>Recursos Humanos</option>
+                            <option>Finanzas</option>
+                            <option>IT</option>
+                        </select>
+                        <span asp-validation-for="Departamento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Puesto"></label>
+                        <select asp-for="Puesto" class="form-control">
+                            <option>Gerente</option>
+                            <option>Analista</option>
+                            <option>Desarrollador</option>
+                        </select>
+                        <span asp-validation-for="Puesto" class="text-danger"></span>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" onclick="Atras()" class="salir">Salir</button>
+                        <button type="submit" class="guardar">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function Atras() {
+            window.history.back();
+        }
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            header h1 {
+                font-size: 24px;
+                color: #7154FC;
+            }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .background-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .user-photo {
+            border-radius: 50%;
+            width: 180px;
+            height: 250px;
+            object-fit: cover;
+            z-index: 2;
+            margin-right: -1300px;
+            margin-top: -300px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            z-index: 3;
+            margin-top: auto;
+            margin-left: -0%;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: #555;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+            .form-buttons .salir,
+            .form-buttons .guardar {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            .form-buttons .salir {
+                background-color: #ff3b30;
+                color: #ffffff;
+            }
+
+            .form-buttons .guardar {
+                background-color: #4a4a8c;
+                color: #ffffff;
+            }
+
+        .background-container::before,
+        .background-container::after {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background-color: #4a4a8c;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .background-container::before {
+            top: -300px;
+            left: -300px;
+        }
+
+        .background-container::after {
+            bottom: -300px;
+            right: -300px;
+        }
+    </style>
+</body>
+</html>

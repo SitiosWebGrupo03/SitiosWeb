@@ -1,0 +1,127 @@
+﻿body {
+    font-family: Montserrat;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: white;
+}
+
+.container {
+    display: flex;
+    width: 1000px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.sidebar {
+    background-color: #7154FC;
+    width: 250px;
+    padding: 20px;
+}
+
+.sidebar-header h2 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+    .sidebar-menu li {
+        color: white;
+        padding: 10px 0;
+        cursor: pointer;
+    }
+
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #f3eafc;
+    position: relative;
+}
+
+    .main-content h1 {
+        color: #5f3ebd;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+.user-info {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+
+    .user-info img {
+        width: 150px;
+        height: auto;
+        border-radius: 50%;
+    }
+
+.check-in-out {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+    text-align: center;
+}
+
+.date h3 {
+    color: #5f3ebd;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.time {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+    .time .entry-time, .time .exit-time {
+        text-align: center;
+    }
+
+    .time h4 {
+        color: #5f3ebd;
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .time p {
+        color: #333;
+        font-size: 16px;
+        margin: 0;
+    }
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-entry {
+    background-color: #7154FC;
+}
+
+.btn-exit {
+    background-color: #7154FC;
+}

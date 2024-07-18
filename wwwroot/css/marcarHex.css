@@ -1,0 +1,206 @@
+﻿body {
+    font-family: Montserrat;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    width: 850px; /* Reducir el ancho del contenedor */
+    height: 550px; /* Reducir la altura del contenedor */
+    background-color: #5e58f8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Circles */
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: #5e58f8;
+    opacity: 0.5;
+}
+
+body::before {
+    width: 400px; /* Reducir el tamaño del círculo superior izquierdo */
+    height: 400px;
+    top: -100px;
+    left: -100px;
+}
+
+body::after {
+    width: 300px; /* Reducir el tamaño del círculo inferior derecho */
+    height: 300px;
+    bottom: -50px;
+    right: -50px;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: #5e58f8;
+    width: 200px; /* Reducir el ancho de la barra lateral */
+    padding: 15px; /* Reducir el padding de la barra lateral */
+    z-index: 1;
+}
+
+.sidebar-header h2 {
+    color: white;
+    font-size: 16px; /* Reducir el tamaño de fuente del título de la barra lateral */
+    margin-bottom: 15px; /* Reducir el margen inferior del título */
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+    .sidebar-menu li {
+        color: white;
+        padding: 8px 0; /* Reducir el padding de los elementos del menú */
+        cursor: pointer;
+    }
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px; /* Reducir el padding del contenido principal */
+    background-color: #5e58f8;
+    position: relative;
+    z-index: 1;
+}
+
+    .main-content h1 {
+        color: white;
+        font-size: 28px; /* Reducir el tamaño de la fuente del título principal */
+        margin-bottom: 10px; /* Reducir el margen inferior del título */
+    }
+
+    .main-content h2 {
+        color: white;
+        font-size: 20px; /* Reducir el tamaño de la fuente del subtítulo */
+        margin-bottom: 15px; /* Reducir el margen inferior del subtítulo */
+    }
+
+.user-info {
+    position: absolute;
+    top: 20px; /* Reducir la distancia desde la parte superior */
+    right: 20px; /* Reducir la distancia desde la parte derecha */
+}
+
+    .user-info img {
+        width: 120px; /* Reducir el tamaño de la imagen del usuario */
+        height: auto;
+        border-radius: 50%;
+    }
+
+.check-in-out {
+    background-color: #ffffff;
+    padding: 20px; /* Reducir el padding del área de check-in/out */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 40px; /* Reducir la distancia desde la parte superior */
+    text-align: center;
+}
+
+.date h3 {
+    color: #5f3ebd;
+    font-size: 20px; /* Reducir el tamaño de la fuente de la fecha */
+    margin-bottom: 15px; /* Reducir el margen inferior de la fecha */
+}
+
+.credentials {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px; /* Reducir la distancia entre las credenciales y los tiempos */
+}
+
+.form-group {
+    flex: 1;
+    margin: 0 5px; /* Reducir el margen entre los grupos de formularios */
+}
+
+    .form-group input {
+        width: 100%;
+        padding: 8px; /* Reducir el padding de los campos de entrada */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+.time {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px; /* Reducir la distancia entre los tiempos y los botones */
+}
+
+    .time .entry-time, .time .exit-time {
+        text-align: center;
+    }
+
+    .time h4 {
+        color: #5f3ebd;
+        font-size: 16px; /* Reducir el tamaño de la fuente de los títulos de tiempo */
+        margin-bottom: 5px;
+    }
+
+    .time p {
+        color: #333;
+        font-size: 14px; /* Reducir el tamaño de la fuente de los textos de tiempo */
+        margin: 0;
+    }
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px; /* Reducir la distancia entre los botones y la información extra */
+}
+
+.btn {
+    padding: 8px 15px; /* Reducir el padding de los botones */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px; /* Reducir el tamaño de la fuente de los botones */
+}
+
+.btn-entry {
+    background-color: #5f3ebd;
+}
+
+.btn-exit {
+    background-color: #ff4b4b;
+}
+
+.extra-info, .activity, .comments {
+    margin-top: 10px; /* Reducir la distancia desde la parte superior */
+    text-align: left;
+}
+
+    .extra-info label, .activity label, .comments label {
+        display: block;
+        color: #5f3ebd;
+        margin-bottom: 5px;
+    }
+
+    .extra-info input, .activity select, .comments textarea {
+        width: 100%;
+        padding: 8px; /* Reducir el padding de los campos de entrada adicionales */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .comments textarea {
+        resize: none;
+        height: 50px; /* Reducir la altura del área de comentarios */
+    }

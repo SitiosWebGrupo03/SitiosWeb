@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/modificar.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Puesto</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="path-to-logo.png" alt="Time Master Logo">
+                <h1>Time Master</h1>
+            </div>
+            <div class="user-info">
+                <img src="path-to-user-image.png" alt="User Image">
+                <span>Usuario</span>
+            </div>
+        </header>
+        <main>
+            <div class="main-content">
+                <h2>Modificar Puesto</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" placeholder="Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="salario">Salario</label>
+                        <input type="text" id="salario" placeholder="Salario">
+                    </div>
+                    <div class="form-group">
+                        <label for="departamento">Departamento</label>
+                        <select id="departamento">
+                            <option>Departamentos</option>
+                            <!-- Opciones adicionales -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <div class="radio-group">
+                            <input type="radio" id="activo" name="estado" value="activo">
+                            <label for="activo">Activo</label>
+                            <input type="radio" id="inactivo" name="estado" value="inactivo">
+                            <label for="inactivo">Inactivo</label>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="btn-salir">Salir</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

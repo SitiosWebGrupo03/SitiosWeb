@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/marcarHex.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Marcas - Horas Extra</title>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Opciones de marcas</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li>Por usuario</li>
+                <li>Identificación facial</li>
+                <li>Horas extra</li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h1>Control de Marcas</h1>
+            <h2>Marcar Horas extra</h2>
+            <div class="user-info">
+                <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-subscribe-737x1024.png" alt="Usuario">
+            </div>
+            <div class="check-in-out">
+                <div class="date">
+                    <h3>Fecha: xx/xx/xxxx</h3>
+                </div>
+                <div class="credentials">
+                    <div class="form-group">
+                        <input type="text" id="codigo" placeholder="Código">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="contrasena" placeholder="Contraseña">
+                    </div>
+                </div>
+                <div class="time">
+                    <div class="entry-time">
+                        <h4>Hora de entrada</h4>
+                        <p>08:00 a.m.</p>
+                    </div>
+                    <div class="exit-time">
+                        <h4>Hora de salida</h4>
+                        <p>05:00 p.m.</p>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn btn-entry">Marcar entrada</button>
+                    <button class="btn btn-exit">Marcar salida</button>
+                </div>
+                <div class="extra-info">
+                    <label>Arrastre acá la evidencia:</label>
+                    <input type="file" id="evidencia">
+                </div>
+                <div class="activity">
+                    <label for="actividad">Tipo de actividad</label>
+                    <select id="actividad">
+                        <option>Actividades</option>
+                        <!-- Otras opciones -->
+                    </select>
+                </div>
+                <div class="comments">
+                    <label for="comentarios">Comentarios</label>
+                    <textarea id="comentarios" placeholder="Comentarios"></textarea>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

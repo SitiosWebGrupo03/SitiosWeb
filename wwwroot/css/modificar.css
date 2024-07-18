@@ -1,0 +1,110 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    background-color: #9a4ee5;
+    width: 800px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    color: #9a4ee5;
+}
+
+    header .logo {
+        display: flex;
+        align-items: center;
+    }
+
+        header .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+    header .user-info {
+        display: flex;
+        align-items: center;
+    }
+
+        header .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+main {
+    padding: 30px;
+}
+
+.main-content {
+    text-align: center;
+}
+
+    .main-content h2 {
+        margin-bottom: 20px;
+        color: white;
+    }
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: white;
+        text-align: left;
+    }
+
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+.radio-group {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+    .radio-group input {
+        margin-right: 5px;
+    }
+
+.actions {
+    margin-top: 20px;
+}
+
+.btn-salir {
+    padding: 10px 20px;
+    background-color: #ff4b4b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
