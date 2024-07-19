@@ -1,4 +1,6 @@
-﻿body {
+﻿
+/* General Styles */
+body {
     font-family: Montserrat;
     margin: 0;
     padding: 0;
@@ -7,6 +9,32 @@
     align-items: center;
     min-height: 100vh;
     background-color: white;
+}
+
+.containerFace {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+video {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+h1 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+img {
+    width: 100%;
 }
 
 .container {
@@ -19,6 +47,7 @@
     overflow: hidden;
 }
 
+/* Sidebar Styles */
 .sidebar {
     background-color: #7154FC;
     width: 250px;
@@ -42,6 +71,7 @@
         cursor: pointer;
     }
 
+/* Main Content Styles */
 .main-content {
     flex: 1;
     padding: 30px;
@@ -125,3 +155,4 @@
 .btn-exit {
     background-color: #7154FC;
 }
+
