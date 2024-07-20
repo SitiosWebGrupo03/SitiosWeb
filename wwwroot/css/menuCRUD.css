@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+#contenedor{
+    width: auto;
+    margin: 0 auto;
+    min-width: 300px;
+}
+
+#cabecera {
+    justify-content: space-between;
+    display: flex;
+    width: auto;
+    height: 150px;
+    color: white;
+    text-align: center;
+    background-color: #7154fc;
+    font-family: 'Montserrat', sans-serif;
+}
+
+    #cabecera .imagen {
+        height: 225px;
+        width: 225px;
+    }
+
+    #cabecera .logo {
+        height: 150px;
+        width: 225px;
+    }
+
+    #cabecera h1 {
+        font-family: 'Montserrat', sans-serif;
+        color: white;
+    }
+
+    #cabecera img {
+        height: 50px;
+    }
+
+.vertical-menu {
+    width: 125px;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    border-color: black;
+    font-family: 'Montserrat', sans-serif;
+}
+
+    .vertical-menu a {
+        background-color: white;
+        color: black;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+  
+  .vertical-menu a:hover {
+    background-color: #ccc; 
+  }
+
+        .vertical-menu a.active {
+            background-color: #7154fc;
+            color: white;
+        }
+
+#contenido{
+    float: right;
+    width: 550px;
+    height: 400px;
+    font-family: 
+}
+
+#pie {
+    clear: both;
+    background-color: #7154fc;
+    margin: 20px;
+    color: #eee;
+}
+
+#pie a{
+    text-decoration: none;
+    color: white;
+}
+
+    #pie a:hover {
+        text-decoration: auto;
+        color: red;
+    }
