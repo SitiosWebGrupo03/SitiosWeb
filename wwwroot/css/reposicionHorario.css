@@ -1,5 +1,5 @@
-﻿
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+
 /* Reset default margin and padding */
 * {
     margin: 0;
@@ -8,15 +8,14 @@
 }
 
 /* Body styles */
-/* Background wave decoration */
 body {
     background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: url('../../wwwroot/images/waves.svg') no-repeat center bottom;
-    background-size:auto 75%;
+    background: url('waves.svg') no-repeat center bottom;
+    background-size: auto 75%;
 }
 
 /* Container styles */
@@ -29,22 +28,16 @@ body {
     justify-content: center;
 }
 
-
-
-
 /* Main content styles */
 .content {
     position: relative;
     max-width: 60rem;
-    /* Adjusted for side-by-side layout */
     padding: 2.5rem;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 1rem 1rem 1rem 1rem rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
-    /* Changed to row for side-by-side layout */
-    /* Space between form and calendar */
 }
 
 /* Image styles */
@@ -53,7 +46,6 @@ body {
     top: -350px;
     left: 0;
     max-height: 27rem;
-    /* Set a maximum height */
     object-fit: contain;
     z-index: -1;
 }
@@ -63,45 +55,27 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: left;
     text-align: center;
 }
 
-/* Title styles */
-.calendar-header {
-    font-size: 1.5rem;
-    color: black;
-    margin-bottom: 1rem;
-    text-align: left;
-}
-
 .title-page {
-    text-align: left ;
+    text-align: left;
     font-size: 3rem;
     font-weight: 300;
     position: absolute;
     color: #42474C;
     font-family: 'Montserrat';
-    font-style:italic;
+    font-style: italic;
     top: -200px;
     left: 325px;
     width: 400px;
 }
 
-.title-span  {
-    text-align: left ;
+.title-span {
+    text-align: left;
     font-family: 'Montserrat', sans-serif;
-    text-decoration:  rgb(94, 88, 248);
-    font-feature-settings:normal;
-    font-variation-settings: normal;
-    font-stretch: 100%;
-    font-weight: 800;
     color: #5E58F8;
-    font-optical-sizing: auto;
-    font-kerning:auto;
-    font-style:normal;
-    text-transform:none;
-    text-indent: 0px;
+    font-weight: 800;
     font-size: 45px;
     position: absolute;
     top: -150px;
@@ -113,11 +87,9 @@ body {
 .text-block {
     margin-bottom: 1.5rem;
     text-align: left;
-    /* Move text-block to the left */
 }
 
 .text-block p {
-    
     font-size: 1.25rem;
     text-align: left;
     color: #4b5563;
@@ -130,23 +102,47 @@ body {
 
 /* Calendar styles */
 .calendar {
-    /* Allow calendar to grow and fill available space */
     width: 300px;
     height: 300px;
     margin-left: 50px;
     padding: 1rem;
     background-color: #5E58F8;
-    /* bg-purple-200 in Tailwind */
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.calendar-header button {
+    background-color: #007bff;
+    color: black;
+    border: none;
+    font-size: large;
+    background: transparent;    
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.calendar-header button:hover {
+    background-color: #0056b3;
+}
+
+#monthYear {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
 .calendar .title {
     font-size: 1.5rem;
-    /* text-xl in Tailwind */
     font-weight: bold;
     color: #5E58F8;
-    /* text-purple-600 in Tailwind */
     margin-bottom: 1rem;
 }
 
@@ -168,7 +164,6 @@ body {
 
 .calendar .days .gray-text {
     color: #cbd5e0;
-    /* text-gray-600 in Tailwind */
 }
 
 /* Buttons styles */
@@ -176,7 +171,6 @@ body {
     margin-top: 8rem;
     display: flex;
     gap: 12rem;
-    /* Space between buttons */
 }
 
 .buttons button {
