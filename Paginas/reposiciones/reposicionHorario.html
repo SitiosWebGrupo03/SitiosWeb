@@ -1,79 +1,77 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de horarios para colaboradores</title>
+    <title>Aprobación de Reposiciones</title>
     <link rel="stylesheet" type="text/css" href="../../wwwroot/css/reposicionHorario.css" />
 </head>
 
 <body>
-    <header>
-        <h1>Consulta de horarios para colaboradores</h1>
-    </header>
-    <main>
-        <div class="elementor-shape elementor-shape-bottom" data-negative="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="elementor-shape-fill" d="M790.5,93.1c-59.3-5.3-116.8-18-192.6-50c-29.6-12.7-76.9-31-100.5-35.9c-23.6-4.9-52.6-7.8-75.5-5.3
-                c-10.2,1.1-22.6,1.4-50.1,7.4c-27.2,6.3-58.2,16.6-79.4,24.7c-41.3,15.9-94.9,21.9-134,22.6C72,58.2,0,25.8,0,25.8V100h1000V65.3
-                c0,0-51.5,19.4-106.2,25.7C839.5,97,814.1,95.2,790.5,93.1z"></path>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="elementor-shape-fill" d="M790.5,93.1c-59.3-5.3-116.8-18-192.6-50c-29.6-12.7-76.9-31-100.5-35.9c-23.6-4.9-52.6-7.8-75.5-5.3
-	c-10.2,1.1-22.6,1.4-50.1,7.4c-27.2,6.3-58.2,16.6-79.4,24.7c-41.3,15.9-94.9,21.9-134,22.6C72,58.2,0,25.8,0,25.8V100h1000V65.3
-	c0,0-51.5,19.4-106.2,25.7C839.5,97,814.1,95.2,790.5,93.1z"></path>
-            </svg>
-        </div>
-        <div class="background-container">
-            <div class="image-container">
-                <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/testimonials-1.jpg"
-                    alt="User Photo" class="user-photo">
-
+    <div class="container">
+        <div class="content">
+            <div class="form">
+                <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-subscribe-737x1024.png"
+                    alt="Form Image" class="image">
+                <h1 class="title-page">Aprobación de </h1>
+                <h1 class="title-span">Reposiciones</h1>
+                <div class="text-block">
+                    <p>Colaborador que debe las horas: <label class="font-semibold" id="Colaboradorlbl"></label></p>
+                    <p>Colaborador que repondrá: <label class="font-semibold" id="ColaboradorTercerolbl"></label>
+                    </p>
+                    <p>20 de junio: <label class="font-semibold" id="lblhoras"></label></p>
+                </div>
+                <div class="buttons">
+                    <button>Aprobar</button>
+                    <button>Denegar</button>
+                </div>
             </div>
-            <div class="form-container">
-                <form action="#" method="POST">
-                    <div class="form-group">
-                        <select id="departamento" name="departamento">
-                            <option>Departamento</option>
-                        </select>
-                        <select id="puesto" name="puesto">
-                            <option>Puesto</option>
-                        </select>
-                    </div>
-                    <div class="schedule-table">
-                        <div class="day">Lunes</div>
-                        <div class="day">Martes</div>
-                        <div class="day">Miércoles</div>
-                        <div class="day">Jueves</div>
-                        <div class="day">Viernes</div>
-                        <div class="day">Sábado</div>
-                        <div class="cell">Texto de celda A1</div>
-                        <div class="cell">Texto de celda B1</div>
-                        <div class="cell">Texto de celda C1</div>
-                        <div class="cell">Texto de celda A2</div>
-                        <div class="cell">Texto de celda B2</div>
-                        <div class="cell">Texto de celda C2</div>
-                        <div class="cell">Texto de celda A3</div>
-                        <div class="cell">Texto de celda B3</div>
-                        <div class="cell">Texto de celda C3</div>
-                        <div class="cell">Texto de celda A4</div>
-                        <div class="cell">Texto de celda B4</div>
-                        <div class="cell">Texto de celda C4</div>
-                        <div class="cell">Texto de celda A5</div>
-                        <div class="cell">Texto de celda B5</div>
-                        <div class="cell">Texto de celda C5</div>
-                    </div>
-                    <div class="form-buttons">
-                        <button type="submit" class="guardar">Guardar</button>
-                    </div>
-                </form>
+            <div class="calendar">
+                <h2 class="calendar-header">Junio 2024</h2>
+                <div class="days">
+                    <div class="gray-text">M</div>
+                    <div class="gray-text">T</div>
+                    <div class="gray-text">W</div>
+                    <div class="gray-text">T</div>
+                    <div class="gray-text">F</div>
+                    <div class="gray-text">S</div>
+                    <div class="gray-text">S</div>
+                    <div class="gray-text">1</div>
+                    <div class="gray-text">2</div>
+                    <div class="gray-text">3</div>
+                    <div class="gray-text">4</div>
+                    <div class="gray-text">5</div>
+                    <div class="gray-text">6</div>
+                    <div class="gray-text">7</div>
+                    <div class="gray-text">8</div>
+                    <div class="gray-text">9</div>
+                    <div class="gray-text">10</div>
+                    <div class="gray-text">11</div>
+                    <div class="gray-text">12</div>
+                    <div class="gray-text">13</div>
+                    <div class="gray-text">14</div>
+                    <div class="gray-text">15</div>
+                    <div class="gray-text">16</div>
+                    <div class="gray-text">17</div>
+                    <div class="gray-text">18</div>
+                    <div class="gray-text">19</div>
+                    <div class="gray-text">20</div>
+                    <div class="gray-text">21</div>
+                    <div class="gray-text">22</div>
+                    <div class="gray-text">23</div>
+                    <div class="gray-text">24</div>
+                    <div class="gray-text">25</div>
+                    <div class="gray-text">26</div>
+                    <div class="gray-text">27</div>
+                    <div class="gray-text">28</div>
+                    <div class="gray-text">29</div>
+                    <div class="gray-text">30</div>
+                    <div class="gray-text">31</div>
+                </div>
             </div>
         </div>
-    </main>
-    <style>
-
-    </style>
+    </div>
 </body>
 
 </html>

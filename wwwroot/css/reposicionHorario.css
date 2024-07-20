@@ -1,126 +1,193 @@
-﻿body {
+﻿
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+/* Reset default margin and padding */
+* {
     margin: 0;
-    font-family: Montserrat;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+/* Background wave decoration */
+body {
     background-color: #ffffff;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background: url('../../wwwroot/images/waves.svg') no-repeat center bottom;
+    background-size:auto 75%;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-    header h1 {
-        font-size: 24px;
-        color: #7154FC;
-    }
-
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.background-container {
+/* Container styles */
+.container {
     position: relative;
     width: 100%;
-    max-width: 1200px;
+    height: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
-.image-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+
+
+/* Main content styles */
+.content {
     position: relative;
-    top: -20%;
-    left: 40%;
-}
-
-.user-photo {
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    z-index: 2;
-}
-
-
-.form-container {
+    max-width: 60rem;
+    /* Adjusted for side-by-side layout */
+    padding: 2.5rem;
     background-color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 700px;
-    text-align: center;
-    z-index: 3;
-    margin-top: -200px;
-}
-
-.form-group {
+    border-radius: 10px;
+    box-shadow: 1rem 1rem 1rem 1rem rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+    flex-direction: row;
+    /* Changed to row for side-by-side layout */
+    /* Space between form and calendar */
 }
 
-    .form-group select {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-.schedule-table {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
+/* Image styles */
+.image {
+    position: absolute;
+    top: -350px;
+    left: 0;
+    max-height: 27rem;
+    /* Set a maximum height */
+    object-fit: contain;
+    z-index: -1;
 }
 
-.day {
-    background-color: #e1e1f7;
-    padding: 10px;
-    border-radius: 5px;
+/* Form styles */
+.form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    text-align: center;
+}
+
+/* Title styles */
+.calendar-header {
+    font-size: 1.5rem;
+    color: black;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.title-page {
+    text-align: left ;
+    font-size: 3rem;
+    font-weight: 300;
+    position: absolute;
+    color: #42474C;
+    font-family: 'Montserrat';
+    font-style:italic;
+    top: -200px;
+    left: 325px;
+    width: 400px;
+}
+
+.title-span  {
+    text-align: left ;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration:  rgb(94, 88, 248);
+    font-feature-settings:normal;
+    font-variation-settings: normal;
+    font-stretch: 100%;
+    font-weight: 800;
+    color: #5E58F8;
+    font-optical-sizing: auto;
+    font-kerning:auto;
+    font-style:normal;
+    text-transform:none;
+    text-indent: 0px;
+    font-size: 45px;
+    position: absolute;
+    top: -150px;
+    left: 325px;
+    width: 400px;
+}
+
+/* Text block styles */
+.text-block {
+    margin-bottom: 1.5rem;
+    text-align: left;
+    /* Move text-block to the left */
+}
+
+.text-block p {
+    
+    font-size: 1.25rem;
+    text-align: left;
+    color: #4b5563;
+    margin-bottom: 0.75rem;
+}
+
+.text-block .font-semibold {
     font-weight: bold;
 }
 
-.cell {
-    background-color: #f5f5ff;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+/* Calendar styles */
+.calendar {
+    /* Allow calendar to grow and fill available space */
+    width: 300px;
+    height: 300px;
+    margin-left: 50px;
+    padding: 1rem;
+    background-color: #5E58F8;
+    /* bg-purple-200 in Tailwind */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.form-buttons {
+.calendar .title {
+    font-size: 1.5rem;
+    /* text-xl in Tailwind */
+    font-weight: bold;
+    color: #5E58F8;
+    /* text-purple-600 in Tailwind */
+    margin-bottom: 1rem;
+}
+
+.calendar .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar .days .day {
     display: flex;
+    align-items: center;
     justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: #ffffff;
+    border-radius: 50%;
 }
 
-    .form-buttons .guardar {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        background-color: #7154FC;
-        color: #ffffff;
-    }
-
-
-.background-container::before {
-    top: -300px;
-    left: -300px;
+.calendar .days .gray-text {
+    color: #cbd5e0;
+    /* text-gray-600 in Tailwind */
 }
 
-.background-container::after {
-    bottom: -300px;
-    right: -300px;
+/* Buttons styles */
+.buttons {
+    margin-top: 8rem;
+    display: flex;
+    gap: 12rem;
+    /* Space between buttons */
+}
+
+.buttons button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: 1px solid #5E58F8;
+}
+
+.buttons button:hover {
+    background-color: #6b46c1;
 }
