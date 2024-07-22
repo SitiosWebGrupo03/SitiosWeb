@@ -17,6 +17,10 @@ namespace SitiosWeb.Controllers
         {
             return View();
         }
+        public IActionResult Login()
+        {
+            return View("~/Paginas/login/login.cshtml");
+        }
 
         public IActionResult Privacy()
         {

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" type="text/css" href="../../wwwroot/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/login.css" />
     <title>Inicio de sesión</title>
 </head>
 <body>
@@ -9,14 +9,14 @@
     <div class="login-box">
         <form method="post">
             <div class="logoCuc">
-                <img src="../../wwwroot/images/logoMaster.jpeg"/>
+                <img src="~/images/logoMaster.jpeg" />
             </div>
             <div class="user-box">
-                <input type="text" name="Username" asp-for="Username" required="" />
+                <input type="text" name="Username" required="" />
                 <label>Usuario</label>
             </div>
             <div class="user-box">
-                <input type="password" name="Password" asp-for="Password" required="" />
+                <input type="password" name="Password"  required="" />
                 <label>Contraseña</label>
             </div>
             <center>
