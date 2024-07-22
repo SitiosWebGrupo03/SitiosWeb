@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Paginas\Gestion Horas Extras\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
 
 </Project>
