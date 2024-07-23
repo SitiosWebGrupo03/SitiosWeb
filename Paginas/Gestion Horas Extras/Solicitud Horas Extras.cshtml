@@ -1,3 +1,7 @@
+@{
+    Layout = null;
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,33 +16,40 @@
     <div class="container">
         <div class="header">
             <img src="tu-imagen.jpg" alt="Imagen de perfil">
-            <h1>Gestion de Horas Extras</h1>
+            <h1>Gestión de Horas Extras</h1>
         </div>
         <form method="post">
             <div class="form-section">
                 <div class="form-group">
-                    <label for="nombre">Nombre del Empleado:</label>
-                    <input type="text" id="nombre" name="nombre">
+                    <label for="idSolicitante">ID del Solicitante:</label>
+                    <input type="text" id="idSolicitante" name="idSolicitante">
                 </div>
                 <div class="form-group">
-                    <label for="horario">Horario del Empleado:</label>
-                    <input type="text" id="horario" name="horario">
+                    <label for="idEmpleado">ID del Empleado:</label>
+                    <input type="text" id="idEmpleado" name="idEmpleado">
                 </div>
                 <div class="form-group">
-                    <label for="motivo">Motivo de Horas Extras:</label>
-                    <input type="text" id="motivo" name="motivo">
-                </div>
-                <div class="form-group">
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" name="fecha">
+                    <label for="fechaSolicitud">Fecha de Solicitud:</label>
+                    <input type="date" id="fechaSolicitud" name="fechaSolicitud">
                 </div>
                 <div class="form-group">
                     <label for="horas">Horas Extras:</label>
-                    <input type="number" id="horas" name="horas">
+                    <input type="number" id="horas" name="horas" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="idTipoActividad">Tipo de Actividad:</label>
+                    <select id="idTipoActividad" name="idTipoActividad">
+                        <option value="">Seleccione una actividad</option>
+                        <option value="1">Proyecto Urgente</option>
+                        <option value="2">Reunión de Emergencia</option>
+                        <option value="3">Mantenimiento del Sistema</option>
+                        <option value="4">Preparación de Presentación</option>
+                        <option value="5">Capacitación Interna</option>
+                    </select>
                 </div>
             </div>
             <div class="buttons">
-                <button type="submit" class="accept">Enviar Solicitud </button>
+                <button type="submit" class="accept">Enviar Solicitud</button>
                 <button type="reset" class="deny">Cancelar</button>
             </div>
         </form>
