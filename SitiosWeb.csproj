@@ -7,6 +7,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Paginas\CRUDS\menuCRUD.cshtml" />
+    <Content Remove="Paginas\Gestion Horas Extras\Solicitud Horas Extras.cshtml" />
+    <Content Remove="Paginas\Inconsistencias\Aprobacion.cshtml" />
+    <Content Remove="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
+    <Content Remove="Paginas\Inconsistencias\Solicitud.cshtml" />
+    <Content Remove="Paginas\Marcas\MarcaNormal.cshtml" />
+    <Content Remove="Paginas\Marcas\MarcarFaceID.cshtml" />
+    <Content Remove="Paginas\Marcas\MarcarHEX.cshtml" />
+    <Content Remove="Paginas\Marcas\VizualizacionMarcas.cshtml" />
+    <Content Remove="Paginas\Menu\menuSupervisor.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
+    <Content Remove="Paginas\RegistroEmpleados\Modificar.cshtml" />
+    <Content Remove="Paginas\reposiciones\reposicionHorario.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
@@ -21,7 +44,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Paginas\Gestion Horas Extras\" />
+    <None Include="Paginas\CRUDS\menuCRUD.cshtml" />
+    <None Include="Paginas\Gestion Horas Extras\Solicitud Horas Extras.cshtml" />
+    <None Include="Paginas\Inconsistencias\Aprobacion.cshtml" />
+    <None Include="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
+    <None Include="Paginas\Inconsistencias\Solicitud.cshtml" />
+    <None Include="Paginas\Marcas\MarcaNormal.cshtml" />
+    <None Include="Paginas\Marcas\MarcarFaceID.cshtml" />
+    <None Include="Paginas\Marcas\MarcarHEX.cshtml" />
+    <None Include="Paginas\Marcas\VizualizacionMarcas.cshtml" />
+    <None Include="Paginas\Menu\menuSupervisor.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
+    <None Include="Paginas\RegistroEmpleados\Modificar.cshtml" />
+    <None Include="Paginas\reposiciones\reposicionHorario.cshtml" />
   </ItemGroup>
 
 </Project>
