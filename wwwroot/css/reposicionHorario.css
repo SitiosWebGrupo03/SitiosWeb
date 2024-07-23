@@ -14,7 +14,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: url('../../wwwroot/images/waves.svg') no-repeat center bottom;
+    background: url('~/images/waves.svg') no-repeat center bottom;
     background-size: auto 75%;
 }
 
