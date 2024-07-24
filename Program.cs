@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using SitiosWeb.Model;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<Tiusr22plProyectoContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Host")));
 
 var app = builder.Build();
 

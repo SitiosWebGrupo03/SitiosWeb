@@ -110,6 +110,10 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Apellidos)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Correo)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("correo");
             entity.Property(e => e.FechaContratacion).HasColumnName("fechaContratacion");
             entity.Property(e => e.FechaFinContrato).HasColumnName("fechaFinContrato");
             entity.Property(e => e.FechaNaciento).HasColumnName("fechaNaciento");
@@ -120,6 +124,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Telefono).HasColumnName("telefono");
 
             entity.HasOne(d => d.IdPuestoNavigation).WithMany(p => p.Colaboradores)
                 .HasForeignKey(d => d.IdPuesto)
