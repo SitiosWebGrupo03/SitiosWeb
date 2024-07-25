@@ -22,6 +22,11 @@ namespace SitiosWeb.Controllers
             return View("~/Paginas/login/login.cshtml");
         }
 
+        public IActionResult menuCRUD()
+        {
+            return View("~/Paginas/CRUDS/menuCRUD.cshtml");
+        }
+
         public IActionResult Privacy()
         {
             return View();
