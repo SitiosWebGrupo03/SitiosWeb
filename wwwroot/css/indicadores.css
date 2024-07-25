@@ -1,11 +1,11 @@
 body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(to bottom, white 55%, #5E58F8 55%);
     font-family: 'Montserrat', sans-serif;
 }
 body i {
     transition: color 0.5s, transform 0.5s;
+}
+.containers {
+    background-color:#5E58F8 ;
 }
 
 body i:hover {
@@ -23,7 +23,7 @@ body i:hover {
     width: fit-content;
     gap: 30px;
     margin: auto;
-    max-width: 1500px;
+    max-width: 100%;
 }
 
 .indicador {

@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - SitiosWeb</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/menuSup.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/menus.css" asp-append-version="true" />
 </head>
 <body>
      <header class="header">
@@ -23,7 +23,7 @@
             <p> <i class="fa-solid fa-user" style="width: 8px; height: 8px;"></i> @User.Identity.Name</p>
         </div>
     </header> 
-    <div class="container">
+    <div class="containers">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

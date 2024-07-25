@@ -55,5 +55,10 @@ namespace SitiosWeb.Controllers
         public IActionResult solicitudRepo() {
             return View("~/Paginas/reposiciones/SolicitudReposicion.cshtml");
         }
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult indicadoresColab()
+        {
+            return View("~/Paginas/indicadores/indicadorescolaborador.cshtml");
+        }
     }
 }
