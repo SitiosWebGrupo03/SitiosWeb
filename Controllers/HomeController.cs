@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SitiosWeb.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SitiosWeb.Controllers
 {
@@ -13,24 +17,38 @@ namespace SitiosWeb.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (HttpContext.User.Identity !=null)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            }
             return View();
         }
         public IActionResult Login()
         {
             return View("~/Paginas/login/login.cshtml");
         }
-
-        public IActionResult Privacy()
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult IndexColaborador()
         {
-            return View();
+            return View("~/Paginas/Menu/menuColaborador.cshtml");
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult IndexJefatura()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var asd = User.Identity.Name;
+            return View("~/Paginas/Menu/menuJefatura.cshtml");
+        }
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexSupervisor()
+        {
+            return View("~/Paginas/Menu/menuSupervisor.cshtml");
+        }
+        public IActionResult AccesoDenegado()
+        {
+            return View("AccesoDenegado");
         }
     }
 }

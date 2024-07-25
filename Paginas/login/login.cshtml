@@ -1,34 +1,38 @@
 ﻿@{
+    var returnUrl = ViewData["ReturnUrl"] as string;
     Layout = null;
 }
 
-<!DOCTYPE html>
-<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="~/css/login.css" />
     <title>Inicio de sesión</title>
 </head>
 <body>
-     
-    <div class="login-box">
-        <form method="post">
+    <form action="/Login/Login" method="post">
+        <div class="login-box">
+            <input type="hidden" name="ReturnUrl" value="@returnUrl" />
+            <!-- Logo -->
             <div class="logoCuc">
-                <img src="~/images/logoMaster.jpeg" />
+                <img src="@Url.Content("~/images/logoMaster.jpeg")" alt="Logo Master" />
             </div>
+            <!-- Username -->
             <div class="user-box">
-                <input type="text" name="Username" required="" />
+                <input type="text" name="username" required aria-label="Usuario" />
                 <label>Usuario</label>
             </div>
+            <!-- Password -->
             <div class="user-box">
-                <input type="password" name="Password"  required="" />
+                <input type="password" name="password" required aria-label="Contraseña" />
                 <label>Contraseña</label>
             </div>
+            <label>@TempData["Error"]</label>
+            <!-- Submit Button -->
             <center>
-                <button id="login" type="submit">Ingresar<span></span></button>
+                <button id="login" type="submit" class="btn">Ingresar</button>
             </center>
-
-        </form>
-    </div>
+        </div>
+    </form>
 </body>
 
-</html>
