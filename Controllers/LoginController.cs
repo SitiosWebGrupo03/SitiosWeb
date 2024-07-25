@@ -16,7 +16,11 @@ namespace SitiosWeb.Controllers
         {
             _context = context;
         }
-
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SitiosWeb.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 namespace SitiosWeb.Controllers
 {
@@ -49,6 +50,36 @@ namespace SitiosWeb.Controllers
         public IActionResult AccesoDenegado()
         {
             return View("AccesoDenegado");
+        }
+        [Route("/Verificar")]
+        [HttpGet]
+        public IActionResult Verificar()
+        {
+            bool shouldRedirect = User.Identity.IsAuthenticated;
+
+            // Obtener el rol del usuario
+            var roleClaim = User.FindFirst(ClaimTypes.Role);
+            string role = roleClaim?.Value ?? string.Empty;
+
+            // Determinar la URL a la que redirigir
+            string url;
+            switch (role)
+            {
+                case "COLABORADOR":
+                    url = Url.Action("IndexColaborador", "Home");
+                    break;
+                case "JEFATURA":
+                    url = Url.Action("IndexJefatura", "Home");
+                    break;
+                case "SUPERVISOR":
+                    url = Url.Action("IndexSupervisor", "Home");
+                    break;
+                default:
+                    url = Url.Action("Index", "Home");
+                    break;
+            }
+
+            return Json(new { redirect = shouldRedirect, url = url });
         }
     }
 }
