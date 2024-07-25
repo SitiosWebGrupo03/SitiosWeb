@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SitiosWeb.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 namespace SitiosWeb.Controllers
 {
@@ -13,29 +18,47 @@ namespace SitiosWeb.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (HttpContext.User.Identity !=null)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            }
             return View();
         }
         public IActionResult Login()
         {
             return View("~/Paginas/login/login.cshtml");
         }
-
-        public IActionResult menuCRUD()
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult IndexColaborador()
         {
-            return View("~/Paginas/CRUDS/menuCRUD.cshtml");
+            return View("~/Paginas/Menu/menuColaborador.cshtml");
         }
-
-        public IActionResult Privacy()
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult IndexJefatura()
         {
-            return View();
+            var asd = User.Identity.Name;
+            return View("~/Paginas/Menu/menuJefatura.cshtml");
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexSupervisor()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View("~/Paginas/Menu/menuSupervisor.cshtml");
+        }
+        public IActionResult AccesoDenegado()
+        {
+            return View("AccesoDenegado");
+        }
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult solicitudRepo() {
+            return View("~/Paginas/reposiciones/SolicitudReposicion.cshtml");
+        }
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult indicadoresColab()
+        {
+            return View("~/Paginas/indicadores/indicadorescolaborador.cshtml");
         }
     }
 }

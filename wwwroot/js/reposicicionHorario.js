@@ -1,3 +1,4 @@
+// calendarGenerator.js
 document.addEventListener("DOMContentLoaded", function() {
     let today = new Date();
     let currentMonth = today.getMonth(); // Mes actual (0-indexed)
@@ -35,6 +36,14 @@ document.addEventListener("DOMContentLoaded", function() {
         for (let day = 1; day <= daysInMonth; day++) {
             const dayCell = document.createElement('div');
             dayCell.textContent = day;
+            dayCell.classList.add('day');
+
+            // Check if the day is before today
+            const cellDate = new Date(year, month, day);
+            if (cellDate < today) {
+                dayCell.classList.add('disabled');
+            }
+
             daysContainer.appendChild(dayCell);
         }
     }

@@ -12,6 +12,7 @@
     <Content Remove="Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <Content Remove="Paginas\Inconsistencias\Solicitud.cshtml" />
+    <Content Remove="Paginas\indicadores\indicadores.cshtml" />
     <Content Remove="Paginas\Marcas\MarcaNormal.cshtml" />
     <Content Remove="Paginas\Marcas\MarcarFaceID.cshtml" />
     <Content Remove="Paginas\Marcas\MarcarHEX.cshtml" />
@@ -26,7 +27,10 @@
     <Content Remove="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
     <Content Remove="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
     <Content Remove="Paginas\RegistroEmpleados\Modificar.cshtml" />
+    <Content Remove="Paginas\reposiciones\aprobacionReposicion.cshtml" />
     <Content Remove="Paginas\reposiciones\reposicionHorario.cshtml" />
+    <Content Remove="Paginas\reposiciones\seleccionarReposicion.cshtml" />
+    <Content Remove="Paginas\reposiciones\SolicitudReposicion.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +54,7 @@
     <None Include="Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <None Include="Paginas\Inconsistencias\Solicitud.cshtml" />
+    <None Include="Paginas\indicadores\indicadores.cshtml" />
     <None Include="Paginas\Marcas\MarcaNormal.cshtml" />
     <None Include="Paginas\Marcas\MarcarFaceID.cshtml" />
     <None Include="Paginas\Marcas\MarcarHEX.cshtml" />
@@ -64,7 +69,21 @@
     <None Include="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
     <None Include="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
     <None Include="Paginas\RegistroEmpleados\Modificar.cshtml" />
+    <None Include="Paginas\reposiciones\aprobacionReposicion.cshtml" />
     <None Include="Paginas\reposiciones\reposicionHorario.cshtml" />
+    <None Include="Paginas\reposiciones\seleccionarReposicion.cshtml" />
+    <None Include="Paginas\reposiciones\SolicitudReposicion.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\js\marcarDias.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\js\reposicicionHorario.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
