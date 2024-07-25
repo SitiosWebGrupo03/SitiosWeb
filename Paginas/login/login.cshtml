@@ -11,8 +11,8 @@
 </head>
 <body>
     <div class="login-box">
-    <form action="/Login/Login" method="post">
-        
+        <form action="/Login/Login" method="post">
+
             <input type="hidden" name="ReturnUrl" value="@returnUrl" />
             <div class="logoCuc">
                 <img src="@Url.Content("~/images/logoMaster.jpeg")" alt="Logo Master" />
@@ -29,23 +29,9 @@
             <center>
                 <button id="login" type="submit">Ingresar<span></span></button>
             </center>
-        
-    </form>
-    </div>
-    <script type="text/javascript">
-        function verificarRedireccion() {
-            fetch('/Verificar')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.redirect) {
-                        window.location.href = data.url;
-                    }
-                });
-        }
 
-        // Llamar a la función de verificación en la carga inicial de la página
-        window.addEventListener('load', verificarRedireccion);
-    </script>
+        </form>
+    </div>
 </body>
 
 

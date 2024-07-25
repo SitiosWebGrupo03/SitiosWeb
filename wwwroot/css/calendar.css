@@ -1,0 +1,76 @@
+/* Calendar styles */
+.calendar {
+    width: 300px;
+    height: 300px;
+    margin-left: 50px;
+    padding: 1rem;
+    background-color: #5E58F8;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.calendar-header button {
+    background-color: #007bff;
+    color: black;
+    border: none;
+    font-size: large;
+    background: transparent;    
+    padding: 5px 10px;
+    cursor: pointer;
+}
+/* Añadir estos estilos al final de tu archivo CSS */
+.calendar .days .day.selected {
+    background-color: #007bff;
+    color: #ffffff;
+    border: 1px solid #0056b3;
+}
+.calendar-header button:hover {
+    background-color: #0056b3;
+}
+
+#monthYear {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.calendar .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #5E58F8;
+    margin-bottom: 1rem;
+}
+
+.calendar .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+/* Añadir estos estilos al final de tu archivo CSS */
+.calendar .days .day.disabled {
+    color: #cbd5e0;
+    cursor: not-allowed;
+}
+
+.calendar .days .day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.calendar .days .gray-text {
+    color: #cbd5e0;
+}
