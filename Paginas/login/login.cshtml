@@ -1,6 +1,6 @@
 ﻿@{
-    var returnUrl = ViewData["ReturnUrl"] as string;
     Layout = null;
+    var returnUrl = ViewData["ReturnUrl"] as string;
 }
 
 <head>
@@ -12,8 +12,7 @@
 <body>
     <div class="login-box">
         <form action="/Login/Login" method="post">
-
-            <input type="hidden" name="ReturnUrl" value="@returnUrl" />
+            
             <div class="logoCuc">
                 <img src="@Url.Content("~/images/logoMaster.jpeg")" alt="Logo Master" />
             </div>
@@ -25,7 +24,7 @@
                 <input type="password" name="password" required aria-label="Contraseña" />
                 <label>Contraseña</label>
             </div>
-            <label>@TempData["Error"]</label>
+            <label>@TempData["Datos"]</label>
             <center>
                 <button id="login" type="submit">Ingresar<span></span></button>
             </center>

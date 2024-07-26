@@ -50,7 +50,7 @@ namespace SitiosWeb.Controllers
 
             return user.IdTipoUsuario switch
             {
-                1 => RedirectToAction("IndexSupervisor", ""),
+                1 => RedirectToAction("IndexSupervisor", "Home"),
                 2 => RedirectToAction("IndexJefatura", "Home"),
                 3 => RedirectToAction("IndexColaborador", "Home"),
                 _ => RedirectToAction("Login", "Home"),

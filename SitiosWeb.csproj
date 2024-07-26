@@ -17,7 +17,6 @@
     <Content Remove="Paginas\Marcas\MarcarFaceID.cshtml" />
     <Content Remove="Paginas\Marcas\MarcarHEX.cshtml" />
     <Content Remove="Paginas\Marcas\VizualizacionMarcas.cshtml" />
-    <Content Remove="Paginas\Menu\menuSupervisor.cshtml" />
     <Content Remove="Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
     <Content Remove="Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
     <Content Remove="Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
@@ -59,7 +58,6 @@
     <None Include="Paginas\Marcas\MarcarFaceID.cshtml" />
     <None Include="Paginas\Marcas\MarcarHEX.cshtml" />
     <None Include="Paginas\Marcas\VizualizacionMarcas.cshtml" />
-    <None Include="Paginas\Menu\menuSupervisor.cshtml" />
     <None Include="Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
     <None Include="Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
     <None Include="Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
