@@ -31,6 +31,7 @@ namespace SitiosWeb.Controllers
             }
             return View();
         }
+
         public IActionResult Login()
         {
             var Usuario =_context.Usuarios.TagWith("Usuario").ToList();
@@ -65,6 +66,11 @@ namespace SitiosWeb.Controllers
         public IActionResult indicadoresColab()
         {
             return View("~/Paginas/indicadores/indicadorescolaborador.cshtml");
+        }
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult VistaInconsistencias()
+        {
+            return View("~/Paginas/Inconsistencias/VistaInconsistencias.cshtml");
         }
     }
 }

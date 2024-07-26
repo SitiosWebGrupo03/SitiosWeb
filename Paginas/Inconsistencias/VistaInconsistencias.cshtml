@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SitiosWeb.Model.Inconsistencias>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Inconsistencias</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaInconsistencia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdEmpleadoNavigation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdJustificacionNavigation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdTipoInconsistenciaNavigation)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaInconsistencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdEmpleadoNavigation.Identificacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdJustificacionNavigation.IdJustificacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdTipoInconsistenciaNavigation.IdTipoInconsistencia)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdInconsistencia">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.IdInconsistencia">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IdInconsistencia">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
