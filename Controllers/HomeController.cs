@@ -9,6 +9,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using System.Linq;
+using AspNetCore;
 
 namespace SitiosWeb.Controllers
 {
@@ -25,7 +26,7 @@ namespace SitiosWeb.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.User.Identity !=null)
+            if (HttpContext.User.Identity != null)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -35,7 +36,7 @@ namespace SitiosWeb.Controllers
 
         public IActionResult Login()
         {
-            var Usuario =_context.Usuarios.TagWith("Usuario").ToList();
+            var Usuario = _context.Usuarios.TagWith("Usuario").ToList();
             TempData["Datos"] = Usuario;
             TempData["Error"] = "Moncho rico.";
             return View("~/Paginas/login/login.cshtml");
@@ -46,6 +47,7 @@ namespace SitiosWeb.Controllers
             return View("~/Paginas/Menu/menuColaborador.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
+
         public IActionResult IndexJefatura()
         {
             return View("~/Paginas/Menu/menuJefatura.cshtml");
@@ -60,10 +62,19 @@ namespace SitiosWeb.Controllers
             return View("AccesoDenegado");
         }
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult solicitudRepo() {
+        public IActionResult solicitudRepo()
+        {
             return View("~/Paginas/reposiciones/SolicitudReposicion.cshtml");
         }
         [Authorize(Roles = "COLABORADOR")]
+        public IActionResult solicitudHorasExtras()
+        {
+            return View("~/Paginas/Gestion_Horas_Extas/SolicitudHorasExtras.cshtml");
+        }
+        [Authorize(Roles = "COLABORADOR")]
+
+
+
         public IActionResult indicadoresColab()
         {
             return View("~/Paginas/indicadores/indicadorescolaborador.cshtml");
@@ -80,7 +91,8 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
         }
         [Authorize(Roles = "JEFATURA")]
-        public IActionResult SelectRepos() {
+        public IActionResult SelectRepos()
+        {
             var reposiciones = _context.Reposiciones
                                           .Include(r => r.IdcolaboradorNavigation)
                                           .ToList();
@@ -95,7 +107,15 @@ namespace SitiosWeb.Controllers
                              .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
                              .ToList(); // Execute the query and get the results
 
-            return View("~/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
+
+
         }
+
+
+
+
+
     }
 }
+
+

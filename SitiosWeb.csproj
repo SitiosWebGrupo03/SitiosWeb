@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Paginas\CRUDS\menuCRUD.cshtml" />
-    <Content Remove="Paginas\Gestion Horas Extras\Solicitud Horas Extras.cshtml" />
+    <Content Remove="Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <Content Remove="Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <Content Remove="Paginas\Inconsistencias\Solicitud.cshtml" />
@@ -47,7 +47,7 @@
 
   <ItemGroup>
     <None Include="Paginas\CRUDS\menuCRUD.cshtml" />
-    <None Include="Paginas\Gestion Horas Extras\Solicitud Horas Extras.cshtml" />
+    <None Include="Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <None Include="Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <None Include="Paginas\Inconsistencias\Solicitud.cshtml" />
