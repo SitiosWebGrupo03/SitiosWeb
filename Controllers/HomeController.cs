@@ -70,7 +70,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult VistaInconsistencias()
         {
-            return View("~/Paginas/Inconsistencias/VistaInconsistencias.cshtml");
+            return View("~/Views/Inconsistencias/Index.cshtml");
         }
     }
 }
