@@ -70,7 +70,13 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult VistaInconsistencias()
         {
-            return View("~/Views/Inconsistencias/Index.cshtml");
+            var inconsistencias = _context.Inconsistencias
+                                          .Include(i => i.IdEmpleadoNavigation)
+                                          .Include(i => i.IdJustificacionNavigation)
+                                          .Include(i => i.IdTipoInconsistenciaNavigation)
+                                          .ToList();
+
+            return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
         }
     }
 }
