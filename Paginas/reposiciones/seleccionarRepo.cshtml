@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SitiosWeb.Model.Reposiciones>
+@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Reposiciones</title>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+</head>
+
+<body>
+    <div class="content-table">
+        <div class="TablaForm-Container">
+            <table class="table table-striped tabla">
+                <thead>
+                    <tr>
+                        <th>
+                            <label>Nombre colaborador</label>
+                        </th>
+                        <th>
+                            <label>Horas por reponer</label>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdcolaboradorNavigation.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HorasReponer)
+                            </td>
+                            <td>
+                                <a asp-controller="Home" asp-action="AprobarRepo" asp-route-id="@item.Idcolaborador" class="btn btn-danger">Manejar solicitud</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image">
+    </div>
+</body>
+</html>

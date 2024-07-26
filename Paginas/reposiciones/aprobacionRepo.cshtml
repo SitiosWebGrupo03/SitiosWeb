@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SitiosWeb.Model.FechasReposicion>
+@using System.Globalization
+
+@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprobación de Reposiciones</title>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
+    <script src="/js/reposicicionHorario.js"></script>
+
+</head>
+
+<body>
+    <div class="contains">
+        <div class="head">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-subscribe-737x1024.png"
+                 alt="Form Image" class="image">
+            <div class="titles">
+                <h1 class="title-page">Aprobación de </h1>
+                <h1 class="title-span">Reposiciones</h1>
+            </div>
+        </div>
+        <div class="content">
+
+            <div class="form">
+                <div class="text-block">
+                    <p>Colaborador que debe las horas: <label class="font-semibold" id="Colaboradorlbl">@Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Nombre @Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Apellidos</label></p>
+                    @* <p>
+                        Colaborador que repondrá: <label class="font-semibold" id="ColaboradorTercerolbl"></label>
+                    </p> *@
+                    
+                    @foreach (var item in Model)
+                    {
+                        <p>@item.DiasReposicion.ToString("dd 'de' MMMM", CultureInfo.CreateSpecificCulture("es-ES")): <label class="font-semibold" id="lblhoras">@Html.DisplayFor(modelItem => item.HorasReposicion) Horas</label></p>
+                    }
+                </div>
+                <div class="buttons">
+                    <button action="/Reposicion/Aprobar" >Aprobar</button>
+                    <button>Denegar</button>
+                </div>
+            </div>
+            <div class="calendar">
+                <div class="calendar-header">
+                    <button id="prevMonth">< </button>
+                    <h2 id="monthYear"></h2>
+                    <button id="nextMonth"> ></button>
+                </div>
+                <div class="days" id="calendarDays">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

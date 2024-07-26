@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
+using System.Linq;
 
 namespace SitiosWeb.Controllers
 {
@@ -77,6 +78,24 @@ namespace SitiosWeb.Controllers
                                           .ToList();
 
             return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
+        }
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult SelectRepos() {
+            var reposiciones = _context.Reposiciones
+                                          .Include(r => r.IdcolaboradorNavigation)
+                                          .ToList();
+            return View("~/Views/seleccionarRepo.cshtml", reposiciones);
+        }
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult AprobarRepo(string id)
+        {
+            var reposicion = _context.FechasReposicion
+                             .Include(r => r.IdReposicionNavigation) // Ensure this navigation property is correctly set
+                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) // Ensure this navigation property is correctly set
+                             .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
+                             .ToList(); // Execute the query and get the results
+
+            return View("~/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
         }
     }
 }

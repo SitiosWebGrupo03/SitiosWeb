@@ -23,6 +23,8 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<Departamentos> Departamentos { get; set; }
 
+    public virtual DbSet<FechasReposicion> FechasReposicion { get; set; }
+
     public virtual DbSet<HorariosXPuesto> HorariosXPuesto { get; set; }
 
     public virtual DbSet<HorasExtra> HorasExtra { get; set; }
@@ -44,6 +46,8 @@ public partial class Tiusr22plProyectoContext : DbContext
     public virtual DbSet<ReporteMarcas> ReporteMarcas { get; set; }
 
     public virtual DbSet<ReporteVacaciones> ReporteVacaciones { get; set; }
+
+    public virtual DbSet<Reposiciones> Reposiciones { get; set; }
 
     public virtual DbSet<SolicitudHorasExtra> SolicitudHorasExtra { get; set; }
 
@@ -160,6 +164,22 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("nom_departamento");
+        });
+
+        modelBuilder.Entity<FechasReposicion>(entity =>
+        {
+            entity.HasKey(e => new { e.IdReposicion, e.HorasReposicion });
+
+            entity.ToTable("fechas_reposicion");
+
+            entity.Property(e => e.IdReposicion).HasColumnName("idReposicion");
+            entity.Property(e => e.HorasReposicion).HasColumnName("horasReposicion");
+            entity.Property(e => e.DiasReposicion).HasColumnName("diasReposicion");
+
+            entity.HasOne(d => d.IdReposicionNavigation).WithMany(p => p.FechasReposicion)
+                .HasForeignKey(d => d.IdReposicion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_fechas_reposicion_Reposiciones");
         });
 
         modelBuilder.Entity<HorariosXPuesto>(entity =>
@@ -520,6 +540,32 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.HasOne(d => d.IdValidadorNavigation).WithMany(p => p.ReporteVacacionesIdValidadorNavigation)
                 .HasForeignKey(d => d.IdValidador)
                 .HasConstraintName("FK__reporte_v__id_va__08B54D69");
+        });
+
+        modelBuilder.Entity<Reposiciones>(entity =>
+        {
+            entity.HasKey(e => e.IdReposicion);
+
+            entity.Property(e => e.IdReposicion).HasColumnName("idReposicion");
+            entity.Property(e => e.AprobadasPor)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.HorasReponer)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.Idcolaborador)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("IDColaborador");
+
+            entity.HasOne(d => d.AprobadasPorNavigation).WithMany(p => p.ReposicionesAprobadasPorNavigation)
+                .HasForeignKey(d => d.AprobadasPor)
+                .HasConstraintName("FK_Reposiciones_colaboradores1");
+
+            entity.HasOne(d => d.IdcolaboradorNavigation).WithMany(p => p.ReposicionesIdcolaboradorNavigation)
+                .HasForeignKey(d => d.Idcolaborador)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reposiciones_colaboradores");
         });
 
         modelBuilder.Entity<SolicitudHorasExtra>(entity =>

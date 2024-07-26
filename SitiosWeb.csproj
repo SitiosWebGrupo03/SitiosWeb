@@ -26,9 +26,7 @@
     <Content Remove="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
     <Content Remove="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
     <Content Remove="Paginas\RegistroEmpleados\Modificar.cshtml" />
-    <Content Remove="Paginas\reposiciones\aprobacionReposicion.cshtml" />
     <Content Remove="Paginas\reposiciones\reposicionHorario.cshtml" />
-    <Content Remove="Paginas\reposiciones\seleccionarReposicion.cshtml" />
     <Content Remove="Paginas\reposiciones\SolicitudReposicion.cshtml" />
   </ItemGroup>
 
@@ -67,9 +65,8 @@
     <None Include="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
     <None Include="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
     <None Include="Paginas\RegistroEmpleados\Modificar.cshtml" />
-    <None Include="Paginas\reposiciones\aprobacionReposicion.cshtml" />
+    <None Include="Paginas\reposiciones\aprobacionRepo.cshtml" />
     <None Include="Paginas\reposiciones\reposicionHorario.cshtml" />
-    <None Include="Paginas\reposiciones\seleccionarReposicion.cshtml" />
     <None Include="Paginas\reposiciones\SolicitudReposicion.cshtml" />
   </ItemGroup>
 

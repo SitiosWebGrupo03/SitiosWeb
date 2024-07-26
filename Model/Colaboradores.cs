@@ -53,6 +53,10 @@ public partial class Colaboradores
 
     public virtual ICollection<ReporteVacaciones> ReporteVacacionesIdValidadorNavigation { get; set; } = new List<ReporteVacaciones>();
 
+    public virtual ICollection<Reposiciones> ReposicionesAprobadasPorNavigation { get; set; } = new List<Reposiciones>();
+
+    public virtual ICollection<Reposiciones> ReposicionesIdcolaboradorNavigation { get; set; } = new List<Reposiciones>();
+
     public virtual ICollection<SolicitudHorasExtra> SolicitudHorasExtraIdEmpleadoNavigation { get; set; } = new List<SolicitudHorasExtra>();
 
     public virtual ICollection<SolicitudHorasExtra> SolicitudHorasExtraIdSolicitanteNavigation { get; set; } = new List<SolicitudHorasExtra>();

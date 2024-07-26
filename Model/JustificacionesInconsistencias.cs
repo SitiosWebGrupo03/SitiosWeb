@@ -5,7 +5,7 @@ namespace SitiosWeb.Model;
 
 public partial class JustificacionesInconsistencias
 {
-    public int? IdJustificacion { get; set; }
+    public int IdJustificacion { get; set; }
 
     public string? IdColaborador { get; set; }
 
