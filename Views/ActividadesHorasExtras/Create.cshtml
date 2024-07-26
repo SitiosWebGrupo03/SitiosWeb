@@ -1,0 +1,53 @@
+﻿@model SitiosWeb.Model.SolicitudHorasExtra
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Solicitud de Horas Extras</title>
+    <link rel="stylesheet" type="text/css" href="~/css/solicitud.css" />
+</head>
+<body>
+    <div class="background-circle circle1"></div>
+    <div class="background-circle circle2"></div>
+    <div class="container">
+        <div class="header">
+            <h1>Crear Nueva Solicitud de Horas Extras</h1>
+        </div>
+        <form asp-action="Create" method="post">
+            <div class="form-section">
+                <div class="form-group">
+                    <label asp-for="IdSolicitante">ID del Solicitante:</label>
+                    <select asp-for="IdSolicitante" asp-items="ViewBag.IdSolicitante" class="form-control"></select>
+                    <span asp-validation-for="IdSolicitante" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdEmpleado">ID del Empleado:</label>
+                    <select asp-for="IdEmpleado" asp-items="ViewBag.IdEmpleado" class="form-control"></select>
+                    <span asp-validation-for="IdEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FechaSolicitud">Fecha de Solicitud:</label>
+                    <input asp-for="FechaSolicitud" type="date" class="form-control" />
+                    <span asp-validation-for="FechaSolicitud" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Horas">Horas Extras:</label>
+                    <input asp-for="Horas" type="number" step="0.01" class="form-control" />
+                    <span asp-validation-for="Horas" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdTipoActividad">Tipo de Actividad:</label>
+                    <select asp-for="IdTipoActividad" asp-items="ViewBag.IdTipoActividad" class="form-control"></select>
+                    <span asp-validation-for="IdTipoActividad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="accept">Enviar Solicitud</button>
+                <a href="@Url.Action("Index")" class="deny">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

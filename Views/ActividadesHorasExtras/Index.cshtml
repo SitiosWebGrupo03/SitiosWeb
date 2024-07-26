@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SitiosWeb.Model.SolicitudHorasExtra>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Solicitudes de Horas Extras</title>
+    <link rel="stylesheet" type="text/css" href="~/css/solicitud.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Listado de Solicitudes de Horas Extras</h1>
+            <a href="@Url.Action("Create")" class="btn btn-primary">Crear Nueva Solicitud</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID Solicitud</th>
+                    <th>ID Solicitante</th>
+                    <th>ID Empleado</th>
+                    <th>Fecha Solicitud</th>
+                    <th>Horas Extras</th>
+                    <th>Tipo Actividad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IdSolicitud</td>
+                        <td>@item.IdSolicitante</td>
+                        <td>@item.IdEmpleado</td>
+                        <td>@item.FechaSolicitud.ToShortDateString()</td>
+                        <td>@item.Horas</td>
+                        <td>@item.IdTipoActividadNavigation.NomActividad</td> <!-- Usa NomActividad -->
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.IdSolicitud })" class="btn btn-warning">Editar</a>
+                            <a href="@Url.Action("Details", new { id = item.IdSolicitud })" class="btn btn-info">Detalles</a>
+                            <a href="@Url.Action("Delete", new { id = item.IdSolicitud })" class="btn btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

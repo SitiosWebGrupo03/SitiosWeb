@@ -93,7 +93,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SelectRepos()
         {
-            var reposiciones = _context.Reposiciones
+            var reposiciones = _context.reposiciones
                                           .Include(r => r.IdcolaboradorNavigation)
                                           .ToList();
             return View("~/Views/seleccionarRepo.cshtml", reposiciones);
