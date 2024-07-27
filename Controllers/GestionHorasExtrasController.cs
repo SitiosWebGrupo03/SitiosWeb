@@ -172,6 +172,8 @@ namespace SitiosWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
         private bool SolicitudHorasExtraExists(int id)
         {
             return _context.SolicitudHorasExtra.Any(e => e.IdSolicitud == id);

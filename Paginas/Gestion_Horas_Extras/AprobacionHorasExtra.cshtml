@@ -1,66 +1,47 @@
-﻿
+﻿@model SitiosWeb.Model.SolicitudHorasExtra
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/aprobacion.css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Horas Extras</title>
+    <title>Aprobación de Horas Extras</title>
+    <link rel="stylesheet" type="text/css" href="~/css/aprobacion.css" />
 </head>
 <body>
     <div class="background-circle circle1"></div>
     <div class="background-circle circle2"></div>
-    <div class="background-circle circle3"></div>
     <div class="container">
         <div class="header">
-            <h1>Gestión de Horas Extras</h1>
-            <img src="https://via.placeholder.com/150" alt="User Image">
-            <div class="search-box">
-                <input type="text" placeholder="Buscar Empleado">
-                <button>Buscar</button>
-            </div>
+            <h1>Aprobar/Rechazar Horas Extras</h1>
         </div>
-        <form asp-action="Create" method="post">
+        <form asp-action="Aprobar" method="post">
             <div class="form-section">
                 <div class="form-group">
-                    <label for="idEmpleado">ID del Empleado:</label>
-                    <input type="text" id="idEmpleado" name="IdEmpleado" value="@Model.IdEmpleado">
+                    <label asp-for="IdSolicitante">ID del Solicitante:</label>
+                    <input asp-for="IdSolicitante" readonly class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="fechaRealizacion">Fecha de Realización:</label>
-                    <input type="date" id="fechaRealizacion" name="FechaRealizacion" value="@Model.FechaRealizacion">
+                    <label asp-for="IdEmpleado">ID del Empleado:</label>
+                    <input asp-for="IdEmpleado" readonly class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="idTipoActividad">Tipo de Actividad:</label>
-                    <select id="idTipoActividad" name="IdTipoActividad">
-                        <option value="">Seleccione una actividad</option>
-                        <option value="1" @(Model.IdTipoActividad == 1 ? "selected" : "")>Proyecto Urgente</option>
-                        <option value="2" @(Model.IdTipoActividad == 2 ? "selected" : "")>Reunión de Emergencia</option>
-                        <option value="3" @(Model.IdTipoActividad == 3 ? "selected" : "")>Mantenimiento del Sistema</option>
-                        <option value="4" @(Model.IdTipoActividad == 4 ? "selected" : "")>Preparación de Presentación</option>
-                        <option value="5" @(Model.IdTipoActividad == 5 ? "selected" : "")>Capacitación Interna</option>
-                    </select>
+                    <label asp-for="FechaSolicitud">Fecha de Solicitud:</label>
+                    <input asp-for="FechaSolicitud" readonly type="date" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="estadoDelPago">Estado del Pago:</label>
-                    <input type="checkbox" id="estadoDelPago" name="EstadoDelPago" @(Model.EstadoDelPago ? "checked" : "")>
+                    <label asp-for="Horas">Horas Extras:</label>
+                    <input asp-for="Horas" readonly type="number" step="0.01" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="cantidadHoras">Cantidad de Horas:</label>
-                    <input type="number" id="cantidadHoras" name="CantidadHoras" step="0.01" value="@Model.CantidadHoras">
-                </div>
-                <div class="form-group">
-                    <label for="idSolicitante">ID del Solicitante:</label>
-                    <input type="text" id="idSolicitante" name="IdSolicitante" value="@Model.IdSolicitante">
-                </div>
-                <div class="form-group">
-                    <label for="cantidadPago">Cantidad del Pago:</label>
-                    <input type="number" id="cantidadPago" name="CantidadPago" step="0.01" value="@Model.CantidadPago">
+                    <label asp-for="IdTipoActividad">Tipo de Actividad:</label>
+                    <input asp-for="IdTipoActividadNavigation.NomActividad" readonly class="form-control" />
                 </div>
             </div>
             <div class="buttons">
-                <button type="submit" class="accept">Enviar Solicitud</button>
-                <button type="reset" class="deny">Cancelar</button>
+                <button type="submit" name="action" value="Aprobar" class="accept">Aprobar</button>
+                <button type="submit" name="action" value="Rechazar" class="deny">Rechazar</button>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
