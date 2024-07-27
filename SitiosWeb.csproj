@@ -7,27 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Paginas\CRUDS\menuCRUD.cshtml" />
-    <Content Remove="Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
-    <Content Remove="Paginas\Inconsistencias\Aprobacion.cshtml" />
-    <Content Remove="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
-    <Content Remove="Paginas\Inconsistencias\Solicitud.cshtml" />
-    <Content Remove="Paginas\indicadores\indicadores.cshtml" />
-    <Content Remove="Paginas\Marcas\MarcaNormal.cshtml" />
-    <Content Remove="Paginas\Marcas\MarcarFaceID.cshtml" />
-    <Content Remove="Paginas\Marcas\MarcarHEX.cshtml" />
-    <Content Remove="Paginas\Marcas\VizualizacionMarcas.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
-    <Content Remove="Paginas\RegistroEmpleados\Modificar.cshtml" />
-    <Content Remove="Paginas\reposiciones\reposicionHorario.cshtml" />
-    <Content Remove="Paginas\reposiciones\SolicitudReposicion.cshtml" />
+    <Content Remove="Views\Paginas\CRUDS\menuCRUD.cshtml" />
+    <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
+    <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
+    <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
+    <Content Remove="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
+    <Content Remove="Views\Paginas\indicadores\indicadores.cshtml" />
+    <Content Remove="Views\Paginas\Marcas\MarcaNormal.cshtml" />
+    <Content Remove="Views\Paginas\Marcas\MarcarFaceID.cshtml" />
+    <Content Remove="Views\Paginas\Marcas\MarcarHEX.cshtml" />
+    <Content Remove="Views\Paginas\Marcas\VizualizacionMarcas.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\HorarioColab.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
+    <Content Remove="Views\Paginas\RegistroEmpleados\Modificar.cshtml" />
+    <Content Remove="Views\Paginas\reposiciones\reposicionHorario.cshtml" />
+    <Content Remove="Views\Paginas\reposiciones\SolicitudReposicion.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,28 +46,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Paginas\CRUDS\menuCRUD.cshtml" />
-    <None Include="Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
-    <None Include="Paginas\Inconsistencias\Aprobacion.cshtml" />
-    <None Include="Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
-    <None Include="Paginas\Inconsistencias\Solicitud.cshtml" />
-    <None Include="Paginas\indicadores\indicadores.cshtml" />
-    <None Include="Paginas\Marcas\MarcaNormal.cshtml" />
-    <None Include="Paginas\Marcas\MarcarFaceID.cshtml" />
-    <None Include="Paginas\Marcas\MarcarHEX.cshtml" />
-    <None Include="Paginas\Marcas\VizualizacionMarcas.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\HorarioColab.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
-    <None Include="Paginas\RegistroEmpleados\Modificar.cshtml" />
-    <None Include="Paginas\reposiciones\aprobacionRepo.cshtml" />
-    <None Include="Paginas\reposiciones\reposicionHorario.cshtml" />
-    <None Include="Paginas\reposiciones\SolicitudReposicion.cshtml" />
+    <None Include="Views\Paginas\CRUDS\menuCRUD.cshtml" />
+    <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
+    <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
+    <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
+    <None Include="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
+    <None Include="Views\Paginas\indicadores\indicadores.cshtml" />
+    <None Include="Views\Paginas\Marcas\MarcaNormal.cshtml" />
+    <None Include="Views\Paginas\Marcas\MarcarFaceID.cshtml" />
+    <None Include="Views\Paginas\Marcas\MarcarHEX.cshtml" />
+    <None Include="Views\Paginas\Marcas\VizualizacionMarcas.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\HorarioColab.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
+    <None Include="Views\Paginas\RegistroEmpleados\Modificar.cshtml" />
+    <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
+    <None Include="Views\Paginas\reposiciones\reposicionHorario.cshtml" />
+    <None Include="Views\Paginas\reposiciones\SolicitudReposicion.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
