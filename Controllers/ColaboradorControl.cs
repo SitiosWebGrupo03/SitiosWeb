@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SitiosWeb.Models;
+using SitiosWeb.Model;
 using System.Threading.Tasks;
 
 namespace Sitios_Version_2.Controllers
@@ -20,7 +20,7 @@ namespace Sitios_Version_2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Colaborador colaborador)
+        public async Task<IActionResult> Create(Colaboradores colaborador)
         {
             if (ModelState.IsValid)
             {

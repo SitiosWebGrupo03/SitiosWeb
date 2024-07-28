@@ -8,7 +8,7 @@ using OpenCvSharp.Dnn;
 using OpenCvSharp.Extensions;
 using System.Drawing; // Necesario para Bitmap
 
-namespace Sitios_Version_2.servicesclass
+namespace SitiosWeb.servicesclass
 {
     public class FaceIDService
     {

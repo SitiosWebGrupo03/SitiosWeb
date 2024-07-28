@@ -67,6 +67,20 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Paginas/Gestion_Horas_Extas/SolicitudHorasExtras.cshtml");
         }
+
+        [Authorize(Roles = "JEFATURA")]
+
+        public IActionResult MarcaFaceID()
+        {
+            return View("~/Paginas/Marcas/MarcarFaceID.cshtml");
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+
+        public IActionResult MarcaNormal()
+        {
+            return View("~/Views/Marcas/MarcaNormal.cshtml");
+        }
         [Authorize(Roles = "COLABORADOR")]
 
 
@@ -106,6 +120,7 @@ namespace SitiosWeb.Controllers
 
             return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
         }
+
     }
 }
 

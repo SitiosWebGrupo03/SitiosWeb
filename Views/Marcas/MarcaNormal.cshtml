@@ -1,7 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/marcaNormal.css" />
+   @*  <link rel="stylesheet" type="text/css" href="~/css/marcaNormal.css" /> *@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Marcas</title>
@@ -17,29 +20,41 @@
         </aside>
         <main class="main-content">
             <h1>Control de Marcas</h1>
-            <div class="date">Fecha: xx/xx/xxxx</div>
-            <form>
+            <div class="date">Fecha: @DateTime.Now.ToString("dd/MM/yyyy")</div>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+
+            <form asp-action="MarcaNormal" method="post">
                 <div class="form-group">
                     <label for="codigo">Código</label>
-                    <input type="text" id="codigo" name="codigo">
+                    <input type="text" id="codigo" name="codigo" required>
                 </div>
                 <div class="form-group">
                     <label for="contrasena">Contraseña</label>
-                    <input type="password" id="contrasena" name="contrasena">
-                </div>
-                <div class="time-info">
-                    <p>Hora de entrada: 08:00 a.m.</p>
-                    <p>Hora de salida: 05:00 p.m.</p>
+                    <input type="password" id="contrasena" name="contrasena" required>
                 </div>
                 <div class="buttons">
-                    <button type="button">Marcar entrada</button>
-                    <button type="button">Marcar salida</button>
+                    <button type="submit">Marcar entrada</button>
                 </div>
             </form>
+
             <div class="image">
                 <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Person Image">
             </div>
         </main>
     </div>
+  
 </body>
 </html>

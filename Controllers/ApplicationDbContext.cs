@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SitiosWeb.Models;
+using SitiosWeb.Model;
 
 public class ApplicationDbContext : DbContext
 {
@@ -8,11 +8,11 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Colaborador> Colaboradores { get; set; }
+    public DbSet<Colaboradores> Colaboradores { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Colaborador>()
+        modelBuilder.Entity<Colaboradores>()
             .ToTable("AsignacionPColaboradores")
             .HasKey(c => c.Identificacion);
 

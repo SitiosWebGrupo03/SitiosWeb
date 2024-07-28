@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-
 namespace SitiosWeb.Model;
 
 public partial class Tiusr22plProyectoContext : DbContext
@@ -71,6 +70,9 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<VacacionesColectivas> VacacionesColectivas { get; set; }
 
+    public virtual DbSet<Marcas> MarcaNormal { get; set; }
+
+    public virtual DbSet<Usuarios> Usuario{ get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=Host");
 
@@ -150,6 +152,46 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.ValorConfig)
                 .HasColumnType("text")
                 .HasColumnName("valor_config");
+        });
+        modelBuilder.Entity<Usuarios>(entity =>
+        {
+            entity.HasKey(e => e.IdColaborador);
+            entity.ToTable("usuarios");
+
+            entity.Property(e => e.IdColaborador)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("idColaborador");
+
+            entity.Property(e => e.Contrasena)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("contrasena");
+
+            entity.Property(e => e.Estado)
+                .HasColumnName("estado");
+
+        });
+
+    modelBuilder.Entity<Marcas>(entity =>
+        {
+            entity.HasKey(e => e.IdEmpleado);
+            entity.ToTable("marcas");
+
+            entity.Property(e => e.IdEmpleado)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("id_empleado");
+            entity.Property(e => e.InicioJornada)
+                .HasColumnType("datetime")
+                .HasColumnName("inicioJornada");
+            entity.Property(e => e.FinJornada)
+                .HasColumnType("datetime")
+                .HasColumnName("finJornada");
+
+            entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.Marcas)
+                .HasForeignKey(d => d.IdEmpleado)
+                .HasConstraintName("FKmarcasid_emple__656C112C");
         });
 
         modelBuilder.Entity<Departamentos>(entity =>
