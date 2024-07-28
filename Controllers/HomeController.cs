@@ -90,26 +90,26 @@ namespace SitiosWeb.Controllers
 
             return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
         }
-        [Authorize(Roles = "JEFATURA")]
-        public IActionResult SelectRepos()
-        {
-            var reposiciones = _context.reposiciones
-                                          .Include(r => r.IdcolaboradorNavigation)
-                                          .ToList();
-            return View("~/Views/seleccionarRepo.cshtml", reposiciones);
-        }
-        [Authorize(Roles = "JEFATURA")]
-        public IActionResult AprobarRepo(string id)
-        {
-            var reposicion = _context.FechasReposicion
-                             .Include(r => r.IdReposicionNavigation) // Ensure this navigation property is correctly set
-                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) // Ensure this navigation property is correctly set
-                             .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
-                             .ToList(); // Execute the query and get the results
+        //[Authorize(Roles = "JEFATURA")]
+        //public IActionResult SelectRepos()
+        //{
+        //    var reposiciones = _context.reposiciones
+        //                                  .Include(r => r.IdcolaboradorNavigation)
+        //                                  .ToList();
+        //    return View("~/Views/seleccionarRepo.cshtml", reposiciones);
+        //}
+        //[Authorize(Roles = "JEFATURA")]
+        //public IActionResult AprobarRepo(string id)
+        //{
+        //    var reposicion = _context.FechasReposicion
+        //                     .Include(r => r.IdReposicionNavigation) // Ensure this navigation property is correctly set
+        //                     .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) // Ensure this navigation property is correctly set
+        //                     .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
+        //                     .ToList(); // Execute the query and get the results
 
 
 
-        }
+        //}
 
 
 
