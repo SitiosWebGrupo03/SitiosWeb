@@ -17,8 +17,6 @@ public partial class Colaboradores
 
     public DateOnly FechaFinContrato { get; set; }
 
-    public string NombreCompleto => $"{Nombre} {Apellidos}";
-
     public string? IdPuesto { get; set; }
 
     public string? Correo { get; set; }

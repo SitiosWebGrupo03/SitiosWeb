@@ -11,9 +11,11 @@ public partial class Reposiciones
 
     public string Idcolaborador { get; set; } = null!;
 
-    public bool Apobadas { get; set; }
+    public bool? Apobadas { get; set; }
 
     public string? AprobadasPor { get; set; }
+
+    public string? RazonDenegacion { get; set; }
 
     public virtual Colaboradores? AprobadasPorNavigation { get; set; }
 

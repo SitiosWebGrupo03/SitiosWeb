@@ -9,7 +9,6 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using System.Linq;
-using AspNetCore;
 
 namespace SitiosWeb.Controllers
 {
@@ -36,26 +35,23 @@ namespace SitiosWeb.Controllers
 
         public IActionResult Login()
         {
-            var Usuario = _context.Usuarios.TagWith("Usuario").ToList();
-            TempData["Datos"] = Usuario;
-            TempData["Error"] = "Moncho rico.";
-            return View("~/Paginas/login/login.cshtml");
+            return View("~/Views/Paginas/login/login.cshtml");
         }
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult IndexColaborador()
         {
-            return View("~/Paginas/Menu/menuColaborador.cshtml");
+            return View("~/Views/Paginas/Menu/menuColaborador.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
 
         public IActionResult IndexJefatura()
         {
-            return View("~/Paginas/Menu/menuJefatura.cshtml");
+            return View("~/Views/Paginas/Menu/menuJefatura.cshtml");
         }
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexSupervisor()
         {
-            return View("~/Paginas/Menu/menuSup.cshtml");
+            return View("~/Views/Paginas/Menu/menuSup.cshtml");
         }
         public IActionResult AccesoDenegado()
         {
@@ -64,12 +60,12 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult solicitudRepo()
         {
-            return View("~/Paginas/reposiciones/SolicitudReposicion.cshtml");
+            return View("~/Views/Paginas/reposiciones/SolicitudReposicion.cshtml");
         }
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult solicitudHorasExtras()
         {
-            return View("~/Paginas/Gestion_Horas_Extas/SolicitudHorasExtras.cshtml");
+            return View("~/Views/Paginas/Gestion_Horas_Extas/SolicitudHorasExtras.cshtml");
         }
         [Authorize(Roles = "COLABORADOR")]
 
@@ -77,7 +73,7 @@ namespace SitiosWeb.Controllers
 
         public IActionResult indicadoresColab()
         {
-            return View("~/Paginas/indicadores/indicadorescolaborador.cshtml");
+            return View("~/Views/Paginas/indicadores/indicadorescolaborador.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
         public IActionResult VistaInconsistencias()
@@ -88,7 +84,7 @@ namespace SitiosWeb.Controllers
                                           .Include(i => i.IdTipoInconsistenciaNavigation)
                                           .ToList();
 
-            return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
+            return View("~/Views/Paginas/Inconsistencias/Index.cshtml", inconsistencias);
         }
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SelectRepos()
@@ -96,7 +92,7 @@ namespace SitiosWeb.Controllers
             var reposiciones = _context.Reposiciones
                                           .Include(r => r.IdcolaboradorNavigation)
                                           .ToList();
-            return View("~/Views/seleccionarRepo.cshtml", reposiciones);
+            return View("~/Views/Paginas/reposiciones/seleccionarRepo.cshtml", reposiciones);
         }
         [Authorize(Roles = "JEFATURA")]
         public IActionResult AprobarRepo(string id)
@@ -105,9 +101,9 @@ namespace SitiosWeb.Controllers
                              .Include(r => r.IdReposicionNavigation) // Ensure this navigation property is correctly set
                              .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) // Ensure this navigation property is correctly set
                              .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
-                             .ToList(); // Execute the query and get the results
+                             .ToList(); 
 
-            return RedirectToAction("Index");
+            return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml");
 
         }
 
