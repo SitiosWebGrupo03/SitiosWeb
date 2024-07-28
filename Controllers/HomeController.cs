@@ -103,14 +103,8 @@ namespace SitiosWeb.Controllers
                              .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
                              .ToList(); 
 
-            return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml");
-
-        //}
-
-
-
-
-
+            return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
+        }
     }
 }
 
