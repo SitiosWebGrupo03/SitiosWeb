@@ -93,7 +93,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SelectRepos()
         {
-            var reposiciones = _context.reposiciones
+            var reposiciones = _context.Reposiciones
                                           .Include(r => r.IdcolaboradorNavigation)
                                           .ToList();
             return View("~/Views/seleccionarRepo.cshtml", reposiciones);
@@ -107,7 +107,7 @@ namespace SitiosWeb.Controllers
                              .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
                              .ToList(); // Execute the query and get the results
 
-
+            return RedirectToAction("Index");
 
         }
 
