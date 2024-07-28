@@ -80,11 +80,12 @@ namespace SitiosWeb.Controllers
         {
             var inconsistencias = _context.Inconsistencias
                                           .Include(i => i.IdEmpleadoNavigation)
+                                          .Include(i => i.IdEmpleadoNavigation.Nombre)
                                           .Include(i => i.IdJustificacionNavigation)
                                           .Include(i => i.IdTipoInconsistenciaNavigation)
                                           .ToList();
 
-            return View("~/Views/Paginas/Inconsistencias/Index.cshtml", inconsistencias);
+            return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
         }
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SelectRepos()

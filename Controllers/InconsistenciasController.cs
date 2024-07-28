@@ -18,16 +18,13 @@ namespace SitiosWeb.Controllers
             _context = context;
         }
 
+        // GET: Inconsistencias
         public async Task<IActionResult> Index()
         {
-            var fechaLimite = DateOnly.FromDateTime(DateTime.Now.AddDays(-15));
-            var tiusr22plProyectoContext = _context.Inconsistencias
-                .Where(i => i.FechaInconsistencia.ToDateTime(TimeOnly.MinValue) >= fechaLimite.ToDateTime(TimeOnly.MinValue))
-                .Include(i => i.IdEmpleadoNavigation)
-                .Include(i => i.IdJustificacionNavigation)
-                .Include(i => i.IdTipoInconsistenciaNavigation);
+            var tiusr22plProyectoContext = _context.Inconsistencias.Include(i => i.IdEmpleadoNavigation).Include(i => i.IdJustificacionNavigation).Include(i => i.IdTipoInconsistenciaNavigation);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
+
         // GET: Inconsistencias/Details/5
         public async Task<IActionResult> Details(int? id)
         {
