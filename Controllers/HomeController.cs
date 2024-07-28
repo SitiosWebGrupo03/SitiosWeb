@@ -107,7 +107,7 @@ namespace SitiosWeb.Controllers
         //                     .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
         //                     .ToList(); // Execute the query and get the results
 
-
+            return RedirectToAction("Index");
 
         //}
 
