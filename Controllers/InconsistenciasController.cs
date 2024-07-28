@@ -28,7 +28,6 @@ namespace SitiosWeb.Controllers
                 .Include(i => i.IdTipoInconsistenciaNavigation);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
-
         // GET: Inconsistencias/Details/5
         public async Task<IActionResult> Details(int? id)
         {
