@@ -101,16 +101,17 @@ namespace SitiosWeb.Controllers
                              .Include(r => r.IdReposicionNavigation) // Ensure this navigation property is correctly set
                              .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) // Ensure this navigation property is correctly set
                              .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
-                             .ToList(); 
+                             .ToList();
 
             return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml");
 
-        //}
+            //}
 
 
 
 
 
+        }
     }
 }
 
