@@ -125,12 +125,12 @@ namespace SitiosWeb.Controllers
         }
 
         [Authorize(Roles = "JEFATURA")]
-        public IActionResult AprobarRepo(string id)
+        public IActionResult SelectRepo(int id)
         {
             var reposicion = _context.FechasReposicion
-                             .Include(r => r.IdReposicionNavigation) // Ensure this navigation property is correctly set
-                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) // Ensure this navigation property is correctly set
-                             .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
+                             .Include(r => r.IdReposicionNavigation)
+                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) 
+                             .Where(r => r.IdReposicion == id)
                              .ToList();
 
             return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);

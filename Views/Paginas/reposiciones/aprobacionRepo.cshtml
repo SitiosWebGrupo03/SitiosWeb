@@ -2,6 +2,7 @@
 @using System.Globalization
 @{
     Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    var id = @Model.First().IdReposicion;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -31,17 +32,21 @@
                 <div class="text-block">
                     <p>Colaborador que debe las horas: <label class="font-semibold" id="Colaboradorlbl">@Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Nombre @Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Apellidos</label></p>
                     @* <p>
-                        Colaborador que repondrá: <label class="font-semibold" id="ColaboradorTercerolbl"></label>
+                    Colaborador que repondrá: <label class="font-semibold" id="ColaboradorTercerolbl"></label>
                     </p> *@
-                    
+
                     @foreach (var item in Model)
                     {
                         <p>@item.DiasReposicion.ToString("dd 'de' MMMM", CultureInfo.CreateSpecificCulture("es-ES")): <label class="font-semibold" id="lblhoras">@Html.DisplayFor(modelItem => item.HorasReposicion) Horas</label></p>
                     }
                 </div>
                 <div class="buttons">
-                    <button action="/Reposicion/Aprobar" >Aprobar</button>
-                    <button>Denegar</button>
+                    <form asp-action="Aprobar" asp-controller="Repo" asp-route-id="@Model.First().IdReposicion" method="post">
+                        <button type="submit">Aprobar</button>
+                    </form>
+                    <form asp-action="Denegar" asp-controller="repo" asp-route-id="@Model.First().IdReposicion" method="post">
+                        <button type="submit">Denegar</button>
+                    </form>
                 </div>
             </div>
             <div class="calendar">
@@ -58,3 +63,15 @@
 </body>
 
 </html>
+<script>
+    const diaMarcar = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).DiasReposicion'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }
+    ];
+</script>

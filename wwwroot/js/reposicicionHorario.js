@@ -3,17 +3,15 @@ document.addEventListener("DOMContentLoaded", function() {
     let today = new Date();
     let currentMonth = today.getMonth(); // Mes actual (0-indexed)
     let currentYear = today.getFullYear(); // Año actual
-
     function generateCalendar(month, year) {
         const daysContainer = document.getElementById('calendarDays');
         const monthYearHeader = document.getElementById('monthYear');
         daysContainer.innerHTML = ''; 
-
+        
         const monthNames = [
             'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
             'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
         ];
-
         monthYearHeader.textContent = `${monthNames[month]} ${year}`;
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -38,12 +36,14 @@ document.addEventListener("DOMContentLoaded", function() {
             dayCell.textContent = day;
             dayCell.classList.add('day');
 
-            // Check if the day is before today
             const cellDate = new Date(year, month, day);
+            const formattedDate = `${String(month + 1)}/${String(day)}/${year}`;
+            if (diaMarcar.includes(formattedDate)) {
+                dayCell.classList.add('selected');
+            }
             if (cellDate < today) {
                 dayCell.classList.add('disabled');
             }
-
             daysContainer.appendChild(dayCell);
         }
     }
