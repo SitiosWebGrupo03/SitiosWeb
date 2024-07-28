@@ -109,6 +109,21 @@ namespace SitiosWeb.Controllers
                                           .ToList();
             return View("~/Views/Paginas/reposiciones/seleccionarRepo.cshtml", reposiciones);
         }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult menuCRUD()
+        {
+            return View("~/Views/Home/menuCRUD.cshtml");
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexActividades()
+        {
+            var actividades = _context.TipoActividades.ToList();
+
+            return View("~/Views/TipoActividades/Index.cshtml", actividades);
+        }
+
         [Authorize(Roles = "JEFATURA")]
         public IActionResult AprobarRepo(string id)
         {

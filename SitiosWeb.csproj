@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Paginas\CRUDS\menuCRUD.cshtml" />
     <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
@@ -44,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Paginas\CRUDS\menuCRUD.cshtml" />
     <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
