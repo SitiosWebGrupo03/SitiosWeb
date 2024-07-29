@@ -12,16 +12,18 @@ body {
     background-color: #ffffff;
     background: url('/images/waves(1).svg') no-repeat center bottom;
     background-size: auto 55%;
-    
-
 }
+
 .contains {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     flex-direction: column;
+    margin-bottom: 50px;
 }
+
+
 .head {
     display: flex;
     justify-content: center;
@@ -32,15 +34,13 @@ body {
 }
 /* Main content styles */
 .content {
-    
-    top: 200px;
-    max-width: 60rem;
     padding: 2.5rem;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 1rem 1rem 1rem 1rem rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
+
 }
 
 /* Image styles */
@@ -57,7 +57,11 @@ body {
     position: relative;
     text-align: center;
     height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Add this line */
 }
+
 .titles {
     display: flex;
     flex-direction: column;
@@ -69,6 +73,7 @@ body {
     width: 400px;
     font-family: 'Montserrat', sans-serif;
 }
+
 .title-page {
     text-align: left;
     font-size: 3rem;
@@ -83,12 +88,12 @@ body {
     font-weight: 800;
     font-size: 45px;
 }
-.title-horas{
+
+.title-horas {
     text-align: left;
     font-size: 1.5rem;
     font-weight: bold;
     position: absolute;
- 
     color: black;
     font-family: 'Montserrat';
     top: -100px;
@@ -99,48 +104,51 @@ body {
 /* Text block styles */
 .text-block {
     margin-bottom: 1.5rem;
-    text-align: left;
 }
 
-.text-block p {
-    font-size: 1.25rem;
-    text-align: left;
-    color: #4b5563;
-    margin-bottom: 0.75rem;
-}
-.text-block select {
-    background-color: transparent;
-    border: 1px solid #5E58F8;
-    border-radius: 10px;
-    padding: 5px;
-    text-align: left;
-    color: #4b5563;
-}
-.text-block .font-semibold {
-    font-weight: bold;
-}
+    .text-block p {
+        font-size: 1.25rem;
+        text-align: left;
+        color: #4b5563;
+        margin-bottom: 0.75rem;
+    }
 
-/* Buttons styles */
+    .text-block select {
+        background-color: transparent;
+        border: 1px solid #5E58F8;
+        border-radius: 10px;
+        padding: 5px;
+        text-align: left;
+        color: #4b5563;
+    }
+
+    .text-block .font-semibold {
+        font-weight: bold;
+    }
+
 .buttons {
-    margin-top: 8rem;
     display: flex;
     gap: 12rem;
+    flex-direction: row;
+    vertical-align: bottom;
 }
 
-.buttons button {
-    padding: 0.75rem 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: 1px solid #5E58F8;
-}
+    .buttons button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: 1px solid #5E58F8;
+    }
+
 .header-container {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem; /* Adjust spacing between image and titles */
 }
+
 #solicitarbtn {
     position: fixed;
     bottom: 34.5%;
@@ -153,9 +161,10 @@ body {
     background-color: #ffffff; /* Ajusta el color de fondo según sea necesario */
 }
 
-#solicitarbtn:hover {
-    background-color: #6b46c1;
-}
+    #solicitarbtn:hover {
+        background-color: #6b46c1;
+    }
+
 .buttons button:hover {
     background-color: #6b46c1;
 }

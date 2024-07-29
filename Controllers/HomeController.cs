@@ -73,7 +73,16 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Paginas/indicadores/indicadorescolaborador.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
-        public IActionResult MarcaFaceID()
+
+        public IActionResult MarcaNormal()
+        {
+            return View("~/Views/Marcas/MarcaNormal.cshtml");
+        }
+        [Authorize(Roles = "COLABORADOR")]
+
+
+
+        public IActionResult indicadoresColab()
         {
             return View("~/Views/MarcaFaceID.cshtml");
         }
@@ -112,16 +121,36 @@ namespace SitiosWeb.Controllers
             return View("~/Views/TipoActividades/Index.cshtml", actividades);
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexInconsistencias()
+        {
+            var inconsistencias = _context.TiposInconsistencias.ToList();
+
+            return View("~/Views/TiposInconsistencias/Index.cshtml", inconsistencias);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexPermisos()
+        {
+            var permisos = _context.TiposPermisos.ToList();
+
+            return View("~/Views/TiposPermisos/Index.cshtml", permisos);
+        }
+
         [Authorize(Roles = "JEFATURA")]
-        public IActionResult AprobarRepo(string id)
+        public IActionResult SelectRepo(int id)
         {
             var reposicion = _context.FechasReposicion
-                             .Include(r => r.IdReposicionNavigation) // Ensure this navigation property is correctly set
-                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) // Ensure this navigation property is correctly set
-                             .Where(r => r.IdReposicionNavigation.Idcolaborador == id) // Filter the results
+                             .Include(r => r.IdReposicionNavigation)
+                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) 
+                             .Where(r => r.IdReposicion == id)
                              .ToList();
 
-            return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
+            return View("/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
+        }
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult SolicitarRepo() {
+            return View("/Views/Paginas/reposiciones/SolicitudReposicion.cshtml");
         }
 
     }
