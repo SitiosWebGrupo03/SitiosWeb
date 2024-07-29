@@ -1,49 +1,72 @@
 ﻿@model IEnumerable<SitiosWeb.Model.Departamentos>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="~/css/menuCRUD.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables del Sistema</title>
 </head>
 <body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NomDepartamento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomDepartamento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdDepartamento">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdDepartamento">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdDepartamento">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div id="contenedor">
+        <div class="vertical-menu">
+            <a href="/Home/menuCRUD" class="active">Menu</a>
+            <a href="/Home/IndexActividades">Actividades</a>
+            <a href="/Home/IndexInconsistencias">Inconcistencias</a>
+            <a href="/Home/IndexPermisos">Permisos</a>
+            <a href="/Home/IndexRebajos">Rebajos</a>
+            <a href="/Home/IndexUsuarios">Usuarios</a>
+            <a href="/Home/IndexDepartamentos">Departamentos</a>
+            <a href="/Home/IndexPuestos">Puestos</a>
+        </div>
+
+        <div id="contenido">
+
+            <p>
+                <a asp-controller="DepartamentosController" asp-action="Create">Crear Nuevo</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NomDepartamento)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Estado)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NomDepartamento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Estado)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.IdDepartamento">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.IdDepartamento">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.IdDepartamento">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="pie">
+            <a href="../Menu/menuSupervisor.html"> Volver al menu</a>
+        </div>
+    </div>
+
 </body>
 </html>

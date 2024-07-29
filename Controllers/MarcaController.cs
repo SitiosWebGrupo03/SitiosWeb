@@ -42,6 +42,7 @@ namespace SitiosWeb.Controllers
                         InicioJornada = DateTime.Now,
                         FinJornada = null
                     };
+
                     _context.Marcas.Add(marca);
                     await _context.SaveChangesAsync();
 

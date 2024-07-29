@@ -72,8 +72,8 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Paginas/indicadores/indicadorescolaborador.cshtml");
         }
-        [Authorize(Roles = "JEFATURA")]
 
+        [Authorize(Roles = "JEFATURA")]
         public IActionResult MarcaNormal()
         {
             return View("~/Views/Marcas/MarcaNormal.cshtml");
@@ -84,6 +84,8 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/MarcarFaceID.cshtml");
         }
+
+
 
         [Authorize(Roles = "JEFATURA")]
         public IActionResult VistaInconsistencias()
@@ -121,11 +123,43 @@ namespace SitiosWeb.Controllers
         }
 
         [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexUsuarios()
+        {
+            var usuarios = _context.TipoUsuario.ToList();
+
+            return View("~/Views/TipoUsuarios/Index.cshtml", usuarios);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexDepartamentos()
+        {
+            var departamentos = _context.Departamentos.ToList();
+
+            return View("~/Views/Departamentos/Index.cshtml", departamentos);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexPuestos()
+        {
+            var puestos = _context.Puestos.ToList();
+
+            return View("~/Views/Puestos/Index.cshtml", puestos);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexInconsistencias()
         {
             var inconsistencias = _context.TiposInconsistencias.ToList();
 
             return View("~/Views/TiposInconsistencias/Index.cshtml", inconsistencias);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexRebajos()
+        {
+            var rebajos = _context.TiposRebajos.ToList();
+
+            return View("~/Views/TiposRebajos/Index.cshtml", rebajos);
         }
 
         [Authorize(Roles = "SUPERVISOR")]

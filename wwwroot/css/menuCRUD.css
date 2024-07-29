@@ -8,6 +8,7 @@
 }
 
 .vertical-menu {
+    height: auto;
     width: 125px;
     float: left;
     display: flex;
@@ -34,7 +35,7 @@
         }
 
 #contenido {
-
+    float: left;
     font-family: 'Montserrat', sans-serif;
 }
 
