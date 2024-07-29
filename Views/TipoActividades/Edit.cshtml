@@ -17,8 +17,8 @@
         <div class="vertical-menu">
             <a href="/Home/menuCRUD" class="active">Menu</a>
             <a href="/Home/IndexActividades">Actividades</a>
-            <a href="#">Inconcistencias</a>
-            <a href=" ">Permisos</a>
+            <a href="/Home/IndexInconsistencias">Inconcistencias</a>
+            <a href="/Home/IndexPermisos">Permisos</a>
             <a href="#">Usuarios</a>
             <a href=" ">Departamentos</a>
             <a href="#">Puestos</a>
@@ -26,11 +26,11 @@
 
         <div id="contenido">
 
-            <h4>TipoActividades</h4>
+            <h4>Tipo de Actividad</h4>
             <hr />
             <div class="row">
                 <div class="col-md-4">
-                    <form asp-action="Edit">
+                    <form asp-action="Editar">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="IdTipoActividad" />
                         <div class="form-group">
@@ -39,14 +39,14 @@
                             <span asp-validation-for="NomActividad" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <input type="submit" value="Aceptar" class="btn btn-primary" />
                         </div>
                     </form>
                 </div>
             </div>
 
             <div>
-                <a asp-action="Index">Back to List</a>
+                <a asp-action="Index">Volver al listado</a>
             </div>
 
             @section Scripts {

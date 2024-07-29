@@ -122,6 +122,22 @@ namespace SitiosWeb.Controllers
             return View("~/Views/TipoActividades/Index.cshtml", actividades);
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexInconsistencias()
+        {
+            var inconsistencias = _context.TiposInconsistencias.ToList();
+
+            return View("~/Views/TiposInconsistencias/Index.cshtml", inconsistencias);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexPermisos()
+        {
+            var permisos = _context.TiposPermisos.ToList();
+
+            return View("~/Views/TiposPermisos/Index.cshtml", permisos);
+        }
+
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SelectRepo(int id)
         {
