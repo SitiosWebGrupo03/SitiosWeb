@@ -83,8 +83,6 @@ namespace SitiosWeb.Controllers
         }
         [Authorize(Roles = "COLABORADOR")]
 
-
-
         public IActionResult indicadoresColab()
         {
             return View("~/Views/Paginas/indicadores/indicadorescolaborador.cshtml");
@@ -133,7 +131,11 @@ namespace SitiosWeb.Controllers
                              .Where(r => r.IdReposicion == id)
                              .ToList();
 
-            return View("~/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
+            return View("/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
+        }
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult SolicitarRepo() {
+            return View("/Views/Paginas/reposiciones/SolicitudReposicion.cshtml");
         }
 
     }
