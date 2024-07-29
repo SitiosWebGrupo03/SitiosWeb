@@ -78,14 +78,13 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Marcas/MarcaNormal.cshtml");
         }
-        [Authorize(Roles = "COLABORADOR")]
 
-
-
-        public IActionResult indicadoresColab()
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult FaceIndex()
         {
-            return View("~/Views/MarcaFaceID.cshtml");
+            return View("~/Views/MarcarFaceID.cshtml");
         }
+
         [Authorize(Roles = "JEFATURA")]
         public IActionResult VistaInconsistencias()
         {
