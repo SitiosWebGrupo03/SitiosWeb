@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\menuInconsistencias.cshtml" />
     <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
@@ -41,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Home\menuInconsistencias.cshtml" />
     <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
@@ -70,6 +72,14 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\menuInconsistencias.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
   </ItemGroup>
 
 </Project>

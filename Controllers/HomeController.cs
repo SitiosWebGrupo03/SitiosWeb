@@ -94,11 +94,18 @@ namespace SitiosWeb.Controllers
                                           .Include(i => i.IdEmpleadoNavigation)
                                           .Include(i => i.IdEmpleadoNavigation.Nombre)
                                           .Include(i => i.IdJustificacionNavigation)
-                                          .Include(i => i.IdTipoInconsistenciaNavigation)
+                                          .Include(i => i.IdTipoInconsistenciaNavigation.Descripcion)
                                           .ToList();
 
             return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
         }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult menuInconsistencias()
+        {
+            return View("~/Views/Home/menuInconsistencias.cshtml");
+        }
+
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SelectRepos()
         {

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SitiosWeb.Model.Inconsistencias>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
 }
 
 <!DOCTYPE html>
@@ -30,13 +30,19 @@
                 @foreach (var item in Model)
                 {
 
-                    <a>
+                    <p>
                         Fecha Inconsistencia: @item.FechaInconsistencia.ToString() <br />
+                        <br />
                         Identificacion: @item.IdEmpleado.ToString() <br />
+                        <br />
                         Nombre: @item.IdEmpleadoNavigation.Nombre  <br />
+                        <br />
                         Numero de Justificacion: @item.IdJustificacion.ToString() <br />
-                        Tipo de Inconsistencia: @item.IdTipoInconsistencia.ToString() <br />
-                    </a>
+                        <br />
+                        Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation.Descripcion <br />
+                        <br />
+                        <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificacion</a> |
+                    </p>
                 }
             </tbody>
         </table>
