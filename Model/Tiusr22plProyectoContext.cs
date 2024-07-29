@@ -70,7 +70,7 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<VacacionesColectivas> VacacionesColectivas { get; set; }
 
-    public virtual DbSet<Marcas> MarcaNormal { get; set; }
+   
 
     public virtual DbSet<Usuarios> Usuario{ get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

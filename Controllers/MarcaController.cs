@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using SitiosWeb.Model;
 using SitiosWeb.servicesclass;
@@ -18,14 +19,14 @@ namespace SitiosWeb.Controllers
             _context = context;
             _faceRecognitionService = new FaceIDService();
         }
-
+      
         [HttpPost]
         public async Task<IActionResult> MarcaNormal(string codigo, string contrasena)
         {
             if (string.IsNullOrEmpty(codigo) || string.IsNullOrEmpty(contrasena))
             {
                 TempData["ErrorMessage"] = "Código y contraseña son requeridos.";
-                return RedirectToAction(nameof(Index));  // Asegúrate de que "Index" sea el nombre correcto de la acción
+                return RedirectToAction(nameof(MarcaNormal));  // Asegúrate de que "Index" sea el nombre correcto de la acción
             }
 
             var colaborador = _context.Usuarios
@@ -38,7 +39,8 @@ namespace SitiosWeb.Controllers
                     var marca = new Marcas
                     {
                         IdEmpleado = colaborador.IdColaborador,
-                        InicioJornada = DateTime.Now
+                        InicioJornada = DateTime.Now,
+                        FinJornada = null
                     };
                     _context.Marcas.Add(marca);
                     await _context.SaveChangesAsync();
@@ -55,7 +57,16 @@ namespace SitiosWeb.Controllers
                 TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
             }
 
-            return RedirectToAction(nameof(Index));  // Asegúrate de que "Index" sea el nombre correcto de la acción
+            return View("~/Views/Marcas/MarcaNormal.cshtml");
+            //return RedirectToAction(nameof(MarcaNormal));  // Asegúrate de que "MarcaNormal" sea el nombre correcto de la acción
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+
+        public IActionResult MarcaNormal()
+        {
+           
+            return View("~/Views/Marcas/MarcaNormal.cshtml");
         }
 
         [HttpPost]
@@ -68,14 +79,15 @@ namespace SitiosWeb.Controllers
                     // Lógica para guardar la marca en la base de datos
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Marca añadida exitosamente.";
-                    return RedirectToAction(nameof(Create));
+                    return View("~/Views/Marcas/MarcaFaceID.cshtml");
+                   // return RedirectToAction(nameof(MarcaFaceID));
                 }
                 catch (Exception ex)
                 {
                     TempData["ErrorMessage"] = "Ocurrió un error al añadir la marca: " + ex.Message;
                 }
             }
-            return View("~/Paginas/Marcas/MarcarFaceID.html", Marca);
+            return View("~/Views/Marcas/MarcaFaceID.cshtml");
         }
 
         [HttpPost]
