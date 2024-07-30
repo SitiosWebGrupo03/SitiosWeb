@@ -8,6 +8,7 @@
 }
 
 .vertical-menu {
+    height: auto;
     width: 125px;
     float: left;
     display: flex;
@@ -35,9 +36,14 @@
 
 #contenido {
     float: left;
-    align-items: center;
     font-family: 'Montserrat', sans-serif;
 }
+
+    #contenido .row {
+        width: auto;
+        height: auto;
+        align-items: center;
+    }
 
 #pie {
     clear: both;

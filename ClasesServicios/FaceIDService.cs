@@ -18,10 +18,10 @@ namespace SitiosWeb.servicesclass
         public FaceIDService()
         {
             // Usar una carpeta alternativa para evitar conflictos
-            string modelDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FaceModels");
-            string modelFile = Path.Combine(modelDirectory, "res10_300x300_ssd_iter_140000.caffemodel");
-            string configFile = Path.Combine(modelDirectory, "deploy.prototxt");
-            _faceNet = CvDnn.ReadNetFromCaffe(configFile, modelFile);
+            //string modelDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FaceModels");
+            //string modelFile = Path.Combine(modelDirectory, "res10_300x300_ssd_iter_140000.caffemodel");
+            //string configFile = Path.Combine(modelDirectory, "deploy.prototxt");
+            //_faceNet = CvDnn.ReadNetFromCaffe(configFile, modelFile);
         }
 
         public string ProcessImage(JObject data)

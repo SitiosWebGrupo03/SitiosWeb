@@ -67,26 +67,26 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Paginas/Gestion_Horas_Extas/SolicitudHorasExtras.cshtml");
         }
-
-        [Authorize(Roles = "JEFATURA")]
-
-        public IActionResult MarcaFaceID()
-        {
-            return View("~/Paginas/Marcas/MarcarFaceID.cshtml");
-        }
-
-        [Authorize(Roles = "JEFATURA")]
-
-        public IActionResult MarcaNormal()
-        {
-            return View("~/Views/Marcas/MarcaNormal.cshtml");
-        }
         [Authorize(Roles = "COLABORADOR")]
-
         public IActionResult indicadoresColab()
         {
             return View("~/Views/Paginas/indicadores/indicadorescolaborador.cshtml");
         }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult MarcaNormal()
+        {
+            return View("~/Views/Marcas/MarcaNormal.cshtml");
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult FaceIndex()
+        {
+            return View("~/Views/MarcarFaceID.cshtml");
+        }
+
+
+
         [Authorize(Roles = "JEFATURA")]
         public IActionResult VistaInconsistencias()
         {
@@ -94,11 +94,18 @@ namespace SitiosWeb.Controllers
                                           .Include(i => i.IdEmpleadoNavigation)
                                           .Include(i => i.IdEmpleadoNavigation.Nombre)
                                           .Include(i => i.IdJustificacionNavigation)
-                                          .Include(i => i.IdTipoInconsistenciaNavigation)
+                                          .Include(i => i.IdTipoInconsistenciaNavigation.Descripcion)
                                           .ToList();
 
             return View("~/Views/Inconsistencias/Index.cshtml", inconsistencias);
         }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult menuInconsistencias()
+        {
+            return View("~/Views/Home/menuInconsistencias.cshtml");
+        }
+
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SelectRepos()
         {
@@ -120,6 +127,54 @@ namespace SitiosWeb.Controllers
             var actividades = _context.TipoActividades.ToList();
 
             return View("~/Views/TipoActividades/Index.cshtml", actividades);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexUsuarios()
+        {
+            var usuarios = _context.TipoUsuario.ToList();
+
+            return View("~/Views/TipoUsuarios/Index.cshtml", usuarios);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexDepartamentos()
+        {
+            var departamentos = _context.Departamentos.ToList();
+
+            return View("~/Views/Departamentos/Index.cshtml", departamentos);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexPuestos()
+        {
+            var puestos = _context.Puestos.ToList();
+
+            return View("~/Views/Puestos/Index.cshtml", puestos);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexInconsistencias()
+        {
+            var inconsistencias = _context.TiposInconsistencias.ToList();
+
+            return View("~/Views/TiposInconsistencias/Index.cshtml", inconsistencias);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexRebajos()
+        {
+            var rebajos = _context.TiposRebajos.ToList();
+
+            return View("~/Views/TiposRebajos/Index.cshtml", rebajos);
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexPermisos()
+        {
+            var permisos = _context.TiposPermisos.ToList();
+
+            return View("~/Views/TiposPermisos/Index.cshtml", permisos);
         }
 
         [Authorize(Roles = "JEFATURA")]

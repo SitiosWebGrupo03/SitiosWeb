@@ -1,9 +1,8 @@
-﻿@model IEnumerable<SitiosWeb.Model.TiposRebajos>
+﻿@model IEnumerable<SitiosWeb.Model.Departamentos>
 
 @{
     Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
 }
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +19,7 @@
             <a href="/Home/IndexActividades">Actividades</a>
             <a href="/Home/IndexInconsistencias">Inconcistencias</a>
             <a href="/Home/IndexPermisos">Permisos</a>
+            <a href="/Home/IndexRebajos">Rebajos</a>
             <a href="/Home/IndexUsuarios">Usuarios</a>
             <a href="/Home/IndexDepartamentos">Departamentos</a>
             <a href="/Home/IndexPuestos">Puestos</a>
@@ -28,16 +28,13 @@
         <div id="contenido">
 
             <p>
-                <a asp-controller="TiposRebajos" asp-action="Create">Crear Nueva</a>
+                <a asp-controller="DepartamentosController" asp-action="Create">Crear Nuevo</a>
             </p>
             <table class="table">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Descripcion)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cantidad)
+                            @Html.DisplayNameFor(model => model.NomDepartamento)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Estado)
@@ -50,18 +47,15 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Descripcion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cantidad)
+                                @Html.DisplayFor(modelItem => item.NomDepartamento)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Estado)
                             </td>
                             <td>
-                                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.IdTipoRebajo">Edit</a> |
-                                <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.IdTipoRebajo">Details</a> |
-                                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.IdTipoRebajo">Delete</a>
+                                <a asp-action="Edit" asp-route-id="@item.IdDepartamento">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.IdDepartamento">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.IdDepartamento">Delete</a>
                             </td>
                         </tr>
                     }

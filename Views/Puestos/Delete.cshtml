@@ -1,4 +1,4 @@
-﻿@model SitiosWeb.Model.TiposRebajos
+﻿@model SitiosWeb.Model.Puestos
 
 @{
     Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
@@ -27,22 +27,22 @@
 
         <div id="contenido">
 
-            <h3>Seguro de borrar este rebajo?</h3>
+            <h3>Seguro de borrar el puesto??</h3>
             <div>
-                <h4>TiposRebajos</h4>
+                <h4>Puestos</h4>
                 <hr />
                 <dl class="row">
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Descripcion)
+                        @Html.DisplayNameFor(model => model.NombrePuesto)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Descripcion)
+                        @Html.DisplayFor(model => model.NombrePuesto)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Cantidad)
+                        @Html.DisplayNameFor(model => model.Salario)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Cantidad)
+                        @Html.DisplayFor(model => model.Salario)
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.Estado)
@@ -50,10 +50,16 @@
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.Estado)
                     </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.IdDepartamentoNavigation)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.IdDepartamentoNavigation.IdDepartamento)
+                    </dd>
                 </dl>
 
                 <form asp-action="Delete">
-                    <input type="hidden" asp-for="IdTipoRebajo" />
+                    <input type="hidden" asp-for="IdPuesto" />
                     <input type="submit" value="Delete" class="btn btn-danger" /> |
                     <a asp-action="Index">Back to List</a>
                 </form>

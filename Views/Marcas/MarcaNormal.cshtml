@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   @*  <link rel="stylesheet" type="text/css" href="~/css/marcaNormal.css" /> *@
+    <link rel="stylesheet" type="text/css" href="~/css/marcaNormal.css" /> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Marcas</title>
@@ -15,12 +15,13 @@
             <h2>Opciones de marcas</h2>
             <ul>
                 <li>Por usuario</li>
-                <li>Identificación facial</li>
+                <li><a asp-controller="Home" asp-action="FaceIndex">FaceID</a></li>
+               
             </ul>
         </aside>
         <main class="main-content">
             <h1>Control de Marcas</h1>
-            <div class="date">Fecha: @DateTime.Now.ToString("dd/MM/yyyy")</div>
+            <div class="date">Fecha: @DateTime.Now.ToString("yyyy/MM/dd")</div>
 
             @if (TempData["SuccessMessage"] != null)
             {
@@ -35,8 +36,7 @@
                     @TempData["ErrorMessage"]
                 </div>
             }
-
-            <form asp-action="MarcaNormal" method="post">
+            <form asp-controller="Marca" asp-action="MarcaNormal" method="post">
                 <div class="form-group">
                     <label for="codigo">Código</label>
                     <input type="text" id="codigo" name="codigo" required>
@@ -50,9 +50,9 @@
                 </div>
             </form>
 
-            <div class="image">
+         @*    <div class="image">
                 <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Person Image">
-            </div>
+            </div> *@
         </main>
     </div>
   

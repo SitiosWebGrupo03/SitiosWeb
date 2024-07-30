@@ -1,4 +1,4 @@
-﻿@model SitiosWeb.Model.TiposRebajos
+﻿@model SitiosWeb.Model.Puestos
 
 @{
     Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
@@ -27,21 +27,30 @@
 
         <div id="contenido">
 
-            <h4>Tipos de Rebajos</h4>
+            <h4>Puestos</h4>
             <hr />
             <div class="row">
                 <div class="col-md-4">
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="Descripcion" class="control-label"></label>
-                            <input asp-for="Descripcion" class="form-control" />
-                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                            <label asp-for="IdPuesto" class="control-label"></label>
+                            <input asp-for="IdPuesto" class="form-control" />
+                            <span asp-validation-for="IdPuesto" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Cantidad" class="control-label"></label>
-                            <input asp-for="Cantidad" class="form-control" />
-                            <span asp-validation-for="Cantidad" class="text-danger"></span>
+                            <label asp-for="NombrePuesto" class="control-label"></label>
+                            <input asp-for="NombrePuesto" class="form-control" />
+                            <span asp-validation-for="NombrePuesto" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Salario" class="control-label"></label>
+                            <input asp-for="Salario" class="form-control" />
+                            <span asp-validation-for="Salario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="IdDepartamento" class="control-label"></label>
+                            <select asp-for="IdDepartamento" class="form-control" asp-items="ViewBag.IdDepartamento"></select>
                         </div>
                         <div class="form-group form-check">
                             <label class="form-check-label">
@@ -56,7 +65,7 @@
             </div>
 
             <div>
-                <a asp-action="Index">Volver al listado</a>
+                <a asp-action="Index">Back to List</a>
             </div>
 
             @section Scripts {

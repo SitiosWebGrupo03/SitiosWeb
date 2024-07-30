@@ -1,4 +1,4 @@
-﻿@model SitiosWeb.Model.TiposRebajos
+﻿@model SitiosWeb.Model.Departamentos
 
 @{
     Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
@@ -27,22 +27,16 @@
 
         <div id="contenido">
 
-            <h3>Seguro de borrar este rebajo?</h3>
+            <h3>Seguro de Borrar el departamento?</h3>
             <div>
-                <h4>TiposRebajos</h4>
+                <h4>Departamentos</h4>
                 <hr />
                 <dl class="row">
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Descripcion)
+                        @Html.DisplayNameFor(model => model.NomDepartamento)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Descripcion)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Cantidad)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Cantidad)
+                        @Html.DisplayFor(model => model.NomDepartamento)
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.Estado)
@@ -53,7 +47,7 @@
                 </dl>
 
                 <form asp-action="Delete">
-                    <input type="hidden" asp-for="IdTipoRebajo" />
+                    <input type="hidden" asp-for="IdDepartamento" />
                     <input type="submit" value="Delete" class="btn btn-danger" /> |
                     <a asp-action="Index">Back to List</a>
                 </form>
