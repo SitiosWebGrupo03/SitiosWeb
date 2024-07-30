@@ -2,6 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    string id = "";
 
 }
 <!DOCTYPE html>
@@ -35,6 +36,7 @@
                             <tr>
                                 <td>
                                     <p>
+                                        @id="@item.IdEmpleado"
                                         Fecha Inconsistencia: @item.FechaInconsistencia.ToString()
                                         <br />
                                         Identificación: @item.IdEmpleado.ToString()
@@ -57,9 +59,10 @@
             <div class="consultas">
                 <div class="form-group">
                     <label for="idEmpleado" class="control-label">Identificación</label>
-                    <input type="text" id="idEmpleado" name="idEmpleado" class="form-control" />
-                    <a asp-controller="Inconsistencias" asp-action="">Filtrar</a>
+                    <input type="text" id="idEmpleado" name="idEmpleado" class="form-control"></input>
+                    <a asp-controller="Inconsistencias" asp-action="" asp-route-id="">Filtrar</a>
                 </div>
+
                 <div class="form-group">
                     <label for="idNombre" class="control-label">Nombre</label>
                     <input type="text" id="idNombre" name="idNombre" class="form-control" />
@@ -74,3 +77,4 @@
     </div>
 </body>
 </html>
+
