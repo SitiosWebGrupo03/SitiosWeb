@@ -64,7 +64,7 @@
 
 </html>
 <script>
-    const diaMarcar = [
+    let diaMarcar = [
     @for (var i = 0; i < Model.Count(); i++)
     {
         @: '@Model.ElementAt(i).DiasReposicion'
@@ -73,5 +73,6 @@
             @:,
         }
     }
-    ];
+        ];
+
 </script>
