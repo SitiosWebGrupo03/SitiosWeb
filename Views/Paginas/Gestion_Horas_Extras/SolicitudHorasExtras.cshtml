@@ -1,4 +1,4 @@
-
+@model SitiosWeb.Model.SolicitudHorasExtra
 
 <!DOCTYPE html>
 <html lang="es">
@@ -6,43 +6,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Horas Extras</title>
-    <link rel="stylesheet" type="text/css" href="~/css/solicitud.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
 </head>
+	
 <body>
     <div class="background-circle circle1"></div>
     <div class="background-circle circle2"></div>
     <div class="container">
         <div class="header">
-            
-            <h1>Gesti�n de Horas Extras</h1>
+            <h1>Gestión de Horas Extras</h1>
         </div>
-        <form method="post">
+        <form asp-action="SolicitarHorasExtra" method="post">
             <div class="form-section">
                 <div class="form-group">
-                    <label for="idSolicitante">ID del Solicitante:</label>
-                    <input type="text" id="idSolicitante" name="idSolicitante">
+                    <label asp-for="IdSolicitante">ID del Solicitante:</label>
+                    <input asp-for="IdSolicitante" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="idEmpleado">ID del Empleado:</label>
-                    <input type="text" id="idEmpleado" name="idEmpleado">
+                    <label asp-for="IdEmpleado">ID del Empleado:</label>
+                    <input asp-for="IdEmpleado" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="fechaSolicitud">Fecha de Solicitud:</label>
-                    <input type="date" id="fechaSolicitud" name="fechaSolicitud">
+                    <label asp-for="FechaSolicitud">Fecha de Solicitud:</label>
+                    <input asp-for="FechaSolicitud" type="date" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="horas">Horas Extras:</label>
-                    <input type="number" id="horas" name="horas" step="0.01">
+                    <label asp-for="Horas">Horas Extras:</label>
+                    <input asp-for="Horas" type="number" step="0.01" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label for="idTipoActividad">Tipo de Actividad:</label>
-                    <select id="idTipoActividad" name="idTipoActividad">
+                    <label asp-for="IdTipoActividad">Tipo de Actividad:</label>
+                    <select asp-for="IdTipoActividad" class="form-control">
                         <option value="">Seleccione una actividad</option>
                         <option value="1">Proyecto Urgente</option>
-                        <option value="2">Reuni�n de Emergencia</option>
+                        <option value="2">Reunión de Emergencia</option>
                         <option value="3">Mantenimiento del Sistema</option>
-                        <option value="4">Preparaci�n de Presentaci�n</option>
-                        <option value="5">Capacitaci�n Interna</option>
+                        <option value="4">Preparación de Presentación</option>
+                        <option value="5">Capacitación Interna</option>
                     </select>
                 </div>
             </div>
