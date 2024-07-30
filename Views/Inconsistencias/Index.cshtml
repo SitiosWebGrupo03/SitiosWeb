@@ -14,90 +14,63 @@
 </head>
 <body>
     <div class="wrapper">
-        <div id="contenedor">
-            <div class="vertical-menu">
-                <h4>Filtrar por:</h4>
-                <a href="" class="active">Opciones</a>
-                <a href="">Nombre</a>
-                <a href="">Identificacion</a>
-            </div>
+        <div class="vertical-menu">
+            <h4>Filtrar por:</h4>
+            <a href="" class="active">Opciones</a>
+            <a href="">Nombre</a>
+            <a href="">Identificación</a>
+        </div>
 
+        <div id="contenedor">
             <div id="contenido">
                 <table class="table">
-            <thead>
-                <tr>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-
-                    <p>
-                        Fecha Inconsistencia: @item.FechaInconsistencia.ToString() 
-                        <br />
-                        Identificacion: @item.IdEmpleado.ToString() 
-                        <br />
-                        Nombre: @item.IdEmpleadoNavigation.Nombre 
-                        <br />
-                        Numero de Justificacion: @item.IdJustificacion.ToString() 
-                        <br />
-                        Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation.Descripcion 
-                        <br />
-                        <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificacion</a> 
-                    </p>
-                }
-            </tbody>
-        </table
+                    <thead>
+                        <tr>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <p>
+                                        Fecha Inconsistencia: @item.FechaInconsistencia.ToString()
+                                        <br />
+                                        Identificación: @item.IdEmpleado.ToString()
+                                        <br />
+                                        Nombre: @item.IdEmpleadoNavigation.Nombre
+                                        <br />
+                                        Número de Justificación: @item.IdJustificacion.ToString()
+                                        <br />
+                                        Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation.Descripcion
+                                        <br />
+                                        <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificación</a>
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
 
-            <div id="pie">
-                <a href="../Menu/menuSupervisor.html"> Volver al menu</a>
+            <div class="consultas">
+                <div class="form-group">
+                    <label for="idEmpleado" class="control-label">Identificación</label>
+                    <input type="text" id="idEmpleado" name="idEmpleado" class="form-control" />
+                    <a asp-controller="Inconsistencias" asp-action="">Filtrar</a>
+                </div>
+                <div class="form-group">
+                    <label for="idNombre" class="control-label">Nombre</label>
+                    <input type="text" id="idNombre" name="idNombre" class="form-control" />
+                    <a asp-controller="Inconsistencias" asp-action="">Filtrar</a>
+                </div>
             </div>
+        </div>
+
+        <div id="pie">
+            <a href="../Menu/menuSupervisor.html"> Volver al menú</a>
         </div>
     </div>
 </body>
 </html>
-
-
-@* <!DOCTYPE html>
-
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="~/css/fichasInconsistencias.css" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div class="container">
-
-
-        <table class="table">
-            <thead>
-                <tr>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-
-                    <p>
-                        Fecha Inconsistencia: @item.FechaInconsistencia.ToString() <br />
-                        <br />
-                        Identificacion: @item.IdEmpleado.ToString() <br />
-                        <br />
-                        Nombre: @item.IdEmpleadoNavigation.Nombre  <br />
-                        <br />
-                        Numero de Justificacion: @item.IdJustificacion.ToString() <br />
-                        <br />
-                        Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation.Descripcion <br />
-                        <br />
-                        <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificacion</a> |
-                    </p>
-                }
-            </tbody>
-        </table>
-
-    </div>
-</body>
-</html>
- *@
