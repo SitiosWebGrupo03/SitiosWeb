@@ -29,14 +29,14 @@ namespace SitiosWeb.Controllers
             var tiusr22plProyectoContext = _context.Inconsistencias
                 .Include(i => i.IdEmpleadoNavigation)
                 .Include(i => i.IdJustificacionNavigation)
-                .Include(i => i.IdTipoInconsistenciaNavigation.Descripcion)
+                .Include(i => i.IdTipoInconsistenciaNavigation)
                 .Where(i => i.IdEmpleado == idEmpleado);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
         public async Task<IActionResult> IndexByName(string nombreEmpleado)
         {
-            var tiusr22plProyectoContext = _context.Inconsistencias
+                var tiusr22plProyectoContext = _context.Inconsistencias
                 .Include(i => i.IdEmpleadoNavigation)
                 .Include(i => i.IdJustificacionNavigation)
                 .Include(i => i.IdTipoInconsistenciaNavigation)
