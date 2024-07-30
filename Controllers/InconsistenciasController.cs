@@ -21,7 +21,10 @@ namespace SitiosWeb.Controllers
         // GET: Inconsistencias
         public async Task<IActionResult> Index()
         {
-            var tiusr22plProyectoContext = _context.Inconsistencias.Include(i => i.IdEmpleadoNavigation).Include(i => i.IdJustificacionNavigation).Include(i => i.IdTipoInconsistenciaNavigation);
+            var tiusr22plProyectoContext = _context.Inconsistencias
+                .Include(i => i.IdEmpleadoNavigation)
+                .Include(i => i.IdJustificacionNavigation)
+                .Include(i => i.IdTipoInconsistenciaNavigation);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
         public async Task<IActionResult> IndexPorID(string idEmpleado)
