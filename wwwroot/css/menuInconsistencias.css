@@ -86,7 +86,8 @@ body {
 }
 
 #contenido {
-    display: flex;
+    display: block;
+    flex-direction: row;
     flex-wrap: wrap;
 }
 

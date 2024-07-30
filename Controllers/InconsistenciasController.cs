@@ -35,6 +35,7 @@ namespace SitiosWeb.Controllers
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
+        [HttpGet]
         public async Task<IActionResult> IndexByName(string nombreEmpleado)
         {
             var tiusr22plProyectoContext = _context.Inconsistencias

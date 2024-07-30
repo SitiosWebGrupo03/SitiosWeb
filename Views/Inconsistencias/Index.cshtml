@@ -24,19 +24,12 @@
 
         <div id="contenedor">
             <div id="contenido">
-                <table class="table">
-                    <thead>
-                        <tr>
-                           
-                        </tr>
-                    </thead>
-                    <tbody>
+              
                         @foreach (var item in Model)
                         {
                             <tr>
                                 <td>
                                     <p>
-                                        @id="@item.IdEmpleado"
                                         Fecha Inconsistencia: @item.FechaInconsistencia.ToString()
                                         <br />
                                         Identificación: @item.IdEmpleado.ToString()
@@ -52,29 +45,40 @@
                                 </td>
                             </tr>
                         }
-                    </tbody>
-                </table>
+                   
             </div>
 
             <div class="consultas">
                 <div class="form-group">
-                    <label for="idEmpleado" class="control-label">Identificación</label>
-                    <input type="text" id="idEmpleado" name="idEmpleado" class="form-control"></input>
-                    <a asp-controller="Inconsistencias" asp-action="" asp-route-id="">Filtrar</a>
+                    <label for="idNombre" class="control-label">Nombre</label>
+                    <input type="text" id="idNombre" name="idNombre" class="form-control" />
+                    <a href="#" id="filtrarLink" class="btn btn-primary">Filtrar por Nombre</a>
                 </div>
 
                 <div class="form-group">
-                    <label for="idNombre" class="control-label">Nombre</label>
+                    <label for="idNombre" class="control-label">Identificacion</label>
                     <input type="text" id="idNombre" name="idNombre" class="form-control" />
-                    <a asp-controller="Inconsistencias" asp-action="">Filtrar</a>
+                    <a asp-controller="Inconsistencias" asp-action="IndexByName">Filtrar por Identificacion</a>
                 </div>
             </div>
         </div>
 
         <div id="pie">
-            <a href="../Menu/menuSupervisor.html"> Volver al menú</a>
         </div>
     </div>
 </body>
 </html>
 
+<script>
+
+    document.getElementById('filtrarLink').addEventListener('click', function (event) {
+        event.preventDefault();
+        var nombre = document.getElementById('idNombre').value;
+        if (nombre) {
+            var url = '/Inconsistencias/IndexByName/' + encodeURIComponent(nombre);
+            window.location.href = url;
+        } else {
+            alert('Por favor, ingrese un nombre.');
+        }
+    });
+</script>
