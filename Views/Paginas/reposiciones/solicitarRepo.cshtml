@@ -18,23 +18,24 @@
             <div class="titles">
                 <h1 class="title-page">Horas por </h1>
                 <h1 class="title-span">Reponer</h1>
+                <h1 class="title-info" id="horasRestantes">Restantes: 6 horas</h1>
+
             </div>
         </div>
+        <label class="error" style="display: none;">Periodo de 5 dias para realizar la reposición excedido.</label>
         <div class="content">
 
             <div class="form">
-                
-                <label id="horasRestantes" class="title-horas">Restantes: 6 horas</label>
+
                 <div class="text-block">
-                    <p>Horario del colaborador: </p>
-                    <label id="horarioColaborador"></label>
 
                 </div>
                 <div class="buttons">
-                    <button>Solicitar</button>
+                    <button style="display:none;">Solicitar</button>
                 </div>
             </div>
-            <div class="calendar">
+
+            <div class="calendar" style="margin-left:135px;">
                 <div class="calendar-header">
                     <button id="prevMonth">< </button>
                     <h2 id="monthYear"></h2>
@@ -42,9 +43,13 @@
                 </div>
                 <div class="days" id="calendarDays">
                 </div>
+
             </div>
+
         </div>
     </div>
+
+
 </body>
 <script>
     const diaMarcar = [];

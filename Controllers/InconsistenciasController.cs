@@ -24,7 +24,6 @@ namespace SitiosWeb.Controllers
             var tiusr22plProyectoContext = _context.Inconsistencias.Include(i => i.IdEmpleadoNavigation).Include(i => i.IdJustificacionNavigation).Include(i => i.IdTipoInconsistenciaNavigation);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
-
         public async Task<IActionResult> IndexPorID(string idEmpleado)
         {
             var tiusr22plProyectoContext = _context.Inconsistencias
@@ -34,8 +33,7 @@ namespace SitiosWeb.Controllers
                 .Where(i => i.IdEmpleado == idEmpleado);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
-
-        [HttpGet]
+   
         public async Task<IActionResult> IndexByName(string nombreEmpleado)
         {
             var tiusr22plProyectoContext = _context.Inconsistencias

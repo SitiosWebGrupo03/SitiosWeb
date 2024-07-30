@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const maxSelections = 5; // Maximum number of days that can be selected
     let remainingHours = parseInt(document.getElementById('horasRestantes').textContent.match(/\d+/)[0], 10);
     const selectedDays = []; // Array to store selected days
-
+    
     function createCounter(pElement) {
         const counterContainer = document.createElement('span');
         counterContainer.className = 'counter-container';
@@ -70,7 +70,31 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } else {
            
+            // Get the error label element
+            const errorLabel = document.querySelector('.error');
 
+            if (selectedDays.length >= maxSelections) {
+                errorLabel.classList.remove('fadeOut'); // Remove fadeOut class if present
+                errorLabel.style.display = 'block';
+                errorLabel.classList.add('shake');
+
+                setTimeout(() => {
+                    errorLabel.classList.remove('shake');
+                }, 500); // Duration of the shake animation
+
+                setTimeout(() => {
+                    errorLabel.classList.add('fadeOut');
+                    setTimeout(() => {
+                        errorLabel.style.display = 'none';
+                        errorLabel.classList.remove('fadeOut');
+                    }, 2000);
+                }, 2000);
+                return;
+            } else {
+                // Hide the error message
+                errorLabel.style.display = 'none';
+                errorLabel.classList.remove('shake', 'fadeOut');
+            }
             // Select the day
             dayCell.classList.add('selected');
             selectedDays.push(dayNumber);
@@ -84,6 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
             createCounter(pElement);
 
             textBlock.appendChild(pElement);
+        }
+        if selectedDays.length != 0) {
+            this.getElementsByClassName('calendar').
         }
     });
 });
