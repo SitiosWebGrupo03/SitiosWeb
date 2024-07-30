@@ -57,17 +57,23 @@
             </div>
 
             <div class="consultas">
-                <div class="form-group">
-                    <label for="idEmpleado" class="control-label">Identificación</label>
-                    <input type="text" id="idEmpleado" name="idEmpleado" class="form-control"></input>
-                    <a asp-controller="Inconsistencias" asp-action="" asp-route-id="">Filtrar</a>
-                </div>
+                <form asp-controller="Inconsistencias" asp-action="IndexByName" method="post">
+                    <div class="form-group">
+                        <label for="nombreEmpleado" class="control-label">Nombre</label>
+                        <input type="text" id="nombreEmpleado" name="nombreEmpleado" class="form-control" />
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
+                </form>
 
-                <div class="form-group">
-                    <label for="idNombre" class="control-label">Nombre</label>
-                    <input type="text" id="idNombre" name="idNombre" class="form-control" />
-                    <a asp-controller="Inconsistencias" asp-action="">Filtrar</a>
-                </div>
+                <form asp-controller="Inconsistencias" asp-action="IndexPorId" method="post">
+                    <div class="form-group">
+                        <label for="idEmpleado" class="control-label">ID</label>
+                        <input type="text" id="idEmpleado" name="idEmpleado" class="form-control" />
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
+                </form>
+
+                
             </div>
         </div>
 
@@ -76,5 +82,6 @@
         </div>
     </div>
 </body>
+
 </html>
 
