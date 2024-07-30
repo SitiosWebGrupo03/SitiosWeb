@@ -74,3 +74,11 @@
 .calendar .days .gray-text {
     color: #cbd5e0;
 }
+.contador {
+    width: 20px;
+    border:none;
+    text-align: center;
+}
+    .ContadorButtons {
+        border-radius: 20px;
+    }

@@ -1,5 +1,5 @@
-@{
-    _Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+﻿@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
 }
 <head>
     <meta charset="UTF-8">
@@ -12,27 +12,33 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="form" >
-                <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
+    <div class="contains">
+        <div class="head">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
+            <div class="titles">
                 <h1 class="title-page">Horas por </h1>
                 <h1 class="title-span">Reponer</h1>
+            </div>
+        </div>
+        <div class="content">
+
+            <div class="form">
+                
                 <label id="horasRestantes" class="title-horas">Restantes: 6 horas</label>
                 <div class="text-block">
                     <p>Horario del colaborador: </p>
                     <label id="horarioColaborador"></label>
-                    
+
                 </div>
                 <div class="buttons">
-                    <button id="solicitarbtn">Solicitar</button>
+                    <button>Solicitar</button>
                 </div>
             </div>
-            <div class="calendar" >
+            <div class="calendar">
                 <div class="calendar-header">
-                    <button id="prevMonth">&lt;</button>
-                    <h2 id="monthYear">Junio 2024</h2>
-                    <button id="nextMonth">&gt;</button>
+                    <button id="prevMonth">< </button>
+                    <h2 id="monthYear"></h2>
+                    <button id="nextMonth"> ></button>
                 </div>
                 <div class="days" id="calendarDays">
                 </div>
@@ -40,3 +46,6 @@
         </div>
     </div>
 </body>
+<script>
+    const diaMarcar = [];
+</script>
