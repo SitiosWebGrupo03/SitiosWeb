@@ -25,6 +25,27 @@ namespace SitiosWeb.Controllers
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
+        public async Task<IActionResult> IndexPorID(string idEmpleado)
+        {
+            var tiusr22plProyectoContext = _context.Inconsistencias
+                .Include(i => i.IdEmpleadoNavigation)
+                .Include(i => i.IdJustificacionNavigation)
+                .Include(i => i.IdTipoInconsistenciaNavigation.Descripcion)
+                .Where(i => i.IdEmpleado == idEmpleado);
+            return View(await tiusr22plProyectoContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexByName(string nombreEmpleado)
+        {
+            var tiusr22plProyectoContext = _context.Inconsistencias
+                .Include(i => i.IdEmpleadoNavigation)
+                .Include(i => i.IdJustificacionNavigation)
+                .Include(i => i.IdTipoInconsistenciaNavigation.Descripcion)
+                .Where(i => i.IdEmpleadoNavigation.Nombre.Contains(nombreEmpleado));
+            return View(await tiusr22plProyectoContext.ToListAsync());
+        }
+
+
         // GET: Inconsistencias/Details/5
         public async Task<IActionResult> Details(int? id)
         {

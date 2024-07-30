@@ -2,9 +2,64 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
-}
 
+}
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/menuInconsistencias.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inconsistencias</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="contenedor">
+            <div class="vertical-menu">
+                <h4>Filtrar por:</h4>
+                <a href="" class="active">Opciones</a>
+                <a href="">Nombre</a>
+                <a href="">Identificacion</a>
+            </div>
+
+            <div id="contenido">
+                <table class="table">
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <p>
+                        Fecha Inconsistencia: @item.FechaInconsistencia.ToString() 
+                        <br />
+                        Identificacion: @item.IdEmpleado.ToString() 
+                        <br />
+                        Nombre: @item.IdEmpleadoNavigation.Nombre 
+                        <br />
+                        Numero de Justificacion: @item.IdJustificacion.ToString() 
+                        <br />
+                        Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation.Descripcion 
+                        <br />
+                        <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificacion</a> 
+                    </p>
+                }
+            </tbody>
+        </table
+            </div>
+
+            <div id="pie">
+                <a href="../Menu/menuSupervisor.html"> Volver al menu</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+@* <!DOCTYPE html>
 
 <html>
 <head>
@@ -15,11 +70,6 @@
 <body>
     <div class="container">
 
-        <div id="cabecera">
-            <img class="logo" src="~/images/logoMaster.jpeg">
-            <h1>Inconsistencias</h1>
-            <img class="imagen" src="~/images/image.png">
-        </div>
 
         <table class="table">
             <thead>
@@ -50,3 +100,4 @@
     </div>
 </body>
 </html>
+ *@

@@ -43,10 +43,15 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Paginas/Menu/menuColaborador.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
-
         public IActionResult IndexJefatura()
         {
             return View("~/Views/Paginas/Menu/menuJefatura.cshtml");
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult IndexMenuInconsistencias()
+        {
+            return View("~/Views/Inconsistencias/Index.cshtml");
         }
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexSupervisor()
