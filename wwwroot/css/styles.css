@@ -149,21 +149,6 @@ body {
     gap: 1rem; /* Adjust spacing between image and titles */
 }
 
-#solicitarbtn {
-    position: fixed;
-    bottom: 34.5%;
-    padding: 10px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: 1px solid #5E58F8;
-    background-color: #ffffff; /* Ajusta el color de fondo según sea necesario */
-}
-
-    #solicitarbtn:hover {
-        background-color: #6b46c1;
-    }
 
 .buttons button:hover {
     background-color: #6b46c1;

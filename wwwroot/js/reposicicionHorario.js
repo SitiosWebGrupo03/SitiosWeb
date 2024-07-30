@@ -38,9 +38,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const cellDate = new Date(year, month, day);
             const formattedDate = `${String(month + 1)}/${String(day)}/${year}`;
-            if (diaMarcar.includes(formattedDate)) {
-                dayCell.classList.add('selected');
+            if (diaMarcar != null) {
+                if (diaMarcar.includes(formattedDate)) {
+                    dayCell.classList.add('selected');
+                }
             }
+            
             if (cellDate < today) {
                 dayCell.classList.add('disabled');
             }

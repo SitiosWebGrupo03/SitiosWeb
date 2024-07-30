@@ -195,7 +195,7 @@ namespace SitiosWeb.Controllers
         }
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult SolicitarRepo() {
-            return View("/Views/Paginas/reposiciones/SolicitudReposicion.cshtml");
+            return View("/Views/Paginas/reposiciones/solicitarRepo.cshtml");
         }
 
     }
