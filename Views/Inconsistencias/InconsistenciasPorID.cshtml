@@ -3,6 +3,7 @@
 	Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
 
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,26 @@
 
         <div id="contenedor">
             <div id="contenido">
-               
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <p>
+                                Fecha Inconsistencia: @item.FechaInconsistencia.ToString()
+                                <br />
+                                Identificación: @item.IdEmpleado.ToString()
+                                <br />
+                                Nombre: @item.IdEmpleadoNavigation.Nombre
+                                <br />
+                                Número de Justificación: @item.IdJustificacion.ToString()
+                                <br />
+                                Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation.Descripcion
+                                <br />
+                                <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificación</a>
+                            </p>
+                        </td>
+                    </tr>
+                }
             </div>
 
            

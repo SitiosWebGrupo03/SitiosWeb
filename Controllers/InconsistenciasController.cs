@@ -33,15 +33,15 @@ namespace SitiosWeb.Controllers
                 .Where(i => i.IdEmpleado == idEmpleado);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
-   
+
         public async Task<IActionResult> IndexByName(string nombreEmpleado)
         {
             var tiusr22plProyectoContext = _context.Inconsistencias
                 .Include(i => i.IdEmpleadoNavigation)
                 .Include(i => i.IdJustificacionNavigation)
-                .Include(i => i.IdTipoInconsistenciaNavigation.Descripcion)
-                .Where(i => i.IdEmpleadoNavigation.Nombre.Contains(nombreEmpleado));
-            return View(await tiusr22plProyectoContext.ToListAsync());
+                .Include(i => i.IdTipoInconsistenciaNavigation)
+                .Where(i => i.IdEmpleadoNavigation.Nombre == nombreEmpleado);
+            return View("~/Views/Inconsistencias/InconsistenciasPorID.cshtml", await tiusr22plProyectoContext.ToListAsync());
         }
 
 
