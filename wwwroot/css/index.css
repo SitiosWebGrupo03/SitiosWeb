@@ -1,162 +1,293 @@
-﻿
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     overflow-x: hidden;
-    background: linear-gradient(45deg, #6c63ff 25%, transparent 25%, transparent 50%, #6c63ff 50%, #6c63ff 75%, transparent 75%);
 }
 
-.container {
-    width: 100%;    
-    max-width: 1200px;
-    margin-top: 200px;
-    position: relative;
-    z-index: 1;
+.svg1 {
+    position: absolute;
+    top: 140vh;
+    left: 0;
+    z-index: -1;
+    display: block;
+    right: -30%;
+}
+.svg4 {
+    position: absolute;
+    top: 190vh;
+    left: 0;
+    z-index: -1;
+    display: block;
+    transform: rotate(180deg) 
+}
+
+.svg2 {
+    position: absolute;
+    top: -180px;
+    right: -1600px;
+    z-index: -1;
+    transform: rotateZ(180deg);
+}
+
+.svg3 {
+    position: absolute;
+    z-index: -1;
+    height: 142vh;
+    right: 0;
+    top: 0;
+}
+
+.title {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+}
+
+.timemaster {
+    color: #42474C;
+    font-size: 60px;
+    font-weight: 300;
+    font-stretch: 100%;
+    margin: 0;
+}
+
+.morado {
+    color: #6c63ff;
+    font-size: 60px;
+    font-weight: 800;
+    font-stretch: 100%;
+    margin: 0;
 }
 
 .header {
+    margin:0;
+    margin-top: 400px;
     display: flex;
+    min-width: 1200px;
     align-items: center;
     justify-content: space-between;
-    margin-top: -80px;
-    background-color: #fff;
 }
 
+.logo{
+    background-color: white;
+}
     .header img {
-        max-width: 50px;
-        border-radius: 50%;
+        max-width: 180px; /* Ajusta el tamaño máximo del logo */
+        height: auto; /* Mantén la relación de aspecto del logo */
+        margin: 0; /* Elimina cualquier margen adicional */
     }
 
     .header a {
+        display: inline-block; /* Ensure scaling works properly */
         padding: 10px 20px;
         background-color: #6c63ff;
         color: #fff;
-        border: none;
         border-radius: 5px;
         cursor: pointer;
-        border: 1px #6c63ff;
-        text-decoration:none;
-        text-decoration:none;
+        text-decoration: none;
+        transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        transform-origin: center;
     }
 
-.content {
-    background-color: #f4f4f4;
-    color: #333;
-    position: relative;
-    padding: 50px 20px;
-    text-align: center;
-}
+        .header a:hover {
+            background-color: #837ddd;
+            transform: scale(1.1); /* Slightly scale the element */
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* Adding a shadow with rgba for better visibility */
+        }
 
-    .content h2 {
-        color: #6c63ff;
-        font-size: 3em;
-    }
-
-    .content p {
-        font-size: 2em;
-    }
 
 .mujer {
-    width: 400px;
+    width: 350px;
     position: absolute;
-    top: 90px;
+    top: 0;
     right: 0;
-    left: 0;
+    left: -25%;
     margin: 0 auto;
     z-index: 0;
 }
 
 .intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     position: relative;
-    margin-top: 400px;
+    padding: 20px 20px;
+    text-align: center;
+    min-width: 1160px;
     z-index: 1;
     background-color: white;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.2);
 }
+
+    .intro h2 {
+        max-width: 1000px;
+        color: #42474C;
+        font-size: 50px;
+        font-weight: 300;
+    }
+    .intro span {
+        color: #6c63ff;
+        font-weight: 800;
+    }
+
+    .intro p {
+        font-size: 30px;
+        max-width: 900px;
+    }
 
 .stats {
     text-align: center;
     margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
     background-color: #fff;
 }
 
-    .stats div {
-        display: inline-block;
-        margin: 0 20px;
+.stat {
+    display: inline-block;
+    margin: 0 20px;
+}
+    .stat p {
+        font-size: 1.2em;
+        color: #42474C;
+        max-width:136px;
+    }
+    .stat i {
+        transition: color 0.5s, transform 0.5s;
+        font-size: 50px;
+        color: #6c63ff;
     }
 
-        .stats div h3 {
-            margin: 5px 0;
+        .stat i:hover {
+            color: black;
+            transform: scale(0.9);
         }
 
-.fa-user-tie {
-    font-size: 30px;
-    color: #6c63ff;
-}
-
-.fa-clock {
-    font-size: 30px;
-    color: #6c63ff;
-}
-
-.fa-chart-line {
-    font-size: 30px;
-    color: #6c63ff;
-}
-
-.fa-mug-saucer {
-    font-size: 30px;
-    color: #6c63ff;
-}
-
 .testimonials_section {
+    margin-top: 70px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     text-align: center;
+    width: 33.33%;
+    overflow: hidden;
+}
+
+    .testimonials_section h2 {
+        color: #42474C;
+    }
+
+    .testimonials_section span {
+        display: block;
+        background-color: #6c63ff;
+        height: 3px;
+        width: 100px;
+    }
+
+.testimonials_container {
+    display: flex;
+    transition: transform 0.5s ease;
 }
 
 .testimonial {
-    max-width: 300px;
-    margin: 0 auto;
+    min-width: 100%;
     padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 200px; /* Ajusta el ancho máximo del testimonio */
+    margin: 0 auto;
 }
 
-.testimonials, .features {
+    .testimonial img {
+        max-width: 180px; /* Reduce el tamaño de la imagen */
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    .testimonial p {
+        margin: 10px 0;
+        font-size: 1.2em; /* Ajusta el tamaño del texto */
+        line-height: 1.5; /* Ajusta la altura de línea para mejor legibilidad */
+    }
+
+    .testimonial h3 {
+        margin: 20px 0 10px;
+        color: #6c63ff;
+    }
+
+    .testimonial h4 {
+        margin: 0;
+        color: #42474C;
+    }
+
+.features-section {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
+    margin-top: 40px;
+    width: 100%;
 }
 
-
-.testimonial, .feature {
-    flex: 1 1 30%;
-    margin: 10px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.feature {
+    position: relative; /* Necesario para posicionar elementos hijos de manera absoluta */
+    flex: 1 1 calc(30% - 20px); /* Cuatro elementos por fila (ajustar según sea necesario) */
+    overflow: hidden; /* Oculta el contenido que se sale del área */
+    box-sizing: border-box;
+    margin: 0; /* Reduce el espacio entre las imágenes */
+    transition: transform 0.3s ease-in-out; /* Transición para el efecto hover */
 }
 
-    .testimonial img, .feature img {
-        max-width: 100%;
-        border-radius: 10px;
+    .feature img {
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: opacity 0.3s ease-in-out; /* Transición para el efecto hover */
     }
 
-    .testimonial p, .feature p {
-        margin: 10px 0 0;
+    .feature h4,
+    .feature p {
+        position: absolute; /* Posiciona el texto sobre la imagen */
+        top: 50%; /* Centra verticalmente */
+        left: 50%; /* Centra horizontalmente */
+        transform: translate(-50%, -50%); /* Ajusta la posición para centrarlo exactamente */
+        color: #fff; /* Asegúrate de que el texto sea visible sobre la imagen */
+        padding: 10px;
+        text-align: center; /* Centra el texto */
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out; /* Transición para el efecto hover */
     }
 
-    .testimonial h4, .feature h4 {
-        margin: 0;
-        text-align: center;
-        color: #6c63ff;
+    .feature h4 {
+        font-size: 22px; /* Ajusta el tamaño del texto según tu diseño */
+        color: #6c63ff; /* Cambia el color del texto */
+        margin-top: -70px;
+        font-weight: 800;
+    }
+
+    .feature p {
+        font-size: 1em; /* Ajusta el tamaño del texto según tu diseño */
+        color: #42474C; /* Cambia el color del texto */
+    }
+
+
+
+    .feature:hover img {
+        opacity: 0.3; /* Reduce la opacidad de la imagen al hacer hover */
+    }
+
+    .feature:hover p,
+    .feature:hover h4 {
+        opacity: 1; /* Muestra el texto al hacer hover */
     }
