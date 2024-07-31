@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+
 namespace SitiosWeb.Model;
 
 public partial class Tiusr22plProyectoContext : DbContext
@@ -70,9 +71,6 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<VacacionesColectivas> VacacionesColectivas { get; set; }
 
-   
-
-    public virtual DbSet<Usuarios> Usuario{ get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=Host");
 
@@ -110,7 +108,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.ToTable("colaboradores");
 
             entity.Property(e => e.Identificacion)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("identificacion");
             entity.Property(e => e.Apellidos)
@@ -153,46 +151,6 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("valor_config");
         });
-        modelBuilder.Entity<Usuarios>(entity =>
-        {
-            entity.HasKey(e => e.IdColaborador);
-            entity.ToTable("usuarios");
-
-            entity.Property(e => e.IdColaborador)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("idColaborador");
-
-            entity.Property(e => e.Contrasena)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("contrasena");
-
-            entity.Property(e => e.Estado)
-                .HasColumnName("estado");
-
-        });
-
-    modelBuilder.Entity<Marcas>(entity =>
-        {
-            entity.HasKey(e => e.IdEmpleado);
-            entity.ToTable("marcas");
-
-            entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("id_empleado");
-            entity.Property(e => e.InicioJornada)
-                .HasColumnType("datetime")
-                .HasColumnName("inicioJornada");
-            entity.Property(e => e.FinJornada)
-                .HasColumnType("datetime")
-                .HasColumnName("finJornada");
-
-            entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.Marcas)
-                .HasForeignKey(d => d.IdEmpleado)
-                .HasConstraintName("FKmarcasid_emple__656C112C");
-        });
 
         modelBuilder.Entity<Departamentos>(entity =>
         {
@@ -210,13 +168,13 @@ public partial class Tiusr22plProyectoContext : DbContext
 
         modelBuilder.Entity<FechasReposicion>(entity =>
         {
-            entity.HasKey(e => new { e.IdReposicion, e.HorasReposicion });
+            entity.HasKey(e => new { e.IdReposicion, e.DiasReposicion, e.HorasReposicion });
 
             entity.ToTable("fechas_reposicion");
 
             entity.Property(e => e.IdReposicion).HasColumnName("idReposicion");
-            entity.Property(e => e.HorasReposicion).HasColumnName("horasReposicion");
             entity.Property(e => e.DiasReposicion).HasColumnName("diasReposicion");
+            entity.Property(e => e.HorasReposicion).HasColumnName("horasReposicion");
 
             entity.HasOne(d => d.IdReposicionNavigation).WithMany(p => p.FechasReposicion)
                 .HasForeignKey(d => d.IdReposicion)
@@ -276,11 +234,11 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.EstadoDelPago).HasColumnName("estado_del_pago");
             entity.Property(e => e.FechaRealizacion).HasColumnName("fecha_realizacion");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdSolicitante)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_solicitante");
             entity.Property(e => e.IdTipoActividad).HasColumnName("idTipoActividad");
@@ -307,7 +265,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.IdInconsistencia).HasColumnName("id_inconsistencia");
             entity.Property(e => e.FechaInconsistencia).HasColumnName("fecha_inconsistencia");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdJustificacion).HasColumnName("id_Justificacion");
@@ -335,7 +293,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.IdJustificacion).HasColumnName("id_Justificacion");
             entity.Property(e => e.HorarioId).HasColumnName("HorarioID");
             entity.Property(e => e.IdColaborador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_colaborador");
             entity.Property(e => e.IdDepartamento).HasColumnName("id_departamento");
@@ -380,7 +338,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("finJornada");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.InicioJornada)
@@ -409,12 +367,12 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("fechaInicio");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdTipoPermiso).HasColumnName("id_tipoPermiso");
             entity.Property(e => e.IdValidador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_validador");
 
@@ -466,12 +424,12 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Aprobacion).HasColumnName("aprobacion");
             entity.Property(e => e.FechaRebajo).HasColumnName("fechaRebajo");
             entity.Property(e => e.IdColaborador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_colaborador");
             entity.Property(e => e.IdTipoRebajo).HasColumnName("idTipoRebajo");
             entity.Property(e => e.IdValidador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_validador");
             entity.Property(e => e.Inconsistencia).HasColumnName("inconsistencia");
@@ -505,12 +463,12 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("duracion_en_horas");
             entity.Property(e => e.IdColaborador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_colaborador");
             entity.Property(e => e.IdTipoActividad).HasColumnName("idTipoActividad");
             entity.Property(e => e.IdValidador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_validador");
             entity.Property(e => e.Observaciones)
@@ -539,7 +497,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.IdReporte).HasColumnName("idReporte");
             entity.Property(e => e.FechaRegistro).HasColumnName("fechaRegistro");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdMarca).HasColumnName("id_marca");
@@ -563,11 +521,11 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Estado).HasColumnName("estado");
             entity.Property(e => e.FechaAprobacion).HasColumnName("fechaAprobacion");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdValidador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_validador");
             entity.Property(e => e.Observaciones)
@@ -590,13 +548,13 @@ public partial class Tiusr22plProyectoContext : DbContext
 
             entity.Property(e => e.IdReposicion).HasColumnName("idReposicion");
             entity.Property(e => e.AprobadasPor)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.HorasReponer)
                 .HasMaxLength(10)
                 .IsFixedLength();
             entity.Property(e => e.Idcolaborador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("IDColaborador");
             entity.Property(e => e.RazonDenegacion)
@@ -625,11 +583,11 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("horas");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdSolicitante)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_solicitante");
             entity.Property(e => e.IdTipoActividad).HasColumnName("idTipoActividad");
@@ -661,7 +619,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.DOH).HasColumnName("d_o_h");
             entity.Property(e => e.DiasHorasFuera).HasColumnName("dias_horas_fuera");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdTipoPermiso).HasColumnName("id_tipoPermiso");
@@ -684,7 +642,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
             entity.Property(e => e.DiasTotales).HasColumnName("diasTotales");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
 
@@ -701,7 +659,7 @@ public partial class Tiusr22plProyectoContext : DbContext
 
             entity.Property(e => e.IdTipoActividad).HasColumnName("idTipoActividad");
             entity.Property(e => e.NomActividad)
-                .HasMaxLength(1)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("nom_Actividad");
         });
@@ -777,7 +735,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasColumnName("contrasena");
             entity.Property(e => e.Estado).HasColumnName("estado");
             entity.Property(e => e.IdColaborador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("idColaborador");
             entity.Property(e => e.IdTipoUsuario).HasColumnName("idTipoUsuario");
@@ -801,7 +759,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.AniosEnEmpresa).HasColumnName("anios_enEmpresa");
             entity.Property(e => e.DiasAcumulados).HasColumnName("diasAcumulados");
             entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
 
@@ -820,7 +778,7 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Aprobado).HasColumnName("aprobado");
             entity.Property(e => e.IdDepartamento).HasColumnName("id_departamento");
             entity.Property(e => e.IdSolicitador)
-                .HasMaxLength(20)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_solicitador");
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,8 +30,12 @@ namespace SitiosWeb.Controllers
                 TempData["Error"] = string.Empty;
 
             }
-            
-            var user = _context.Usuarios.FirstOrDefault(u => u.CodUsuario == username && u.Contrasena == password && u.Estado);
+
+            var user = _context.Usuarios
+                                .Include(u => u.IdColaboradorNavigation)
+                                    .ThenInclude(c => c.IdPuestoNavigation)
+                                        .ThenInclude(p => p.IdDepartamentoNavigation)
+                                .FirstOrDefault(u => u.CodUsuario == username && u.Contrasena == password && u.Estado);
             if (user == null)
             {
                 TempData["Error"] = "Nombre de usuario o contraseña incorrectos.";
@@ -58,7 +63,7 @@ namespace SitiosWeb.Controllers
             Response.Cookies.Append("Nombre", nombreColaborador, options);
             Response.Cookies.Append("Rol", nombreTipoUsuario, options);
             Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);
-            Response.Cookies.Append("Departamentp", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento, options);
+            Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento, options);
 
 
 

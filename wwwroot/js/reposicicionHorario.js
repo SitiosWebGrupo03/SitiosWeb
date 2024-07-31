@@ -7,15 +7,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const textBlock = document.querySelector('.text-block');
     const maxSelections = 5; // Maximum number of days that can be selected
     const selectedDays = []; // Array to store selected days
+    const horasElement = document.getElementById('horasRestantes');
+
+    // Inicializa la variable Horas con un valor predeterminado (por ejemplo, 0)
+    let Horas = 0;
+
+    // Verifica si el elemento existe y tiene contenido
+    if (horasElement && horasElement.textContent.trim()) {
+        // Extrae el contenido numérico del elemento
+        Horas = parseInt(horasElement.textContent.replace(/\D/g, ''), 10);
+    }    let total = 0;
     const monthNames = [
-        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',  
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ]
+    const errorLabel = document.querySelector('.error');
     function generateCalendar(month, year) {
         daysContainer.innerHTML = '';
-
-        ;
-        document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+        month=month+1;
+        document.getElementById('monthYear').textContent = `${monthNames[month-1]} ${year}`;
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDay = new Date(year, month, 1).getDay();
@@ -39,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dayCell.textContent = day;
             dayCell.classList.add('day');
 
-            const cellDate = new Date(year, month, day);
+            const cellDate = new Date(year, month-1, day);
             const formattedDate = `${month}/${day}/${year}`;
             if (diaMarcar && diaMarcar.includes(formattedDate)) {
                 dayCell.classList.add('selected');
@@ -86,10 +96,13 @@ document.addEventListener("DOMContentLoaded", function () {
         decrementButton.textContent = '-';
         decrementButton.className = 'ContadorButtons';
         decrementButton.disabled = true;
+        decrementButton.type = 'button';
+
 
         const incrementButton = document.createElement('button');
         incrementButton.textContent = '+';
         incrementButton.className = 'ContadorButtons';
+        incrementButton.type = 'button';
 
         const inputField = document.createElement('input');
         inputField.type = 'text';
@@ -100,18 +113,26 @@ document.addEventListener("DOMContentLoaded", function () {
         decrementButton.addEventListener('click', function () {
             const currentValue = parseInt(inputField.value, 10);
             if (currentValue > 0) {
+                total = total - 1;
                 inputField.value = currentValue - 1;
+                incrementButton.disabled = false;
+
                 if (currentValue - 1 === 0) {
                     decrementButton.disabled = true;
                 }
-                incrementButton.disabled = false;
             }
         });
 
         incrementButton.addEventListener('click', function () {
             const currentValue = parseInt(inputField.value, 10);
-            inputField.value = currentValue + 1;
-            decrementButton.disabled = false;
+            if (total < Horas) {
+                total = total + 1;
+                inputField.value = currentValue + 1;
+                if (total === Horas) {
+                    incrementButton.disabled = true;
+                }
+                decrementButton.disabled = false;
+            }
         });
 
         counterContainer.appendChild(decrementButton);
@@ -123,17 +144,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     daysContainer.addEventListener('click', function (event) {
         const dayCell = event.target;
+        const text = document.getElementById('monthYear').textContent;
+        const month = text.replace(/\d+/g, '').trim(); // Extract month name
+        const monthIndex = monthNames.indexOf(month); // Get zero-based index
+        const year = text.match(/\d+/g)[0]; // Extract year
 
         if (!dayCell.classList.contains('day') || dayCell.classList.contains('disabled')) return;
         const dayNumber = dayCell.textContent.trim();
         const index = selectedDays.indexOf(dayNumber);
-
         if (index > -1) {
             // Day is already selected, so deselect it
             dayCell.classList.remove('selected');
             selectedDays.splice(index, 1);
-
-            // Remove the corresponding <p> and counter from the text block
+            diaMarcar = diaMarcar.filter(item => item !== `${monthIndex}/${dayNumber}/${year}`);
             const pElement = document.querySelector(`.text-block p[data-day="${dayNumber}"]`);
             if (pElement) {
                 textBlock.removeChild(pElement);
@@ -141,24 +164,11 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             if (!Marcar) { return; }
             // Get the error label element
-            const errorLabel = document.querySelector('.error');
+            
 
             if (selectedDays.length >= maxSelections) {
-                errorLabel.classList.remove('fadeOut'); // Remove fadeOut class if present
-                errorLabel.style.display = 'block';
-                errorLabel.classList.add('shake');
 
-                setTimeout(() => {
-                    errorLabel.classList.remove('shake');
-                }, 500); // Duration of the shake animation
-
-                setTimeout(() => {
-                    errorLabel.classList.add('fadeOut');
-                    setTimeout(() => {
-                        errorLabel.style.display = 'none';
-                        errorLabel.classList.remove('fadeOut');
-                    }, 2000);
-                }, 2000);
+                errorLabelShow('Periodo de 5 dias para realizar la reposición excedido.');
                 return;
             } else {
                 // Hide the error message
@@ -169,12 +179,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Select the day
             dayCell.classList.add('selected');
             selectedDays.push(dayNumber);
-            const text = document.getElementById('monthYear').textContent;
-            const month = text.replace(/\d+/g, '').trim(); // Extract month name
-            const monthIndex = monthNames.indexOf(month); // Get zero-based index
-            const year = text.match(/\d+/g)[0]; // Extract year
-            diaMarcar.push(`${monthIndex}/${dayNumber}/${year}`);
 
+            diaMarcar.push(`${monthIndex+1}/${dayNumber}/${year}`);
             // Create a new <p> element and counter
             const pElement = document.createElement('p');
             pElement.textContent = `${dayNumber} de ${document.getElementById('monthYear').textContent.replace(/\d+/g, '')}`;
@@ -185,7 +191,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
             textBlock.appendChild(pElement);
         }
+        function errorLabelShow(text) {
+            errorLabel.classList.remove('fadeOut');
+            errorLabel.textContent = text;
+            errorLabel.style.display = 'block';
+            errorLabel.classList.add('shake');
 
+            setTimeout(() => {
+                errorLabel.classList.remove('shake');
+            }, 500); // Duration of the shake animation
+
+            setTimeout(() => {
+                errorLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    errorLabel.style.display = 'none';
+                    errorLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000);
+            return;
+        }
         const calendar = document.getElementById('calendar');
         const submitButton = document.getElementById('Solicitar');
         if (selectedDays.length !== 0) {
@@ -199,6 +223,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 submitButton.style.display = 'none';
             }
         }
+        document.getElementById('Solicitar').addEventListener('click', event => {
+            // Crear un array para almacenar las horas
+            let horasArray = [];
+
+            // Iterar sobre los elementos con la clase 'contador' y agregar sus valores al array
+            Array.from(document.getElementsByClassName('contador')).forEach(function (input) {
+                horasArray.push(input.value);
+            });
+            let sumaHoras = horasArray.reduce((total, valor) => total + valor, 0);
+            if (sumaHoras == 0) {
+                errorLabelShow('Seleccione al menos una hora para realizar la reposición.');
+                return;
+            }
+            // Convertir el array a una cadena separada por comas
+            let horasString = horasArray.join(',');
+
+            // Asignar el valor a los campos correspondientes
+            document.getElementById('diasReposicion').value = diaMarcar;
+            document.getElementById('horasReposicion').value = horasString;
+
+            // Enviar el formulario
+            document.getElementById('counterForm').submit();
+        });
+
+  
+           
+        
     });
 
 });

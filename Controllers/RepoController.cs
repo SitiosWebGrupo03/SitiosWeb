@@ -22,6 +22,36 @@ namespace SitiosWeb.Controllers
             return RedirectToAction("SelectRepos", "Home");
             
         }
+        public IActionResult SolicitarRepo(string day, string hora)
+        {
+            var days = day.Split(",");
+            var horas = hora.Split(",");
+            var totalHoras = horas.Select(h => int.Parse(h)).ToArray();
+            var repo = new Reposiciones
+            {
+                // Id se generará automáticamente por la base de datos cuando se guarde la entidad.
+                Idcolaborador = Request.Cookies["Id"],
+                HorasReponer = totalHoras.Sum().ToString()
+            };
+
+            foreach (var (dayStr, horaStr) in days.Zip(horas, (d, h) => (d, h)))
+            {
+                if (double.TryParse(horaStr, out double horasValue) && horasValue > 0)
+                {
+                    repo.FechasReposicion.Add(new FechasReposicion
+                    {
+                        DiasReposicion = DateOnly.TryParse(dayStr, out var dateOnly) ? dateOnly : DateOnly.MinValue,
+                        HorasReposicion = horasValue
+                    });
+                }
+            }
+
+            _context.Reposiciones.Add(repo);
+            _context.SaveChanges();
+            TempData["SuccessMessage"] = "Solicitud de reposicion enviada correctamente.";
+
+            return RedirectToAction("SolicitarRepo", "Home");
+        }
         public IActionResult Denegar(int id)
         {
             var repo = _context.Reposiciones.FirstOrDefault(x => x.IdReposicion == id);
