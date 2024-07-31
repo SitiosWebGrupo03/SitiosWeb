@@ -27,6 +27,7 @@ namespace SitiosWeb.Controllers
             if (TempData["Error"] != null)
             {
                 TempData["Error"] = string.Empty;
+
             }
             
             var user = _context.Usuarios.FirstOrDefault(u => u.CodUsuario == username && u.Contrasena == password && u.Estado);
@@ -47,6 +48,20 @@ namespace SitiosWeb.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                CookieOptions options = new CookieOptions
+                {
+                    Expires = null
+                };
+
+            Response.Cookies.Append("Id", user.IdColaborador.ToString(), options);
+            Response.Cookies.Append("Nombre", nombreColaborador, options);
+            Response.Cookies.Append("Rol", nombreTipoUsuario, options);
+            Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);
+            Response.Cookies.Append("Departamentp", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento, options);
+
+
+
 
             return user.IdTipoUsuario switch
             {
