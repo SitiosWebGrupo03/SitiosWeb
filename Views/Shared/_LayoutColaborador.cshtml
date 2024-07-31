@@ -7,23 +7,26 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/menus.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-     <header class="header">
-            <img class="logo" src="~/images/logoMaster.jpeg">
-            <h1>Time Master</h1>
-            <img class="imagen" src="~/images/image.png">
-            <div>
-                <a href="">Inconsistencias </a>
+        
+    <header class="header">
+        <img class="logo" src="~/images/logoMaster.jpeg" alt="Logo">
 
-                <a href="">Horas Extras </a>
-
-                <a href="">Vacaciones Disponibles:  </a>
-
-            <p> <i class="fa-solid fa-user" style="width: 8px; height: 8px;"></i> @User.Identity.Name</p>
+        <div class="links">
+            <a href="#">Inconsistencias</a>
+            <a href="#">Horas Extras</a>
+            <a href="#">Vacaciones Disponibles</a>
         </div>
-    </header> 
-    <div class="containers">
+
+        <div class="user">
+            <div class="borde"><i class="fa-solid fa-user"></i></div>
+            <a href="#">@User.Identity.Name</a>
+        </div>
+    </header>
+    <div>
         <main role="main">
             @RenderBody()
         </main>
@@ -33,6 +36,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    
+
 </body>
 </html>

@@ -7,32 +7,30 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/menus.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
-     <header class="header">
-        <img class="logo" src="~/images/logoMaster.jpeg">
-        <h1>Time Master</h1>
-        <img class="imagen" src="~/images/image.png">
-        <div>
+    <header class="header">
+        <img class="logo" src="~/images/logoMaster.jpeg" alt="Logo">
+
+        <div class="links">
             <a href="">Incapacidades Nuevas </a>
             <a href="">Vacaciones Colectivas  </a>
-
-            <p> <i class="fa-solid fa-user" style="width: 8px; height: 8px;"></i> @User.Identity.Name</p>
-
         </div>
-    </header> 
-    <div class="container">
+
+        <div class="user">
+            <div class="borde"><i class="fa-solid fa-user"></i></div>
+            <a href="#">@User.Identity.Name</a>
+        </div>
+    </header>
+    <div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-       @*  <div class="container">
-            &copy; 2024 - Sitios_Version_2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div> *@
-    </footer>
+  
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

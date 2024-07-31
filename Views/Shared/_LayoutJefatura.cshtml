@@ -7,23 +7,27 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/menus.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
+
 
 </head>
 <body>
-     <header class="header">
-            <img class="logo" src="~/images/logoMaster.jpeg">
-            <h1>Time Master</h1>
-            <img class="imagen" src="~/images/image.png">
-            <div>
-                <a href="">Visualizacion de dias festivos </a>
+ 
+    <header class="header">
+        <img class="logo" src="~/images/logoMaster.jpeg" alt="Logo">
 
-                <a href="">Nuevas Vacaciones </a>
+        <div class="links">
+            <a href="">Visualizacion de dias festivos </a>
 
-            <a> <i class="fa-solid fa-user" style="width: 8px; height: 8px;"></i><br /> @User.Identity.Name</a>
+            <a href="">Nuevas Vacaciones </a>
+        </div>
 
-            </div>
-    </header> 
-    <div class="containers">
+        <div class="user">
+            <div class="borde"><i class="fa-solid fa-user"></i></div>
+            <a href="#">@User.Identity.Name</a>
+        </div>
+    </header>
+    <div>
         <main role="main">
             @RenderBody()
         </main>
