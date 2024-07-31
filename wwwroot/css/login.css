@@ -21,13 +21,19 @@ body {
         position: relative;
     }
 
-    .login-box .logoCuc img {
-        position: center;
-        margin: 0px;
-        padding-bottom: 10px;
-        width: 330px;
-        height: 300px;
+    .login-box .logoCuc {
+        padding: 40px 60px;
+        background-image: url("/images/logo.jpg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain; 
+        width: 200px;
+        height: 200px;
+        border: 0.5px solid;
+        margin-bottom: 30px;
     }
+
+    
 
     .login-box .user-box input {
         width: 100%;
