@@ -63,11 +63,6 @@ namespace SitiosWeb.Controllers
             return View("AccesoDenegado");
         }
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult solicitudRepo()
-        {
-            return View("~/Views/Paginas/reposiciones/SolicitudReposicion.cshtml");
-        }
-        [Authorize(Roles = "COLABORADOR")]
         public IActionResult solicitudHorasExtras()
         {
             return View("~/Views/Paginas/Gestion_Horas_Extas/SolicitudHorasExtras.cshtml");

@@ -5,7 +5,6 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="~/css/menuSup.css" />
-    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +13,7 @@
 <body>
     <div class="menu">
 
-        <a href="/Home/menuCRUD">
+        <a asp-controller="Home" asp-action="menuCRUD">
             <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
             Variables del Sistema<br><small>Cruds requeridos para el funcionamiento del sistema</small>
         </a>
