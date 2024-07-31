@@ -20,6 +20,14 @@ body {
     display: block;
     right: -30%;
 }
+.svg4 {
+    position: absolute;
+    top: 190vh;
+    left: 0;
+    z-index: -1;
+    display: block;
+    transform: rotate(180deg) 
+}
 
 .svg2 {
     position: absolute;
