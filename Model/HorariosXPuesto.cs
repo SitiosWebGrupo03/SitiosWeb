@@ -24,6 +24,4 @@ public partial class HorariosXPuesto
     public bool Estado { get; set; }
 
     public virtual Puestos? IdPuestoNavigation { get; set; }
-
-    public virtual ICollection<JustificacionesInconsistencias> JustificacionesInconsistencias { get; set; } = new List<JustificacionesInconsistencias>();
 }

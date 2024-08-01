@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SitiosWeb.Model.Inconsistencias>
+
+@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/menuInconsistencias.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inconsistencias</title>
+</head>
+<body>
+    <div class="wrapper">
+
+        <div id="contenedor">
+            <div id="contenido">
+
+                @foreach (var item in Model)
+                {
+                    <p>
+                        Fecha Inconsistencia: @item.FechaInconsistencia.ToString()
+                        <br />
+                        Identificación: @item.IdEmpleado?.ToString()
+                        <br />
+                        Nombre: @item.IdEmpleadoNavigation?.Nombre
+                        <br />
+                        Número de Justificación: @item.IdJustificacion?.ToString()
+                        <br />
+                        Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation?.Descripcion
+                        <br />
+@*                         <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificación</a>
+ *@                    </p>
+                }
+
+            </div>
+
+        </div>
+
+        <div id="pie">
+        </div>
+    </div>
+</body>
+
+</html>

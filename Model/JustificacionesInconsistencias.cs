@@ -21,11 +21,9 @@ public partial class JustificacionesInconsistencias
 
     public DateOnly FechaInconsistencia { get; set; }
 
-    public DateOnly FechaReposicion { get; set; }
-
     public string? Observaciones { get; set; }
 
-    public virtual HorariosXPuesto? Horario { get; set; }
+    public int? Reposicion { get; set; }
 
     public virtual Colaboradores? IdColaboradorNavigation { get; set; }
 
@@ -36,4 +34,6 @@ public partial class JustificacionesInconsistencias
     public virtual TiposInconsistencias? IdTipoInconsistenciaNavigation { get; set; }
 
     public virtual ICollection<Inconsistencias> Inconsistencias { get; set; } = new List<Inconsistencias>();
+
+    public virtual Reposiciones? ReposicionNavigation { get; set; }
 }

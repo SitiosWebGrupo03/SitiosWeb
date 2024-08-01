@@ -22,4 +22,6 @@ public partial class Reposiciones
     public virtual ICollection<FechasReposicion> FechasReposicion { get; set; } = new List<FechasReposicion>();
 
     public virtual Colaboradores IdcolaboradorNavigation { get; set; } = null!;
+
+    public virtual ICollection<JustificacionesInconsistencias> JustificacionesInconsistencias { get; set; } = new List<JustificacionesInconsistencias>();
 }

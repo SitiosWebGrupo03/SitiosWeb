@@ -305,26 +305,27 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Observaciones)
                 .HasMaxLength(350)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Horario).WithMany(p => p.JustificacionesInconsistencias)
-                .HasForeignKey(d => d.HorarioId)
-                .HasConstraintName("FK__justifica__Horar__4E88ABD4");
+            entity.Property(e => e.Reposicion).HasColumnName("reposicion");
 
             entity.HasOne(d => d.IdColaboradorNavigation).WithMany(p => p.JustificacionesInconsistencias)
                 .HasForeignKey(d => d.IdColaborador)
-                .HasConstraintName("FK__justifica__id_co__4AB81AF0");
+                .HasConstraintName("FK_justificaciones_inconsistencias_colaboradores");
 
             entity.HasOne(d => d.IdDepartamentoNavigation).WithMany(p => p.JustificacionesInconsistencias)
                 .HasForeignKey(d => d.IdDepartamento)
-                .HasConstraintName("FK__justifica__id_de__4CA06362");
+                .HasConstraintName("FK_justificaciones_inconsistencias_departamentos");
 
             entity.HasOne(d => d.IdPuestoNavigation).WithMany(p => p.JustificacionesInconsistencias)
                 .HasForeignKey(d => d.IdPuesto)
-                .HasConstraintName("FK__justifica__id_pu__4BAC3F29");
+                .HasConstraintName("FK_justificaciones_inconsistencias_puestos");
 
             entity.HasOne(d => d.IdTipoInconsistenciaNavigation).WithMany(p => p.JustificacionesInconsistencias)
                 .HasForeignKey(d => d.IdTipoInconsistencia)
-                .HasConstraintName("FK__justifica__idTip__4D94879B");
+                .HasConstraintName("FK_justificaciones_inconsistencias_tipos_inconsistencias");
+
+            entity.HasOne(d => d.ReposicionNavigation).WithMany(p => p.JustificacionesInconsistencias)
+                .HasForeignKey(d => d.Reposicion)
+                .HasConstraintName("FK_justificaciones_inconsistencias_Reposiciones");
         });
 
         modelBuilder.Entity<Marcas>(entity =>
@@ -546,7 +547,9 @@ public partial class Tiusr22plProyectoContext : DbContext
         {
             entity.HasKey(e => e.IdReposicion);
 
-            entity.Property(e => e.IdReposicion).HasColumnName("idReposicion");
+            entity.Property(e => e.IdReposicion)
+                .ValueGeneratedNever()
+                .HasColumnName("idReposicion");
             entity.Property(e => e.AprobadasPor)
                 .HasMaxLength(150)
                 .IsUnicode(false);
