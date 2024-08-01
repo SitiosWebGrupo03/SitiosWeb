@@ -19,9 +19,9 @@ namespace SitiosWeb.Controllers
         }
 
         // GET: Inconsistencias
-        public async Task<IActionResult> Index(string colaboradorId)
+        public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(colaboradorId))
+            if (string.IsNullOrEmpty(Request.Cookies["Id"]))
             {
                 return BadRequest("El ID del colaborador es requerido");
             }
@@ -29,7 +29,7 @@ namespace SitiosWeb.Controllers
             var colaborador = await _context.Colaboradores
                 .Include(c => c.IdPuestoNavigation)
                 .ThenInclude(p => p.IdDepartamentoNavigation)
-                .FirstOrDefaultAsync(c => c.Identificacion == colaboradorId);
+                .FirstOrDefaultAsync(c => c.Identificacion == Request.Cookies["Id"]);
 
             if (colaborador == null || colaborador.IdPuestoNavigation == null || colaborador.IdPuestoNavigation.IdDepartamentoNavigation == null)
             {
@@ -48,14 +48,6 @@ namespace SitiosWeb.Controllers
             return View(inconsistencias);
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    var tiusr22plProyectoContext = _context.Inconsistencias
-        //        .Include(i => i.IdEmpleadoNavigation)
-        //        .Include(i => i.IdJustificacionNavigation)
-        //        .Include(i => i.IdTipoInconsistenciaNavigation);
-        //    return View(await tiusr22plProyectoContext.ToListAsync());
-        //}
         public async Task<IActionResult> IndexPorIdentificacion(string colaboradorId)
         {
             if (string.IsNullOrEmpty(colaboradorId))
