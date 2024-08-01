@@ -58,6 +58,8 @@
     <None Include="Views\Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
     <None Include="Views\Paginas\RegistroEmpleados\Modificar.cshtml" />
     <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
+    <None Include="wwwroot\FaceModels\deploy.prototxt.txt" />
+    <None Include="wwwroot\FaceModels\res10_300x300_ssd_iter_140000.caffemodel" />
   </ItemGroup>
 
   <ItemGroup>
