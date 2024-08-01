@@ -21,23 +21,60 @@ namespace SitiosWeb.Controllers
         // GET: Inconsistencias
         public async Task<IActionResult> Index()
         {
-            var tiusr22plProyectoContext = _context.Inconsistencias
-                .Include(i => i.IdEmpleadoNavigation)
-                .Include(i => i.IdJustificacionNavigation)
-                .Include(i => i.IdTipoInconsistenciaNavigation);
-            return View(await tiusr22plProyectoContext.ToListAsync());
-        }
-        public async Task<IActionResult> IndexPorID(string idEmpleado)
-        {
-            var tiusr22plProyectoContext = _context.Inconsistencias
+            if (string.IsNullOrEmpty(Request.Cookies["Id"]))
+            {
+                return BadRequest("El ID del colaborador es requerido");
+            }
+
+            var colaborador = await _context.Colaboradores
+                .Include(c => c.IdPuestoNavigation)
+                .ThenInclude(p => p.IdDepartamentoNavigation)
+                .FirstOrDefaultAsync(c => c.Identificacion == Request.Cookies["Id"]);
+
+            if (colaborador == null || colaborador.IdPuestoNavigation == null || colaborador.IdPuestoNavigation.IdDepartamentoNavigation == null)
+            {
+                return NotFound("Colaborador o departamento no encontrado");
+            }
+
+            var departamentoId = colaborador.IdPuestoNavigation.IdDepartamentoNavigation.IdDepartamento;
+
+            var inconsistencias = await _context.Inconsistencias
                 .Include(i => i.IdEmpleadoNavigation)
                 .Include(i => i.IdJustificacionNavigation)
                 .Include(i => i.IdTipoInconsistenciaNavigation)
-                .Where(i => i.IdEmpleado == idEmpleado);
-            return View(await tiusr22plProyectoContext.ToListAsync());
+                .Where(i => i.IdEmpleadoNavigation.IdPuestoNavigation.IdDepartamentoNavigation.IdDepartamento == departamentoId)
+                .ToListAsync();
+
+            return View(inconsistencias);
         }
 
-        public async Task<IActionResult> IndexByName(string nombreEmpleado)
+        public async Task<IActionResult> IndexPorIdentificacion(string colaboradorId)
+        {
+            if (string.IsNullOrEmpty(colaboradorId))
+            {
+                return BadRequest("El ID del colaborador es requerido");
+            }
+
+            var colaborador = await _context.Colaboradores
+                .FirstOrDefaultAsync(c => c.Identificacion == colaboradorId);
+
+            if (colaborador == null)
+            {
+                return NotFound("Colaborador no encontrado");
+            }
+
+            var inconsistencias = await _context.Inconsistencias
+                .Include(i => i.IdEmpleadoNavigation)
+                .Include(i => i.IdJustificacionNavigation) 
+                .Include(i => i.IdTipoInconsistenciaNavigation) 
+                .Where(i => i.IdEmpleadoNavigation.Identificacion == colaboradorId) 
+                .ToListAsync();
+
+            return View(inconsistencias);
+        }
+
+
+        public async Task<IActionResult> IndexPorNombre(string nombreEmpleado)
         {
                 var tiusr22plProyectoContext = _context.Inconsistencias
                 .Include(i => i.IdEmpleadoNavigation)
