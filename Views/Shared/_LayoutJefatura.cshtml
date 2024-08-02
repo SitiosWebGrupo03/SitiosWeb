@@ -22,9 +22,13 @@
             <a href="">Nuevas Vacaciones </a>
         </div>
 
-        <div class="user">
+        <div class="user" style="position: relative;">
             <div class="borde"><i class="fa-solid fa-user"></i></div>
-            <a href="#">@User.Identity.Name<br />Jefatura</a>
+            <a href="#" onclick="toggleDropdown()">@User.Identity.Name<br />Jefatura</a>
+            <div id="dropdown" style="display:none; position: absolute; top: 100%; left: 0; background-color: white; border: 1px solid #ccc; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1000;">
+                <a style="display: block; padding: 8px; text-decoration: none; color: black;">Acerca de</a>
+                <a asp-controller="Home" asp-action="CerrarSesion" style="display: block; padding: 8px; text-decoration: none; color: black;">Cerrar sesión</a>
+            </div>
         </div>
     </header>
     <div>
@@ -40,3 +44,22 @@
    
 </body>
 </html>
+<script>
+    function toggleDropdown() {
+        var dropdown = document.getElementById('dropdown');
+        if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+            dropdown.style.display = 'block';
+        } else {
+            dropdown.style.display = 'none';
+        }
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.closest('.user')) {
+            var dropdown = document.getElementById('dropdown');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            }
+        }
+    }
+</script>

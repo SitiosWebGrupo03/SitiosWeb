@@ -37,6 +37,13 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Paginas/login/login.cshtml");
         }
+
+        public IActionResult CerrarSesion()
+        {
+            return View("~/Views/Home/Index.cshtml");
+        }
+
+
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult IndexColaborador()
         {
