@@ -1,7 +1,28 @@
-﻿@{
-    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
-}
+﻿@model SitiosWeb.Model.Usuarios
 
+@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    var inconsistencias = Model.IdColaboradorNavigation.Inconsistencias.Where(u => u.IdEmpleado == Model.IdColaborador && u.IdJustificacion != null);
+    var reposiciones = new List<int>(); // Initialize an empty list for reposiciones
+}
+@{
+    // Función para obtener la fecha de inicio y fin de la quincena actual
+    DateOnly GetStartOfCurrentHalfMonth()
+    {
+        var today = DateOnly.FromDateTime(DateTime.Now.Date);
+        return today.Day <= 15 ? new DateOnly(today.Year, today.Month, 1) : new DateOnly(today.Year, today.Month, 16);
+    }
+
+    DateOnly GetEndOfCurrentHalfMonth()
+    {
+        var today = DateOnly.FromDateTime(DateTime.Now.Date);
+        return today.Day <= 15 ? new DateOnly(today.Year, today.Month, 15) : new DateOnly(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
+    }
+
+    var startOfHalfMonth = GetStartOfCurrentHalfMonth();
+    var endOfHalfMonth = GetEndOfCurrentHalfMonth();
+    var twoDaysBeforeEndOfHalfMonth = endOfHalfMonth.AddDays(-2);
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,10 +55,32 @@
         </a>
 
 
-        <a asp-controller="Home" asp-action="SolicitarRepo">
-            <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
-            Reposiciones<br><small>Gestión de tus horas por reponer</small>
-        </a>
+    
+        @if (inconsistencias.Count() > 0)
+        {
+            @foreach (var item in inconsistencias)
+            {
+                if (item.IdJustificacionNavigation.ReponeTiempo.HasValue && item.IdJustificacionNavigation.ReponeTiempo.Value &&
+                item.FechaInconsistencia <= DateOnly.FromDateTime(DateTime.Now.Date) &&
+                item.FechaInconsistencia >= startOfHalfMonth &&
+                item.FechaInconsistencia <= endOfHalfMonth &&
+                item.FechaInconsistencia < twoDaysBeforeEndOfHalfMonth)
+                {
+                    reposiciones.Add(item.IdJustificacion.Value);              
+                    }
+            }
+            if (reposiciones.Any())
+            {
+                var reposicionesQuery = string.Join(",", reposiciones);
+                <a asp-controller="Home" asp-action="SolicitarRepo" asp-route-id="@reposicionesQuery">
+                            <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i>
+                            <i class="fa-solid fa-exclamation" style="color: red; width: 15px; height: 15px;"></i><br>
+                            Reposiciones<br><small>Gestión de tus horas por reponer</small>
+                        </a>
+            }
+
+        }
+        
         <a href="#festivos">
             <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
             Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
