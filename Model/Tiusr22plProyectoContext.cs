@@ -49,7 +49,7 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<Reposiciones> Reposiciones { get; set; }
 
-    public virtual DbSet<SolicitudHorasExtra> SolicitudHorasExtra { get; set; }
+    public DbSet<SolicitudHorasExtra> SolicitudHorasExtras { get; set; }
 
     public virtual DbSet<SolicitudPermiso> SolicitudPermiso { get; set; }
 

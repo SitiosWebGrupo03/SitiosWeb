@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\menuInconsistencias.cshtml" />
-    <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
+    <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitarHorasExtras.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
@@ -41,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
+    <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitarHorasExtras.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
