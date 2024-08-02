@@ -70,8 +70,6 @@ namespace SitiosWeb.Controllers
                 .Where(i => i.IdEmpleadoNavigation.Identificacion == colaboradorId) 
                 .ToListAsync();
 
-            return View(inconsistencias);
-        }
 
 
         public async Task<IActionResult> IndexPorNombre(string nombreEmpleado)

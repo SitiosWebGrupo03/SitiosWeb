@@ -68,7 +68,6 @@ namespace SitiosWeb.Controllers
 
 
 
-
             return user.IdTipoUsuario switch
             {
                 1 => RedirectToAction("IndexSupervisor", "Home"),
