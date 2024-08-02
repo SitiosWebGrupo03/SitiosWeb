@@ -1,46 +1,13 @@
-﻿body {
-    font-family: Montserrat;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background-color: white;
+﻿.container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
-
-    body::before, body::after {
-        content: '';
-        position: absolute;
-        border-radius: 50%;
-        background: #7154FC;
-        z-index: -1;
-    }
-
-    body::before {
-        width: 500px;
-        height: 500px;
-        top: -100px;
-        left: -100px;
-    }
-
-    body::after {
-        width: 300px;
-        height: 300px;
-        bottom: -50px;
-        right: -50px;
-    }
-
-.container {
-    display: flex;
+    flex-direction: column;
     width: 90%;
     max-width: 1200px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
+    margin: 0 auto;
 }
 
 .main-content {
@@ -82,11 +49,13 @@
         border: none;
         border-radius: 5px;
         background-color: #7154FC;
+        color: white;
         cursor: pointer;
     }
 
 .table-container {
     overflow-x: auto;
+    margin-bottom: 20px;
 }
 
 table {
@@ -107,13 +76,13 @@ th, td {
 }
 
 tbody tr:nth-child(even) {
-    background-color: #7154FC;
+    background-color: #f9f9f9;
 }
 
 .image {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+    position: relative;
+    margin-top: 20px;
+    text-align: right;
 }
 
     .image img {

@@ -1,32 +1,51 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using SitiosWeb.Model;
-using SitiosWeb.servicesclass;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SitiosWeb.servicesclass;
+using SitiosWeb.Models;
+using Microsoft.Data.SqlClient;
 
 namespace SitiosWeb.Controllers
 {
     public class MarcaController : Controller
     {
         private readonly Tiusr22plProyectoContext _context;
-        private readonly FaceIDService _faceRecognitionService;  // Añadir el servicio de reconocimiento facial
+        private readonly FaceIDService _faceRecognitionService;
 
         public MarcaController(Tiusr22plProyectoContext context)
         {
             _context = context;
             _faceRecognitionService = new FaceIDService();
         }
-      
+
+        [HttpGet]
+        public async Task<IActionResult> VisualizacionMarcas()
+        {
+            try
+            {
+                var marcas = await _context.Marcas
+                    .Include(m => m.IdEmpleadoNavigation) // Incluye los datos del colaborador si es necesario
+                    .ToListAsync();
+                return View("~/Views/Marcas/VisualizacionMarcas.cshtml", marcas);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> MarcaNormal(string codigo, string contrasena)
         {
             if (string.IsNullOrEmpty(codigo) || string.IsNullOrEmpty(contrasena))
             {
                 TempData["ErrorMessage"] = "Código y contraseña son requeridos.";
-                return RedirectToAction(nameof(MarcaNormal));  // Asegúrate de que "Index" sea el nombre correcto de la acción
+                return RedirectToAction(nameof(MarcaNormal));
             }
 
             var colaborador = _context.Usuarios
@@ -36,15 +55,15 @@ namespace SitiosWeb.Controllers
             {
                 try
                 {
-                    var marca = new Marcas
-                    {
-                        IdEmpleado = colaborador.IdColaborador,
-                        InicioJornada = DateTime.Now,
-                        FinJornada = null
-                    };
 
-                    _context.Marcas.Add(marca);
-                    await _context.SaveChangesAsync();
+                    var marca = await _context.Database.ExecuteSqlRawAsync(
+                        "EXEC RegistrarMarca @p0, @p1",
+                         parameters: new[] { colaborador.IdColaborador, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }
+
+           );
+
+
+
 
                     TempData["SuccessMessage"] = "Marca registrada exitosamente.";
                 }
@@ -59,44 +78,51 @@ namespace SitiosWeb.Controllers
             }
 
             return View("~/Views/Marcas/MarcaNormal.cshtml");
-            //return RedirectToAction(nameof(MarcaNormal));  // Asegúrate de que "MarcaNormal" sea el nombre correcto de la acción
         }
 
-        [Authorize(Roles = "JEFATURA")]
-
-        public IActionResult MarcaNormal()
+        [HttpPost("processImage")]
+        public async Task<IActionResult> ProcessImage([FromBody] JObject data)
         {
-           
-            return View("~/Views/Marcas/MarcaNormal.cshtml");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(string Marca)
-        {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (data == null || !data.ContainsKey("image"))
                 {
-                    // Lógica para guardar la marca en la base de datos
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Marca añadida exitosamente.";
-                    return View("~/Views/Marcas/MarcaFaceID.cshtml");
-                   // return RedirectToAction(nameof(MarcaFaceID));
+                    return BadRequest(new { message = "No se recibió una imagen." });
                 }
-                catch (Exception ex)
+
+                var result = _faceRecognitionService.ProcessImage(data);
+
+                if (result.StartsWith("No hay coincidencia de rostros.") || result.StartsWith("Error"))
                 {
-                    TempData["ErrorMessage"] = "Ocurrió un error al añadir la marca: " + ex.Message;
+                    return Ok(new { message = result });
                 }
+
+                // Registro de la marca
+                var identificacion = result; // Nombre del archivo, que es el número de cédula
+
+                // Aquí debes buscar el colaborador por identificacion
+                var colaborador = await _context.Colaboradores
+                    .FirstOrDefaultAsync(c => c.Identificacion == identificacion);
+
+                if (colaborador == null)
+                {
+                    return BadRequest(new { message = "Colaborador no encontrado." });
+                }
+
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC RegistrarMarca @p0, @p1",
+                    new SqlParameter("@p0", colaborador.Identificacion),
+                    new SqlParameter("@p1", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                );
+
+                return Ok(new { message = "Marca registrada exitosamente." });
             }
-            return View("~/Views/Marcas/MarcaFaceID.cshtml");
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
         }
 
-        [HttpPost]
-        public IActionResult ProcessImage([FromBody] JObject data)  // Cambiar a IActionResult y usar [FromBody] para deserializar automáticamente
-        {
-            var result = _faceRecognitionService.ProcessImage(data);
-            return Json(new { message = result });
-        }
     }
 }
 

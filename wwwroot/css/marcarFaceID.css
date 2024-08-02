@@ -1,14 +1,11 @@
-﻿
-/* General Styles */
-body {
-    font-family: Montserrat;
-    margin: 0;
-    padding: 0;
+﻿.container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    width: 1000px;
+    height: 600px;
     background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: auto;
 }
 
 .containerFace {
@@ -20,31 +17,9 @@ body {
 
 video {
     width: 200px;
-    height: 200px;
+    height: 150px;
     border: 1px solid black;
     border-radius: 10px;
-}
-
-h1 {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-}
-
-img {
-    width: 100%;
-}
-
-.container {
-    display: flex;
-    width: 1000px;
-    height: 600px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
 }
 
 /* Sidebar Styles */
@@ -70,6 +45,11 @@ img {
         padding: 10px 0;
         cursor: pointer;
     }
+
+        .sidebar-menu li a {
+            text-decoration: none;
+            color: inherit;
+        }
 
 /* Main Content Styles */
 .main-content {
@@ -155,4 +135,3 @@ img {
 .btn-exit {
     background-color: #7154FC;
 }
-
