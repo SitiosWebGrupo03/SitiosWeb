@@ -6,7 +6,6 @@ using SitiosWeb.Model;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SitiosWeb.servicesclass;
 using SitiosWeb.Models;
 using Microsoft.Data.SqlClient;
 
