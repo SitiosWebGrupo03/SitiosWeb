@@ -46,9 +46,12 @@ namespace SitiosWeb.Controllers
 
 
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult IndexColaborador()
+        public IActionResult IndexColaborador(Usuarios user)
         {
-            return View("~/Views/Paginas/Menu/menuColaborador.cshtml");
+            user.IdColaboradorNavigation = _context.Colaboradores.Find(user.IdColaborador);
+            user.IdColaboradorNavigation.JustificacionesInconsistencias= _context.JustificacionesInconsistencias.ToList();
+            user.IdColaboradorNavigation.Inconsistencias = _context.Inconsistencias.ToList();
+            return View("~/Views/Paginas/Menu/menuColaborador.cshtml", user);
         }
         [Authorize(Roles = "JEFATURA")]
         public IActionResult IndexJefatura()
@@ -195,12 +198,21 @@ namespace SitiosWeb.Controllers
             return View("/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
         }
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult SolicitarRepo() {
-            return View("/Views/Paginas/reposiciones/solicitarRepo.cshtml");
+        public IActionResult SolicitarRepo(string id)
+        {
+            // Split the comma-separated string and convert to a list of integers
+            var reposicionesList = id.Split(',').Select(int.Parse).ToList();
+
+            // Query the JustificacionesInconsistencias collection to filter by the given IDs
+            var repos = _context.JustificacionesInconsistencias
+                .Where(r => reposicionesList.Contains(r.IdJustificacion))
+                .ToList();
+
+            // Return the filtered results to the view
+            return View("/Views/Paginas/reposiciones/solicitarRepo.cshtml", repos);
         }
+
         [Authorize(Roles = "COLABORADOR")]
-
-
         public IActionResult SolicitarHorasExtras()
         {
             // Asegúrate de proporcionar una lista de tipos de actividades si es necesario
@@ -213,7 +225,7 @@ namespace SitiosWeb.Controllers
             if (ModelState.IsValid)
             {
                 solicitud.Estado = "Pendiente";
-                _context.SolicitudHorasExtras.Add(solicitud);
+                _context.SolicitudHorasExtra.Add(solicitud);
                 _context.SaveChanges();
                 return RedirectToAction("IndexColaborador");
             }
@@ -224,7 +236,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult ReporteHorasExtras()
         {
-            var solicitudes = _context.SolicitudHorasExtras
+            var solicitudes = _context.SolicitudHorasExtra
                                       .Include(s => s.IdSolicitanteNavigation)
                                       .Include(s => s.IdTipoActividadNavigation)
                                       .Where(s => s.Estado == "Pendiente")
@@ -236,7 +248,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult AprobarHorasExtras(int id)
         {
-            var solicitud = _context.SolicitudHorasExtras.Find(id);
+            var solicitud = _context.SolicitudHorasExtra.Find(id);
             if (solicitud != null)
             {
                 solicitud.Estado = "Aprobada";
@@ -249,7 +261,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult AprobarSolicitud(int id)
         {
-            var solicitud = _context.SolicitudHorasExtras.Find(id);
+            var solicitud = _context.SolicitudHorasExtra.Find(id);
             if (solicitud != null)
             {
                 solicitud.Estado = "Aprobada";

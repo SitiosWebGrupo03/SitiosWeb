@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 
 namespace SitiosWeb.Controllers
@@ -22,7 +23,7 @@ namespace SitiosWeb.Controllers
             return RedirectToAction("SelectRepos", "Home");
             
         }
-        public IActionResult SolicitarRepo(string day, string hora)
+        public async Task<IActionResult> SolicitarRepo(string day, string hora)
         {
             var days = day.Split(",");
             var horas = hora.Split(",");
@@ -49,7 +50,17 @@ namespace SitiosWeb.Controllers
             _context.Reposiciones.Add(repo);
             _context.SaveChanges();
             TempData["SuccessMessage"] = "Solicitud de reposicion enviada correctamente.";
+            repo.IdcolaboradorNavigation = _context.Colaboradores.Find(repo.Idcolaborador);
 
+            using HttpClient client = new HttpClient();
+            {
+                client.BaseAddress = new Uri("https://tiusr24pl.cuc-carrera-ti.ac.cr/correos/api/solicitud");
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var nombre = repo.IdcolaboradorNavigation.Nombre +" "+ repo.IdcolaboradorNavigation.Apellidos;
+                HttpResponseMessage response = await client.GetAsync($"?nombreEmpleado={nombre}&solicitud=reposicion&fechaInicio={days.First()}&fechaFin={days.Last()}&destinatario={Request.Cookies["Correo"]}&jefaturaDe={Request.Cookies["Departamento"]}");
+                
+            }
             return RedirectToAction("SolicitarRepo", "Home");
         }
         public IActionResult Denegar(int id)
@@ -59,6 +70,7 @@ namespace SitiosWeb.Controllers
             repo.Apobadas = false;
             repo.AprobadasPor = idAprobador;
             _context.SaveChanges();
+            
             return RedirectToAction("SelectRepos", "Home");
         }
     }

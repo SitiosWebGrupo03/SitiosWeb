@@ -35,7 +35,7 @@ namespace SitiosWeb.Controllers
                 Estado = "Pendiente" // Asigna un estado por defecto
             };
 
-            _context.SolicitudHorasExtras.Add(solicitud);
+            _context.SolicitudHorasExtra.Add(solicitud);
             _context.SaveChanges();
             TempData["SuccessMessage"] = "Solicitud de horas extras enviada correctamente.";
 
@@ -46,7 +46,7 @@ namespace SitiosWeb.Controllers
         [HttpPost]
         public IActionResult Aprobar(int id)
         {
-            var solicitud = _context.SolicitudHorasExtras.FirstOrDefault(x => x.IdSolicitud == id);
+            var solicitud = _context.SolicitudHorasExtra.FirstOrDefault(x => x.IdSolicitud == id);
             if (solicitud != null)
             {
                 solicitud.Estado = "Aprobada"; // Cambia el estado a 'Aprobada'
@@ -66,7 +66,7 @@ namespace SitiosWeb.Controllers
         [HttpPost]
         public IActionResult Denegar(int id)
         {
-            var solicitud = _context.SolicitudHorasExtras.FirstOrDefault(x => x.IdSolicitud == id);
+            var solicitud = _context.SolicitudHorasExtra.FirstOrDefault(x => x.IdSolicitud == id);
             if (solicitud != null)
             {
                 solicitud.Estado = "Denegada"; // Cambia el estado a 'Denegada'
@@ -86,7 +86,7 @@ namespace SitiosWeb.Controllers
         [HttpGet]
         public IActionResult Reporte()
         {
-            var solicitudes = _context.SolicitudHorasExtras
+            var solicitudes = _context.SolicitudHorasExtra
                 .Include(s => s.IdTipoActividadNavigation) // Incluye los detalles del tipo de actividad
                 .ToList();
 

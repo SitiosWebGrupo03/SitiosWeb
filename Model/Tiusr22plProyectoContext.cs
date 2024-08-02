@@ -49,7 +49,7 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<Reposiciones> Reposiciones { get; set; }
 
-    public DbSet<SolicitudHorasExtra> SolicitudHorasExtras { get; set; }
+    public virtual DbSet<SolicitudHorasExtra> SolicitudHorasExtra { get; set; }
 
     public virtual DbSet<SolicitudPermiso> SolicitudPermiso { get; set; }
 
@@ -551,9 +551,7 @@ public partial class Tiusr22plProyectoContext : DbContext
         {
             entity.HasKey(e => e.IdReposicion);
 
-            entity.Property(e => e.IdReposicion)
-                .ValueGeneratedNever()
-                .HasColumnName("idReposicion");
+            entity.Property(e => e.IdReposicion).HasColumnName("idReposicion");
             entity.Property(e => e.AprobadasPor)
                 .HasMaxLength(150)
                 .IsUnicode(false);
@@ -585,6 +583,10 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.ToTable("solicitud_horas_extra");
 
             entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
+            entity.Property(e => e.AprobadaPor).HasMaxLength(450);
+            entity.Property(e => e.Estado)
+                .HasMaxLength(20)
+                .HasDefaultValue("Pendiente");
             entity.Property(e => e.FechaSolicitud).HasColumnName("fecha_solicitud");
             entity.Property(e => e.Horas)
                 .HasColumnType("decimal(18, 0)")
