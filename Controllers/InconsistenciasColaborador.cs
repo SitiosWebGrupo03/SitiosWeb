@@ -62,7 +62,12 @@ namespace SitiosWeb.Controllers
             //    .ToListAsync();
 
             //return View(inconsistencias);
-             return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
+            var tiposInconsistencias = await _context.TiposInconsistencias
+               .Select(ti => new { ti.IdTipoInconsistencia, ti.Descripcion })
+               .ToListAsync();
+
+            ViewBag.TiposInconsistencias = tiposInconsistencias;
+            return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
         }
 
         public async Task<IActionResult> ListarTiposInconsistencias()
@@ -73,7 +78,8 @@ namespace SitiosWeb.Controllers
 
             ViewBag.TiposInconsistencias = tiposInconsistencias;
 
-            return View(tiposInconsistencias);
+            return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
+
         }
     }
 }
