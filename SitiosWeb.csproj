@@ -81,11 +81,6 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
   </ItemGroup>
 
 </Project>

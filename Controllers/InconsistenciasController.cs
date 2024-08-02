@@ -48,13 +48,13 @@ namespace SitiosWeb.Controllers
             return View(inconsistencias);
         }
 
-        public async Task<IActionResult> IndexPorIdentificacion(string colaboradorId)
+        public async Task<IActionResult> IndexPorIdentificacion(string identificacion)
         {
             var tiusr22plProyectoContext = _context.Inconsistencias
                .Include(i => i.IdEmpleadoNavigation)
                .Include(i => i.IdJustificacionNavigation)
                .Include(i => i.IdTipoInconsistenciaNavigation)
-               .Where(i => i.IdEmpleado == colaboradorId);
+               .Where(i => i.IdEmpleado == identificacion);
             return View("~/Views/Inconsistencias/InconsistenciasPorID.cshtml", await tiusr22plProyectoContext.ToListAsync());
         }
 
@@ -66,7 +66,7 @@ namespace SitiosWeb.Controllers
                 .Include(i => i.IdJustificacionNavigation)
                 .Include(i => i.IdTipoInconsistenciaNavigation)
                 .Where(i => i.IdEmpleadoNavigation.Nombre == nombreEmpleado);
-            return View("~/Views/Inconsistencias/InconsistenciasPorNombre.cshtml", await tiusr22plProyectoContext.ToListAsync());
+            return View("~/Views/Inconsistencias/InconsistenciasPorID.cshtml", await tiusr22plProyectoContext.ToListAsync());
         }
 
 
