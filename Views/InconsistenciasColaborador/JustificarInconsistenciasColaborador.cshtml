@@ -5,17 +5,9 @@
     var identificacion = Context.Request.Cookies["Id"];
     var puesto = Context.Request.Cookies["Puesto"];
     var departamento = Context.Request.Cookies["Departamento"];
-    var tiposInconsistencias = ViewBag.TiposInconsistencias as List<SitiosWeb.Model.TiposInconsistencias>;
-
-    if (tiposInconsistencias == null)
-    {
-        tiposInconsistencias = new List<SitiosWeb.Model.TiposInconsistencias>();
-    }
 }
 
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
