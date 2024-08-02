@@ -12,6 +12,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="~/css/justificaciones.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Justificar</title>
 </head>
 <body>
@@ -20,7 +21,7 @@
         <hr />
         <div class="row">
             <div class="col-md-6">
-                <form asp-action="ListarTiposInconsistencias" enctype="multipart/form-data">
+                <form asp-action="" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group">
@@ -29,29 +30,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="campoTexto2" class="control-label">Puesto:</label>
-                        <input type="text" id="campoTexto2" name="campoTexto2" class="form-control" value="@puesto" readonly />
+                        <label for="campoTexto1" class="control-label">Puesto:</label>
+                        <input type="text" id="campoTexto1" name="campoTexto1" class="form-control" value="@puesto" readonly />
                     </div>
 
                     <div class="form-group">
-                        <label for="campoTexto3" class="control-label">Departamento:</label>
-                        <input type="text" id="campoTexto3" name="campoTexto3" class="form-control" value="@departamento" readonly />
+                        <label for="campoTexto1" class="control-label">Departamento:</label>
+                        <input type="text" id="campoTexto1" name="campoTexto1" class="form-control" value="@departamento" readonly />
                     </div>
 
                     <div class="form-group">
                         <label for="comboBox3" class="control-label">Tipo Inconsistencia:</label>
                         <select id="comboBox3" name="comboBox3" class="form-control">
-                            @if (tiposInconsistencias != null && tiposInconsistencias.Any())
-                            {
-                                @foreach (var tipo in tiposInconsistencias)
-                                {
-                                    <option value="@tipo.IdTipoInconsistencia">@tipo.Descripcion</option>
-                                }
-                            }
-                            else
-                            {
-                                <option value="">No hay tipos de inconsistencia disponibles</option>
-                            }
+                            <option value="">Cargando...</option>
                         </select>
                     </div>
 
@@ -68,8 +59,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="campoTexto4" class="control-label">Horario en el que se incumplio:</label>
-                        <input type="text" id="campoTexto4" name="campoTexto4" class="form-control" />
+                        <label for="campoTexto2" class="control-label">Horario en el que se incumplio:</label>
+                        <input type="text" id="campoTexto2" name="campoTexto2" class="form-control" />
                     </div>
 
                     <div class="form-group">
@@ -94,6 +85,7 @@
             </div>
         </div>
     </div>
+
     @section Scripts {
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -101,3 +93,35 @@
     }
 </body>
 </html>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '@Url.Action("GetTiposInconsistencias", "InconsistenciasColaborador")',
+            method: 'GET',
+            success: function(data) {
+                var $comboBox = $('#comboBox3');
+                $comboBox.empty();
+
+                if (data && data.length > 0) {
+                    $.each(data, function(index, tipo) {
+                        $comboBox.append($('<option>', {
+                            value: tipo.idTipoInconsistencia,
+                            text: tipo.descripcion
+                        }));
+                    });
+                } else {
+                    $comboBox.append($('<option>', {
+                        value: '',
+                        text: 'No hay tipos de inconsistencia disponibles'
+                    }));
+                }
+            },
+            error: function() {
+                $('#comboBox3').append($('<option>', {
+                    value: '',
+                    text: 'Error cargando los tipos de inconsistencia'
+                }));
+            }
+        });
+    });
+</script>

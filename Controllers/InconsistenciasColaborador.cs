@@ -44,14 +44,15 @@ namespace SitiosWeb.Controllers
         public async Task<IActionResult> Justificar()
         {
             var tiposInconsistencias = await _context.TiposInconsistencias
-               .Select(ti => new { ti.IdTipoInconsistencia, ti.Descripcion })
-               .ToListAsync();
+                .Select(ti => new { ti.IdTipoInconsistencia, ti.Descripcion })
+                .ToListAsync();
 
             ViewBag.TiposInconsistencias = tiposInconsistencias;
+
             return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
         }
 
-        public async Task<IActionResult> ListarTiposInconsistencias()
+        public async Task<IActionResult> GetTiposInconsistencias()
         {
             var tiposInconsistencias = await _context.TiposInconsistencias
                 .Select(ti => new { ti.IdTipoInconsistencia, ti.Descripcion })
