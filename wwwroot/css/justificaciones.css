@@ -5,3 +5,9 @@ body {
     align-items:center;
 
 }
+
+.container {
+    color: #7154fc;
+    align-items: center;
+    left: 500px;
+}

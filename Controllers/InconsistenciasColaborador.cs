@@ -39,32 +39,6 @@ namespace SitiosWeb.Controllers
             return View(inconsistencias);
         }
 
-        public IActionResult Identificacion()
-        {
-            var idCookie = Request.Cookies["Id"];
-
-            ViewBag.IdCookie = idCookie;
-
-            return View();
-        }
-
-        public IActionResult Puesto()
-        {
-            var idCookie = Request.Cookies["Puesto"];
-
-            ViewBag.IdCookie = idCookie;
-
-            return View();
-        }
-
-        public IActionResult Departamento()
-        {
-            var idCookie = Request.Cookies["Departamento"];
-
-            ViewBag.IdCookie = idCookie;
-
-            return View();
-        }
         public async Task<IActionResult> Justificar()
         {
             //if (string.IsNullOrEmpty(Request.Cookies["Id"]))
@@ -88,7 +62,7 @@ namespace SitiosWeb.Controllers
             //    .ToListAsync();
 
             //return View(inconsistencias);
-            return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
+             return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
         }
 
         public async Task<IActionResult> ListarTiposInconsistencias()
@@ -99,7 +73,7 @@ namespace SitiosWeb.Controllers
 
             ViewBag.TiposInconsistencias = tiposInconsistencias;
 
-            return View(tiposInconsistencias.ToList());
+            return View(tiposInconsistencias);
         }
     }
 }
