@@ -1,1 +1,89 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    var identificacion = Context.Request.Cookies["Id"];
+    var puesto = Context.Request.Cookies["Puesto"];
+    var departamento = Context.Request.Cookies["Departamento"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/css/justificaciones.css" />
+    <title>Justificar</title>
+</head>
+<body>
+
+    <h2>Justificar Inconsistencia</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label for="campoTexto1" class="control-label">Identificacion:</label>
+                    <input type="text" id="campoTexto1" name="campoTexto1" class="form-control" value="@identificacion" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="campoTexto1" class="control-label">Puesto:</label>
+                    <input type="text" id="campoTexto1" name="campoTexto1" class="form-control" value="@puesto" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="campoTexto1" class="control-label">Departamento:</label>
+                    <input type="text" id="campoTexto1" name="campoTexto1" class="form-control" value="@departamento" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="comboBox3" class="control-label">Tipo Inconsistencia:</label>
+                    <select id="comboBox3" name="comboBox3" class="form-control">
+                        <option value="opcion1">Opción 1</option>
+                        <option value="opcion2">Opción 2</option>
+                        <option value="opcion3">Opción 3</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Repone Tiempo:</label>
+                    <div>
+                        <input type="radio" id="radioSi" name="radioButton" value="si" />
+                        <label for="radioSi">Sí</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="radioNo" name="radioButton" value="no" />
+                        <label for="radioNo">No</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="campoTexto2" class="control-label">Horario en el que se incumplio:</label>
+                    <input type="text" id="campoTexto2" name="campoTexto2" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha" class="control-label">Fecha de la Inconsistencia:</label>
+                    <input type="date" id="fecha" name="fecha" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="textArea" class="control-label">Observaciones:</label>
+                    <textarea id="textArea" name="textArea" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="archivo" class="control-label">Arrastrar Imagen o PDF de Evidencias:</label>
+                    <input type="file" id="archivo" name="archivo" class="form-control" accept=".pdf, .jpg, .jpeg, .png" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Enviar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

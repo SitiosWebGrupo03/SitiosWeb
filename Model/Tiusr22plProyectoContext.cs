@@ -291,7 +291,11 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.ToTable("justificaciones_inconsistencias");
 
             entity.Property(e => e.IdJustificacion).HasColumnName("id_Justificacion");
-            entity.Property(e => e.HorarioId).HasColumnName("HorarioID");
+            entity.Property(e => e.Evidencias).HasColumnName("evidencias");
+            entity.Property(e => e.HorarioId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("HorarioID");
             entity.Property(e => e.IdColaborador)
                 .HasMaxLength(150)
                 .IsUnicode(false)

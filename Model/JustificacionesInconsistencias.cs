@@ -17,13 +17,15 @@ public partial class JustificacionesInconsistencias
 
     public bool? ReponeTiempo { get; set; }
 
-    public int? HorarioId { get; set; }
+    public string? HorarioId { get; set; }
 
     public DateOnly FechaInconsistencia { get; set; }
 
     public string? Observaciones { get; set; }
 
     public int? Reposicion { get; set; }
+
+    public byte[]? Evidencias { get; set; }
 
     public virtual Colaboradores? IdColaboradorNavigation { get; set; }
 

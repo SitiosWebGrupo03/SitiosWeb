@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SitiosWeb.Models;
 using Microsoft.Data.SqlClient;
+using SitiosWeb.ServicesClass;
 
 namespace SitiosWeb.Controllers
 {
