@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\menuInconsistencias.cshtml" />
-    <Content Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
     <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
@@ -42,7 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
     <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtras.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
@@ -81,11 +79,6 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
   </ItemGroup>
 
 </Project>
