@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Marcas</title>
-    <link rel="stylesheet" href="~/css/marcarFaceID.css">
+    <link rel="stylesheet" type="text/css" href="~/css/marcarFaceID.css">
 </head>
 <body>
     <div class="container">
@@ -17,18 +17,18 @@
                 <h2>Opciones de marcas</h2>
             </div>
             <ul class="sidebar-menu">
-                <li>Por usuario</li>
-                <li>Identificación facial</li>
+                <li><a asp-controller="Home" asp-action="MarcaNormal">Por usuario</a></li>
+                <li>IdentificaciÃ³n facial</li>
             </ul>
         </aside>
         <main class="main-content">
             <h1>Control de Marcas</h1>
-            <div class="user-info">
-                <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Usuario">
-            </div>
+            @* <div class="user-info">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Usuario">
+            </div> *@
             <div class="check-in-out">
                 <div class="date">
-                    <h3>Fecha: xx/xx/xxxx</h3>
+                    <h3>Fecha:</h3>
                 </div>
                 <div class="containerFace">
                     <video id="video" autoplay></video>
@@ -37,13 +37,14 @@
                 <div class="time">
                     <div class="entry-time">
                         <h4>Hora de entrada</h4>
-                        <p>08:00 a.m.</p>
+                        <p></p>
                     </div>
                     <div class="exit-time">
                         <h4>Hora de salida</h4>
-                        <p>05:00 p.m.</p>
+                        <p></p>
                     </div>
                 </div>
+                <div id="status"></div>
                 <div class="buttons">
                     <button class="btn btn-entry" id="captureBtn">Marcar entrada</button>
                     <button class="btn btn-exit">Marcar salida</button>
@@ -51,71 +52,6 @@
             </div>
         </main>
     </div>
-    <script>
-        const video = document.getElementById('video');
-        const captureBtn = document.getElementById('captureBtn');
-        const statusDiv = document.getElementById('status');
-        const dateDiv = document.querySelector('.date h3');
-        const entryTimeDiv = document.querySelector('.entry-time p');
-        const exitTimeDiv = document.querySelector('.exit-time p');
-
-        async function initCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                video.srcObject = stream;
-            } catch (err) {
-                console.error('Error al acceder a la cámara: ', err);
-                if (statusDiv) {
-                    statusDiv.innerText = 'Error al acceder a la cámara: ' + err.message;
-                }
-            }
-        }
-
-        function updateDateTime() {
-            const now = new Date();
-            const dateString = now.toLocaleDateString('es-ES');
-            const timeString = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-
-            dateDiv.innerText = Fecha: ${ dateString };
-            entryTimeDiv.innerText = timeString;
-            exitTimeDiv.innerText = timeString; // Por defecto, la hora de salida es la misma que la de entrada
-        }
-
-        captureBtn.addEventListener('click', () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            const dataURL = canvas.toDataURL('image/jpeg');
-            fetch('/processImage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ image: dataURL })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (statusDiv) {
-                        statusDiv.innerText = data.message;
-                    }
-                })
-                .catch(err => {
-                    console.error('Error al procesar la imagen: ', err);
-                    if (statusDiv) {
-                        statusDiv.innerText = 'Error al procesar la imagen.';
-                    }
-                });
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initCamera();
-            updateDateTime();
-            // Actualizar la hora cada minuto
-            setInterval(updateDateTime, 60000);
-        });
-    </script>
+    <script src="~/js/Video.js"></script>
 </body>
 </html>

@@ -1,38 +1,21 @@
-﻿* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.background {
-    position: relative;
-    width: 100%;
-    height: 100%;
+﻿.background {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to right, #6a0dad 50%, #ffffff 50%);
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient( #6c63ff 25%, transparent 25%, transparent 50%, #6c63ff 50%, #6c63ff 75%, transparent 75%);
+    background-size: cover;
 }
 
 .header {
-    position: absolute;
-    top: 20px;
     text-align: center;
 }
 
     .header h1 {
         color: #ffffff;
         font-size: 24px;
+        margin-top: 20px;
     }
 
 .form-container {
@@ -40,10 +23,12 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 60%;
-    max-width: 600px;
+    width: 90%;
+    max-width: 900px;
     text-align: center;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
 }
 
     .form-container h2 {
@@ -53,11 +38,10 @@ body {
     }
 
 form {
+    width: 40%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    align-items: center;
-    justify-items: center;
 }
 
 .form-group {
@@ -77,30 +61,31 @@ form {
         border-radius: 4px;
     }
 
+
 .buttons {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     gap: 10px;
-    grid-column: 2 / 3;
+    grid-column: span 2;
 }
 
-    .buttons button {
-        background-color: #6a0dad;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 150px;
+.right-button {
+    background-color: #6a0dad;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 150px;
+}
+
+    .right-button:hover {
+        background-color: #5a00b0;
     }
 
-        .buttons button:hover {
-            background-color: #5a00b0;
-        }
-
 .submit-button {
-    grid-column: 1 / -1;
+    grid-column: span 2;
     text-align: center;
     margin-top: 20px;
 }

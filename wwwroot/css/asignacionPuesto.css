@@ -1,23 +1,7 @@
-﻿body {
-    margin: 0;
-    font-family: Montserrat;
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+﻿header h1 {
+    font-size: 24px;
+    color: #7154FC;
 }
-
-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-    header h1 {
-        font-size: 24px;
-        color: #7154FC;
-    }
 
 main {
     display: flex;
