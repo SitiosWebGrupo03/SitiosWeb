@@ -313,6 +313,7 @@ public partial class Tiusr22plProyectoContext : DbContext
 
             entity.HasOne(d => d.IdColaboradorNavigation).WithMany(p => p.JustificacionesInconsistencias)
                 .HasForeignKey(d => d.IdColaborador)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_justificaciones_inconsistencias_colaboradores");
 
             entity.HasOne(d => d.IdDepartamentoNavigation).WithMany(p => p.JustificacionesInconsistencias)
@@ -562,9 +563,6 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("IDColaborador");
-            entity.Property(e => e.RazonDenegacion)
-                .HasMaxLength(150)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.AprobadasPorNavigation).WithMany(p => p.ReposicionesAprobadasPorNavigation)
                 .HasForeignKey(d => d.AprobadasPor)

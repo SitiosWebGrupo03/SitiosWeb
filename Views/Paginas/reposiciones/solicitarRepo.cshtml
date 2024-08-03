@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<SitiosWeb.Model.JustificacionesInconsistencias>
 @{
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    var inconsistencias = Model.Where(x => x.Reposicion == null).ToList();
+
 }
 <head>
     <meta charset="UTF-8">
@@ -9,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
     <script src="~/js/reposicicionHorario.js"></script>
     <script src="~/js/marcarDias.js"></script>
-
 </head>
 
 <body>
@@ -30,6 +31,13 @@
 
             <div class="form">
                 <form class="text-block" id="counterForm" method="post" asp-action="SolicitarRepo" asp-controller="Repo">
+                    <label style="display:none;" id="justificacionLbl" for="justificacionSelect">Seleccione la inconsistencia a reponer:</label>
+                    <select style="display:none;" id="justificacionSelect" name="justificacionSelect">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.IdJustificacion">@item.FechaInconsistencia</option>
+                        }
+                    </select>
                     <input type="hidden" name="day" id="diasReposicion">
                     <input type="hidden" name="hora" id="horasReposicion">
                 </form>
