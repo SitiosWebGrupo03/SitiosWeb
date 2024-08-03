@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente de los colaboradores</title>
+    <link rel="stylesheet" href="~/css/AgregarColab.css">
+</head>
+<body>
+    <div class="background">
+        <div class="header">
+            <h1>Expediente de los colaboradores</h1>
+        </div>
+        <div class="form-photo-container">
+            <div class="form-container">
+                <h2>Formulario de nuevo colaborador</h2>
+                <form id="colaboradorForm">
+                    <div class="form-group">
+                        <label for="identificacion">Identificación</label>
+                        <input type="text" id="identificacion" name="identificacion">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" name="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" id="apellidos" name="apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha-nacimiento">Fecha Nacimiento</label>
+                        <input type="date" id="fecha-nacimiento" name="fecha-nacimiento">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha-contratacion">Fecha Contratación</label>
+                        <input type="date" id="fecha-contratacion" name="fecha-contratacion">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha-fin-contrato">Fecha Fin Contrato</label>
+                        <input type="date" id="fecha-fin-contrato" name="fecha-fin-contrato">
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo</label>
+                        <input type="email" id="correo" name="correo">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" name="telefono">
+                    </div>
+                    <div class="buttons">
+                        <button type="button" class="right-button">Asignar Puesto</button>
+                        <button type="button" class="right-button">Crear Usuario</button>
+                    </div>
+                    <div class="submit-button">
+                        <button type="button" id="btnCrear">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="photo-container">
+                <div class="photo-controls">
+                    <label id="removepho" style="display:none;">Eliminar Foto</label>
+                    <button type="button" id="removePhoto" style="display:none;">Eliminar</button>
+                </div>
+                <video id="camera" autoplay></video>
+                <img id="photo" style="display:none;">
+                <div class="photo-buttons">
+                    <button type="button" id="capturePhoto">Tomar Foto</button>
+                    <input type="file" id="uploadPhoto" accept="image/*">
+                    <button type="button" id="customUploadButton">Subir Imagen</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

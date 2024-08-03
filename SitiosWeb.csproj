@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -59,7 +60,7 @@
     <None Include="Views\Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
     <None Include="Views\Paginas\RegistroEmpleados\Modificar.cshtml" />
     <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
-    <None Include="wwwroot\FaceModels\deploy.prototxt.txt" />
+    <None Include="wwwroot\FaceModels\deploy.prototxt" />
     <None Include="wwwroot\FaceModels\res10_300x300_ssd_iter_140000.caffemodel" />
   </ItemGroup>
 

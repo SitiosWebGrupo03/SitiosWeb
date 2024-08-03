@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using OpenCvSharp;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Drawing;
 using System.IO;
@@ -82,7 +76,7 @@ namespace SitiosWeb.ServicesClass
                         }
 
                         // Comparar encodings faciales con todas las imágenes conocidas
-                        const double threshold = 10.0; // Ajusta este valor basado en pruebas
+                        const double threshold = 0.17; // Ajusta este valor basado en pruebas
                         foreach (var file in Directory.GetFiles(_knownImagesFolderPath))
                         {
                             var knownEncoding = GetFaceEncoding(file);
@@ -115,46 +109,47 @@ namespace SitiosWeb.ServicesClass
             Mat grayImage = new Mat();
             Cv2.CvtColor(image, grayImage, ColorConversionCodes.BGR2GRAY);
 
-
-            Mat filteredImage = new Mat();
-            Cv2.BilateralFilter(grayImage, filteredImage, 15, 75, 75);
-
-
+            // Aplicar CLAHE para mejorar el contraste
+            var clahe = Cv2.CreateCLAHE(clipLimit: 2.0, tileGridSize: new OpenCvSharp.Size(8, 8));
             Mat equalizedImage = new Mat();
-            Cv2.EqualizeHist(filteredImage, equalizedImage);
+            clahe.Apply(grayImage, equalizedImage);
 
             Cv2.CvtColor(equalizedImage, image, ColorConversionCodes.GRAY2BGR);
         }
+
 
         private Mat ExtractFaceFeatures(Mat image, Rect faceRect)
         {
             using (Mat face = new Mat(image, faceRect))
             {
+                // Alinea el rostro
                 Mat alignedFace = AlignFace(face);
 
-                // Redimensionar la imagen
                 Mat resizedFace = new Mat();
-                Cv2.Resize(alignedFace, resizedFace, new CvSize(300, 300));
+                Cv2.Resize(alignedFace, resizedFace, new CvSize(300, 300)); // Ajusta según el modelo de características faciales
 
-                // Crear el blob
+
                 Mat blob = CvDnn.BlobFromImage(resizedFace, 1.0, new CvSize(300, 300), new Scalar(104, 177, 123), true, false);
 
-                if (blob.Empty() || blob.Total() == 0)
+                if (blob.Empty())
                 {
-                    throw new Exception("El blob de la cara está vacío o tiene tamaño total cero.");
+                    throw new Exception("El blob creado a partir de la imagen redimensionada está vacío.");
                 }
+
 
                 _faceNet.SetInput(blob);
                 Mat result = _faceNet.Forward();
 
                 if (result.Empty() || result.Dims < 2)
                 {
-                    throw new Exception("La salida del modelo está vacía o tiene dimensiones incorrectas.");
+                    throw new Exception("El resultado del modelo está vacío o tiene dimensiones incorrectas.");
                 }
 
+                // Ajusta las dimensiones del resultado
                 return result.Reshape(1, 1).Clone();
             }
         }
+
 
         private Rect[] DetectFaces(Mat image)
         {
@@ -226,36 +221,55 @@ namespace SitiosWeb.ServicesClass
 
         private Mat AlignFace(Mat face)
         {
-            Mat grayFace = new Mat();
-            Cv2.CvtColor(face, grayFace, ColorConversionCodes.BGR2GRAY);
+            // No convertir a escala de grises aquí
+            // Mat grayFace = new Mat();
+            // Cv2.CvtColor(face, grayFace, ColorConversionCodes.BGR2GRAY);
 
-            string eyesCascadeFile = @"wwwroot\FaceModels\haarcascade_eye.xml";
-            var eyesCascade = new CascadeClassifier(eyesCascadeFile);
+            // Usar el modelo DNN directamente con la imagen en color
+            string configFile = @"wwwroot\FaceModels\deploy.prototxt";
+            string modelFile = @"wwwroot\FaceModels\res10_300x300_ssd_iter_140000.caffemodel";
+            var faceNet = CvDnn.ReadNetFromCaffe(configFile, modelFile);
 
-            var eyes = eyesCascade.DetectMultiScale(grayFace, scaleFactor: 1.1, minNeighbors: 5, minSize: new CvSize(30, 30));
+            // Crear un blob de la imagen en color
+            Mat inputBlob = CvDnn.BlobFromImage(face, 1.0, new CvSize(300, 300), new Scalar(104, 177, 123), true, false);
+            faceNet.SetInput(inputBlob);
 
-            if (eyes.Length < 2)
+            Mat detection = faceNet.Forward();
+            var faces = new List<Rect>();
+
+            for (int i = 0; i < detection.Size(2); i++)
+            {
+                float confidence = detection.At<float>(0, 0, i, 2);
+                if (confidence > 0.7)
+                {
+                    float x1 = detection.At<float>(0, 0, i, 3) * face.Cols;
+                    float y1 = detection.At<float>(0, 0, i, 4) * face.Rows;
+                    float x2 = detection.At<float>(0, 0, i, 5) * face.Cols;
+                    float y2 = detection.At<float>(0, 0, i, 6) * face.Rows;
+
+                    Rect rect = new Rect((int)x1, (int)y1, (int)(x2 - x1), (int)(y2 - y1));
+                    faces.Add(rect);
+                }
+            }
+
+            if (faces.Count == 0)
             {
                 return face.Clone();
             }
 
-            Rect leftEye = eyes[0];
-            Rect rightEye = eyes[1];
+            // Tomar el primer rostro detectado
+            Rect faceRect = faces[0];
 
-            OpenCvSharp.Point leftEyeCenter = new OpenCvSharp.Point(leftEye.X + leftEye.Width / 2, leftEye.Y + leftEye.Height / 2);
-            OpenCvSharp.Point rightEyeCenter = new OpenCvSharp.Point(rightEye.X + rightEye.Width / 2, rightEye.Y + rightEye.Height / 2);
+            // Extraer el rostro de la imagen
+            Mat alignedFace = new Mat(face, faceRect);
 
-            double deltaX = rightEyeCenter.X - leftEyeCenter.X;
-            double deltaY = rightEyeCenter.Y - leftEyeCenter.Y;
-            double angle = Math.Atan2(deltaY, deltaX) * 180.0 / Math.PI;
+            // Redimensionar el rostro para que tenga un tamaño estándar
+            Mat resizedFace = new Mat();
+            Cv2.Resize(alignedFace, resizedFace, new CvSize(300, 300));
 
-            Mat rotationMatrix = Cv2.GetRotationMatrix2D(leftEyeCenter, angle, 1.0);
-
-            Mat rotatedFace = new Mat();
-            Cv2.WarpAffine(face, rotatedFace, rotationMatrix, face.Size(), InterpolationFlags.Linear, BorderTypes.Reflect101);
-
-            return rotatedFace;
+            return resizedFace;
         }
+
 
         private double CompareFaceFeatures(Mat knownEncoding, Mat unknownEncoding)
         {
@@ -269,9 +283,34 @@ namespace SitiosWeb.ServicesClass
                 throw new ArgumentException("Los encodings deben tener el mismo tamaño.");
             }
 
-            Mat diff = knownEncoding - unknownEncoding;
-            double distance = Cv2.Norm(diff, NormTypes.L2);
-            return distance;
+            // Normalizar los vectores
+            Cv2.Normalize(knownEncoding, knownEncoding);
+            Cv2.Normalize(unknownEncoding, unknownEncoding);
+
+            // Calcular el producto punto
+            Mat dotProduct = new Mat();
+            Cv2.Multiply(knownEncoding, unknownEncoding, dotProduct);
+            Scalar sumDotProduct = Cv2.Sum(dotProduct);
+
+            // Calcular la magnitud de los vectores
+            double normKnown = Cv2.Norm(knownEncoding);
+            double normUnknown = Cv2.Norm(unknownEncoding);
+
+            if (normKnown == 0 || normUnknown == 0)
+            {
+                return double.MaxValue; // Evita la división por cero
+            }
+
+            // Calcular la similitud del coseno
+            double cosineSimilarity = sumDotProduct.Val0 / (normKnown * normUnknown);
+
+            // Convertir similitud del coseno a distancia
+            double cosineDistance = 1 - cosineSimilarity;
+
+            return cosineDistance;
         }
+
+
+
     }
 }

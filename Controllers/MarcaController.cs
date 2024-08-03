@@ -40,30 +40,25 @@ namespace SitiosWeb.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> MarcaNormal(string codigo, string contrasena)
+        public async Task<IActionResult> MarcaNormal(string codigo)
         {
-            if (string.IsNullOrEmpty(codigo) || string.IsNullOrEmpty(contrasena))
+            if (string.IsNullOrEmpty(codigo))
             {
-                TempData["ErrorMessage"] = "Código y contraseña son requeridos.";
+                TempData["ErrorMessage"] = "Código es requerido.";
                 return RedirectToAction(nameof(MarcaNormal));
             }
 
             var colaborador = _context.Usuarios
-                .FirstOrDefault(c => c.IdColaborador == codigo && c.Contrasena == contrasena);
+                .FirstOrDefault(c => c.IdColaborador == codigo);
 
             if (colaborador != null)
             {
                 try
                 {
-
                     var marca = await _context.Database.ExecuteSqlRawAsync(
                         "EXEC RegistrarMarca @p0, @p1",
-                         parameters: new[] { colaborador.IdColaborador, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }
-
-           );
-
-
-
+                        parameters: new[] { colaborador.IdColaborador, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }
+                    );
 
                     TempData["SuccessMessage"] = "Marca registrada exitosamente.";
                 }
@@ -74,26 +69,27 @@ namespace SitiosWeb.Controllers
             }
             else
             {
-                TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
+                TempData["ErrorMessage"] = "Usuario no encontrado.";
             }
 
             return View("~/Views/Marcas/MarcaNormal.cshtml");
         }
+
 
         [HttpPost("processImage")]
         public async Task<IActionResult> ProcessImage([FromBody] JObject data)
         {
             try
             {
-                if (data == null || !data.ContainsKey("image"))
-                {
+                if (data == null||!data.ContainsKey("image"))
+         {
                     return BadRequest(new { message = "No se recibió una imagen." });
                 }
 
                 var result = _faceRecognitionService.ProcessImage(data);
 
-                if (result.StartsWith("No hay coincidencia de rostros.") || result.StartsWith("Error"))
-                {
+                if (result.StartsWith("No hay coincidencia de rostros.")  ||result.StartsWith("Error"))
+         {
                     return Ok(new { message = result });
                 }
 
@@ -115,15 +111,16 @@ namespace SitiosWeb.Controllers
                     new SqlParameter("@p1", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 );
 
-                return Ok(new { message = "Marca registrada exitosamente." });
+                return Ok(new { message = $"Marca registrada exitosamente para: {colaborador.Nombre} cedula: {colaborador.Identificacion} " });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "Error: " + ex.Message });
             }
         }
+    }
 
     }
-}
+
 
 

@@ -1,6 +1,12 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
 }
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var userId = HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+   }
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,7 +21,7 @@
             <h2>Opciones de marcas</h2>
             <ul>
                 <li>Por usuario</li>
-                <li><a asp-controller="Home" asp-action="FaceIndex">FaceID</a></li>
+                <li><a asp-controller="Home" asp-action="FaceIndex">Marca con Renocimiento Facial</a></li>
                
             </ul>
         </aside>
@@ -38,21 +44,16 @@
             }
             <form asp-controller="Marca" asp-action="MarcaNormal" method="post">
                 <div class="form-group">
-                    <label for="codigo">Código</label>
-                    <input type="text" id="codigo" name="codigo" required>
+                    <label for="codigo">Codigo</label>
+                    <input type="text" id="codigo" style="border: none; background-color: white; text-align: center;" name="codigo" value="@userId" class="form-control" readonly />
                 </div>
-                <div class="form-group">
-                    <label for="contrasena">Contraseña</label>
-                    <input type="password" id="contrasena" name="contrasena" required>
-                </div>
+
                 <div class="buttons">
                     <button type="submit">Marcar entrada</button>
                 </div>
             </form>
 
-         @*    <div class="image">
-                <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Person Image">
-            </div> *@
+       
         </main>
     </div>
   
