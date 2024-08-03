@@ -13,10 +13,8 @@
 </head>
 <body>
     <div class="wrapper">
-
         <div id="contenedor">
             <div id="contenido">
-
                 @foreach (var item in Model)
                 {
                     <p>
@@ -31,16 +29,12 @@
                         Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation?.Descripcion
                         <br />
                         <a asp-action="Justificar" asp-route-id="@item.IdInconsistencia">Justificar</a>
-                     </p>
+                    </p>
                 }
-
             </div>
-
         </div>
-
         <div id="pie">
         </div>
     </div>
 </body>
-
 </html>

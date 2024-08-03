@@ -41,14 +41,9 @@ namespace SitiosWeb.Controllers
 
 
 
-        public async Task<IActionResult> Justificar()
+        public async Task<IActionResult> Justificar(int id)
         {
-            var tiposInconsistencias = await _context.TiposInconsistencias
-                .Select(ti => new { ti.IdTipoInconsistencia, ti.Descripcion })
-                .ToListAsync();
-
-            ViewBag.TiposInconsistencias = tiposInconsistencias;
-
+            ViewBag.IdInconsistencia = id;
             return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
         }
 
