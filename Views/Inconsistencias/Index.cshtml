@@ -43,7 +43,7 @@
             </div>
 
             <div class="consultas">
-                <form asp-controller="Inconsistencias" asp-action="IndexByName" method="post">
+                <form asp-controller="Inconsistencias" asp-action="IndexPorNombre" method="post">
                     <div class="form-group">
                         <label for="nombreEmpleado" class="control-label">Nombre</label>
                         <input type="text" id="nombreEmpleado" name="nombreEmpleado" class="form-control" />
@@ -51,10 +51,10 @@
                     </div>
                 </form>
 
-                <form asp-controller="Inconsistencias" asp-action="IndexPorId" method="post">
+                <form asp-controller="Inconsistencias" asp-action="IndexPorIdentificacion" method="post">
                     <div class="form-group">
-                        <label for="idEmpleado" class="control-label">ID</label>
-                        <input type="text" id="idEmpleado" name="idEmpleado" class="form-control" />
+                        <label for="idEmpleado" class="control-label">Identificacion</label>
+                        <input type="text" id="idEmpleado" name="identificacion" class="form-control" />
                         <button type="submit" class="btn btn-primary">Filtrar</button>
                     </div>
                 </form>
@@ -69,17 +69,3 @@
 </body>
 
 </html>
-
-<script>
-
-    document.getElementById('filtrarLink').addEventListener('click', function (event) {
-        event.preventDefault();
-        var nombre = document.getElementById('idNombre').value;
-        if (nombre) {
-            var url = '/Inconsistencias/IndexByName/' + encodeURIComponent(nombre);
-            window.location.href = url;
-        } else {
-            alert('Por favor, ingrese un nombre.');
-        }
-    });
-</script>

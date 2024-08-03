@@ -9,6 +9,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SitiosWeb.Controllers
 {
@@ -45,9 +46,12 @@ namespace SitiosWeb.Controllers
 
 
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult IndexColaborador()
+        public IActionResult IndexColaborador(Usuarios user)
         {
-            return View("~/Views/Paginas/Menu/menuColaborador.cshtml");
+            user.IdColaboradorNavigation = _context.Colaboradores.Find(user.IdColaborador);
+            user.IdColaboradorNavigation.JustificacionesInconsistencias= _context.JustificacionesInconsistencias.ToList();
+            user.IdColaboradorNavigation.Inconsistencias = _context.Inconsistencias.ToList();
+            return View("~/Views/Paginas/Menu/menuColaborador.cshtml", user);
         }
         [Authorize(Roles = "JEFATURA")]
         public IActionResult IndexJefatura()
@@ -70,11 +74,7 @@ namespace SitiosWeb.Controllers
             return View("AccesoDenegado");
         }
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult solicitudHorasExtras()
-        {
-            return View("~/Views/Paginas/Gestion_Horas_Extas/SolicitudHorasExtras.cshtml");
-        }
-        [Authorize(Roles = "COLABORADOR")]
+       
         public IActionResult indicadoresColab()
         {
             return View("~/Views/Paginas/indicadores/indicadorescolaborador.cshtml");
@@ -97,6 +97,7 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/MarcarFaceID.cshtml");
         }
+        [Authorize(Roles = "JEFATURA")]
 
         [Authorize(Roles = "JEFATURA")]
         public IActionResult AsignarPuesto()
@@ -104,8 +105,10 @@ namespace SitiosWeb.Controllers
             return View("~/Views/ExpedienteEmpleado/AsignarPuesto.cshtml");
         }
 
+       
 
-        [Authorize(Roles = "JEFATURA")]
+
+
         public IActionResult VistaInconsistencias()
         {
             var inconsistencias = _context.Inconsistencias
@@ -207,10 +210,77 @@ namespace SitiosWeb.Controllers
             return View("/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
         }
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult SolicitarRepo() {
-            return View("/Views/Paginas/reposiciones/solicitarRepo.cshtml");
+        public IActionResult SolicitarRepo(string id)
+        {
+            // Split the comma-separated string and convert to a list of integers
+            var reposicionesList = id.Split(',').Select(int.Parse).ToList();
+
+            // Query the JustificacionesInconsistencias collection to filter by the given IDs
+            var repos = _context.JustificacionesInconsistencias
+                .Where(r => reposicionesList.Contains(r.IdJustificacion))
+                .ToList();
+
+            // Return the filtered results to the view
+            return View("/Views/Paginas/reposiciones/solicitarRepo.cshtml", repos);
         }
 
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult SolicitarHorasExtras()
+        {
+            // Asegúrate de proporcionar una lista de tipos de actividades si es necesario
+            ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
+            return View("~/Pages/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
+        }
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult SolicitarHorasExtras(SolicitudHorasExtra solicitud)
+        {
+            if (ModelState.IsValid)
+            {
+                solicitud.Estado = "Pendiente";
+                _context.SolicitudHorasExtra.Add(solicitud);
+                _context.SaveChanges();
+                return RedirectToAction("IndexColaborador");
+            }
+            ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
+            return View(solicitud);
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult ReporteHorasExtras()
+        {
+            var solicitudes = _context.SolicitudHorasExtra
+                                      .Include(s => s.IdSolicitanteNavigation)
+                                      .Include(s => s.IdTipoActividadNavigation)
+                                      .Where(s => s.Estado == "Pendiente")
+                                      .ToList();
+
+            return View("/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml", solicitudes);
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult AprobarHorasExtras(int id)
+        {
+            var solicitud = _context.SolicitudHorasExtra.Find(id);
+            if (solicitud != null)
+            {
+                solicitud.Estado = "Aprobada";
+                solicitud.AprobadaPor = User.Identity.Name; // O cualquier lógica para asignar quien aprobó
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ReporteHorasExtras");
+        }
+
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult AprobarSolicitud(int id)
+        {
+            var solicitud = _context.SolicitudHorasExtra.Find(id);
+            if (solicitud != null)
+            {
+                solicitud.Estado = "Aprobada";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("IndexColaborador");
+        }
     }
 }
 

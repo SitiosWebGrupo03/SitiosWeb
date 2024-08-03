@@ -11,3 +11,84 @@ body {
     align-items: center;
     left: 500px;
 }
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.error {
+    color: white;
+    width: 635px;
+    background-color: #ff6666;
+    margin: 0px 5px 5px 5px;
+    padding: 7px;
+    border-radius: 5px;
+    display: none;
+    opacity: 1;
+    transition: opacity 2s;
+}
+
+    .error.shake {
+        animation: shake 0.5s;
+    }
+
+    .error.fadeOut {
+        animation: fadeOut 2s;
+        opacity: 0;
+    }
+
+.success {
+    color: white;
+    width: 635px;
+    background-color: #8ae5aa;
+    margin: 0px 5px 5px 5px;
+    padding: 7px;
+    border-radius: 5px;
+    display: none;
+    opacity: 1;
+    transition: opacity 2s;
+}
+
+    .success.fadeIn {
+        animation: fadeIn 2s;
+        opacity: 1;
+    }
+
+    .success.fadeOut {
+        animation: fadeOut 2s;
+        opacity: 0;
+    }

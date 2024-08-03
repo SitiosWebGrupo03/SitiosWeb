@@ -5,16 +5,15 @@
     var identificacion = Context.Request.Cookies["Id"];
     var puesto = Context.Request.Cookies["Puesto"];
     var departamento = Context.Request.Cookies["Departamento"];
-    var tiposInconsistencias = ViewBag.TiposInconsistencias as IEnumerable<dynamic>;
+    var idInconsistencia = ViewBag.IdInconsistencia;
 }
 
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="~/css/justificaciones.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Justificar</title>
 </head>
 <body>
@@ -23,56 +22,52 @@
         <hr />
         <div class="row">
             <div class="col-md-6">
-                <form asp-action="ListarTiposInconsistencias" enctype="multipart/form-data">
+                <label class="success" style="display: none;"></label>
+                <form asp-controller="InconsistenciasColaborador" asp-action="Justificacion" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group">
                         <label for="campoTexto1" class="control-label">Identificacion:</label>
-                        <input type="text" id="campoTexto1" name="campoTexto1" class="form-control" value="@identificacion" readonly />
+                        <input type="text" id="campoTexto1" name="identificacion" class="form-control" value="@identificacion" readonly />
                     </div>
 
                     <div class="form-group">
                         <label for="campoTexto2" class="control-label">Puesto:</label>
-                        <input type="text" id="campoTexto2" name="campoTexto2" class="form-control" value="@puesto" readonly />
+                        <input type="text" id="campoTexto2" name="id_puesto" class="form-control" value="@puesto" readonly />
                     </div>
 
                     <div class="form-group">
                         <label for="campoTexto3" class="control-label">Departamento:</label>
-                        <input type="text" id="campoTexto3" name="campoTexto3" class="form-control" value="@departamento" readonly />
+                        <input type="text" id="campoTexto3" name="iddepartamento" class="form-control" value="@departamento" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idInconsistencia" class="control-label">ID Inconsistencia:</label>
+                        <input type="text" id="idInconsistencia" name="idInconsistencia" class="form-control" value="@idInconsistencia" readonly />
                     </div>
 
                     <div class="form-group">
                         <label for="comboBox3" class="control-label">Tipo Inconsistencia:</label>
-                        <select id="comboBox3" name="comboBox3" class="form-control">
-                            @if (tiposInconsistencias != null && tiposInconsistencias.Any())
-                            {
-                                @foreach (var tipo in tiposInconsistencias)
-                                {
-                                    <option value="@tipo.IdTipoInconsistencia">@tipo.Descripcion</option>
-                                }
-                            }
-                            else
-                            {
-                                <option value="">No hay tipos de inconsistencia disponibles</option>
-                            }
+                        <select id="comboBox3" name="idtipoinconsistencia" class="form-control">
+                            <option value="">Cargando...</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Repone Tiempo:</label>
                         <div>
-                            <input type="radio" id="radioSi" name="radioButton" value="si" />
+                            <input type="radio" id="radioSi" name="reponetiempo" value="si" />
                             <label for="radioSi">Sí</label>
                         </div>
                         <div>
-                            <input type="radio" id="radioNo" name="radioButton" value="no" />
+                            <input type="radio" id="radioNo" name="reponetiempo" value="no" />
                             <label for="radioNo">No</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="campoTexto4" class="control-label">Horario en el que se incumplio:</label>
-                        <input type="text" id="campoTexto4" name="campoTexto4" class="form-control" />
+                        <input type="text" id="campoTexto4" name="horarioid" class="form-control" />
                     </div>
 
                     <div class="form-group">
@@ -82,21 +77,22 @@
 
                     <div class="form-group">
                         <label for="textArea" class="control-label">Observaciones:</label>
-                        <textarea id="textArea" name="textArea" class="form-control"></textarea>
+                        <textarea id="textArea" name="observaciones" class="form-control"></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="archivo" class="control-label">Arrastrar Imagen o PDF de Evidencias:</label>
-                        <input type="file" id="archivo" name="archivo" class="form-control" accept=".pdf, .jpg, .jpeg, .png" />
+                        <input type="file" id="archivo" name="evidencia" class="form-control" accept=".pdf, .jpg, .jpeg, .png" />
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="Enviar" class="btn btn-primary" />
+                        <input type="submit" value="Enviar" onclick="validateForm()" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     @section Scripts {
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -104,3 +100,83 @@
     }
 </body>
 </html>
+
+<script>
+
+
+    function validateForm() {
+        const errorLabel = document.getElementById('errorLabel');
+
+        const hasError = true;
+
+        if (hasError) {
+            errorLabelShow("Hubo un error en el formulario");
+            return false; 
+        }
+        return true; 
+    }
+
+    function errorLabelShow(text) {
+        const errorLabel = document.getElementById('errorLabel');
+        errorLabel.classList.remove('fadeOut');
+        errorLabel.textContent = text;
+        errorLabel.style.display = 'block';
+        errorLabel.classList.add('shake');
+
+        setTimeout(() => {
+            errorLabel.classList.remove('shake');
+        }, 500);
+
+        setTimeout(() => {
+            errorLabel.classList.add('fadeOut');
+            setTimeout(() => {
+                errorLabel.style.display = 'none';
+                errorLabel.classList.remove('fadeOut');
+            }, 2000);
+        }, 2000);
+    }
+
+    $(document).ready(function() {
+        $.ajax({
+            url: '@Url.Action("GetTiposInconsistencias", "InconsistenciasColaborador")',
+            method: 'GET',
+            success: function(data) {
+                var $comboBox = $('#comboBox3');
+                $comboBox.empty();
+
+                if (data && data.length > 0) {
+                    $.each(data, function(index, tipo) {
+                        $comboBox.append($('<option>', {
+                            value: tipo.idTipoInconsistencia,
+                            text: tipo.descripcion
+                        }));
+                    });
+                } else {
+                    $comboBox.append($('<option>', {
+                        value: '',
+                        text: 'No hay tipos de inconsistencia disponibles'
+                    }));
+                }
+            },
+            error: function() {
+                $('#comboBox3').append($('<option>', {
+                    value: '',
+                    text: 'Error cargando los tipos de inconsistencia'
+                }));
+            }
+        });
+    });
+
+    document.getElementById('justificacionForm').addEventListener('submit', function (event) {
+        var fechaInput = document.getElementById('fecha');
+        var fechaValor = new Date(fechaInput.value);
+
+        if (!isNaN(fechaValor)) {
+            var formattedDate = fechaValor.getFullYear() + '-' +
+                ('0' + (fechaValor.getMonth() + 1)).slice(-2) + '-' +
+                ('0' + fechaValor.getDate()).slice(-2);
+            fechaInput.value = formattedDate;
+        }
+    });
+
+</script>

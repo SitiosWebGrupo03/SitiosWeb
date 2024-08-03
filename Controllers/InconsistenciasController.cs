@@ -48,29 +48,14 @@ namespace SitiosWeb.Controllers
             return View(inconsistencias);
         }
 
-        public async Task<IActionResult> IndexPorIdentificacion(string colaboradorId)
+        public async Task<IActionResult> IndexPorIdentificacion(string identificacion)
         {
-            if (string.IsNullOrEmpty(colaboradorId))
-            {
-                return BadRequest("El ID del colaborador es requerido");
-            }
-
-            var colaborador = await _context.Colaboradores
-                .FirstOrDefaultAsync(c => c.Identificacion == colaboradorId);
-
-            if (colaborador == null)
-            {
-                return NotFound("Colaborador no encontrado");
-            }
-
-            var inconsistencias = await _context.Inconsistencias
-                .Include(i => i.IdEmpleadoNavigation)
-                .Include(i => i.IdJustificacionNavigation) 
-                .Include(i => i.IdTipoInconsistenciaNavigation) 
-                .Where(i => i.IdEmpleadoNavigation.Identificacion == colaboradorId) 
-                .ToListAsync();
-
-            return View(inconsistencias);
+            var tiusr22plProyectoContext = _context.Inconsistencias
+               .Include(i => i.IdEmpleadoNavigation)
+               .Include(i => i.IdJustificacionNavigation)
+               .Include(i => i.IdTipoInconsistenciaNavigation)
+               .Where(i => i.IdEmpleado == identificacion);
+            return View("~/Views/Inconsistencias/InconsistenciasPorID.cshtml", await tiusr22plProyectoContext.ToListAsync());
         }
 
 

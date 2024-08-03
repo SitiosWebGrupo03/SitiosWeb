@@ -17,6 +17,10 @@ public partial class SolicitudHorasExtra
 
     public int? IdTipoActividad { get; set; }
 
+    public string Estado { get; set; } = null!;
+
+    public string? AprobadaPor { get; set; }
+
     public virtual Colaboradores? IdEmpleadoNavigation { get; set; }
 
     public virtual Colaboradores? IdSolicitanteNavigation { get; set; }
