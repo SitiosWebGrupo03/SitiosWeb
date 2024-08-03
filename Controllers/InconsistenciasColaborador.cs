@@ -39,14 +39,61 @@ namespace SitiosWeb.Controllers
             return View(inconsistencias);
         }
 
+        public async Task<IActionResult> Justificacion(string identificacion, string id_puesto, int iddepartamento, int idInconsistencia, int idtipoinconsistencia, string reponetiempo, string horarioid, DateOnly fecha, string observaciones,byte[] evidencia)
+        {
+
+            bool reponer = false;
+
+            if (reponetiempo.Equals("si"))
+            {
+                reponer = true;
+            }
+            else if (reponetiempo.Equals("no"))
+            {
+                reponer = false;
+            }
+            var justificacion = new JustificacionesInconsistencias
+            {
+                IdColaborador = identificacion,
+                IdPuesto = id_puesto,
+                IdDepartamento = iddepartamento,
+                IdTipoInconsistencia = idtipoinconsistencia,
+                ReponeTiempo = reponer,
+                HorarioId = horarioid,
+                FechaInconsistencia = fecha,
+                Observaciones = observaciones,
+                Evidencias = evidencia
+            };
+
+
+            _context.JustificacionesInconsistencias.Add(justificacion);
+            await _context.SaveChangesAsync();
+
+            var inconsistencia = await _context.Inconsistencias.FindAsync(idInconsistencia);
+            if (inconsistencia != null)
+            {
+                inconsistencia.IdJustificacion = justificacion.IdJustificacion;
+                await _context.SaveChangesAsync();
+            }
+
+            return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
+
+
+        }
 
 
         public async Task<IActionResult> Justificar(int id)
         {
+            var inconsistencia = await _context.Inconsistencias.FindAsync(id);
+
+            if (inconsistencia != null && inconsistencia.IdJustificacion != null)
+            {
+                return Content("Esta inconsistencia ya tiene una justificación asociada.");
+            }
+
             ViewBag.IdInconsistencia = id;
             return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
         }
-
         public async Task<IActionResult> GetTiposInconsistencias()
         {
             var tiposInconsistencias = await _context.TiposInconsistencias

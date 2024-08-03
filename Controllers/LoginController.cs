@@ -64,7 +64,7 @@ namespace SitiosWeb.Controllers
             Response.Cookies.Append("Rol", nombreTipoUsuario, options);
             Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);
             Response.Cookies.Append("Puesto", user.IdColaboradorNavigation.IdPuesto, options);
-            Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento, options);
+            Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamento.ToString(), options);
 
 
 
