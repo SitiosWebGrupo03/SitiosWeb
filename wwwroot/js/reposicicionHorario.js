@@ -7,16 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const textBlock = document.querySelector('.text-block');
     const maxSelections = 5; // Maximum number of days that can be selected
     const selectedDays = []; // Array to store selected days
-    const horasElement = document.getElementById('horasRestantes');
 
     // Inicializa la variable Horas con un valor predeterminado (por ejemplo, 0)
-    let Horas = 0;
 
-    // Verifica si el elemento existe y tiene contenido
-    if (horasElement && horasElement.textContent.trim()) {
-        // Extrae el contenido numérico del elemento
-        Horas = parseInt(horasElement.textContent.replace(/\D/g, ''), 10);
-    } let total = 0;
+    let total = 0;
+    
     const monthNames = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
@@ -159,7 +154,9 @@ document.addEventListener("DOMContentLoaded", function () {
             diaMarcar = diaMarcar.filter(item => item !== `${monthIndex}/${dayNumber}/${year}`);
             const pElement = document.querySelector(`.text-block p[data-day="${dayNumber}"]`);
             if (pElement) {
-                textBlock.removeChild(pElement);
+                const counterValue = parseInt(pElement.querySelector('input.contador').value, 10);
+                total -= counterValue; // Adjust the total based on the counter value
+                textBlock.removeChild(pElement); // Remove the p element from textBlock
             }
         } else {
             if (!Marcar) { return; }
