@@ -16,9 +16,6 @@
     <Content Remove="Views\Paginas\indicadores\indicadores.cshtml" />
     <Content Remove="Views\Paginas\Marcas\MarcarHEX.cshtml" />
     <Content Remove="Views\Paginas\Marcas\VizualizacionMarcas.cshtml" />
-    <Content Remove="Views\Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
-    <Content Remove="Views\Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
-    <Content Remove="Views\Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
     <Content Remove="Views\Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
     <Content Remove="Views\Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
     <Content Remove="Views\Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
@@ -50,15 +47,12 @@
     <None Include="Views\Paginas\indicadores\indicadores.cshtml" />
     <None Include="Views\Paginas\Marcas\MarcarHEX.cshtml" />
     <None Include="Views\Paginas\Marcas\VizualizacionMarcas.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\AgregarColaborador.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\AsignacionPuesto.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\ConsultaHJ.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\ConsultarPuesto.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\CreacionUsuario.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\GeneradorHorario.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\HorarioColab.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\HorarioVistaColab.cshtml" />
-    <None Include="Views\Paginas\RegistroEmpleados\Modificar.cshtml" />
+    <None Include="Views\ExpedienteEmpleado\ConsultarPuesto.cshtml" />
+    <None Include="Views\ExpedienteEmpleado\CreacionUsuario.cshtml" />
+    <None Include="Views\ExpedienteEmpleado\GeneradorHorario.cshtml" />
+    <None Include="Views\ExpedienteEmpleado\HorarioColab.cshtml" />
+    <None Include="Views\ExpedienteEmpleado\HorarioVistaColab.cshtml" />
+    <None Include="Views\ExpedienteEmpleado\Modificar.cshtml" />
     <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
     <None Include="wwwroot\FaceModels\deploy.prototxt" />
     <None Include="wwwroot\FaceModels\res10_300x300_ssd_iter_140000.caffemodel" />
@@ -81,6 +75,10 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Paginas\RegistroEmpleados\" />
   </ItemGroup>
 
 </Project>
