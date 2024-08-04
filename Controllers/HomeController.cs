@@ -83,9 +83,14 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult Expediente()
         {
-            return View("~/Views/ExpedienteEmpleado/AgregarColaborador.cshtml");
+            return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
         }
 
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult ConsultarHorario()
+        {
+            return View("~/Views/ExpedienteEmpleado/ConsultarHorarioJ.cshtml");
+        }
 
         [Authorize(Roles = "JEFATURA")]
         public IActionResult MarcaNormal()
@@ -96,7 +101,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult FaceIndex()
         {
-            return View("~/Views/MarcarFaceID.cshtml");
+            return View("~/Views/Marcas/MarcarFaceID.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
 
