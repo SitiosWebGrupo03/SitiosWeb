@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,10 +11,14 @@
     <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
 
 </head>
+
 <body>
-        
+
     <header class="header">
-        <img class="logo" src="~/images/logoMaster.jpeg" alt="Logo">
+
+        <a asp-action="IndexColaborador" asp-controller="Home">
+            <img class="logo" src="~/images/logoMaster.jpeg" alt="Logo">
+        </a>
 
         <div class="links">
             <a href="#">Inconsistencias</a>
@@ -25,7 +30,7 @@
             <div class="borde"><i class="fa-solid fa-user"></i></div>
             <a href="#" onclick="toggleDropdown()">@User.Identity.Name<br />Colaborador</a>
             <div id="dropdown" style="display:none; position: absolute; top: 100%; left: 0; background-color: white; border: 1px solid #ccc; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1000;">
-                <a  style="display: block; padding: 8px; text-decoration: none; color: black;">Acerca de</a>
+                <a style="display: block; padding: 8px; text-decoration: none; color: black;">Acerca de</a>
                 <a asp-controller="Home" asp-action="CerrarSesion" style="display: block; padding: 8px; text-decoration: none; color: black;">Cerrar sesión</a>
             </div>
         </div>
