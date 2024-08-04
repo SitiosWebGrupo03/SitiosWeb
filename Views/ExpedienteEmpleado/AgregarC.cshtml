@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expediente de los colaboradores</title>
-    <link rel="stylesheet" type="text/css" href="~/css/AgregarCO.css" > 
+    <link rel="stylesheet" type="text/css" href="~/css/AgregarCO.css">
 </head>
 <body>
     <div class="background">
@@ -20,36 +20,37 @@
                 <form id="colaboradorForm">
                     <div class="form-group">
                         <label for="identificacion">Identificación</label>
-                        <input type="text" id="identificacion" name="identificacion">
+                        <input type="text" id="identificacion" name="identificacion" required>
                     </div>
                     <div class="form-group">
                         <label for="nombre">Nombre Completo</label>
-                        <input type="text" id="nombre" name="nombre">
+                        <input type="text" id="nombre" name="nombre" required>
                     </div>
                     <div class="form-group">
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" id="apellidos" name="apellidos">
+                        <input type="text" id="apellidos" name="apellidos" required>
                     </div>
                     <div class="form-group">
                         <label for="fecha-nacimiento">Fecha Nacimiento</label>
-                        <input type="date" id="fecha-nacimiento" name="fecha-nacimiento">
+                        <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" required>
                     </div>
                     <div class="form-group">
                         <label for="fecha-contratacion">Fecha Contratación</label>
-                        <input type="date" id="fecha-contratacion" name="fecha-contratacion">
+                        <input type="date" id="fecha-contratacion" name="fecha-contratacion" required>
                     </div>
                     <div class="form-group">
                         <label for="fecha-fin-contrato">Fecha Fin Contrato</label>
-                        <input type="date" id="fecha-fin-contrato" name="fecha-fin-contrato">
+                        <input type="date" id="fecha-fin-contrato" name="fecha-fin-contrato" required>
                     </div>
                     <div class="form-group">
                         <label for="correo">Correo</label>
-                        <input type="email" id="correo" name="correo">
+                        <input type="email" id="correo" name="correo" required>
                     </div>
                     <div class="form-group">
                         <label for="telefono">Teléfono</label>
-                        <input type="text" id="telefono" name="telefono">
+                        <input type="text" id="telefono" name="telefono" required>
                     </div>
+                    <input type="hidden" id="photoData" name="imagen">
                     <div class="buttons">
                         <button type="button" class="right-button">Asignar Puesto</button>
                         <button type="button" class="right-button">Crear Usuario</button>
@@ -72,7 +73,6 @@
                     <button type="button" id="customUploadButton">Subir Imagen</button>
                 </div>
             </div>
-
         </div>
     </div>
     <script src="~/js/Expedientes.js"></script>

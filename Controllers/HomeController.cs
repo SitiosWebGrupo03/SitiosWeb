@@ -69,6 +69,14 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Inconsistencias/Index.cshtml");
         }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult ConsularHorario()
+        {
+            return View("~/Views/ExpedienteEmpleado/HorarioVistaColab.cshtml");
+        }
+
+
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexSupervisor()
         {

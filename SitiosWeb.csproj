@@ -71,4 +71,8 @@
     <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\imageFaceID\" />
+  </ItemGroup>
+
 </Project>
