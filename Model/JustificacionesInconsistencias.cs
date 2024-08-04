@@ -7,7 +7,7 @@ public partial class JustificacionesInconsistencias
 {
     public int IdJustificacion { get; set; }
 
-    public string? IdColaborador { get; set; }
+    public string IdColaborador { get; set; } = null!;
 
     public string? IdPuesto { get; set; }
 
@@ -27,7 +27,7 @@ public partial class JustificacionesInconsistencias
 
     public byte[]? Evidencias { get; set; }
 
-    public virtual Colaboradores? IdColaboradorNavigation { get; set; }
+    public virtual Colaboradores IdColaboradorNavigation { get; set; } = null!;
 
     public virtual Departamentos? IdDepartamentoNavigation { get; set; }
 

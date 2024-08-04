@@ -15,8 +15,6 @@ public partial class Reposiciones
 
     public string? AprobadasPor { get; set; }
 
-    public string? RazonDenegacion { get; set; }
-
     public virtual Colaboradores? AprobadasPorNavigation { get; set; }
 
     public virtual ICollection<FechasReposicion> FechasReposicion { get; set; } = new List<FechasReposicion>();

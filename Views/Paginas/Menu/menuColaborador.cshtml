@@ -33,7 +33,7 @@
     <title>Time Master</title>
 </head>
 <body>
-   
+
     <div class="menu">
 
         <a asp-controller="Home" asp-action="MarcaNormal">
@@ -55,7 +55,7 @@
         </a>
 
 
-    
+
         @if (inconsistencias.Count() > 0)
         {
             @foreach (var item in inconsistencias)
@@ -64,23 +64,24 @@
                 item.FechaInconsistencia <= DateOnly.FromDateTime(DateTime.Now.Date) &&
                 item.FechaInconsistencia >= startOfHalfMonth &&
                 item.FechaInconsistencia <= endOfHalfMonth &&
-                item.FechaInconsistencia < twoDaysBeforeEndOfHalfMonth)
+                item.FechaInconsistencia < twoDaysBeforeEndOfHalfMonth &&
+                item.IdJustificacionNavigation.Reposicion == null)
                 {
-                    reposiciones.Add(item.IdJustificacion.Value);              
-                    }
+                    reposiciones.Add(item.IdJustificacion.Value);
+                }
             }
             if (reposiciones.Any())
             {
                 var reposicionesQuery = string.Join(",", reposiciones);
                 <a asp-controller="Home" asp-action="SolicitarRepo" asp-route-id="@reposicionesQuery">
-                            <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i>
-                            <i class="fa-solid fa-exclamation" style="color: red; width: 15px; height: 15px;"></i><br>
-                            Reposiciones<br><small>Gestión de tus horas por reponer</small>
-                        </a>
+                    <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i>
+                    <i class="fa-solid fa-exclamation" style="color: red; width: 15px; height: 15px;"></i><br>
+                    Reposiciones<br><small>Gestión de tus horas por reponer</small>
+                </a>
             }
 
         }
-        
+
         <a href="#festivos">
             <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
             Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>

@@ -16,16 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (horasElement && horasElement.textContent.trim()) {
         // Extrae el contenido numérico del elemento
         Horas = parseInt(horasElement.textContent.replace(/\D/g, ''), 10);
-    }    let total = 0;
+    } let total = 0;
     const monthNames = [
-        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',  
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ]
     const errorLabel = document.querySelector('.error');
     function generateCalendar(month, year) {
         daysContainer.innerHTML = '';
-        month=month+1;
-        document.getElementById('monthYear').textContent = `${monthNames[month-1]} ${year}`;
+        month = month + 1;
+        document.getElementById('monthYear').textContent = `${monthNames[month - 1]} ${year}`;
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDay = new Date(year, month, 1).getDay();
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dayCell.textContent = day;
             dayCell.classList.add('day');
 
-            const cellDate = new Date(year, month-1, day);
+            const cellDate = new Date(year, month - 1, day);
             const formattedDate = `${month}/${day}/${year}`;
             if (diaMarcar && diaMarcar.includes(formattedDate)) {
                 dayCell.classList.add('selected');
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             if (!Marcar) { return; }
             // Get the error label element
-            
+
 
             if (selectedDays.length >= maxSelections) {
 
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dayCell.classList.add('selected');
             selectedDays.push(dayNumber);
 
-            diaMarcar.push(`${monthIndex+1}/${dayNumber}/${year}`);
+            diaMarcar.push(`${monthIndex + 1}/${dayNumber}/${year}`);
             // Create a new <p> element and counter
             const pElement = document.createElement('p');
             pElement.textContent = `${dayNumber} de ${document.getElementById('monthYear').textContent.replace(/\d+/g, '')}`;
@@ -212,15 +212,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const calendar = document.getElementById('calendar');
         const submitButton = document.getElementById('Solicitar');
+        const justificacionSelect = document.getElementById('justificacionSelect');
+        const justificacionLbl = document.getElementById('justificacionLbl');
         if (selectedDays.length !== 0) {
             if (calendar) {
                 calendar.style.marginLeft = '';
                 submitButton.style.display = 'block';
+                justificacionSelect.style.display = 'block';
+                justificacionLbl.style.display = 'block';
             }
         } else {
             if (calendar) {
                 calendar.style.marginLeft = '135px';
                 submitButton.style.display = 'none';
+                justificacionSelect.style.display = 'none';
+                justificacionLbl.style.display = 'none';
             }
         }
         document.getElementById('Solicitar').addEventListener('click', event => {
@@ -247,9 +253,9 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('counterForm').submit();
         });
 
-  
-           
-        
+
+
+
     });
 
 });

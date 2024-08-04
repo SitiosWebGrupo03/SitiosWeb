@@ -109,15 +109,20 @@ body {
     color: #4b5563;
     margin: 2px auto;
 }
-
+.text-block select {
+    background:none;
+    border: 1px solid #5E58F8;
+    border-radius: 5px;
+    padding: 5px;
+}
 
 .text-block .font-semibold {
     font-weight: bold;
 }
 
-    .text-block .font-semibold {
-        font-weight: bold;
-    }
+.text-block .font-semibold {
+    font-weight: bold;
+}
 
 .buttons {
     display: flex;
@@ -141,6 +146,7 @@ body {
     justify-content: center;
     gap: 1rem; /* Adjust spacing between image and titles */
 }
+
 @keyframes shake {
     0%, 100% {
         transform: translateX(0);
@@ -168,6 +174,7 @@ body {
         opacity: 0;
     }
 }
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -198,6 +205,7 @@ body {
         animation: fadeOut 2s;
         opacity: 0;
     }
+
 .success {
     color: white;
     width: 635px;
@@ -211,7 +219,6 @@ body {
 }
 
     .success.fadeIn {
-
         animation: fadeIn 2s;
         opacity: 1;
     }

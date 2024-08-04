@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 
 namespace SitiosWeb.Controllers
 {
@@ -132,6 +133,8 @@ namespace SitiosWeb.Controllers
         {
             var reposiciones = _context.Reposiciones
                                           .Include(r => r.IdcolaboradorNavigation)
+                                          .Include(r => r.FechasReposicion)
+                                          .Where(r => r.Apobadas == null && r.IdcolaboradorNavigation.IdPuestoNavigation.IdDepartamento == int.Parse(Request.Cookies["Departamento"]))
                                           .ToList();
             return View("~/Views/Paginas/reposiciones/seleccionarRepo.cshtml", reposiciones);
         }
@@ -212,15 +215,14 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult SolicitarRepo(string id)
         {
-            // Split the comma-separated string and convert to a list of integers
+            TempData["solicitud"] = id;   
             var reposicionesList = id.Split(',').Select(int.Parse).ToList();
 
-            // Query the JustificacionesInconsistencias collection to filter by the given IDs
+            
             var repos = _context.JustificacionesInconsistencias
-                .Where(r => reposicionesList.Contains(r.IdJustificacion))
+                .Where(r => reposicionesList.Contains(r.IdJustificacion) && r.Reposicion == null)
                 .ToList();
 
-            // Return the filtered results to the view
             return View("/Views/Paginas/reposiciones/solicitarRepo.cshtml", repos);
         }
 
