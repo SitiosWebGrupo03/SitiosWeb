@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
     var inconsistencias = Model.IdColaboradorNavigation.Inconsistencias.Where(u => u.IdEmpleado == Model.IdColaborador && u.IdJustificacion != null);
-    var reposiciones = new List<int>(); // Initialize an empty list for reposiciones
+    var reposiciones = new List<int>();
 }
 @{
     // Función para obtener la fecha de inicio y fin de la quincena actual
@@ -33,7 +33,7 @@
     <title>Time Master</title>
 </head>
 <body>
-
+    <label class="success" id="menusucc"></label>
     <div class="menu">
 
         <a asp-controller="Home" asp-action="MarcaNormal">
@@ -93,3 +93,30 @@
     </div>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const successLabel = document.querySelector('.success');
+        const successMessage = '@TempData["SuccessMessage"]'.trim();
+       
+
+
+        if (successMessage === '') {
+            successLabel.style.display = 'none';
+            successLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            successLabel.textContent = successMessage;
+            successLabel.style.display = 'block';
+            successLabel.classList.remove('fadeOut');
+            successLabel.classList.add('fadeIn');
+
+            setTimeout(() => {
+                successLabel.classList.remove('fadeIn');
+                successLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    successLabel.style.display = 'none';
+                    successLabel.classList.remove('fadeOut');
+                }, 2000); // Duración de la animación fadeOut
+            }, 2000); // Retraso antes de comenzar fadeOut
+        }
+    });
+</script>
