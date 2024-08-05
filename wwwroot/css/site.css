@@ -3,3 +3,149 @@
         font-size: 16px;
     }
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #5E58F8;
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 35px;
+    font-weight: bold;
+    align-self: end;
+}
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.select-container {
+    text-align: center; 
+}
+
+.modal-content button {
+    padding: 10px;
+    background-color: #5E58F8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .modal-content button:hover {
+        background-color: #45a049;
+    }
+.buttonsModal{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.error {
+    color: white;
+    width: 635px;
+    background-color: #ff6666;
+    margin: 0px 5px 5px 5px;
+    padding: 7px;
+    border-radius: 5px;
+    display: none;
+    opacity: 1;
+    transition: opacity 2s;
+}
+
+    .error.shake {
+        animation: shake 0.5s;
+    }
+
+    .error.fadeOut {
+        animation: fadeOut 2s;
+        opacity: 0;
+    }
+
+.success {
+    color: white; 
+    font-weight: bold;
+    font-size: 25px;
+    width: 635px;
+    max-height: 70px;
+    background-color: #8ae5aa;
+    margin: 0px 5px 5px 5px;
+    padding: 7px;
+    border-radius: 5px;
+    opacity: 1;
+    transition: opacity 2s;
+    text-align: center;
+    line-height: 50px;
+    display: none;
+}
+#menusucc {
+   margin-left:400px;
+   margin-top:20px
+}
+    .success.fadeIn {
+        animation: fadeIn 2s;
+        opacity: 1;
+    }
+
+    .success.fadeOut {
+        animation: fadeOut 2s;
+        opacity: 0;
+    }

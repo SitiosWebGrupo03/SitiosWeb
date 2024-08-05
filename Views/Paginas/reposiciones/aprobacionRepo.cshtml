@@ -31,10 +31,7 @@
 
             <div class="form">
                 <div class="text-block">
-                    <p>Colaborador que debe las horas: <label class="font-semibold" id="Colaboradorlbl">@Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Nombre @Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Apellidos</label></p>
-                    @* <p>
-                    Colaborador que repondrá: <label class="font-semibold" id="ColaboradorTercerolbl"></label>
-                    </p> *@
+                    <p>Colaborador: <br /><label class="font-semibold" id="Colaboradorlbl">@Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Nombre @Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Apellidos</label></p>
 
                     @foreach (var item in Model)
                     {

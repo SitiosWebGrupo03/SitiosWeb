@@ -1,0 +1,105 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/horarioVistaJef.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Horario Vista Empleado</title>
+</head>
+<body>
+    <div class="background">
+        <div class="header">
+            <h1>Consultar Horario</h1>
+        </div>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2></h2>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="brr">Por usuario</a></li>
+                    <li>Consultar Horario</li>
+                </ul>
+            </aside>
+            <div class="main-container">
+                <div class="image-container">
+                    <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec-1.png" alt="User Photo" class="user-photo">
+                </div>
+                <div class="content-container">
+                    <form id="consultaHorarioForm" asp-controller="Expediente" asp-action="ConsultarHorario" method="post">
+                        <div class="form-group short-input">
+                            <label for="identificacion">Identificación</label>
+                            <input type="text" id="Id" name="Id" placeholder="Identificación">
+                        </div>
+
+                        <div class="form-group short-input">
+                            <label for="puesto">Puesto</label>
+                            <select class="form-control" id="puesto" name="puesto">
+                                <option>Gerente</option>
+                                <option>Analista</option>
+                                <option>Desarrollador</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="download-button">Consultar</button>
+                    </form>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Lunes</td>
+                                    <td>Martes</td>
+                                    <td>Miércoles</td>
+                                    <td>Jueves</td>
+                                    <td>Viernes</td>
+                                    <td>Sábado</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model == null)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var marca in Model)
+                                    {
+                                        <tr>
+                                            <td>@marca.Lunes</td>
+                                            <td>@marca.Martes</td>
+                                            <td>@marca.Miercoles</td>
+                                            <td>@marca.Jueves</td>
+                                            <td>@marca.Viernes</td>
+                                            <td>@marca.Sabado</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="download-button" onclick="downloadHorario()">Descargar</button>
+                </div>
+                <button class="exit-button">Salir</button>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        function downloadHorario() {
+            // Aquí puedes agregar la lógica para descargar el horario
+            // Por ejemplo, puedes hacer una llamada AJAX al servidor para obtener los datos en formato CSV o PDF
+            alert("Función de descarga en construcción.");
+        }
+    </script>
+</body>
+</html>

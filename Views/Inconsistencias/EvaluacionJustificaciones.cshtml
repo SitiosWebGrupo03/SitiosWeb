@@ -1,3 +1,82 @@
-﻿
+﻿@model SitiosWeb.Model.JustificacionesInconsistencias
+
 @{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justificación</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Detalles de la Justificación</h2>
+        <form>
+            <div class="form-group">
+                <label for="IdJustificacion">ID Justificación</label>
+                <input type="text" class="form-control" id="IdJustificacion" value="@Model.IdJustificacion" readonly />
+            </div>
+            <div class="form-group">
+                <label for="IdColaborador">ID Colaborador</label>
+                <input type="text" class="form-control" id="IdColaborador" value="@Model.IdColaborador" readonly />
+            </div>
+            <div class="form-group">
+                <label for="IdPuesto">ID Puesto</label>
+                <input type="text" class="form-control" id="IdPuesto" value="@Model.IdPuesto" readonly />
+            </div>
+            <div class="form-group">
+                <label for="IdDepartamento">ID Departamento</label>
+                <input type="text" class="form-control" id="IdDepartamento" value="@Model.IdDepartamento" readonly />
+            </div>
+            <div class="form-group">
+                <label for="IdTipoInconsistencia">ID Tipo Inconsistencia</label>
+                <input type="text" class="form-control" id="IdTipoInconsistencia" value="@Model.IdTipoInconsistencia" readonly />
+            </div>
+            <div class="form-group">
+                <label for="ReponeTiempo">Repone Tiempo</label>
+                <input type="text" class="form-control" id="ReponeTiempo" value="@Model.ReponeTiempo" readonly />
+            </div>
+            <div class="form-group">
+                <label for="HorarioId">Horario ID</label>
+                <input type="text" class="form-control" id="HorarioId" value="@Model.HorarioId" readonly />
+            </div>
+            <div class="form-group">
+                <label for="FechaInconsistencia">Fecha Inconsistencia</label>
+                <input type="text" class="form-control" id="FechaInconsistencia" value="@Model.FechaInconsistencia.ToShortDateString()" readonly />
+            </div>
+            <div class="form-group">
+                <label for="Observaciones">Observaciones</label>
+                <textarea class="form-control" id="Observaciones" readonly>@Model.Observaciones</textarea>
+            </div>
+            <div class="form-group">
+                <label for="Reposicion">Reposición</label>
+                <input type="text" class="form-control" id="Reposicion" value="@Model.Reposicion" readonly />
+            </div>
+            <div class="form-group">
+                <label for="Evidencias">Evidencias</label>
+                @if (Model.Evidencias != null && Model.Evidencias.Length > 0)
+                {
+                    <a href="data:application/octet-stream;base64,@Convert.ToBase64String(Model.Evidencias)" download="Evidencia_@Model.IdJustificacion">Descargar Evidencia</a>
+                }
+                else
+                {
+                    <p>No hay evidencia adjunta</p>
+                }
+            </div>
+            <div class="form-group">
+                <label for="Validacion">Validación</label>
+                <div>
+                    <input type="radio" id="validacionSi" name="Validacion" value="true" @(Model.Validacion == true ? "checked" : "") />
+                    <label for="validacionSi">Sí</label>
+                    <input type="radio" id="validacionNo" name="Validacion" value="false" @(Model.Validacion == false ? "checked" : "") />
+                    <label for="validacionNo">No</label>
+                </div>
+            </div>
+        </form>
+        <a href="../Menu/menuSupervisor.html">Volver al menú</a>
+    </div>
+</body>
+</html>

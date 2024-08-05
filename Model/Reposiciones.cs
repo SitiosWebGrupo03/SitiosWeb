@@ -7,13 +7,15 @@ public partial class Reposiciones
 {
     public int IdReposicion { get; set; }
 
-    public string HorasReponer { get; set; } = null!;
+    public int HorasReponer { get; set; }
 
     public string Idcolaborador { get; set; } = null!;
 
     public bool? Apobadas { get; set; }
 
     public string? AprobadasPor { get; set; }
+
+    public bool? PorTercero { get; set; }
 
     public virtual Colaboradores? AprobadasPorNavigation { get; set; }
 

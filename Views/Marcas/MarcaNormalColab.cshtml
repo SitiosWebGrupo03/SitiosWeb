@@ -1,16 +1,16 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
 }
 @using System.Security.Claims
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     var userId = HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-   }
+}
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/marcaNormal.css" /> 
+    <link rel="stylesheet" type="text/css" href="~/css/marcaNormal.css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Marcas</title>
@@ -22,7 +22,7 @@
             <ul>
                 <li>Por usuario</li>
                 <li><a asp-controller="Home" asp-action="FaceIndex">Marca con Renocimiento Facial</a></li>
-                <li><a asp-controller="Home" asp-action="ConsultarHorarioJefatura">Consultar Horario</a></li>
+                
 
 
             </ul>
@@ -54,10 +54,44 @@
                     <button type="submit">Marcar entrada</button>
                 </div>
             </form>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <
+                            <td>Cedula</td>
+                            <td>Inicio Jornada</td>
+                            <td>Fin Jornada</td>
+                            
+                    </thead>
+                    <tbody>
+                        @if (Model == null)
+                        {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var marca in Model)
+                            {
+                                <tr>
+                                    <td><input type="text" value="@marca.IdEmpleado" readonly /></td>
+                                    <td><input type="text" value="@marca.InicioJornada" readonly /></td>
+                                    <td><input type="text" value="@marca.FinJornada" readonly /></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                </div>
 
-       
+
         </main>
     </div>
-  
+
 </body>
 </html>

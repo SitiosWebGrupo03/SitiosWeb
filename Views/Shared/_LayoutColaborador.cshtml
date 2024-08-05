@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    var tercero = TempData["tercero"] as List<SitiosWeb.Model.ReposicionTercero>;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,11 +25,51 @@
         <div class="links">
             <a href="#">Inconsistencias</a>
             <a href="#">Horas Extras</a>
-            <a href="#">Vacaciones Disponibles</a>
+
+            @if (tercero != null)
+            {
+                foreach (var terceroSoli in tercero)
+                {
+                    
+                    <br>
+                    <a href="#" onclick="showModal()">
+                        <i class="fa-solid fa-circle-exclamation" style="color:red;"></i>
+                        Reposicion por tercero
+                    </a>
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2>Reposición por terceros</h2>
+                                <span class="close" onclick="closeModal()">&times;</span>
+                            </div>
+
+                            <form id="modalForm" asp-action="AceptarTercero" asp-controller="Repo" asp-route-justificacion="@terceroSoli.Justificacion">
+
+                                <div class="select-container">
+                                    <label>
+                                        Solicitud de reposicion de horas por tercero<br>
+                                        Id del solicitante: @terceroSoli.Idsolicitante<br>
+                                        Id del solicitante: @terceroSoli.IdsolicitanteNavigation.Nombre @terceroSoli.IdsolicitanteNavigation.Apellidos
+                                    </label>
+                                </div>
+                                <div class="buttonsModal">
+                                    <button type="submit" name="action" value="Rechazar">Rechazar</button>
+                                    <button type="submit" name="action" value="Aceptar">Aceptar</button>
+                                </div>
+                                    
+                            </form>
+                        </div>
+
+                    </div>
+                }
+
+            }
         </div>
+
 
         <div class="user" style="position: relative;">
             <div class="borde"><i class="fa-solid fa-user"></i></div>
+
             <a href="#" onclick="toggleDropdown()">@User.Identity.Name<br />Colaborador</a>
             <div id="dropdown" style="display:none; position: absolute; top: 100%; left: 0; background-color: white; border: 1px solid #ccc; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1000;">
                 <a style="display: block; padding: 8px; text-decoration: none; color: black;">Acerca de</a>
@@ -64,6 +106,21 @@
             if (dropdown.style.display === 'block') {
                 dropdown.style.display = 'none';
             }
+        }
+    }
+    function showModal() {
+        document.getElementById('myModal').style.display = 'block';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    // Cerrar el modal si se hace clic fuera del contenido del modal
+    window.onclick = function (event) {
+        if (event.target == document.getElementById('myModal')) {
+            closeModal();
         }
     }
 </script>
