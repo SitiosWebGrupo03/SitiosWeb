@@ -1,0 +1,93 @@
+﻿@model IEnumerable<SitiosWeb.Model.HorariosXPuesto>
+@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/horarioColab.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Horario Vista Empleado</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="background">
+        <div class="header">
+            <h1>Consultar Horario</h1>
+        </div>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2></h2>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="brr">Por usuario</a></li>
+                    <li>Consultar Horario</li>
+                </ul>
+            </aside>
+            <div class="main-container">
+                <div class="image-container">
+                    <img src="user_photo.jpg" alt="User Photo" class="user-photo">
+                </div>
+                <div class="content-container">
+                    <form id="consultaHorarioForm" asp-controller="Expediente" asp-action="ConsultarHorarioColab" method="post">
+                        <div class="form-group">
+                            <label for="puesto">Puesto</label>
+                            <select id="IdPuesto" name="IdPuesto" class="form-control">
+                                @if (ViewBag.Puestos != null)
+                                {
+                                    @foreach (var puesto in ViewBag.Puestos as List<string>)
+                                    {
+                                        <option value="@puesto">@puesto</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="download-button">Consultar</button>
+                    </form>
+                    <table id="horarioTable" class="hidden">
+                        <thead>
+                            <tr>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                                <th>Sábado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var horario in Model)
+                                {
+                                    <tr>
+                                        <td>@horario.Lunes</td>
+                                        <td>@horario.Martes</td>
+                                        <td>@horario.Miercoles</td>
+                                        <td>@horario.Jueves</td>
+                                        <td>@horario.Viernes</td>
+                                        <td>@horario.Sabado</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6">No se encontraron horarios.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <button id="downloadButton" class="download-button hidden">Descargar PDF</button>
+                </div>
+                <button class="exit-button">Salir</button>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/GenerarPdf.js"></script>
+</body>
+</html>

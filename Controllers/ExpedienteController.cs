@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using SitiosWeb.Models;
 using System;
@@ -10,37 +12,130 @@ namespace SitiosWeb.Controllers
 {
     public class ExpedienteController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly Tiusr22plProyectoContext _context;
         private readonly IWebHostEnvironment _env;
 
-        public ExpedienteController(ApplicationDbContext context, IWebHostEnvironment env)
+        public ExpedienteController(Tiusr22plProyectoContext context, IWebHostEnvironment env)
         {
             _context = context;
             _env = env;
         }
-
-
-        [HttpPost("ConsultarHorario")]
-        public async Task<IActionResult> ConsultarHorario(string identificacion)
+        [HttpGet]
+        public async Task<IActionResult> ConsultarHorarioCharge()
         {
-            if (string.IsNullOrWhiteSpace(identificacion))
+            try
+            {
+
+                var departamentos = await _context.Departamentos
+                    .Where(d => d.Estado)
+                    .Select(d => d.NomDepartamento)
+                    .ToListAsync();
+
+                var puestos = await _context.Puestos
+                    .Where(p => p.Estado)
+                    .Select(p => p.NombrePuesto)
+                    .ToListAsync();
+
+
+                ViewBag.Departamentos = departamentos;
+                ViewBag.Puestos = puestos;
+
+                return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> CargarCombox()
+        {
+            try
+            {
+
+                var departamentos = await _context.Departamentos
+                    .Where(d => d.Estado)
+                    .Select(d => d.NomDepartamento)
+                    .ToListAsync();
+
+                var puestos = await _context.Puestos
+                    .Where(p => p.Estado)
+                    .Select(p => p.NombrePuesto)
+                    .ToListAsync();
+
+
+                ViewBag.Departamentos = departamentos;
+                ViewBag.Puestos = puestos;
+
+                return View("~/Views/Shared/HorarioColab.cshtml");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> ConsultarHorarioColab(string IdPuesto)
+        {
+            try
+            {
+                var resultados = await _context.HorariosXPuesto
+                    .FromSqlRaw(
+                    "EXEC ConsultarHorarioPorPuesto @NombrePuesto",
+                    new SqlParameter("@NombrePuesto", IdPuesto)
+                ).ToListAsync();
+
+                if (resultados.Count == 0)
+                {
+                    TempData["ErrorMessage"] = "No se encontraron horarios para el puesto y departamento especificados.";
+                }
+                else
+                {
+                    TempData["SuccessMessage"] = "Horarios consultados exitosamente.";
+                }
+
+                // Retornar la vista sin el símbolo ~ y las comillas dobles extra
+                return View("~/Views/Shared/HorarioColab.cshtml", resultados);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al consultar los horarios: " + ex.Message;
+                return View("HorarioColab");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> ConsultarHorario(String Id)
+        {
+            if (string.IsNullOrWhiteSpace(Id))
             {
                 TempData["ErrorMessage"] = "La identificación es requerida.";
-                return RedirectToAction(nameof(ConsultarHorario));
+                return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
             }
 
-            var colaborador = await _context.Colaboradores.FindAsync(identificacion);
+            var colaborador = await _context.Colaboradores.FindAsync(Id);
             if (colaborador == null)
             {
                 TempData["ErrorMessage"] = "Colaborador no encontrado.";
-                return RedirectToAction(nameof(ConsultarHorario));
+                return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
+
             }
 
-            // Aquí deberías tener lógica para obtener el horario del colaborador
-            // var horario = ObtenerHorario(colaborador);
+            try
+            {
+                var marcas = await _context.HoraX
+                    .Include(m =>m.IdPuestoNavigation)
+                    .ToListAsync();
+                return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml", marcas);
+            }
+            catch (Exception ex)
+            {
 
-            return Json(new { success = true, nombre = colaborador.Nombre, puesto = colaborador.IdPuesto /*, horario = horario*/ });
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
+
+            //return Json(new { success = true, nombre = colaborador.Nombre, puesto = colaborador.IdPuesto /*, horario = horario*/ });
         }
+
 
 
 

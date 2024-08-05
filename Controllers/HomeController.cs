@@ -70,10 +70,20 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Inconsistencias/Index.cshtml");
         }
 
-        [Authorize(Roles = "JEFATURA")]
-        public IActionResult ConsularHorario()
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult ConsularHorarioColaborador()
         {
-            return View("~/Views/ExpedienteEmpleado/HorarioVistaColab.cshtml");
+            return View("~/Views/Shared/HorarioColab.cshtml");
+        }
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult MarcaNormalColab()
+        {
+            return View("~/Views/Marcas/MarcaNormalColab.cshtml");
+        }
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult ConsultarHorarioJefatura()
+        {
+            return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
         }
 
 

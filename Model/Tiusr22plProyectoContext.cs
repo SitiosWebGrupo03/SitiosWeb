@@ -69,6 +69,8 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<Vacaciones> Vacaciones { get; set; }
 
+    public virtual DbSet<HorariosXPuesto> HoraX { get; set; }
+
     public virtual DbSet<VacacionesColectivas> VacacionesColectivas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -100,7 +102,8 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
         });
-
+        
+        
         modelBuilder.Entity<Colaboradores>(entity =>
         {
             entity.HasKey(e => e.Identificacion).HasName("PK__colabora__C196DEC638065473");
@@ -194,9 +197,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(7)
                 .IsUnicode(false)
                 .HasColumnName("id_puesto");
-            entity.Property(e => e.Jueves)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+           
             entity.Property(e => e.Lunes)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -206,13 +207,15 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Miercoles)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Sabado)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.Jueves)
+               .HasMaxLength(50)
+               .IsUnicode(false);
             entity.Property(e => e.Viernes)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
+            entity.Property(e => e.Sabado)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.HasOne(d => d.IdPuestoNavigation).WithMany(p => p.HorariosXPuesto)
                 .HasForeignKey(d => d.IdPuesto)
                 .HasConstraintName("FK__Horarios___id_pu__47DBAE45");

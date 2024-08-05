@@ -61,7 +61,17 @@ namespace SitiosWeb.Controllers
                     );
 
                     TempData["SuccessMessage"] = "Marca registrada exitosamente.";
+                    IQueryable<Marcas> query = _context.Marcas.Include(m => m.IdEmpleadoNavigation);
+
+                    if (!string.IsNullOrEmpty(codigo))
+                    {
+                        query = query.Where(m => m.IdEmpleado == codigo);
+                    }
+
+                    var marcas = await query.ToListAsync();
+                    return View("~/Views/Marcas/MarcaNormalColab.cshtml", marcas);
                 }
+
                 catch (Exception ex)
                 {
                     TempData["ErrorMessage"] = "Error al registrar la marca: " + ex.Message;

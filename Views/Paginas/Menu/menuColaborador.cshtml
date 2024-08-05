@@ -36,12 +36,12 @@
 
     <div class="menu">
 
-        <a asp-controller="Home" asp-action="MarcaNormal">
+        <a asp-controller="Home" asp-action="MarcaNormalColab">
             <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
             Control de Marcas<br><small>Registra diariamente tus jornadas en la empresa</small>
         </a>
 
-        <a href="#vacaciones">
+        <a href="/Expediente/CargarCombox">
             <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
             Vacaciones<br><small>Solicita o revisa tus solicitudes de vacaciones</small>
         </a>
@@ -54,6 +54,10 @@
             Inconsistencias<br><small>Control de tus inconsistencias y justificacion de ellas</small>
         </a>
 
+        <a asp-controller="Home" asp-action="ConsularHorarioColaborador">
+            <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
+            Vizualizar Horario<br><small>Visualizar horarios por departamento y puesto.</small>
+        </a>
 
 
         @if (inconsistencias.Count() > 0)
