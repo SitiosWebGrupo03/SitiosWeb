@@ -66,8 +66,6 @@ namespace SitiosWeb.Controllers
             Response.Cookies.Append("Puesto", user.IdColaboradorNavigation.IdPuesto, options);
             Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento.ToString(), options);
 
-
-
             return user.IdTipoUsuario switch
             {
                 1 => RedirectToAction("IndexSupervisor", "Home"),

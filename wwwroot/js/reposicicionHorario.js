@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Inicializa la variable Horas con un valor predeterminado (por ejemplo, 0)
 
     let total = 0;
-    
+
     const monthNames = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
@@ -215,15 +215,19 @@ document.addEventListener("DOMContentLoaded", function () {
             if (calendar) {
                 calendar.style.marginLeft = '';
                 submitButton.style.display = 'block';
-                justificacionSelect.style.display = 'block';
-                justificacionLbl.style.display = 'block';
+                if (justificacionSelect) {
+                    justificacionSelect.style.display = 'block';
+                    justificacionLbl.style.display = 'block';
+                }
             }
         } else {
             if (calendar) {
                 calendar.style.marginLeft = '135px';
                 submitButton.style.display = 'none';
-                justificacionSelect.style.display = 'none';
-                justificacionLbl.style.display = 'none';
+                if (justificacionSelect) {
+                    justificacionSelect.style.display = 'none';
+                    justificacionLbl.style.display = 'none';
+                }
             }
         }
         document.getElementById('Solicitar').addEventListener('click', event => {

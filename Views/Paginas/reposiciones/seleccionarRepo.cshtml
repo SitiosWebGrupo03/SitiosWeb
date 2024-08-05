@@ -14,17 +14,23 @@
 </head>
 
 <body>
+    
     <div class="content-table">
+        
         <div class="contenedor">
-
-
+            
+            <label class="success" id="succ"></label>
             @if (Model.Count() == 0)
             {
                 <label style="font-weight:bold; font-size:30px; align-self:center;">No hay reposiciones pendientes</label>
             }
             else
             {
+                
+                
                 <div class="TablaForm-Container">
+                    
+
                     <table class="table table-striped tabla">
                         <thead>
                             <tr>
@@ -41,23 +47,24 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                @foreach (var fecha in item.FechasReposicion)
+                                if (item.FechasReposicion.Any(x => x.IdReposicion == item.IdReposicion && x.DiasReposicion >= DateOnly.FromDateTime(DateTime.Now.Date)))
                                 {
-                                    @if (fecha.DiasReposicion >= DateOnly.FromDateTime(DateTime.Now.Date))
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.IdcolaboradorNavigation.Nombre)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.HorasReponer)
-                                            </td>
-                                            <td>
-                                                <a asp-controller="Home" asp-action="SelectRepo" asp-route-id="@item.IdReposicion" class="btn btn-danger">Manejar solicitud</a>
-                                            </td>
-                                        </tr>
-
-                                    }
+                                    var nombre = item.IdcolaboradorNavigation.Nombre + " " + item.IdcolaboradorNavigation.Apellidos;
+                                    <tr>
+                                        <td>
+                                            @nombre
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HorasReponer)
+                                            @if (item.PorTercero == true)
+                                            {
+                                                <p>(Por tercero)</p>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Home" asp-action="SelectRepo" asp-route-id="@item.IdReposicion" class="btn btn-danger">Manejar solicitud</a>
+                                        </td>
+                                    </tr>
                                 }
                             }
                         </tbody>
@@ -73,3 +80,29 @@
     </div>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const successLabel = document.querySelector('.success');
+        const successMessage = '@TempData["SuccessMessage"]'.trim();
+
+        if (successMessage === '') {
+            successLabel.style.display = 'none';
+            successLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            successLabel.textContent = successMessage;
+            successLabel.style.display = 'block';
+            successLabel.classList.remove('fadeOut');
+            successLabel.classList.add('fadeIn');
+
+            setTimeout(() => {
+                successLabel.classList.remove('fadeIn');
+                successLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    successLabel.style.display = 'none';
+                    successLabel.classList.remove('fadeOut');
+                }, 2000); // Duración de la animación fadeOut
+            }, 2000); // Retraso antes de comenzar fadeOut
+        }
+        });
+
+</script>

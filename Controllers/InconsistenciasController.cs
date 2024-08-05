@@ -70,26 +70,29 @@ namespace SitiosWeb.Controllers
         }
 
 
-        // GET: Inconsistencias/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Justificacion(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var inconsistencias = await _context.Inconsistencias
-                .Include(i => i.IdEmpleadoNavigation)
-                .Include(i => i.IdJustificacionNavigation)
-                .Include(i => i.IdTipoInconsistenciaNavigation)
-                .FirstOrDefaultAsync(m => m.IdInconsistencia == id);
-            if (inconsistencias == null)
+            var justificacion = await _context.JustificacionesInconsistencias
+                .Include(j => j.IdColaboradorNavigation)
+                .Include(j => j.IdDepartamentoNavigation)
+                .Include(j => j.IdPuestoNavigation)
+                .Include(j => j.IdTipoInconsistenciaNavigation)
+                .Include(j => j.ReposicionNavigation)
+                .FirstOrDefaultAsync(m => m.IdJustificacion == id);
+
+            if (justificacion == null)
             {
                 return NotFound();
             }
 
-            return View(inconsistencias);
+            return View(justificacion);
         }
+
 
         // GET: Inconsistencias/Create
         public IActionResult Create()
