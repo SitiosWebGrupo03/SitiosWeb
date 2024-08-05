@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
     var inconsistencias = Model.Where(x => x.Reposicion == null).ToList();
-
+    var colaboradores = ViewBag.Tercero as IEnumerable<Colaboradores>;
 }
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
     <script src="~/js/reposicicionHorario.js"></script>
     <script src="~/js/marcarDias.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -20,7 +21,7 @@
             <div class="titles">
                 <h1 class="title-page">Horas por </h1>
                 <h1 class="title-span">Reponer</h1>
-                <h1 class="title-info" id="horasRestantes">Restantes: 6 horas</h1>
+                <h1 class="title-info" id="horasRestantes"></h1>
 
             </div>
         </div>
@@ -33,6 +34,8 @@
                 <form class="text-block" id="counterForm" method="post" asp-action="SolicitarRepo" asp-controller="Repo">
                     <label style="display:none;" id="justificacionLbl" for="justificacionSelect">Seleccione la inconsistencia a reponer:</label>
                     <select style="display:none;" id="justificacionSelect" name="justificacionSelect">
+                        <option value="">Seleccione una opción</option>
+
                         @foreach (var item in Model)
                         {
                             <option value="@item.IdJustificacion">@item.FechaInconsistencia</option>
@@ -43,7 +46,9 @@
                 </form>
                 <div class="buttons">
                     <button id="Solicitar" style="display:none;" onclick="submitForm()">Solicitar</button>
+
                 </div>
+
             </div>
             <div class="calendar" ID="calendar" style="margin-left:135px;">
                 <div class="calendar-header">
@@ -58,10 +63,38 @@
 
         </div>
     </div>
+    <div class="Tercero">
+        <a href="#" id="Tercero" onclick="showModal()">Reposición por tercero</a>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reposición por terceros</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+
+            <form id="modalForm">
+
+                <div class="select-container">
+                    <input type="text" id="filterInput" placeholder="Buscar por nombre...">
+                    <select id="colaboradores" name="colaboradores">
+                        <option value="" disabled selected>Seleccionar colaborador</option>
+                        @foreach (var item in colaboradores)
+                        {
+                            <option value="@item.Identificacion">@item.Nombre @item.Apellidos</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+
+    </div>
 
 
 </body>
 <script>
+    let Horas = 0;
     document.addEventListener('DOMContentLoaded', function () {
         const successLabel = document.querySelector('.success');
         const successMessage = '@TempData["SuccessMessage"]'.trim();
@@ -84,7 +117,83 @@
                 }, 2000); // Duración de la animación fadeOut
             }, 2000); // Retraso antes de comenzar fadeOut
         }
+        var inconsistencias = @Html.Raw(Json.Serialize(inconsistencias));
+        var select = document.getElementById('justificacionSelect');
+
+        select.addEventListener('change', function () {
+            var label = document.getElementById('horasRestantes');
+            var selectedValue = select.value;
+
+            var selectedInconsistencia = inconsistencias.find(function (inconsistencia) {
+                return inconsistencia.idJustificacion == selectedValue;
+            });
+
+            if (selectedInconsistencia && selectedInconsistencia.idTipoInconsistencia == 1) {
+                label.textContent = 'Restantes: 2 horas';
+
+            }
+            else if (selectedInconsistencia && selectedInconsistencia.idTipoInconsistencia == 2) {
+                label.textContent = 'Restantes: 1 hora';
+            } else {
+                label.textContent = '0';
+            }
+            if (label && label.textContent.trim()) {
+                Horas = parseInt(label.textContent.replace(/\D/g, ''), 10);
+            }
+        });
     });
+
     let diaMarcar = [];
     const Marcar = true;
+    // Función para mostrar el modal
+    function showModal() {
+        document.getElementById('myModal').style.display = 'block';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    // Cerrar el modal si se hace clic fuera del contenido del modal
+    window.onclick = function (event) {
+        if (event.target == document.getElementById('myModal')) {
+            closeModal();
+        }
+    }
+
 </script>
+<script>
+    // Obtén los elementos del DOM
+    const filterInput = document.getElementById('filterInput');
+    const selectElement = document.getElementById('colaboradores');
+
+    // Función para filtrar opciones
+    function filterOptions() {
+        const filterValue = filterInput.value.toLowerCase();
+        const options = selectElement.options;
+
+        let matchFound = false; // Variable para verificar si hay coincidencia
+
+        for (let i = 0; i < options.length; i++) {
+            const optionText = options[i].text.toLowerCase();
+            if (optionText.includes(filterValue)) {
+                options[i].style.display = '';
+                if (!matchFound) {
+                    selectElement.selectedIndex = i; // Selecciona la primera opción que coincida
+                    matchFound = true; // Marca que se encontró una coincidencia
+                }
+            } else {
+                options[i].style.display = 'none';
+            }
+        }
+
+        // Si no se encontró ninguna coincidencia, restablece la selección
+        if (!matchFound) {
+            selectElement.selectedIndex = 0; // Restablece a la opción predeterminada
+        }
+    }
+
+    // Agrega un evento de entrada al campo de búsqueda
+    filterInput.addEventListener('input', filterOptions);
+</script>>

@@ -29,7 +29,7 @@ namespace SitiosWeb.Controllers
             try
             {
                 var marcas = await _context.Marcas
-                    .Include(m => m.IdEmpleadoNavigation) // Incluye los datos del colaborador si es necesario
+                    .Include(m => m.IdEmpleadoNavigation)
                     .ToListAsync();
                 return View("~/Views/Marcas/VisualizacionMarcas.cshtml", marcas);
             }

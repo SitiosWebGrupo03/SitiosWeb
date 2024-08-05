@@ -1,29 +1,32 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/consultaHJ.css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de horarios para colaboradores</title>
+    <link rel="stylesheet" type="text/css" href="~/css/consultaHJ.css">
 </head>
 <body>
-    <header>
-        <h1>Consulta de horarios para colaboradores</h1>
-    </header>
-    <main>
-        <div class="background-container">
-            <div class="image-container">
-                <img src="user_photo.jpg" alt="User Photo" class="user-photo">
-                <img src="plant_photo.jpg" alt="Plant Photo" class="plant-photo">
-            </div>
+    <div class="background">
+        <div class="header">
+            <h1>Consulta de horarios para colaboradores</h1>
+        </div>
+        <div class="form-photo-container">
             <div class="form-container">
-                <form action="#" method="POST">
+                <form id="consultaHorariosForm" method="POST">
                     <div class="form-group">
+                        <label for="departamento">Departamento</label>
                         <select id="departamento" name="departamento">
-                            <option>Departamento</option>
+                            <option value="">Seleccione un departamento</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="puesto">Puesto</label>
                         <select id="puesto" name="puesto">
-                            <option>Puesto</option>
+                            <option value="">Seleccione un puesto</option>
                         </select>
                     </div>
                     <div class="schedule-table">
@@ -49,12 +52,14 @@
                         <div class="cell">Texto de celda B5</div>
                         <div class="cell">Texto de celda C5</div>
                     </div>
-                    <div class="form-buttons">
+                    <div class="submit-button">
                         <button type="submit" class="guardar">Guardar</button>
                     </div>
                 </form>
             </div>
+           
         </div>
-    </main>
+    </div>
 </body>
 </html>
+

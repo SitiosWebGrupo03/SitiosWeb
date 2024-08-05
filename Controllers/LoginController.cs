@@ -64,7 +64,7 @@ namespace SitiosWeb.Controllers
             Response.Cookies.Append("Rol", nombreTipoUsuario, options);
             Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);
             Response.Cookies.Append("Puesto", user.IdColaboradorNavigation.IdPuesto, options);
-            Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamento.ToString(), options);
+            Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento.ToString(), options);
 
 
 
@@ -72,7 +72,7 @@ namespace SitiosWeb.Controllers
             {
                 1 => RedirectToAction("IndexSupervisor", "Home"),
                 2 => RedirectToAction("IndexJefatura", "Home"),
-                3 => RedirectToAction("IndexColaborador", "Home", user),
+                3 => RedirectToAction("IndexColaborador", "Home"),
                 _ => RedirectToAction("Login", "Home"),
             };
         }
