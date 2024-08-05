@@ -32,7 +32,14 @@ namespace SitiosWeb.Controllers
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             }
-            return View();
+            var colaboradores = _context.Colaboradores
+                .Include(c => c.IdPuestoNavigation)
+                    .ThenInclude(p => p.IdDepartamentoNavigation)
+                    .Include(c => c.Usuarios)
+                    .Include(c => c.Marcas)
+                    .Include(c => c.Inconsistencias)
+                .ToList();
+            return View(colaboradores);
         }
 
         public IActionResult Login()
@@ -42,6 +49,17 @@ namespace SitiosWeb.Controllers
 
         public IActionResult CerrarSesion()
         {
+
+            HttpContext.SignOutAsync();
+
+            // Clear all cookies
+            foreach (var cookie in HttpContext.Request.Cookies.Keys)
+            {
+                HttpContext.Response.Cookies.Delete(cookie);
+            }
+
+            // Clear TempData
+            TempData.Clear();
             return View("~/Views/Home/Index.cshtml");
         }
 
@@ -53,10 +71,30 @@ namespace SitiosWeb.Controllers
                                 .Include(u => u.IdColaboradorNavigation)
                                     .ThenInclude(c => c.IdPuestoNavigation)
                                         .ThenInclude(p => p.IdDepartamentoNavigation)
-                                .FirstOrDefault(u => u.IdColaboradorNavigation.Identificacion== Request.Cookies["Id"]);
-            user.IdColaboradorNavigation.JustificacionesInconsistencias = _context.JustificacionesInconsistencias.ToList();
-            user.IdColaboradorNavigation.Inconsistencias = _context.Inconsistencias.ToList();
+                                .FirstOrDefault(u => u.IdColaboradorNavigation.Identificacion == Request.Cookies["Id"]);
+
+            try
+            {
+                var reposicionTerceroList = _context.ReposicionTercero.Where(x => x.Idtercero == user.IdColaborador && x.Aceptado != true && x.Aceptado != false)
+                                            .Include(x => x.IdsolicitanteNavigation)
+                                            .ToList();
+
+                if (reposicionTerceroList.Any())
+                {
+                    TempData["tercero"] = reposicionTerceroList;
+                }
+
+                user.IdColaboradorNavigation.JustificacionesInconsistencias = _context.JustificacionesInconsistencias.ToList();
+                user.IdColaboradorNavigation.Inconsistencias = _context.Inconsistencias.ToList();
+            }
+            catch
+            {
+                return View("~/Views/Paginas/Menu/menuColaborador.cshtml", user);
+            }
+
             return View("~/Views/Paginas/Menu/menuColaborador.cshtml", user);
+
+
         }
         [Authorize(Roles = "JEFATURA")]
         public IActionResult IndexJefatura()
@@ -70,10 +108,20 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Inconsistencias/Index.cshtml");
         }
 
-        [Authorize(Roles = "JEFATURA")]
-        public IActionResult ConsularHorario()
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult ConsularHorarioColaborador()
         {
-            return View("~/Views/ExpedienteEmpleado/HorarioVistaColab.cshtml");
+            return View("~/Views/Shared/HorarioColab.cshtml");
+        }
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult MarcaNormalColab()
+        {
+            return View("~/Views/Marcas/MarcaNormalColab.cshtml");
+        }
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult ConsultarHorarioJefatura()
+        {
+            return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
         }
 
 
@@ -87,7 +135,7 @@ namespace SitiosWeb.Controllers
             return View("AccesoDenegado");
         }
         [Authorize(Roles = "COLABORADOR")]
-       
+
         public IActionResult indicadoresColab()
         {
             return View("~/Views/Paginas/indicadores/indicadorescolaborador.cshtml");
@@ -123,7 +171,7 @@ namespace SitiosWeb.Controllers
             return View("~/Views/ExpedienteEmpleado/AsignarPuesto.cshtml");
         }
 
-       
+
 
 
 
@@ -151,8 +199,9 @@ namespace SitiosWeb.Controllers
             var reposiciones = _context.Reposiciones
                                           .Include(r => r.IdcolaboradorNavigation)
                                           .Include(r => r.FechasReposicion)
-                                          .Where(r => r.Apobadas == null && r.IdcolaboradorNavigation.IdPuestoNavigation.IdDepartamento == int.Parse(Request.Cookies["Departamento"]))
+                                          .Where(r => r.Apobadas == null && r.IdcolaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"])
                                           .ToList();
+            
             return View("~/Views/Paginas/reposiciones/seleccionarRepo.cshtml", reposiciones);
         }
 
@@ -223,7 +272,7 @@ namespace SitiosWeb.Controllers
         {
             var reposicion = _context.FechasReposicion
                              .Include(r => r.IdReposicionNavigation)
-                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation) 
+                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation)
                              .Where(r => r.IdReposicion == id)
                              .ToList();
 
@@ -236,12 +285,13 @@ namespace SitiosWeb.Controllers
             {
                 id = 0.ToString();
             }
-            TempData["solicitud"] = id;   
+            TempData["solicitud"] = id;
             var reposicionesList = id.Split(',').Select(int.Parse).ToList();
             var terceros = _context.Colaboradores
                 .Where(c =>
                     c.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"] &&
-                    c.Identificacion != Request.Cookies["Id"] )
+                    c.Usuarios.Any(x => x.IdTipoUsuario == 3 ) &&
+                    c.Identificacion != Request.Cookies["Id"])
                 .ToList();
             ViewBag.Tercero = terceros;
 
@@ -255,11 +305,13 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult SolicitarHorasExtras()
         {
-            // Asegúrate de proporcionar una lista de tipos de actividades si es necesario
             ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
-            return View("~/Pages/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
+            return View("/Views/Paginas/gestion_horas_extras/SolicitarHorasExtras.cshtml"); ;
         }
+
         [Authorize(Roles = "JEFATURA")]
+
+
         public IActionResult SolicitarHorasExtras(SolicitudHorasExtra solicitud)
         {
             if (ModelState.IsValid)
@@ -272,8 +324,9 @@ namespace SitiosWeb.Controllers
             ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
             return View(solicitud);
         }
-
         [Authorize(Roles = "JEFATURA")]
+
+
         public IActionResult ReporteHorasExtras()
         {
             var solicitudes = _context.SolicitudHorasExtra
@@ -284,8 +337,8 @@ namespace SitiosWeb.Controllers
 
             return View("/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml", solicitudes);
         }
-
         [Authorize(Roles = "JEFATURA")]
+       
         public IActionResult AprobarHorasExtras(int id)
         {
             var solicitud = _context.SolicitudHorasExtra.Find(id);
@@ -297,8 +350,8 @@ namespace SitiosWeb.Controllers
             }
             return RedirectToAction("ReporteHorasExtras");
         }
-
         [Authorize(Roles = "COLABORADOR")]
+
         public IActionResult AprobarSolicitud(int id)
         {
             var solicitud = _context.SolicitudHorasExtra.Find(id);

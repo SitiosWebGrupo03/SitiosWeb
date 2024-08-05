@@ -9,7 +9,7 @@
   <ItemGroup>
     <Content Remove="Views\Home\menuInconsistencias.cshtml" />
     <Content Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
-    <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtra.cshtml" />
+    <Content Remove="Views\Paginas\gestion_horas_extras\SolicitudHorasExtra.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtra.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
@@ -44,8 +43,8 @@
     <None Include="Views\ExpedienteEmpleado\ConsultarPuesto.cshtml" />
     <None Include="Views\ExpedienteEmpleado\CreacionUsuario.cshtml" />
     <None Include="Views\ExpedienteEmpleado\GeneradorHorario.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\HorarioColab.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\HorarioVistaColab.cshtml" />
+    <None Include="Views\Shared\HorarioColab.cshtml" />
+    <None Include="Views\ExpedienteEmpleado\HorarioVistaJef.cshtml" />
     <None Include="Views\ExpedienteEmpleado\Modificar.cshtml" />
     <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
     <None Include="wwwroot\FaceModels\deploy.prototxt" />

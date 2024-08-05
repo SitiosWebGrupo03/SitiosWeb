@@ -1,0 +1,181 @@
+﻿/* Estilos generales */
+
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    header h1 {
+        font-size: 24px;
+        color: #4a4a8c;
+    }
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.sidebar-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+    .sidebar-menu li {
+        margin-bottom: 10px;
+    }
+
+    .sidebar-menu a {
+        text-decoration: none;
+        color: #333;
+    }
+
+        .sidebar-menu a:hover {
+            text-decoration: underline;
+        }
+
+/* Contenedor principal */
+.main-container {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Contenedor de imagen */
+.image-container {
+    margin-bottom: 20px;
+}
+
+    .image-container .user-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+/* Contenedor de contenido */
+.content-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select {
+        width: 50%;
+        padding: 8px;
+        box-sizing: border-box;
+        font-size: 14px;
+        margin: 0 auto;
+    }
+
+.short-input {
+    text-align: center;
+}
+
+.download-button, .exit-button {
+    background-color: #5e58f8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+    .download-button:hover, .exit-button:hover {
+        background-color: #5e58f8;
+    }
+
+.exit-button {
+    align-self: center;
+    margin-top: 20px;
+}
+
+/* Tabla */
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+thead {
+    background-color: #5e58f8;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Fondo decorativo */
+.background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+    .background::before,
+    .background::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(74, 74, 140, 0.2);
+        z-index: 0;
+    }
+
+    .background::before {
+        width: 600px;
+        height: 600px;
+        top: -200px;
+        left: -200px;
+    }
+
+    .background::after {
+        width: 400px;
+        height: 400px;
+        bottom: -100px;
+        right: -100px;
+    }

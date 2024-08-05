@@ -73,7 +73,7 @@
                 <span class="close" onclick="closeModal()">&times;</span>
             </div>
 
-            <form id="modalForm">
+            <form id="modalForm" asp-action="SolicitudTercero" asp-controller="Repo">
 
                 <div class="select-container">
                     <input type="text" id="filterInput" placeholder="Buscar por nombre...">
@@ -82,6 +82,14 @@
                         @foreach (var item in colaboradores)
                         {
                             <option value="@item.Identificacion">@item.Nombre @item.Apellidos</option>
+                        }
+                       
+                    </select>
+                    <label>Inconsitencia a reponer</label>
+                    <select name="inconsistencia">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.IdJustificacion">@item.FechaInconsistencia</option>
                         }
                     </select>
                 </div>
@@ -95,6 +103,7 @@
 </body>
 <script>
     let Horas = 0;
+
     document.addEventListener('DOMContentLoaded', function () {
         const successLabel = document.querySelector('.success');
         const successMessage = '@TempData["SuccessMessage"]'.trim();

@@ -1,0 +1,88 @@
+﻿@model SitiosWeb.Model.ReposicionTercero
+@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
+    <script src="~/js/reposicicionHorario.js"></script>
+    <script src="~/js/marcarDias.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="contains">
+        <div class="head">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
+            <div class="titles">
+                <h1 class="title-page">Horas por </h1>
+                <h1 class="title-span">Reponer</h1>
+                <h1 class="title-info" id="horasRestantes">Restantes: @Model.Horas</h1>
+
+            </div>
+        </div>
+        <label class="error" style="display: none;"></label>
+        <label class="success" style="display: none;"></label>
+
+        <div class="content">
+
+            <div class="form">
+                <form class="text-block" id="counterForm" method="post" asp-action="SolicitarTercero" asp-controller="Repo">
+                    <input type="hidden" name="day" id="diasReposicion">
+                    <input type="hidden" name="hora" id="horasReposicion">
+                    <input type="hidden" name="justificacion" value="@Model.Justificacion">
+                </form>
+                <div class="buttons">
+                    <button id="Solicitar" style="display:none;" onclick="submitForm()">Solicitar</button>
+                </div>
+
+            </div>
+            <div class="calendar" ID="calendar" style="margin-left:135px;">
+                <div class="calendar-header">
+                    <button id="prevMonth">< </button>
+                    <h2 id="monthYear"></h2>
+                    <button id="nextMonth"> ></button>
+                </div>
+                <div class="days" id="calendarDays">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>
+    let Horas = 0;
+    var label = document.getElementById('horasRestantes');
+    Horas = parseInt(label.textContent.replace(/\D/g, ''), 10);
+    document.addEventListener('DOMContentLoaded', function () {
+        const successLabel = document.querySelector('.success');
+        const successMessage = '@TempData["SuccessMessage"]'.trim();
+
+        if (successMessage === '') {
+            successLabel.style.display = 'none';
+            successLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            successLabel.textContent = successMessage;
+            successLabel.style.display = 'block';
+            successLabel.classList.remove('fadeOut');
+            successLabel.classList.add('fadeIn');
+
+            setTimeout(() => {
+                successLabel.classList.remove('fadeIn');
+                successLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    successLabel.style.display = 'none';
+                    successLabel.classList.remove('fadeOut');
+                }, 2000); // Duración de la animación fadeOut
+            }, 2000); // Retraso antes de comenzar fadeOut
+        }
+    });
+
+    let diaMarcar = [];
+    const Marcar = true;
+   
+
+</script>

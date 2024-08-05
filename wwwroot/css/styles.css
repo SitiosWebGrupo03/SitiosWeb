@@ -9,7 +9,7 @@
 /* Modal styles */
 /* Modal Background */
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -20,6 +20,7 @@
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
 }
+
 .select-container select,
 .select-container input {
     width: 100%;
@@ -27,7 +28,7 @@
     border: 1px solid #5E58F8;
     border-radius: 4px;
     margin-bottom: 10px;
-    background:none;
+    background: none;
     text-align: center;
 }
 
@@ -40,6 +41,7 @@
     width: 80%;
     max-width: 500px;
 }
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -80,9 +82,9 @@
     cursor: pointer;
 }
 
-.modal-content button:hover {
-    background-color: #45a049;
-}
+    .modal-content button:hover {
+        background-color: #45a049;
+    }
 /* Body styles */
 body {
     font-family: 'Montserrat', sans-serif;
@@ -106,27 +108,29 @@ body {
     align-items: center;
     flex-direction: column;
     margin-top: 40px;
+    
 }
+
     .Tercero a {
         border: 1px solid white;
         border-radius: 5px;
         padding: 15px;
-        text-decoration:none;
-        color:white;
+        text-decoration: none;
+        color: white;+
+    }
 
+        .Tercero a:hover {
+            transform: scale(1.1);
         }
-    .Tercero a:hover {
-        transform:scale(1.1);
-    }
-    
-    .head {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        flex-direction: row;
-        margin-top: 25px;
-    }
+
+.head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: row;
+    margin-top: 25px;
+}
 /* Main content styles */
 .content {
     padding: 2.5rem;
@@ -204,8 +208,9 @@ body {
     color: #4b5563;
     margin: 2px auto;
 }
+
 .text-block select {
-    background:none;
+    background: none;
     border: 1px solid #5E58F8;
     border-radius: 5px;
     padding: 5px;
@@ -283,6 +288,7 @@ body {
 .error {
     color: white;
     width: 635px;
+    max-height: 70px;
     background-color: #ff6666;
     margin: 0px 5px 5px 5px;
     padding: 7px;
@@ -303,16 +309,25 @@ body {
 
 .success {
     color: white;
+    font-weight: bold;
+    font-size: 25px;
     width: 635px;
+    max-height: 70px;
     background-color: #8ae5aa;
     margin: 0px 5px 5px 5px;
     padding: 7px;
     border-radius: 5px;
-    display: none;
     opacity: 1;
     transition: opacity 2s;
+    text-align: center;
+    line-height: 50px;
+    display: none;
 }
-
+#succ {
+    position: absolute;
+    width: 550px;
+    left: 21%
+}
     .success.fadeIn {
         animation: fadeIn 2s;
         opacity: 1;
