@@ -1,0 +1,81 @@
+﻿@model IEnumerable<SitiosWeb.Model.HorariosXPuesto>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/horarioVistaColab.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Horario Vista Empleado</title>
+</head>
+<body>
+    <div class="background">
+        <div class="header">
+            <h1>Consultar Horario</h1>
+        </div>
+        <div class="container">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2></h2>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="brr">Por usuario</a></li>
+                    <li>Consultar Horario</li>
+                </ul>
+            </aside>
+            <div class="main-container">
+                <div class="image-container">
+                    <img src="user_photo.jpg" alt="User Photo" class="user-photo">
+                </div>
+                <div class="content-container">
+                    <form id="consultaHorarioForm" asp-controller="Expediente" asp-action="ConsultarHorario">
+                        <div class="form-group">
+                            <label for="identificacion">Identificación</label>
+                            <input type="text" id="identificacion" name="identificacion" placeholder="Identificación">
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="puesto">Puesto</label>
+                            <select  class="form-control">
+                                <option>Gerente</option>
+                                <option>Analista</option>
+                                <option>Desarrollador</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="download-button">Consultar</button>
+                    </form>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dia</th>
+                                <th>Entrada</th>
+                                <th>Salida</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var marca in Model)
+                            {
+                                <tr>
+                                    <td>@marca.Lunes</td>
+                                    <td>@marca.Martes</td>
+                                    <td>@marca.Miercoles</td>
+                                    <td>@marca.Jueves</td>
+                                    <td>@marca.Viernes</td>
+                                    <td>@marca.Sabado</td>
+                                    
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <button class="exit-button">Salir</button>
+            </div>
+        </div>
+    </div>
+    <script src="path_to_your_script.js"></script> <!-- Asegúrate de enlazar correctamente tu script -->
+</body>
+</html>

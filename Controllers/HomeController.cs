@@ -47,10 +47,14 @@ namespace SitiosWeb.Controllers
 
 
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult IndexColaborador(Usuarios user)
+        public IActionResult IndexColaborador()
         {
-            user.IdColaboradorNavigation = _context.Colaboradores.Find(user.IdColaborador);
-            user.IdColaboradorNavigation.JustificacionesInconsistencias= _context.JustificacionesInconsistencias.ToList();
+            var user = _context.Usuarios
+                                .Include(u => u.IdColaboradorNavigation)
+                                    .ThenInclude(c => c.IdPuestoNavigation)
+                                        .ThenInclude(p => p.IdDepartamentoNavigation)
+                                .FirstOrDefault(u => u.IdColaboradorNavigation.Identificacion== Request.Cookies["Id"]);
+            user.IdColaboradorNavigation.JustificacionesInconsistencias = _context.JustificacionesInconsistencias.ToList();
             user.IdColaboradorNavigation.Inconsistencias = _context.Inconsistencias.ToList();
             return View("~/Views/Paginas/Menu/menuColaborador.cshtml", user);
         }
@@ -65,6 +69,14 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Inconsistencias/Index.cshtml");
         }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult ConsularHorario()
+        {
+            return View("~/Views/ExpedienteEmpleado/HorarioVistaColab.cshtml");
+        }
+
+
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexSupervisor()
         {
@@ -83,9 +95,14 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult Expediente()
         {
-            return View("~/Views/ExpedienteEmpleado/AgregarColaborador.cshtml");
+            return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
         }
 
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult ConsultarHorario()
+        {
+            return View("~/Views/ExpedienteEmpleado/ConsultarHorarioJ.cshtml");
+        }
 
         [Authorize(Roles = "JEFATURA")]
         public IActionResult MarcaNormal()
@@ -96,7 +113,7 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "JEFATURA")]
         public IActionResult FaceIndex()
         {
-            return View("~/Views/MarcarFaceID.cshtml");
+            return View("~/Views/Marcas/MarcarFaceID.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
 
@@ -215,10 +232,19 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult SolicitarRepo(string id)
         {
+            if (id == null)
+            {
+                id = 0.ToString();
+            }
             TempData["solicitud"] = id;   
             var reposicionesList = id.Split(',').Select(int.Parse).ToList();
+            var terceros = _context.Colaboradores
+                .Where(c =>
+                    c.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"] &&
+                    c.Identificacion != Request.Cookies["Id"] )
+                .ToList();
+            ViewBag.Tercero = terceros;
 
-            
             var repos = _context.JustificacionesInconsistencias
                 .Where(r => reposicionesList.Contains(r.IdJustificacion) && r.Reposicion == null)
                 .ToList();

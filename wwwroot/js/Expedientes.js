@@ -12,6 +12,7 @@
     const form = document.getElementById('colaboradorForm');
     const crearBtn = document.getElementById('btnCrear');
 
+    // Acceso a la cámara
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             camera.srcObject = stream;
@@ -20,6 +21,7 @@
             console.error('Error al acceder a la cámara:', error);
         });
 
+    // Capturar foto desde la cámara
     captureButton.addEventListener('click', function () {
         canvas.width = camera.videoWidth;
         canvas.height = camera.videoHeight;
@@ -28,15 +30,16 @@
         photo.src = imageData;
         photo.style.display = 'block';
         removeButton.style.display = 'inline';
-        removeLabel.style.display = 'inline';  // Mostrar el label para eliminar la foto
+        removeLabel.style.display = 'inline';
         photoData.value = imageData;
     });
 
-    // Al hacer clic en el botón personalizado, se activa el input de archivo
+    // Botón personalizado para cargar imagen desde el sistema de archivos
     customUploadButton.addEventListener('click', function () {
         uploadInput.click();
     });
 
+    // Cargar imagen desde el sistema de archivos
     uploadInput.addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
@@ -45,27 +48,41 @@
                 photo.src = e.target.result;
                 photo.style.display = 'block';
                 removeButton.style.display = 'inline';
-                removeLabel.style.display = 'inline';  // Mostrar el label para eliminar la foto
+                removeLabel.style.display = 'inline';
                 photoData.value = e.target.result;
             };
             reader.readAsDataURL(file);
         }
     });
 
+    // Eliminar imagen cargada o capturada
     removeButton.addEventListener('click', function () {
         photo.src = '';
         photo.style.display = 'none';
         removeButton.style.display = 'none';
-        removeLabel.style.display = 'none';  // Ocultar el label de eliminar foto
+        removeLabel.style.display = 'none';
         photoData.value = '';
-        uploadInput.value = '';  // Limpiar el contenido del input de archivo
+        uploadInput.value = '';
     });
 
+    // Enviar formulario y datos de imagen
     crearBtn.addEventListener('click', function (event) {
         event.preventDefault();
 
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
+        const data = {
+            identificacion: formData.get('identificacion'),
+            nombre: formData.get('nombre'),
+            apellidos: formData.get('apellidos'),
+            fechaNacimiento: formData.get('fecha-nacimiento'),
+            fechaContratacion: formData.get('fecha-contratacion'),
+            fechaFinContrato: formData.get('fecha-fin-contrato'),
+            correo: formData.get('correo'),
+            telefono: formData.get('telefono'),
+            imagenDto: {
+                ImagenBase64: photoData.value
+            }
+        };
 
         fetch('/Asignar', {
             method: 'POST',
@@ -74,17 +91,12 @@
             },
             body: JSON.stringify(data)
         })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Error en la solicitud');
-            })
+            .then(response => response.json())
             .then(result => {
-                console.log('Éxito:', result);
-            })
-            .catch(error => {
-                console.error('Error:', error);
+                if (result.success) {
+                    alert('Colaborador agregado exitosamente.');
+                } else {
+                    alert('Error al agregar el colaborador.');
+                }
             });
     });
-});
