@@ -1,0 +1,68 @@
+﻿@model SitiosWeb.Model.Rebajos
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<h4>Rebajos</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdRebajo" />
+            <div class="form-group">
+                <label asp-for="IdColaborador" class="control-label"></label>
+                <select asp-for="IdColaborador" class="form-control" asp-items="ViewBag.IdColaborador"></select>
+                <span asp-validation-for="IdColaborador" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdValidador" class="control-label"></label>
+                <select asp-for="IdValidador" class="form-control" asp-items="ViewBag.IdValidador"></select>
+                <span asp-validation-for="IdValidador" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaRebajo" class="control-label"></label>
+                <input asp-for="FechaRebajo" class="form-control" />
+                <span asp-validation-for="FechaRebajo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Inconsistencia" class="control-label"></label>
+                <select asp-for="Inconsistencia" class="form-control" asp-items="ViewBag.Inconsistencia"></select>
+                <span asp-validation-for="Inconsistencia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTipoRebajo" class="control-label"></label>
+                <select asp-for="IdTipoRebajo" class="form-control" asp-items="ViewBag.IdTipoRebajo"></select>
+                <span asp-validation-for="IdTipoRebajo" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Aprobacion" /> @Html.DisplayNameFor(model => model.Aprobacion)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>
