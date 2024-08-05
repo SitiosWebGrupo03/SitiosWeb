@@ -32,7 +32,14 @@ namespace SitiosWeb.Controllers
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             }
-            return View();
+            var colaboradores = _context.Colaboradores
+                .Include(c => c.IdPuestoNavigation)
+                    .ThenInclude(p => p.IdDepartamentoNavigation)
+                    .Include(c => c.Usuarios)
+                    .Include(c => c.Marcas)
+                    .Include(c => c.Inconsistencias)
+                .ToList();
+            return View(colaboradores);
         }
 
         public IActionResult Login()
