@@ -9,7 +9,7 @@
   <ItemGroup>
     <Content Remove="Views\Home\menuInconsistencias.cshtml" />
     <Content Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
-    <Content Remove="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtra.cshtml" />
+    <Content Remove="Views\Paginas\gestion_horas_extras\SolicitudHorasExtra.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Solicitud.cshtml" />

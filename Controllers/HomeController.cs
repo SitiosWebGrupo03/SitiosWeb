@@ -253,17 +253,14 @@ namespace SitiosWeb.Controllers
         }
 
         [Authorize(Roles = "COLABORADOR")]
-
-
-
-
         public IActionResult SolicitarHorasExtras()
         {
-            
             ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
-            return View("/Views/Paginas/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
+            return View("/Views/Paginas/gestion_horas_extras/SolicitarHorasExtras.cshtml"); ;
         }
+
         [Authorize(Roles = "JEFATURA")]
+
 
         public IActionResult SolicitarHorasExtras(SolicitudHorasExtra solicitud)
         {
