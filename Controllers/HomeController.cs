@@ -227,13 +227,18 @@ namespace SitiosWeb.Controllers
         }
 
         [Authorize(Roles = "COLABORADOR")]
+
+
+
+
         public IActionResult SolicitarHorasExtras()
         {
-            // Asegúrate de proporcionar una lista de tipos de actividades si es necesario
+            
             ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
-            return View("~/Pages/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
+            return View("/Views/Paginas/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
         }
         [Authorize(Roles = "JEFATURA")]
+
         public IActionResult SolicitarHorasExtras(SolicitudHorasExtra solicitud)
         {
             if (ModelState.IsValid)
@@ -246,8 +251,9 @@ namespace SitiosWeb.Controllers
             ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
             return View(solicitud);
         }
-
         [Authorize(Roles = "JEFATURA")]
+
+
         public IActionResult ReporteHorasExtras()
         {
             var solicitudes = _context.SolicitudHorasExtra
@@ -258,8 +264,8 @@ namespace SitiosWeb.Controllers
 
             return View("/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml", solicitudes);
         }
-
         [Authorize(Roles = "JEFATURA")]
+       
         public IActionResult AprobarHorasExtras(int id)
         {
             var solicitud = _context.SolicitudHorasExtra.Find(id);
@@ -271,8 +277,8 @@ namespace SitiosWeb.Controllers
             }
             return RedirectToAction("ReporteHorasExtras");
         }
-
         [Authorize(Roles = "COLABORADOR")]
+
         public IActionResult AprobarSolicitud(int id)
         {
             var solicitud = _context.SolicitudHorasExtra.Find(id);

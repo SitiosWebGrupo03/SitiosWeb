@@ -43,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Paginas\Gestion_Horas_Extras\SolicitudHorasExtra.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
