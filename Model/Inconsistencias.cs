@@ -15,6 +15,8 @@ public partial class Inconsistencias
 
     public DateOnly FechaInconsistencia { get; set; }
 
+    public bool? Mostrar { get; set; }
+
     public virtual Colaboradores? IdEmpleadoNavigation { get; set; }
 
     public virtual JustificacionesInconsistencias? IdJustificacionNavigation { get; set; }

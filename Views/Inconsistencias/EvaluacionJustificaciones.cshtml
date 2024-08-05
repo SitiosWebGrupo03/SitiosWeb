@@ -14,46 +14,46 @@
 <body>
     <div class="container">
         <h2>Detalles de la Justificación</h2>
-        <form>
+        <form asp-controller="Rebajos">
             <div class="form-group">
                 <label for="IdJustificacion">ID Justificación</label>
-                <input type="text" class="form-control" id="IdJustificacion" value="@Model.IdJustificacion" readonly />
+                <input type="text" class="form-control" id="IdJustificacion" name="IdJustificacion" value="@Model.IdJustificacion" readonly />
             </div>
             <div class="form-group">
                 <label for="IdColaborador">ID Colaborador</label>
-                <input type="text" class="form-control" id="IdColaborador" value="@Model.IdColaborador" readonly />
+                <input type="text" class="form-control" id="IdColaborador" name="IdColaborador" value="@Model.IdColaborador" readonly />
             </div>
             <div class="form-group">
                 <label for="IdPuesto">ID Puesto</label>
-                <input type="text" class="form-control" id="IdPuesto" value="@Model.IdPuesto" readonly />
+                <input type="text" class="form-control" id="IdPuesto" name="IdPuesto" value="@Model.IdPuesto" readonly />
             </div>
             <div class="form-group">
                 <label for="IdDepartamento">ID Departamento</label>
-                <input type="text" class="form-control" id="IdDepartamento" value="@Model.IdDepartamento" readonly />
+                <input type="text" class="form-control" id="IdDepartamento" name="IdDepartamento" value="@Model.IdDepartamento" readonly />
             </div>
             <div class="form-group">
                 <label for="IdTipoInconsistencia">ID Tipo Inconsistencia</label>
-                <input type="text" class="form-control" id="IdTipoInconsistencia" value="@Model.IdTipoInconsistencia" readonly />
+                <input type="text" class="form-control" id="IdTipoInconsistencia" name="IdTipoInconsistencia" value="@Model.IdTipoInconsistencia" readonly />
             </div>
             <div class="form-group">
                 <label for="ReponeTiempo">Repone Tiempo</label>
-                <input type="text" class="form-control" id="ReponeTiempo" value="@Model.ReponeTiempo" readonly />
+                <input type="text" class="form-control" id="ReponeTiempo" name="ReponeTiempo" value="@Model.ReponeTiempo" readonly />
             </div>
             <div class="form-group">
                 <label for="HorarioId">Horario ID</label>
-                <input type="text" class="form-control" id="HorarioId" value="@Model.HorarioId" readonly />
+                <input type="text" class="form-control" id="HorarioId" name="HorarioId" value="@Model.HorarioId" readonly />
             </div>
             <div class="form-group">
                 <label for="FechaInconsistencia">Fecha Inconsistencia</label>
-                <input type="text" class="form-control" id="FechaInconsistencia" value="@Model.FechaInconsistencia.ToShortDateString()" readonly />
+                <input type="text" class="form-control" id="FechaInconsistencia" name="FechaInconsistencia" value="@Model.FechaInconsistencia.ToShortDateString()" readonly />
             </div>
             <div class="form-group">
                 <label for="Observaciones">Observaciones</label>
-                <textarea class="form-control" id="Observaciones" readonly>@Model.Observaciones</textarea>
+                <textarea class="form-control" id="Observaciones" name="Observaciones" readonly>@Model.Observaciones</textarea>
             </div>
             <div class="form-group">
                 <label for="Reposicion">Reposición</label>
-                <input type="text" class="form-control" id="Reposicion" value="@Model.Reposicion" readonly />
+                <input type="text" class="form-control" id="Reposicion" name="Reposicion" value="@Model.Reposicion" readonly />
             </div>
             <div class="form-group">
                 <label for="Evidencias">Evidencias</label>
@@ -69,14 +69,17 @@
             <div class="form-group">
                 <label for="Validacion">Validación</label>
                 <div>
-                    <input type="radio" id="validacionSi" name="Validacion" value="true" @(Model.Validacion == true ? "checked" : "") />
+                    <input type="radio" id="validacionSi" name="Validacion" value="true" @(Model.Validacion == true ? "checked" : "") disabled />
                     <label for="validacionSi">Sí</label>
-                    <input type="radio" id="validacionNo" name="Validacion" value="false" @(Model.Validacion == false ? "checked" : "") />
+                    <input type="radio" id="validacionNo" name="Validacion" value="false" @(Model.Validacion == false ? "checked" : "") disabled />
                     <label for="validacionNo">No</label>
                 </div>
             </div>
+            <a asp-action="">Aplicar rebajo</a>
+            <a asp-action="">Aceptar Justificacion</a>
         </form>
         <a href="../Menu/menuSupervisor.html">Volver al menú</a>
     </div>
 </body>
 </html>
+

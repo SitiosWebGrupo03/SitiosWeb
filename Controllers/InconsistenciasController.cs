@@ -90,7 +90,7 @@ namespace SitiosWeb.Controllers
                 return NotFound();
             }
 
-            return View(justificacion);
+            return View("~/Views/Inconsistencias/EvaluacionJustificaciones.cshtml", justificacion);
         }
 
 

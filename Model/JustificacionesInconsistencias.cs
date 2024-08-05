@@ -40,4 +40,6 @@ public partial class JustificacionesInconsistencias
     public virtual ICollection<Inconsistencias> Inconsistencias { get; set; } = new List<Inconsistencias>();
 
     public virtual Reposiciones? ReposicionNavigation { get; set; }
+
+    public virtual ICollection<ReposicionTercero> ReposicionTercero { get; set; } = new List<ReposicionTercero>();
 }

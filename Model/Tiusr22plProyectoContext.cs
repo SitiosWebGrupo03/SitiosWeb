@@ -47,6 +47,8 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<ReporteVacaciones> ReporteVacaciones { get; set; }
 
+    public virtual DbSet<ReposicionTercero> ReposicionTercero { get; set; }
+
     public virtual DbSet<Reposiciones> Reposiciones { get; set; }
 
     public virtual DbSet<SolicitudHorasExtra> SolicitudHorasExtra { get; set; }
@@ -54,6 +56,8 @@ public partial class Tiusr22plProyectoContext : DbContext
     public virtual DbSet<SolicitudPermiso> SolicitudPermiso { get; set; }
 
     public virtual DbSet<SolicitudVacaciones> SolicitudVacaciones { get; set; }
+
+    public virtual DbSet<SolicitudeRebajo> SolicitudeRebajo { get; set; }
 
     public virtual DbSet<TipoActividades> TipoActividades { get; set; }
 
@@ -270,6 +274,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdJustificacion).HasColumnName("id_Justificacion");
             entity.Property(e => e.IdTipoInconsistencia).HasColumnName("id_tipoInconsistencia");
+            entity.Property(e => e.Mostrar).HasColumnName("mostrar");
 
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.Inconsistencias)
                 .HasForeignKey(d => d.IdEmpleado)
@@ -549,6 +554,35 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasConstraintName("FK__reporte_v__id_va__08B54D69");
         });
 
+        modelBuilder.Entity<ReposicionTercero>(entity =>
+        {
+            entity.HasKey(e => new { e.Idtercero, e.Idsolicitante, e.Justificacion });
+
+            entity.Property(e => e.Idtercero)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("IDtercero");
+            entity.Property(e => e.Idsolicitante)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("IDSolicitante");
+
+            entity.HasOne(d => d.IdsolicitanteNavigation).WithMany(p => p.ReposicionTerceroIdsolicitanteNavigation)
+                .HasForeignKey(d => d.Idsolicitante)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ReposicionTercero_colaboradores1");
+
+            entity.HasOne(d => d.IdterceroNavigation).WithMany(p => p.ReposicionTerceroIdterceroNavigation)
+                .HasForeignKey(d => d.Idtercero)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ReposicionTercero_colaboradores");
+
+            entity.HasOne(d => d.JustificacionNavigation).WithMany(p => p.ReposicionTercero)
+                .HasForeignKey(d => d.Justificacion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ReposicionTercero_justificaciones_inconsistencias");
+        });
+
         modelBuilder.Entity<Reposiciones>(entity =>
         {
             entity.HasKey(e => e.IdReposicion);
@@ -557,9 +591,6 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.AprobadasPor)
                 .HasMaxLength(150)
                 .IsUnicode(false);
-            entity.Property(e => e.HorasReponer)
-                .HasMaxLength(10)
-                .IsFixedLength();
             entity.Property(e => e.Idcolaborador)
                 .HasMaxLength(150)
                 .IsUnicode(false)
@@ -657,6 +688,23 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudVacaciones)
                 .HasForeignKey(d => d.IdEmpleado)
                 .HasConstraintName("FK__solicitud__id_em__04E4BC85");
+        });
+
+        modelBuilder.Entity<SolicitudeRebajo>(entity =>
+        {
+            entity.HasKey(e => e.IdSolicitud).HasName("PK__solicitu__D801DDB88E38041D");
+
+            entity.ToTable("solicitude_rebajo");
+
+            entity.Property(e => e.IdSolicitud).HasColumnName("idSolicitud");
+            entity.Property(e => e.IdInconsistencia).HasColumnName("idInconsistencia");
+            entity.Property(e => e.IdSolicitante)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("idSolicitante");
+            entity.Property(e => e.Observaciones)
+                .HasMaxLength(200)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<TipoActividades>(entity =>
