@@ -310,6 +310,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(350)
                 .IsUnicode(false);
             entity.Property(e => e.Reposicion).HasColumnName("reposicion");
+            entity.Property(e => e.Validacion).HasColumnName("validacion");
 
             entity.HasOne(d => d.IdColaboradorNavigation).WithMany(p => p.JustificacionesInconsistencias)
                 .HasForeignKey(d => d.IdColaborador)

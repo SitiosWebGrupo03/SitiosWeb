@@ -27,6 +27,8 @@ public partial class JustificacionesInconsistencias
 
     public byte[]? Evidencias { get; set; }
 
+    public bool? Validacion { get; set; }
+
     public virtual Colaboradores IdColaboradorNavigation { get; set; } = null!;
 
     public virtual Departamentos? IdDepartamentoNavigation { get; set; }
