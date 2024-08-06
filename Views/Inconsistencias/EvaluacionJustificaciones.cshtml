@@ -29,11 +29,11 @@
             </div>
             <div class="form-group">
                 <label for="IdDepartamento">ID Departamento</label>
-                <input type="text" class="form-control" id="IdDepartamento" name="IdDepartamento" value="@Model.IdDepartamento" readonly />
+                <input type="text" class="form-control" id="IdDepartamento" name="IdDepartamento" value="@Model.IdDepartamento?.ToString() ?? " N /A"" readonly />
             </div>
             <div class="form-group">
                 <label for="IdTipoInconsistencia">ID Tipo Inconsistencia</label>
-                <input type="text" class="form-control" id="IdTipoInconsistencia" name="IdTipoInconsistencia" value="@Model.IdTipoInconsistencia" readonly />
+                <input type="text" class="form-control" id="IdTipoInconsistencia" name="IdTipoInconsistencia" value="@Model.IdTipoInconsistencia?.ToString() ?? " N /A"" readonly />
             </div>
             <div class="form-group">
                 <label for="ReponeTiempo">Repone Tiempo</label>
@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label for="HorarioId">Horario ID</label>
-                <input type="text" class="form-control" id="HorarioId" name="HorarioId" value="@Model.HorarioId" readonly />
+                <input type="text" class="form-control" id="HorarioId" name="HorarioId" value="@Model.HorarioId ?? " N /A"" readonly />
             </div>
             <div class="form-group">
                 <label for="FechaInconsistencia">Fecha Inconsistencia</label>
@@ -49,11 +49,11 @@
             </div>
             <div class="form-group">
                 <label for="Observaciones">Observaciones</label>
-                <textarea class="form-control" id="Observaciones" name="Observaciones" readonly>@Model.Observaciones</textarea>
+                <textarea class="form-control" id="Observaciones" name="Observaciones" readonly>@Model.Observaciones ?? "N/A"</textarea>
             </div>
             <div class="form-group">
                 <label for="Reposicion">Reposición</label>
-                <input type="text" class="form-control" id="Reposicion" name="Reposicion" value="@Model.Reposicion" readonly />
+                <input type="text" class="form-control" id="Reposicion" name="Reposicion" value="@Model.Reposicion?.ToString() ?? " N /A"" readonly />
             </div>
             <div class="form-group">
                 <label for="Evidencias">Evidencias</label>
@@ -75,10 +75,9 @@
                     <label for="validacionNo">No</label>
                 </div>
             </div>
-            <a asp-action="">Aplicar rebajo</a>
+            <a asp-action="solicitarRebajo">Aplicar rebajo</a>
             <a asp-action="">Aceptar Justificacion</a>
         </form>
-        <a href="../Menu/menuSupervisor.html">Volver al menú</a>
     </div>
 </body>
 </html>
