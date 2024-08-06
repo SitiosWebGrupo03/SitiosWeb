@@ -60,7 +60,7 @@ namespace SitiosWeb.Controllers
 
             // Clear TempData
             TempData.Clear();
-            return View("~/Views/Home/Index.cshtml");
+            return RedirectToAction("Index", "Home");
         }
 
 

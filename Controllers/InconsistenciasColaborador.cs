@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿    using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 
@@ -39,11 +39,19 @@ namespace SitiosWeb.Controllers
             return View(inconsistencias);
         }
 
-        public async Task<IActionResult> Justificacion(string identificacion, string id_puesto, int iddepartamento, int idInconsistencia, int idtipoinconsistencia, string reponetiempo, string horarioid, DateOnly fecha, string observaciones,byte[] evidencia)
+        public async Task<IActionResult> Justificacion(string identificacion, string id_puesto, string iddepartamento, int idInconsistencia, int idtipoinconsistencia, string reponetiempo, string horarioid, DateOnly fecha, string observaciones,IFormFile evidencia)
         {
+            byte[] evidenciaBytes= null;
 
             bool reponer = false;
-
+            if (evidencia != null && evidencia.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await evidencia.CopyToAsync(memoryStream);
+                    evidenciaBytes = memoryStream.ToArray();
+                }
+            }
             if (reponetiempo.Equals("si"))
             {
                 reponer = true;
@@ -52,17 +60,19 @@ namespace SitiosWeb.Controllers
             {
                 reponer = false;
             }
+            var departament = _context.Departamentos.FirstOrDefault(c => c.NomDepartamento == iddepartamento);
             var justificacion = new JustificacionesInconsistencias
             {
                 IdColaborador = identificacion,
                 IdPuesto = id_puesto,
-                IdDepartamento = iddepartamento,
+                IdDepartamento = departament.IdDepartamento,
                 IdTipoInconsistencia = idtipoinconsistencia,
                 ReponeTiempo = reponer,
                 HorarioId = horarioid,
                 FechaInconsistencia = fecha,
                 Observaciones = observaciones,
-                Evidencias = evidencia
+                Evidencias = evidenciaBytes,
+                Validacion=null
             };
 
 

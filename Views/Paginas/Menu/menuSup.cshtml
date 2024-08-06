@@ -11,6 +11,8 @@
     <title>Time Master</title>
 </head>
 <body>
+        <div class="contenedor">
+
     <div class="menu">
 
         <a asp-controller="Home" asp-action="menuCRUD">
@@ -30,7 +32,7 @@
             <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
             Configuraciones del sistema<br><small>Configuraciones del sistema y reglas de negocio</small>
         </a>
-        <a href="#reposiciones">
+        <a asp-controller="SolicitudeRebajo" asp-action="Index">
             <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
             Aprobacion de Rebajos<br><small>Aprueba o rechaza rebajos por inconcistencias</small>
         </a>
@@ -38,6 +40,7 @@
             <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
             Vacaciones de los colaboradores<br><small>Dias en los cuales no se presentan al trabajo</small>
         </a>
+    </div>
     </div>
 </body>
 </html>
