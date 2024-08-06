@@ -21,7 +21,28 @@ namespace SitiosWeb.Controllers
         // GET: SolicitudeRebajo
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SolicitudeRebajo.ToListAsync());
+            var solicitudes = await _context.SolicitudeRebajo
+                .Where(s => s.Mostrar == true || s.Mostrar == null)
+                .ToListAsync();
+            return View("~/Views/SolicitudeRebajo/Index.cshtml", solicitudes);
+        }
+
+        public async Task<IActionResult> FormRebajo(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var solicitud = await _context.SolicitudeRebajo
+                .FirstOrDefaultAsync(s => s.IdSolicitud == id);
+
+            if (solicitud == null)
+            {
+                return NotFound();
+            }
+
+            return View("~/Views/SolicitudeRebajo/FormRebajo.cshtml", solicitud);
         }
 
         // GET: SolicitudeRebajo/Details/5
@@ -78,9 +99,7 @@ namespace SitiosWeb.Controllers
             return View();
         }
 
-        // POST: SolicitudeRebajo/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdSolicitud,IdSolicitante,IdInconsistencia,Observaciones")] SolicitudeRebajo solicitudeRebajo)

@@ -122,7 +122,7 @@ namespace SitiosWeb.Controllers
 
             try
             {
-                var marcas = await _context.HoraX
+                var marcas = await _context.HorariosXPuesto
                     .Include(m =>m.IdPuestoNavigation)
                     .ToListAsync();
                 return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml", marcas);

@@ -24,8 +24,7 @@ namespace SitiosWeb.Controllers
             return View(await _context.TiposRebajos.ToListAsync());
         }
 
-        // GET: TiposRebajos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> GetTiposRebajos()
         {
             var tiposRebajos = await _context.TiposRebajos
                 .Select(ti => new { ti.IdTipoRebajo, ti.Rebajos, ti.Cantidad })

@@ -15,6 +15,8 @@ public partial class Tiusr22plProyectoContext : DbContext
     {
     }
 
+    public virtual DbSet<Actividades> Actividades { get; set; }
+
     public virtual DbSet<AsignacionPcolaboradores> AsignacionPcolaboradores { get; set; }
 
     public virtual DbSet<Colaboradores> Colaboradores { get; set; }
@@ -73,8 +75,6 @@ public partial class Tiusr22plProyectoContext : DbContext
 
     public virtual DbSet<Vacaciones> Vacaciones { get; set; }
 
-    public virtual DbSet<HorariosXPuesto> HoraX { get; set; }
-
     public virtual DbSet<VacacionesColectivas> VacacionesColectivas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -83,6 +83,32 @@ public partial class Tiusr22plProyectoContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("Grupo03");
+
+        modelBuilder.Entity<Actividades>(entity =>
+        {
+            entity.HasKey(e => e.ActividadId).HasName("PK__Activida__981483F0D22F7408");
+
+            entity.Property(e => e.ActividadId).HasColumnName("ActividadID");
+            entity.Property(e => e.Comentarios).HasColumnType("text");
+            entity.Property(e => e.Descripcion).HasColumnType("text");
+            entity.Property(e => e.Estado)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.FechaActividad).HasColumnType("datetime");
+            entity.Property(e => e.FechaAprobacion).HasColumnType("datetime");
+            entity.Property(e => e.FechaRegistro).HasColumnType("datetime");
+            entity.Property(e => e.Horas).HasColumnType("decimal(5, 2)");
+            entity.Property(e => e.Identificacion)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+            entity.Property(e => e.TipoActividad)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdentificacionNavigation).WithMany(p => p.Actividades)
+                .HasForeignKey(d => d.Identificacion)
+                .HasConstraintName("FK__Actividad__Ident__147C05D0");
+        });
 
         modelBuilder.Entity<AsignacionPcolaboradores>(entity =>
         {
@@ -106,8 +132,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
         });
-        
-        
+
         modelBuilder.Entity<Colaboradores>(entity =>
         {
             entity.HasKey(e => e.Identificacion).HasName("PK__colabora__C196DEC638065473");
@@ -201,7 +226,9 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(7)
                 .IsUnicode(false)
                 .HasColumnName("id_puesto");
-           
+            entity.Property(e => e.Jueves)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Lunes)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -211,15 +238,13 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Miercoles)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Jueves)
-               .HasMaxLength(50)
-               .IsUnicode(false);
-            entity.Property(e => e.Viernes)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.Sabado)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Viernes)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
             entity.HasOne(d => d.IdPuestoNavigation).WithMany(p => p.HorariosXPuesto)
                 .HasForeignKey(d => d.IdPuesto)
                 .HasConstraintName("FK__Horarios___id_pu__47DBAE45");
@@ -705,6 +730,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("idSolicitante");
+            entity.Property(e => e.Mostrar).HasColumnName("mostrar");
             entity.Property(e => e.Observaciones)
                 .HasMaxLength(200)
                 .IsUnicode(false);

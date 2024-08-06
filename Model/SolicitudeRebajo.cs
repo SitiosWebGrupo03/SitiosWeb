@@ -12,4 +12,6 @@ public partial class SolicitudeRebajo
     public int? IdInconsistencia { get; set; }
 
     public string? Observaciones { get; set; }
+
+    public bool? Mostrar { get; set; }
 }
