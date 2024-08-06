@@ -4,13 +4,20 @@
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
 }
 
-
 <h1>Registrar Actividad</h1>
 
 <h4>Registro de Actividades</h4>
 <hr />
 <div class="row">
     <div class="col-md-6">
+        <!-- Mostrar mensaje de éxito si existe -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -50,7 +57,6 @@
                 <span asp-validation-for="DuracionEnHoras" class="text-danger"></span>
             </div>
 
-            <!-- Eliminar el campo de aprobación para el colaborador -->
             <input type="submit" value="Registrar" class="btn btn-primary" />
         </form>
     </div>
