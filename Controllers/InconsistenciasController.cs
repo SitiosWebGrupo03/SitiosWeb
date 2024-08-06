@@ -94,6 +94,8 @@ namespace SitiosWeb.Controllers
         }
 
 
+
+
         // GET: Inconsistencias/Create
         public IActionResult Create()
         {
