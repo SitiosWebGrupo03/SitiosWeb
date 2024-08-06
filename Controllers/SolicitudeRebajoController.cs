@@ -96,7 +96,42 @@ namespace SitiosWeb.Controllers
             _context.SolicitudeRebajo.Add(solicitudRebajo);
             await _context.SaveChangesAsync();
 
-            return View();
+            var solicitudes = await _context.SolicitudeRebajo
+                .Where(s => s.Mostrar == true || s.Mostrar == null)
+                .ToListAsync();
+            return View("~/Views/SolicitudeRebajo/Index.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> enviarRebajo(int IdSolicitud, string IdSolicitante, int IdInconsistencia, string Observaciones, string IdValidador, int IdTipoRebajo, string FechaRebajo, string IdColaborador, bool Aprobacion)
+        {
+            DateOnly fechaRebajoParsed;
+            if (!DateOnly.TryParse(FechaRebajo, out fechaRebajoParsed))
+            {
+                ModelState.AddModelError("FechaRebajo", "La fecha no está en el formato correcto.");
+                return View();
+            }
+
+            var solicitudRebajo = await _context.SolicitudeRebajo.FindAsync(IdSolicitud);
+            if (solicitudRebajo == null)
+            {
+                return NotFound();
+            }
+
+            var rebajo = new Rebajos
+            {
+                IdColaborador = IdColaborador,
+                IdValidador = IdValidador,
+                FechaRebajo = fechaRebajoParsed,
+                Inconsistencia = IdInconsistencia,
+                IdTipoRebajo = IdTipoRebajo,
+                Aprobacion = Aprobacion,
+            };
+
+            _context.Rebajos.Add(rebajo);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
