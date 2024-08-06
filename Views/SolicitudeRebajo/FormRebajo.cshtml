@@ -2,3 +2,81 @@
 @{
     Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/justificaciones.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicar Rebajo</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="container">
+            <div id="row">
+                <h2>Detalles de la Solicitud</h2>
+                <form asp-action="AplicarRebajo" method="post">
+                    <input type="hidden" name="IdSolicitud" value="@Model.IdSolicitud" />
+                    <div class="form-group">
+                        <label for="IdSolicitante">ID de la Jefatura</label>
+                        <input type="text" class="form-control" id="IdSolicitante" name="IdSolicitante" value="@Model.IdSolicitante" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="IdInconsistencia">Inconsistencia</label>
+                        <input type="text" class="form-control" id="IdInconsistencia" name="IdInconsistencia" value="@Model.IdInconsistencia" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="Observaciones">Observaciones</label>
+                        <textarea class="form-control" id="Observaciones" name="Observaciones">@Model.Observaciones</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comboBox3" class="control-label">Tipo Inconsistencia:</label>
+                        <select id="comboBox3" name="idtipoinconsistencia" class="form-control">
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enviar Rebajo</button>
+                </form>
+                <a href="@Url.Action("Index", "SolicitudeRebajo")">Volver a la lista</a>
+            </div>
+        </div>
+
+        <div id="pie">
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetTiposRebajos", "TiposRebajosController")',
+            method: 'GET',
+            success: function (data) {
+                var $comboBox = $('#comboBox3');
+                $comboBox.empty();
+
+                if (data && data.length > 0) {
+                    $.each(data, function (index, tipo) {
+                        $comboBox.append($('<option>', {
+                            value: tipo.idTipoInconsistencia,
+                            text: tipo.descripcion
+                        }));
+                    });
+                } else {
+                    $comboBox.append($('<option>', {
+                        value: '',
+                        text: 'No hay tipos disponibles'
+                    }));
+                }
+            },
+            error: function () {
+                $('#comboBox3').append($('<option>', {
+                    value: '',
+                    text: 'Error'
+                }));
+            }
+        });
+    });
+</script>
