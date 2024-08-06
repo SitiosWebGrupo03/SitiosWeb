@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SitiosWeb.Model.RegistroActividades>
+
+@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+   
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+    <title>Registro de Actividades</title>
+</head>
+<body>
+    <h1>Registro de Actividades</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tipo de Actividad</th>
+                <th>Colaborador</th>
+                <th>Fecha</th>
+                <th>Duración</th>
+                <th>Aprobado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdRegistro</td>
+                    <td>@item.IdTipoActividadNavigation?.Nombre</td>
+                    <td>@item.IdColaboradorNavigation?.Nombre</td>
+                    <td>@item.FechaActividad.ToShortDateString()</td>
+                    <td>@item.DuracionEnHoras</td>
+                    <td>@(item.Aprobado ? "Sí" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
