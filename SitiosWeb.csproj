@@ -14,7 +14,6 @@
     <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <Content Remove="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
     <Content Remove="Views\Paginas\indicadores\indicadores.cshtml" />
-    <Content Remove="Views\SolicitudeRebajo\FormRebajo.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +44,6 @@
     <None Include="Views\ExpedienteEmpleado\HorarioVistaJef.cshtml" />
     <None Include="Views\ExpedienteEmpleado\Modificar.cshtml" />
     <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
-    <None Include="Views\SolicitudeRebajo\FormRebajo.cshtml" />
     <None Include="wwwroot\FaceModels\deploy.prototxt" />
     <None Include="wwwroot\FaceModels\res10_300x300_ssd_iter_140000.caffemodel" />
   </ItemGroup>
@@ -67,11 +65,6 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\SolicitudeRebajo\FormRebajo.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\SolicitudeRebajo\FormRebajo.cshtml" />
   </ItemGroup>
 
 </Project>

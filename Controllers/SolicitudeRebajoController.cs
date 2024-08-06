@@ -42,7 +42,7 @@ namespace SitiosWeb.Controllers
                 return NotFound();
             }
 
-            return View("~/Views/SolicitudeRebajo/FormRebajo.cshtml", solicitud);
+            return View("~/Views/SolicitudeRebajo/evaluacionRebajos.cshtml", solicitud);
         }
 
         // GET: SolicitudeRebajo/Details/5

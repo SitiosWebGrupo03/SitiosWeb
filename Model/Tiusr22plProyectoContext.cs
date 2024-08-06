@@ -511,6 +511,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_validador");
+            entity.Property(e => e.Nombre).HasMaxLength(255);
             entity.Property(e => e.Observaciones)
                 .HasMaxLength(500)
                 .IsUnicode(false);
