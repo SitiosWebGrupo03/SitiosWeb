@@ -32,7 +32,14 @@
                         <br />
                         Nombre: @item.IdEmpleadoNavigation?.Nombre
                         <br />
-                        Número de Justificación: @item.IdJustificacion?.ToString()
+                        @if (item.IdJustificacion == null)
+                        {
+                            <span style="color:red;">Número de Justificación: No hay justificación</span>
+                        }
+                        else
+                        {
+                            <span style="color: green;">Número de Justificación: @item.IdJustificacion.ToString()</span>
+                        }
                         <br />
                         Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation?.Descripcion
                         <br />
