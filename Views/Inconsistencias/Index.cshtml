@@ -36,7 +36,7 @@
                         <br />
                         Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation?.Descripcion
                         <br />
-                        <a asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificación</a>
+                        <a asp-controller="Inconsistencias" asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificación</a>
                     </p>
                 }
                    

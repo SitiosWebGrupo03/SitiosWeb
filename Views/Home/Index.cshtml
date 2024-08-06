@@ -1,5 +1,17 @@
-﻿@{
+﻿@model IEnumerable<SitiosWeb.Model.Colaboradores>
+@{
     Layout = null;
+    var usuarios = Model.SelectMany(c => c.Usuarios).Where(u => u.IdTipoUsuario == 3).Count();
+    var horas = Math.Round(
+    Model.SelectMany(c => c.Marcas)
+         .Where(u => u.InicioJornada != null && u.FinJornada != null)
+         .Sum(u => ((DateTime)u.FinJornada - (DateTime)u.InicioJornada).TotalHours),
+    2);
+    var puestos = Model
+        .Where(c => c.IdPuestoNavigation != null) // Filter out null IdPuestoNavigation
+        .SelectMany(c => c.IdPuestoNavigation.IdPuesto) // Ensure IdPuesto is also not null
+        .Count();
+    var inconsistencias = Model.SelectMany(c => c.Inconsistencias).Count();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="~/css/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Success</title>
+    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -43,23 +56,23 @@
         <div class="stats">
             <div class="stat">
                 <i class="fa-sharp fa-solid fa-user-tie"></i>
-                <h3>50</h3>
+                <h3>@usuarios</h3>
                 <p>Colaboradores</p>
             </div>
             <div class="stat">
                 <i class="fa-regular fa-clock"></i>
-                <h3>3,129</h3>
+                <h3>@horas</h3>
                 <p>Horas Trabajadas</p>
             </div>
             <div class="stat">
                 <i class="fa-solid fa-chart-line"></i>
-                <h3>7,512</h3>
-                <p>Actividades Realizadas</p>
+                <h3>@puestos</h3>
+                <p>Puestos registrados</p>
             </div>
             <div class="stat">
                 <i class="fa-solid fa-mug-saucer"></i>
-                <h3>10,500 hrs</h3>
-                <p>Tiempo Productivo</p>
+                <h3>@inconsistencias</h3>
+                <p>Inconsistencias registradas</p>
             </div>
         </div>
     </div>
