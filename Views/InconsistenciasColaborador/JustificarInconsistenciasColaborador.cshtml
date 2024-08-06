@@ -83,6 +83,7 @@
                     <div class="form-group">
                         <label for="archivo" class="control-label">Arrastrar Imagen o PDF de Evidencias:</label>
                         <input type="file" id="archivo" name="evidencia" class="form-control" accept=".pdf, .jpg, .jpeg, .png" />
+
                     </div>
 
                     <div class="form-group">
@@ -102,8 +103,38 @@
 </html>
 
 <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetTiposInconsistencias", "InconsistenciasColaborador")',
+            method: 'GET',
+            success: function (data) {
+                var $comboBox = $('#comboBox3');
+                $comboBox.empty();
 
-
+                if (data && data.length > 0) {
+                    $.each(data, function (index, tipo) {
+                        $comboBox.append($('<option>', {
+                            value: tipo.idTipoInconsistencia,
+                            text: tipo.descripcion
+                        }));
+                    });
+                } else {
+                    $comboBox.append($('<option>', {
+                        value: '',
+                        text: 'No hay tipos de inconsistencia disponibles'
+                    }));
+                }
+            },
+            error: function () {
+                $('#comboBox3').append($('<option>', {
+                    value: '',
+                    text: 'Error cargando los tipos de inconsistencia'
+                }));
+            }
+        });
+    });
+    </script>
+<script>
     function validateForm() {
         const errorLabel = document.getElementById('errorLabel');
 
@@ -135,38 +166,6 @@
             }, 2000);
         }, 2000);
     }
-
-    $(document).ready(function() {
-        $.ajax({
-            url: '@Url.Action("GetTiposInconsistencias", "InconsistenciasColaborador")',
-            method: 'GET',
-            success: function(data) {
-                var $comboBox = $('#comboBox3');
-                $comboBox.empty();
-
-                if (data && data.length > 0) {
-                    $.each(data, function(index, tipo) {
-                        $comboBox.append($('<option>', {
-                            value: tipo.idTipoInconsistencia,
-                            text: tipo.descripcion
-                        }));
-                    });
-                } else {
-                    $comboBox.append($('<option>', {
-                        value: '',
-                        text: 'No hay tipos de inconsistencia disponibles'
-                    }));
-                }
-            },
-            error: function() {
-                $('#comboBox3').append($('<option>', {
-                    value: '',
-                    text: 'Error cargando los tipos de inconsistencia'
-                }));
-            }
-        });
-    });
-
     document.getElementById('justificacionForm').addEventListener('submit', function (event) {
         var fechaInput = document.getElementById('fecha');
         var fechaValor = new Date(fechaInput.value);

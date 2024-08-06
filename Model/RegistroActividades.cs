@@ -14,8 +14,9 @@ namespace SitiosWeb.Model
         public decimal DuracionEnHoras { get; set; }
         public bool Aprobado { get; set; }
 
-        public virtual Colaboradores? IdColaboradorNavigation { get; set; }
-        public virtual TipoActividades? IdTipoActividadNavigation { get; set; }
-        public virtual Colaboradores? IdValidadorNavigation { get; set; }
-    }
+    public virtual Colaboradores? IdColaboradorNavigation { get; set; }
+
+    public virtual TipoActividades? IdTipoActividadNavigation { get; set; }
+
+    public virtual Colaboradores? IdValidadorNavigation { get; set; }
 }

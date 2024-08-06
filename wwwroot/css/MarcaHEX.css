@@ -1,8 +1,9 @@
 ﻿
+
 .container {
     display: flex;
     width: 850px; /* Reducir el ancho del contenedor */
-    height: 550px; /* Reducir la altura del contenedor */
+    height: 1200px; /* Reducir la altura del contenedor */
     background-color: #5e58f8;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;

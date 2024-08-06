@@ -57,14 +57,14 @@
             </div>
             <div class="form-group">
                 <label for="Evidencias">Evidencias</label>
-                @* @if (Model.Evidencias != null && Model.Evidencias.Length > 0)
+                 @if (Model.Evidencias != null && Model.Evidencias.Length > 0)
                 {
                 <a href="data:application/octet-stream;base64,@Convert.ToBase64String(Model.Evidencias)" download="Evidencia_@Model.IdJustificacion">Descargar Evidencia</a>
                 }
                 else
                 {
                 <p>No hay evidencia adjunta</p>
-                } *@
+                } 
             </div>
             <button type="submit" class="btn btn-primary">Aplicar rebajo</button>
         </form>

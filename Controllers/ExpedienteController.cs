@@ -69,6 +69,29 @@ namespace SitiosWeb.Controllers
                 return StatusCode(500, new { message = "Error: " + ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CargarComboxAP()
+        {
+            try
+            {
+
+
+                var puestos = await _context.Puestos
+                    .Where(p => p.Estado)
+                    .Select(p => p.NombrePuesto)
+                    .ToListAsync();
+
+
+                ViewBag.Puestos = puestos;
+
+                return View("~/Views/ExpedienteEmpleado/AsignarPColab.cshtml");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> ConsultarHorarioColab(string IdPuesto)
         {
@@ -125,7 +148,7 @@ namespace SitiosWeb.Controllers
 
             try
             {
-                var marcas = await _context.HoraX
+                var marcas = await _context.HorariosXPuesto
                     .Include(m =>m.IdPuestoNavigation)
                     .ToListAsync();
                 return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml", marcas);
@@ -139,37 +162,24 @@ namespace SitiosWeb.Controllers
             //return Json(new { success = true, nombre = colaborador.Nombre, puesto = colaborador.IdPuesto /*, horario = horario*/ });
         }
 
-
-
-
-
         [HttpPost("Asignar")]
-        public async Task<IActionResult> AgregarColaborador(string identificacion, string nombre,
-            string apellidos,
-            DateOnly fechaNacimiento,
-            DateOnly fechaContratacion,
-            DateOnly fechaFinContrato,
-            string correo,
-            int telefono,
-            [FromBody] ImagenDto imagenDto)
+        public async Task<IActionResult> AgregarColaborador([FromForm] Colaboradores colaboradorDto, [FromForm] string photoBase64)
         {
-            if (string.IsNullOrWhiteSpace(identificacion) || string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellidos) ||
-                string.IsNullOrWhiteSpace(correo) || telefono == 0)
+            if (colaboradorDto == null || string.IsNullOrEmpty(photoBase64))
             {
-                TempData["ErrorMessage"] = "Todos los campos son requeridos.";
-                return RedirectToAction(nameof(AgregarColaborador));
+                return Json(new { success = false, message = "Todos los campos son requeridos." });
             }
 
             var colaborador = new Colaboradores
             {
-                Identificacion = identificacion,
-                Nombre = nombre,
-                Apellidos = apellidos,
-                FechaNaciento= fechaNacimiento,
-                FechaContratacion = fechaContratacion,
-                FechaFinContrato = fechaFinContrato,
-                Correo = correo,
-                Telefono = telefono
+                Identificacion = colaboradorDto.Identificacion,
+                Nombre = colaboradorDto.Nombre,
+                Apellidos = colaboradorDto.Apellidos,
+                FechaNaciento = colaboradorDto.FechaNaciento,
+                FechaContratacion = colaboradorDto.FechaContratacion,
+                FechaFinContrato = colaboradorDto.FechaFinContrato,
+                Correo = colaboradorDto.Correo,
+                Telefono = colaboradorDto.Telefono
             };
 
             try
@@ -177,29 +187,48 @@ namespace SitiosWeb.Controllers
                 _context.Colaboradores.Add(colaborador);
                 await _context.SaveChangesAsync();
 
-                // Guardar la imagen
-                if (!string.IsNullOrEmpty(imagenDto.ImagenBase64))
+                if (!string.IsNullOrEmpty(photoBase64))
                 {
-                    var imagePath = Path.Combine(_env.WebRootPath, "imageFaceID", $"{identificacion}.png");
-                    var imageBytes = Convert.FromBase64String(imagenDto.ImagenBase64.Replace("data:image/png;base64,", ""));
-                    await System.IO.File.WriteAllBytesAsync(imagePath, imageBytes);
+                    string imageType = "jpeg";
+                    if (photoBase64.StartsWith($"data:image/{imageType};base64,"))
+                    {
+                        var base64Data = photoBase64.Replace($"data:image/{imageType};base64,", "");
+                        var imageBytes = Convert.FromBase64String(base64Data);
+
+                        var imagePath = Path.Combine(_env.WebRootPath, "imageFaceID", $"{colaboradorDto.Identificacion}.jpg");
+                        await System.IO.File.WriteAllBytesAsync(imagePath, imageBytes);
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "El formato de la imagen no es vÃ¡lido." });
+                    }
                 }
 
-                TempData["SuccessMessage"] = "Colaborador agregado exitosamente.";
+                return Json(new { success = true, message = "Colaborador agregado exitosamente." });
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Error al agregar el colaborador: " + ex.Message;
+                return Json(new { success = false, message = "Error al agregar el colaborador: " + ex.Message });
             }
-
-            return View("~/Views/ExpedienteEmpleado/AgregarColaborador.cshtml");
         }
+
+
+        public IActionResult AgregarColaborador()
+        {
+            return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
+        }
+
+        public class ImagenDto
+        {
+            public string ImagenBase64 { get; set; }
+        }
+
+
+
+
     }
 
-    public class ImagenDto
-    {
-        public string ImagenBase64 { get; set; }
-    }
+   
 
 
 }

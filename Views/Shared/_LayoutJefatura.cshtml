@@ -29,9 +29,9 @@
         <div class="user" style="position: relative;">
             <div class="borde"><i class="fa-solid fa-user"></i></div>
             <a href="#" onclick="toggleDropdown()">@User.Identity.Name<br />Jefatura</a>
-            <div id="dropdown" style="display:none; position: absolute; top: 100%; left: 0; background-color: white; border: 1px solid #ccc; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1000;">
-                <a style="display: block; padding: 8px; text-decoration: none; color: black;">Acerca de</a>
-                <a asp-controller="Home" asp-action="CerrarSesion" style="display: block; padding: 8px; text-decoration: none; color: black;">Cerrar sesión</a>
+            <div id="dropdown">
+                <a >Acerca de</a>
+                <a asp-controller="Home" asp-action="CerrarSesion">Cerrar sesión</a>
             </div>
         </div>
     </header>

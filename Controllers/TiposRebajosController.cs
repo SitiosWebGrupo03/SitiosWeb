@@ -24,33 +24,21 @@ namespace SitiosWeb.Controllers
             return View(await _context.TiposRebajos.ToListAsync());
         }
 
-        // GET: TiposRebajos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tiposRebajos = await _context.TiposRebajos
-                .FirstOrDefaultAsync(m => m.IdTipoRebajo == id);
-            if (tiposRebajos == null)
-            {
-                return NotFound();
-            }
-
-            return View(tiposRebajos);
-        }
-
         // GET: TiposRebajos/Create
         public IActionResult Create()
         {
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> GetTiposRebajos()
+        {
+            var tiposRebajos = await _context.TiposRebajos
+                .Select(ti => new { ti.IdTipoRebajo, ti.Cantidad, ti.Descripcion })
+                .ToListAsync();
 
-        // POST: TiposRebajos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+            return Json(tiposRebajos);
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdTipoRebajo,Descripcion,Cantidad,Estado")] TiposRebajos tiposRebajos)
