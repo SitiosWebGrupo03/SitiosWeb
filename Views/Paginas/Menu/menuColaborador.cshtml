@@ -61,27 +61,13 @@
                 Visualizar Horario<br><small>Visualizar horarios por departamento y puesto.</small>
             </a>
 
-        <a href="#Vacaciones">
-            <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
-            Vacaciones<br><small>Solicita o revisa tus solicitudes de vacaciones</small>
-        </a>
-        <a href="#permisos">
-            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-            Permisos<br><small>Revision de tus solicitudes de permisos</small>
-        </a>
-        <a asp-controller="InconsistenciasColaborador" asp-action="Index">
-            <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
-            Inconsistencias<br><small>Control de tus inconsistencias y justificacion de ellas</small>
-        </a>
+
 
             <a asp-controller="Home" asp-action="RegistroActividadesColaborador">
                 <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
                 Registro de Actividades<br><small>Accede a registrar tus actividades</small>
             </a>
-        <a href="/Expediente/CargarCombox">
-            <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
-            Vizualizar Horario<br><small>Visualizar horarios por departamento y puesto.</small>
-        </a>
+
 
 
             @if (inconsistencias.Count() > 0)
@@ -114,10 +100,7 @@
                 <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
                 Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
             </a>
-            <a asp-controller="Home" asp-action="indicadoresColab">
-                <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
-                Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
-            </a>
+
 
     </div>
 </body>
