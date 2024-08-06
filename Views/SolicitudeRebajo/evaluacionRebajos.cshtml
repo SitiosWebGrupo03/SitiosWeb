@@ -1,15 +1,18 @@
-﻿@model IEnumerable<SitiosWeb.Model.SolicitudeRebajo>
+﻿@model SitiosWeb.Model.SolicitudeRebajo
 
 @{
     Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    string colab = Context.Request.Cookies["Id"];
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="~/css/justificaciones.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Aplicar Rebajo</title>
 </head>
 <body>
@@ -17,7 +20,7 @@
         <div id="container">
             <div id="row">
                 <h2>Detalles de la Solicitud</h2>
-                @* <form asp-action="AplicarRebajo" method="post">
+                <form asp-action="AplicarRebajo" method="post">
                     <input type="hidden" name="IdSolicitud" value="@Model.IdSolicitud" />
                     <div class="form-group">
                         <label for="IdSolicitante">ID de la Jefatura</label>
@@ -31,16 +34,42 @@
                         <label for="Observaciones">Observaciones</label>
                         <textarea class="form-control" id="Observaciones" name="Observaciones">@Model.Observaciones</textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="Validador">Validador</label>
+                        <textarea class="form-control" id="Validador" name="IdValidador" readonly>@colab</textarea>
+                    </div>
 
                     <div class="form-group">
-                        <label for="comboBox3" class="control-label">Tipo Inconsistencia:</label>
-                        <select id="comboBox3" name="idtipoinconsistencia" class="form-control">
+                        <label for="comboBox3" class="control-label">Tipo Rebajo:</label>
+                        <select id="comboBox3" name="" class="form-control">
                             <option value="">Cargando...</option>
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label for="fecha" class="control-label">Fecha:</label>
+                        <input type="date" id="fecha" name="fecha" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IdInconsistencia">Colaborador</label>
+                        <input type="text" class="form-control" id="" name="IdInconsistencia" value="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Validacion :</label>
+                        <div>
+                            <input type="radio" id="radioSi" name="" value="si" />
+                            <label for="radioSi">Sí</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="radioNo" name="" value="no" />
+                            <label for="radioNo">No</label>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Enviar Rebajo</button>
-                </form> *@
+                </form>
                 <a href="@Url.Action("Index", "SolicitudeRebajo")">Volver a la lista</a>
             </div>
         </div>
@@ -51,19 +80,19 @@
 </body>
 </html>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $.ajax({
-            url: '@Url.Action("GetTiposRebajos", "TiposRebajosController")',
+            url: '@Url.Action("GetTiposRebajos", "SolicitudeRebajo")
             method: 'GET',
-            success: function (data) {
+            success: function(data) {
                 var $comboBox = $('#comboBox3');
                 $comboBox.empty();
 
                 if (data && data.length > 0) {
                     $.each(data, function (index, tipo) {
                         $comboBox.append($('<option>', {
-                            value: tipo.idTipoInconsistencia,
-                            text: tipo.descripcion
+                            value: tipo.idTipoRebajo, 
+                            text: tipo.descripcion 
                         }));
                     });
                 } else {
@@ -73,7 +102,7 @@
                     }));
                 }
             },
-            error: function () {
+            error: function() {
                 $('#comboBox3').append($('<option>', {
                     value: '',
                     text: 'Error'
