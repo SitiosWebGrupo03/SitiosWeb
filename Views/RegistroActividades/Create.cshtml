@@ -4,57 +4,64 @@
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>RegistroActividades</h4>
+<h1>Registrar Actividad</h1>
+
+<h4>Registro de Actividades</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="IdTipoActividad" class="control-label"></label>
-                <select asp-for="IdTipoActividad" class ="form-control" asp-items="ViewBag.IdTipoActividad"></select>
+                <select asp-for="IdTipoActividad" class="form-control" asp-items="ViewBag.IdTipoActividad"></select>
+                <span asp-validation-for="IdTipoActividad" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="IdColaborador" class="control-label"></label>
-                <select asp-for="IdColaborador" class ="form-control" asp-items="ViewBag.IdColaborador"></select>
+                <select asp-for="IdColaborador" class="form-control" asp-items="ViewBag.IdColaborador"></select>
+                <span asp-validation-for="IdColaborador" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="IdValidador" class="control-label"></label>
-                <select asp-for="IdValidador" class ="form-control" asp-items="ViewBag.IdValidador"></select>
+                <select asp-for="IdValidador" class="form-control" asp-items="ViewBag.IdValidador"></select>
+                <span asp-validation-for="IdValidador" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Observaciones" class="control-label"></label>
                 <input asp-for="Observaciones" class="form-control" />
                 <span asp-validation-for="Observaciones" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="FechaActividad" class="control-label"></label>
-                <input asp-for="FechaActividad" class="form-control" />
+                <input asp-for="FechaActividad" class="form-control" type="date" />
                 <span asp-validation-for="FechaActividad" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="DuracionEnHoras" class="control-label"></label>
-                <input asp-for="DuracionEnHoras" class="form-control" />
+                <input asp-for="DuracionEnHoras" class="form-control" type="number" step="0.1" min="0" />
                 <span asp-validation-for="DuracionEnHoras" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Aprobado" /> @Html.DisplayNameFor(model => model.Aprobado)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+            <!-- Eliminar el campo de aprobación para el colaborador -->
+            <input type="submit" value="Registrar" class="btn btn-primary" />
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

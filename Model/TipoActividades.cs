@@ -7,8 +7,6 @@ public partial class TipoActividades
 {
     public int IdTipoActividad { get; set; }
 
-    public string Nombre { get; set; } = null!;
-
     public string NomActividad { get; set; } = null!;
 
     public virtual ICollection<HorasExtra> HorasExtra { get; set; } = new List<HorasExtra>();
