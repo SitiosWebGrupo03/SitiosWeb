@@ -53,18 +53,13 @@ namespace SitiosWeb.Controllers
             try
             {
 
-                var departamentos = await _context.Departamentos
-                    .Where(d => d.Estado)
-                    .Select(d => d.NomDepartamento)
-                    .ToListAsync();
-
+               
                 var puestos = await _context.Puestos
                     .Where(p => p.Estado)
                     .Select(p => p.NombrePuesto)
                     .ToListAsync();
 
 
-                ViewBag.Departamentos = departamentos;
                 ViewBag.Puestos = puestos;
 
                 return View("~/Views/Shared/HorarioColab.cshtml");
@@ -79,6 +74,14 @@ namespace SitiosWeb.Controllers
         {
             try
             {
+                var puestos = await _context.Puestos
+                   .Where(p => p.Estado)
+                   .Select(p => p.NombrePuesto)
+                   .ToListAsync();
+
+
+                ViewBag.Puestos = puestos;
+
                 var resultados = await _context.HorariosXPuesto
                     .FromSqlRaw(
                     "EXEC ConsultarHorarioPorPuesto @NombrePuesto",
@@ -93,7 +96,7 @@ namespace SitiosWeb.Controllers
                 {
                     TempData["SuccessMessage"] = "Horarios consultados exitosamente.";
                 }
-
+               
                 // Retornar la vista sin el símbolo ~ y las comillas dobles extra
                 return View("~/Views/Shared/HorarioColab.cshtml", resultados);
             }
@@ -122,7 +125,7 @@ namespace SitiosWeb.Controllers
 
             try
             {
-                var marcas = await _context.HoraX
+                var marcas = await _context.HorariosXPuesto
                     .Include(m =>m.IdPuestoNavigation)
                     .ToListAsync();
                 return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml", marcas);

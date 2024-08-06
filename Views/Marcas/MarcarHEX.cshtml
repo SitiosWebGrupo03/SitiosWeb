@@ -1,7 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+}
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var userId = HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/marcarHex.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/MarcaHEX.css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Marcas - Horas Extra</title>
@@ -15,7 +23,7 @@
             <ul class="sidebar-menu">
                 <li>Por usuario</li>
                 <li>Identificación facial</li>
-                <li>Horas extra</li>
+                <li> Marcar horas extra</li>
             </ul>
         </aside>
         <main class="main-content">
@@ -70,3 +78,4 @@
     </div>
 </body>
 </html>
+

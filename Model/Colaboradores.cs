@@ -23,6 +23,8 @@ public partial class Colaboradores
 
     public int? Telefono { get; set; }
 
+    public virtual ICollection<Actividades> Actividades { get; set; } = new List<Actividades>();
+
     public virtual ICollection<HorasExtra> HorasExtraIdEmpleadoNavigation { get; set; } = new List<HorasExtra>();
 
     public virtual ICollection<HorasExtra> HorasExtraIdSolicitanteNavigation { get; set; } = new List<HorasExtra>();

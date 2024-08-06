@@ -1,16 +1,4 @@
-﻿body {
-    font-family: Montserrat;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f0f0f0;
-    position: relative;
-    overflow: hidden;
-}
-
+﻿
 .container {
     display: flex;
     width: 850px; /* Reducir el ancho del contenedor */

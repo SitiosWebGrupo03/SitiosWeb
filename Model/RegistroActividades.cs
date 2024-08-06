@@ -21,6 +21,8 @@ public partial class RegistroActividades
 
     public bool Aprobado { get; set; }
 
+    public string? Nombre { get; set; }
+
     public virtual Colaboradores? IdColaboradorNavigation { get; set; }
 
     public virtual TipoActividades? IdTipoActividadNavigation { get; set; }

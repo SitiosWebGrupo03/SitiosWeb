@@ -24,22 +24,13 @@ namespace SitiosWeb.Controllers
             return View(await _context.TiposRebajos.ToListAsync());
         }
 
-        // GET: TiposRebajos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> GetTiposRebajos()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var tiposRebajos = await _context.TiposRebajos
-                .FirstOrDefaultAsync(m => m.IdTipoRebajo == id);
-            if (tiposRebajos == null)
-            {
-                return NotFound();
-            }
+                .Select(ti => new { ti.IdTipoRebajo, ti.Rebajos, ti.Cantidad })
+                .ToListAsync();
 
-            return View(tiposRebajos);
+            return Json(tiposRebajos);
         }
 
         // GET: TiposRebajos/Create
