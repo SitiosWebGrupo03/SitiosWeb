@@ -111,7 +111,15 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Marcas/MarcaNormalColab.cshtml");
         }
-        [Authorize(Roles = "JEFATURA")]
+
+        [Authorize(Roles = "COLABORADOR")]
+
+        public IActionResult MarcarHEX()
+        {
+            return View("~/Views/Marcas/MarcarHEX.cshtml");
+        }
+        [Authorize(Roles = "COLABORADOR")]
+
         public IActionResult ConsultarHorarioJefatura()
         {
             return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
