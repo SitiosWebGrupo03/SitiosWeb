@@ -34,66 +34,69 @@
 </head>
 <body>
     <label class="success" id="menusucc"></label>
-    <div class="menu">
 
-        <a asp-controller="Home" asp-action="MarcaNormalColab">
-            <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
-            Control de Marcas<br><small>Registra diariamente tus jornadas en la empresa</small>
-        </a>
+    <div class="contenedor">
+        <div class="menu">
 
-        <a href="/Expediente/CargarCombox">
-            <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
-            Vacaciones<br><small>Solicita o revisa tus solicitudes de vacaciones</small>
-        </a>
-        <a href="#permisos">
-            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-            Permisos<br><small>Revision de tus solicitudes de permisos</small>
-        </a>
-        <a asp-controller="InconsistenciasColaborador" asp-action="Index">
-            <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
-            Inconsistencias<br><small>Control de tus inconsistencias y justificacion de ellas</small>
-        </a>
+            <a asp-controller="Home" asp-action="MarcaNormalColab">
+                <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
+                Control de Marcas<br><small>Registra diariamente tus jornadas en la empresa</small>
+            </a>
 
-        <a asp-controller="Home" asp-action="ConsularHorarioColaborador">
-            <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
-            Vizualizar Horario<br><small>Visualizar horarios por departamento y puesto.</small>
-        </a>
+            <a href="/Expediente/CargarCombox">
+                <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
+                Vacaciones<br><small>Solicita o revisa tus solicitudes de vacaciones</small>
+            </a>
+            <a href="#permisos">
+                <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
+                Permisos<br><small>Revision de tus solicitudes de permisos</small>
+            </a>
+            <a asp-controller="InconsistenciasColaborador" asp-action="Index">
+                <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
+                Inconsistencias<br><small>Control de tus inconsistencias y justificacion de ellas</small>
+            </a>
+
+            <a asp-controller="Home" asp-action="ConsularHorarioColaborador">
+                <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
+                Visualizar Horario<br><small>Visualizar horarios por departamento y puesto.</small>
+            </a>
 
 
-        @if (inconsistencias.Count() > 0)
-        {
-            @foreach (var item in inconsistencias)
+            @if (inconsistencias.Count() > 0)
             {
-                if (item.IdJustificacionNavigation.ReponeTiempo.HasValue && item.IdJustificacionNavigation.ReponeTiempo.Value &&
-                item.FechaInconsistencia <= DateOnly.FromDateTime(DateTime.Now.Date) &&
-                item.FechaInconsistencia >= startOfHalfMonth &&
-                item.FechaInconsistencia <= endOfHalfMonth &&
-                item.FechaInconsistencia < twoDaysBeforeEndOfHalfMonth &&
-                item.IdJustificacionNavigation.Reposicion == null)
+                @foreach (var item in inconsistencias)
                 {
-                    reposiciones.Add(item.IdJustificacion.Value);
+                    if (item.IdJustificacionNavigation.ReponeTiempo.HasValue && item.IdJustificacionNavigation.ReponeTiempo.Value &&
+                    item.FechaInconsistencia <= DateOnly.FromDateTime(DateTime.Now.Date) &&
+                    item.FechaInconsistencia >= startOfHalfMonth &&
+                    item.FechaInconsistencia <= endOfHalfMonth &&
+                    item.FechaInconsistencia < twoDaysBeforeEndOfHalfMonth &&
+                    item.IdJustificacionNavigation.Reposicion == null)
+                    {
+                        reposiciones.Add(item.IdJustificacion.Value);
+                    }
                 }
-            }
-            if (reposiciones.Any())
-            {
-                var reposicionesQuery = string.Join(",", reposiciones);
-                <a asp-controller="Home" asp-action="SolicitarRepo" asp-route-id="@reposicionesQuery">
-                    <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i>
-                    <i class="fa-solid fa-exclamation" style="color: red; width: 15px; height: 15px;"></i><br>
-                    Reposiciones<br><small>Gestión de tus horas por reponer</small>
-                </a>
+                if (reposiciones.Any())
+                {
+                    var reposicionesQuery = string.Join(",", reposiciones);
+                    <a asp-controller="Home" asp-action="SolicitarRepo" asp-route-id="@reposicionesQuery">
+                        <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i>
+                        <i class="fa-solid fa-exclamation" style="color: red; width: 15px; height: 15px;"></i><br>
+                        Reposiciones<br><small>Gestión de tus horas por reponer</small>
+                    </a>
+                }
+
             }
 
-        }
-
-        <a href="#festivos">
-            <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
-            Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
-        </a>
-        <a asp-controller="Home" asp-action="indicadoresColab">
-            <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
-            Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
-        </a>
+            <a href="#festivos">
+                <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
+                Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
+            </a>
+            <a asp-controller="Home" asp-action="indicadoresColab">
+                <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
+                Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
+            </a>
+        </div>
     </div>
 </body>
 </html>

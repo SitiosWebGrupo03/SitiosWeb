@@ -34,15 +34,16 @@
     }
 
         .links a:hover,
-        .user a:hover {
+        .user a:hover{
             color: #7154fc;
-            transform: scale(1.15);
+            transform: scale(1.13);
         }
 
 .user {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Empuja el contenido a la derecha */
+    margin-left: auto; 
+    gap:10px;
 }
     .user a {
         margin: 0;
@@ -63,3 +64,26 @@
     .borde i {
         margin: 0;
     }
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 120%;
+    width:240px;
+    text-align:center;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+    .dropdown a {
+        display: block;
+        padding: 8px;
+        text-decoration: none;
+        color: black;
+        border:1px solid black;
+    }
+    .dropdown a:hover {
+        transform:scale(1.01)
+    }
+
