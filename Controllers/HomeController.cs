@@ -133,6 +133,13 @@ namespace SitiosWeb.Controllers
         }
 
 
+        [Authorize(Roles = "JEFATURA")]
+
+        public IActionResult crearUs()
+        {
+            return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+        }
+
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexSupervisor()
         {

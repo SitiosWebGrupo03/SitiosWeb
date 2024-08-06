@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using SitiosWeb.Models;
 using System;
+using System.Data;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -160,6 +161,46 @@ namespace SitiosWeb.Controllers
                 return View("~/Views/ExpedienteEmpleado/AsignarPColab.cshtml");
             }
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CrearUsuario(string codigoUsuario, int TipoUsuario, string Contrasena, string IdColaborador, int Estado)
+        {
+            try
+            {
+                // Definir el parámetro de salida para el resultado
+                var resultParam = new SqlParameter("@result", SqlDbType.NVarChar, 100)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                // Ejecutar el procedimiento almacenado
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC InsertUsuario @cod_usuario, @idTipoUsuario, @contrasena, @idColaborador, @estado, @result OUTPUT",
+                    new SqlParameter("@cod_usuario", codigoUsuario),
+                    new SqlParameter("@idTipoUsuario", TipoUsuario),
+                    new SqlParameter("@contrasena", Contrasena),
+                    new SqlParameter("@idColaborador", IdColaborador),
+                    new SqlParameter("@estado", Estado),
+                    resultParam
+                );
+
+                // Obtener el resultado del parámetro de salida
+                string result = (string)resultParam.Value;
+
+                // Manejar el resultado según sea necesario
+                TempData["SuccessMessage"] = result;
+
+                // Retornar la vista
+                return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al crear usuario: " + ex.Message;
+                return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+            }
+        }
+
 
 
 
