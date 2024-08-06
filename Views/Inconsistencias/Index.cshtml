@@ -20,7 +20,6 @@
             <a href="">Identificación</a>
         </div>
 
-        <div id="contenedor">
             <div id="contenido">
 
                 @foreach (var item in Model)
@@ -43,7 +42,9 @@
                         <br />
                         Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation?.Descripcion
                         <br />
+                    <br />
                         <a asp-controller="Inconsistencias" asp-action="Justificacion" asp-route-id="@item.IdJustificacion">Justificación</a>
+                    <br />
                     </p>
                 }
                    
@@ -70,9 +71,8 @@
             </div>
         </div>
 
-        <div id="pie">
         </div>
-    </div>
+        </div>
 </body>
 
 </html>

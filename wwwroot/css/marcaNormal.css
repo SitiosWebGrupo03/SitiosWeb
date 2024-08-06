@@ -1,13 +1,21 @@
-﻿
+﻿body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+    background: url('/images/waves(1).svg') no-repeat center bottom;
+    background-size: auto 60%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
 .container {
     display: flex;
     width: 80%;
     max-width: 1200px;
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px 10px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
-    top:60%;
+    margin: 10% auto;
 }
 
 .sidebar {
