@@ -15,7 +15,7 @@
     <h1>Registro de Actividades</h1>
 
     <table class="table table-striped">
-        <thead>
+        <thead>a
             <tr>
                 <th>Id</th>
                 <th>Tipo de Actividad</th>
@@ -30,7 +30,7 @@
             {
                 <tr>
                     <td>@item.IdRegistro</td>
-                    <td>@item.IdTipoActividadNavigation?.Nombre</td>
+                    <td>@item.IdTipoActividadNavigation?.NomActividad</td>
                     <td>@item.IdColaboradorNavigation?.Nombre</td>
                     <td>@item.FechaActividad.ToShortDateString()</td>
                     <td>@item.DuracionEnHoras</td>
