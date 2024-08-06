@@ -14,7 +14,7 @@
 <body>
     <div class="container">
         <h2>Detalles de la Justificación</h2>
-        <form asp-controller="Rebajos">
+        <form asp-controller="SolicitudeRebajo" asp-action="solicitarRebajo" method="post">
             <div class="form-group">
                 <label for="IdJustificacion">ID Justificación</label>
                 <input type="text" class="form-control" id="IdJustificacion" name="IdJustificacion" value="@Model.IdJustificacion" readonly />
@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
                 <label for="Observaciones">Observaciones</label>
-                <textarea class="form-control" id="Observaciones" name="Observaciones" readonly>@Model.Observaciones"</textarea>
+                <textarea class="form-control" id="Observaciones" name="Observaciones" readonly>@Model.Observaciones</textarea>
             </div>
             <div class="form-group">
                 <label for="Reposicion">Reposición</label>
@@ -59,24 +59,19 @@
                 <label for="Evidencias">Evidencias</label>
                 @* @if (Model.Evidencias != null && Model.Evidencias.Length > 0)
                 {
-                    <a href="data:application/octet-stream;base64,@Convert.ToBase64String(Model.Evidencias)" download="Evidencia_@Model.IdJustificacion">Descargar Evidencia</a>
+                <a href="data:application/octet-stream;base64,@Convert.ToBase64String(Model.Evidencias)" download="Evidencia_@Model.IdJustificacion">Descargar Evidencia</a>
                 }
                 else
                 {
-                    <p>No hay evidencia adjunta</p>
+                <p>No hay evidencia adjunta</p>
                 } *@
             </div>
-            <div class="form-group">
-                <label for="Validacion">Validación</label>
-                <div>
-                    <input type="radio" id="validacionSi" name="Validacion" value="true" @(Model.Validacion == true ? "checked" : "") disabled />
-                    <label for="validacionSi">Sí</label>
-                    <input type="radio" id="validacionNo" name="Validacion" value="false" @(Model.Validacion == false ? "checked" : "") disabled />
-                    <label for="validacionNo">No</label>
-                </div>
-            </div>
-            <a asp-action="solicitarRebajo">Aplicar rebajo</a>
-            <a asp-action="">Aceptar Justificacion</a>
+            <button type="submit" class="btn btn-primary">Aplicar rebajo</button>
+        </form>
+
+        <form asp-controller="SolicitudeRebajo" asp-action="rechazarRebajo" method="post">
+            <input type="hidden" name="IdJustificacion" value="@Model.IdJustificacion" />
+            <button type="submit" class="btn btn-danger">Rechazar rebajo</button>
         </form>
     </div>
 </body>
