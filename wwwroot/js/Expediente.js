@@ -6,97 +6,103 @@
     const customUploadButton = document.getElementById('customUploadButton');
     const removeButton = document.getElementById('removePhoto');
     const removeLabel = document.getElementById('removepho');
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
     const photoData = document.getElementById('photoData');
     const form = document.getElementById('colaboradorForm');
-    const crearBtn = document.getElementById('btnCrear');
+    const btnGuardar = document.getElementById('btnGuardar');
 
-    // Acceso a la cámara
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            camera.srcObject = stream;
-        })
-        .catch(error => {
-            console.error('Error al acceder a la cámara:', error);
-        });
+    if (!camera || !photo || !captureButton || !uploadInput || !customUploadButton || !removeButton || !removeLabel || !photoData || !form || !btnGuardar) {
+        console.error('Uno o más elementos DOM no se encuentran.');
+        return;
+    }
 
-    // Capturar foto desde la cámara
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                camera.srcObject = stream;
+            })
+            .catch(error => {
+                console.error('Error al acceder a la cámara:', error);
+                alert('No se puede acceder a la cámara. Por favor, verifica los permisos.');
+            });
+    } else {
+        console.warn('getUserMedia no es compatible con este navegador.');
+        alert('Tu navegador no soporta acceso a la cámara.');
+    }
+
     captureButton.addEventListener('click', function () {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
         canvas.width = camera.videoWidth;
         canvas.height = camera.videoHeight;
         context.drawImage(camera, 0, 0);
-        const imageData = canvas.toDataURL('image/png');
-        photo.src = imageData;
+
+        const dataUrl = canvas.toDataURL('image/jpeg'); // Cambia a 'image/jpeg'
+        photo.src = dataUrl;
         photo.style.display = 'block';
         removeButton.style.display = 'inline';
         removeLabel.style.display = 'inline';
-        photoData.value = imageData;
+        if (photoData) {
+            photoData.value = dataUrl;
+        }
     });
 
-    // Botón personalizado para cargar imagen desde el sistema de archivos
     customUploadButton.addEventListener('click', function () {
         uploadInput.click();
     });
 
-    // Cargar imagen desde el sistema de archivos
     uploadInput.addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                photo.src = e.target.result;
+                const dataUrl = e.target.result;
+                photo.src = dataUrl;
                 photo.style.display = 'block';
                 removeButton.style.display = 'inline';
                 removeLabel.style.display = 'inline';
-                photoData.value = e.target.result;
+                if (photoData) {
+                    photoData.value = dataUrl;
+                }
             };
             reader.readAsDataURL(file);
         }
     });
 
-    // Eliminar imagen cargada o capturada
     removeButton.addEventListener('click', function () {
         photo.src = '';
         photo.style.display = 'none';
         removeButton.style.display = 'none';
         removeLabel.style.display = 'none';
-        photoData.value = '';
+        if (photoData) {
+            photoData.value = '';
+        }
         uploadInput.value = '';
     });
 
-    // Enviar formulario y datos de imagen
-    crearBtn.addEventListener('click', function (event) {
+    btnGuardar.addEventListener('click', function (event) {
         event.preventDefault();
 
         const formData = new FormData(form);
-        const data = {
-            identificacion: formData.get('identificacion'),
-            nombre: formData.get('nombre'),
-            apellidos: formData.get('apellidos'),
-            fechaNacimiento: formData.get('fecha-nacimiento'),
-            fechaContratacion: formData.get('fecha-contratacion'),
-            fechaFinContrato: formData.get('fecha-fin-contrato'),
-            correo: formData.get('correo'),
-            telefono: formData.get('telefono'),
-            imagenDto: {
-                ImagenBase64: photoData.value
-            }
-        };
+        const photoBase64 = photoData ? photoData.value : '';
+
+        if (photoBase64) {
+            formData.append('photoBase64', photoBase64);
+        }
 
         fetch('/Asignar', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            body: formData
         })
             .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    alert('Colaborador agregado exitosamente.');
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
                 } else {
-                    alert('Error al agregar el colaborador.');
+                    alert(data.message);
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
     });
+});
