@@ -195,7 +195,6 @@ namespace SitiosWeb.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
-        {
             var solicitudeRebajo = await _context.SolicitudeRebajo.FindAsync(id);
             if (solicitudeRebajo != null)
             {
