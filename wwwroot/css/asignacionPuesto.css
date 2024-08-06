@@ -1,120 +1,29 @@
-﻿header h1 {
-    font-size: 24px;
-    color: #7154FC;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.background-container {
+﻿.background-container {
     position: relative;
     width: 100%;
-    max-width: 1200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    height: 100vh; /* Ajusta según sea necesario para el tamaño del contenedor */
+    overflow: hidden; /* Asegura que nada se desborde fuera del contenedor */
 }
 
-.image-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    top: -20%;
-    left: 40%;
-}
-
-.user-photo {
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    z-index: 2;
-}
-
-
-.form-container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 700px;
-    text-align: center;
-    z-index: 3;
-    margin-top: -200px;
-}
-
-.form-group {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-
-    .form-group select {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-.schedule-table {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.day {
-    background-color: #e1e1f7;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-.cell {
-    background-color: #f5f5ff;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.form-buttons {
-    display: flex;
-    justify-content: center;
-}
-
-    .form-buttons .guardar {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
+    .background-container::before,
+    .background-container::after {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
         background-color: #7154FC;
-        color: #ffffff;
+        border-radius: 50%;
+        z-index: 0;
     }
 
-.background-container::before,
-.background-container::after {
-    content: "";
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background-color: #7154FC;
-    border-radius: 50%;
-    z-index: 0;
-}
+    .background-container::before {
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+    }
 
-.background-container::before {
-    top: -300px;
-    left: -300px;
-}
-
-.background-container::after {
-    bottom: -300px;
-    right: -300px;
-}
+    .background-container::after {
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -60%);
+    }

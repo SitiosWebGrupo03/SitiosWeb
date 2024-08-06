@@ -21,11 +21,13 @@ namespace SitiosWeb.Controllers
         // GET: RegistroActividades
         public async Task<IActionResult> Index()
         {
-            var tiusr22plProyectoContext = _context.RegistroActividades
+            var actividades = await _context.RegistroActividades
                 .Include(r => r.IdColaboradorNavigation)
                 .Include(r => r.IdTipoActividadNavigation)
-                .Include(r => r.IdValidadorNavigation);
-            return View(await tiusr22plProyectoContext.ToListAsync());
+                .Include(r => r.IdValidadorNavigation)
+                .ToListAsync();
+
+            return View(actividades);
         }
 
         // GET: RegistroActividades/Details/5
@@ -53,7 +55,7 @@ namespace SitiosWeb.Controllers
         public IActionResult Create()
         {
             ViewData["IdColaborador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion");
-            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "IdTipoActividad");
+            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad"); // Asegúrate de usar la propiedad correcta
             ViewData["IdValidador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion");
             return View();
         }
@@ -70,7 +72,7 @@ namespace SitiosWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdColaborador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdColaborador);
-            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "IdTipoActividad", registroActividades.IdTipoActividad);
+            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad", registroActividades.IdTipoActividad); // Asegúrate de usar la propiedad correcta
             ViewData["IdValidador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdValidador);
             return View(registroActividades);
         }
@@ -89,7 +91,7 @@ namespace SitiosWeb.Controllers
                 return NotFound();
             }
             ViewData["IdColaborador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdColaborador);
-            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "IdTipoActividad", registroActividades.IdTipoActividad);
+            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad", registroActividades.IdTipoActividad); // Asegúrate de usar la propiedad correcta
             ViewData["IdValidador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdValidador);
             return View(registroActividades);
         }
@@ -125,7 +127,7 @@ namespace SitiosWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdColaborador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdColaborador);
-            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "IdTipoActividad", registroActividades.IdTipoActividad);
+            ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad", registroActividades.IdTipoActividad); // Asegúrate de usar la propiedad correcta
             ViewData["IdValidador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdValidador);
             return View(registroActividades);
         }
@@ -160,9 +162,9 @@ namespace SitiosWeb.Controllers
             if (registroActividades != null)
             {
                 _context.RegistroActividades.Remove(registroActividades);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

@@ -2,11 +2,14 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    height: 100vh;
+    background: url('/images/waves(1).svg') no-repeat center bottom;
+    background-size: auto 60%;
 }
 
 
@@ -15,12 +18,14 @@ body {
     flex-direction: row;
     align-items: flex-start;
     width: 100%;
+    margin:0 auto;
 }
 
 .vertical-menu {
     width: 200px;
     margin-right: 20px;
     flex-shrink: 0;
+    margin-top: 50px;
 }
 
 .vertical-menu h4 {
@@ -46,12 +51,7 @@ body {
     color: white;
 }
 
-#contenedor {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    width: 100%;
-}
+
 
 .consultas {
     display: flex;
@@ -60,6 +60,7 @@ body {
     margin-bottom: 20px;
     text-decoration: none;
     color: white;
+    margin-top: 50px;
 }
 
     .consultas a {
@@ -86,37 +87,34 @@ body {
 }
 
 #contenido {
-    display: block;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-top: 50px;
 }
 
 p {
     padding: 10px;
     color: white;
     margin: 10px;
+    max-width:352px;
     background-color: #7154fc;
     border-radius: 8px;
     box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    flex: 1 1 300px; /* Flexbox para que los elementos <p> se ajusten en filas y columnas */
+    flex: 1 1  300px;
     box-sizing: border-box;
 }
 
-#pie {
-    margin-top: 20px;
-    background-color: #7154fc;
-    padding: 10px;
-    color: white;
-    text-align: center;
-    width: 100%;
-}
 
-#pie a {
-    color: white;
+#contenido a{
+    background-color:white;
     text-decoration: none;
+    padding:5px;
+    border-radius: 5px;
+    color: #7154fc;
 }
 
-#pie a:hover {
+#contenido a:hover {
     text-decoration: underline;
 }

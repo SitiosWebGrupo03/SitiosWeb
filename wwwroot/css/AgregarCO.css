@@ -10,6 +10,13 @@
     gap: 10px;
     color: #6a0dad;
 }
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+    background: url('/images/waves(1).svg') no-repeat center bottom;
+    background-size: auto 60%;
+    height: 100vh;
+}
 
 #customUploadButton {
     background-color: #6a0dad;
@@ -170,7 +177,8 @@ form {
     display: flex;
     width: 1200px; /* Reducir el ancho del contenedor */
     height: 700px; /* Reducir la altura del contenedor */
-    background-color: #5e58f8;
+    margin: 20px auto;
+    background-color: rgba(94, 88, 248, 0.5); /* 50% opacity */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
@@ -206,7 +214,7 @@ form {
 .main-content {
     flex: 1;
     padding: 20px; /* Reducir el padding del contenido principal */
-    background-color: #5e58f8;
+    background-color: rgba(94, 88, 248, 0.5); /* 50% opacity */
     position: relative;
     z-index: 1;
 }

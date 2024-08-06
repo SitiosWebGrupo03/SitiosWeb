@@ -6,7 +6,9 @@
 <h2>Actividades Pendientes de Aprobación</h2>
 
 <table class="table">
-    <thead>
+    <head>
+        <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+
         <tr>
             <th>Tipo de Actividad</th>
             <th>Colaborador</th>
@@ -15,12 +17,12 @@
             <th>Duración</th>
             <th>Acciones</th>
         </tr>
-    </thead>
+    </head>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.IdTipoActividadNavigation.Nombre</td>
+                <td>@item.IdTipoActividadNavigation.NomActividad</td>
                 <td>@item.IdColaboradorNavigation.Nombre</td>
                 <td>@item.Observaciones</td>
                 <td>@item.FechaActividad.ToShortDateString()</td>

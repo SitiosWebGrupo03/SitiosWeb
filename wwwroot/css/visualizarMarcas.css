@@ -1,19 +1,27 @@
-﻿.container {
+﻿body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+    background: url('/images/waves(1).svg') no-repeat center bottom;
+    background-size: auto 60%;
+
+}
+.container {
     display: flex;
     flex-direction: column;
     width: 90%;
-    max-width: 1200px;
+    max-width: 1300px;
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px 10px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .main-content {
     width: 100%;
     padding: 20px;
     text-align: center;
+
 }
 
     .main-content h1 {
