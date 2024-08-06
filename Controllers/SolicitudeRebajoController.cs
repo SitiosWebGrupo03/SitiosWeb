@@ -27,6 +27,15 @@ namespace SitiosWeb.Controllers
             return View("~/Views/SolicitudeRebajo/Index.cshtml", solicitudes);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetTiposRebajos()
+        {
+            var tiposRebajos = await _context.TiposRebajos
+                .Select(ti => new { ti.IdTipoRebajo, ti.Cantidad, ti.Descripcion }) 
+                .ToListAsync();
+
+            return Json(tiposRebajos);
+        }
         public async Task<IActionResult> FormRebajo(int? id)
         {
             if (id == null)
