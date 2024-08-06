@@ -25,27 +25,6 @@ namespace SitiosWeb.Controllers
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
-        // GET: Rebajos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rebajos = await _context.Rebajos
-                .Include(r => r.IdColaboradorNavigation)
-                .Include(r => r.IdTipoRebajoNavigation)
-                .Include(r => r.IdValidadorNavigation)
-                .Include(r => r.InconsistenciaNavigation)
-                .FirstOrDefaultAsync(m => m.IdRebajo == id);
-            if (rebajos == null)
-            {
-                return NotFound();
-            }
-
-            return View(rebajos);
-        }
 
         // GET: Rebajos/Create
         public IActionResult Create()
