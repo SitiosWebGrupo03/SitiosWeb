@@ -23,6 +23,8 @@ namespace SitiosWeb.Controllers
             _faceRecognitionService = new FaceIDService();
         }
 
+
+
         [HttpGet]
         public async Task<IActionResult> VisualizacionMarcas()
         {
@@ -85,8 +87,53 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Marcas/MarcaNormal.cshtml");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> MarcaHorasExtra(string codigo, string contrasena)
+        {
+            if (string.IsNullOrEmpty(codigo) || string.IsNullOrEmpty(contrasena))
+            {
+                TempData["ErrorMessage"] = "Código y contraseña son requeridos.";
+                return RedirectToAction(nameof(MarcaHorasExtra));
+            }
 
-        [HttpPost("processImage")]
+            var colaborador = _context.Usuarios
+                .FirstOrDefault(c => c.IdColaborador == codigo && c.Contrasena == contrasena);
+
+            if (colaborador != null)
+            {
+                try
+                {
+                    var marca = await _context.Database.ExecuteSqlRawAsync(
+                        "EXEC RegistrarMarcaHorasExtra @p0, @p1",
+                        parameters: new[] { colaborador.IdColaborador, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }
+                    );
+
+                    TempData["SuccessMessage"] = "Marca de horas extra registrada exitosamente.";
+                    IQueryable<Marcas> query = _context.Marcas.Include(m => m.IdEmpleadoNavigation);
+
+                    if (!string.IsNullOrEmpty(codigo))
+                    {
+                        query = query.Where(m => m.IdEmpleado == codigo);
+                    }
+
+                    var marcas = await query.ToListAsync();
+                    return View("~/Views/Marcas/MarcarHEX.cshtml", marcas);
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = "Error al registrar la marca de horas extra: " + ex.Message;
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Usuario no encontrado o contraseña incorrecta.";
+            }
+
+            return View("~/Views/Marcas/MarcarHEX.cshtml");
+        }
+    
+
+[HttpPost("processImage")]
         public async Task<IActionResult> ProcessImage([FromBody] JObject data)
         {
             try
