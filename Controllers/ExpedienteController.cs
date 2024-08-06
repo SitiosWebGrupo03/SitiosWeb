@@ -129,6 +129,40 @@ namespace SitiosWeb.Controllers
                 return View("HorarioColab");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AsignarPuestoColab(string identificacion, string puesto)
+        {
+            try
+            {
+                var puestos = await _context.Puestos
+                    .Where(p => p.Estado)
+                    .Select(p => p.NombrePuesto)
+                    .ToListAsync();
+
+                ViewBag.Puestos = puestos;
+
+                // Ejecutar el procedimiento almacenado sin devolver una lista
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC ActualizarPuestoColaborador @identificacion, @nombre_puesto",
+                    new SqlParameter("@identificacion", identificacion),
+                    new SqlParameter("@nombre_puesto", puesto)
+                );
+
+                TempData["SuccessMessage"] = "Puesto asignado exitosamente.";
+
+                // Retornar la vista
+                return View("~/Views/ExpedienteEmpleado/AsignarPColab.cshtml");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al asignar el puesto: " + ex.Message;
+                return View("~/Views/ExpedienteEmpleado/AsignarPColab.cshtml");
+            }
+        }
+
+
+
         [HttpPost]
         public async Task<IActionResult> ConsultarHorario(String Id)
         {
