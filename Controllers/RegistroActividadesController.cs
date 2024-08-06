@@ -69,15 +69,8 @@ namespace SitiosWeb.Controllers
             {
                 _context.Add(registroActividades);
                 await _context.SaveChangesAsync();
-
-                // Configurar mensaje de éxito
-                TempData["SuccessMessage"] = "La actividad se ha registrado correctamente.";
-
-                // Redirigir a la vista Index
                 return RedirectToAction(nameof(Index));
             }
-
-            // Si el modelo no es válido, vuelve a mostrar el formulario
             ViewData["IdColaborador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdColaborador);
             ViewData["IdTipoActividad"] = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad", registroActividades.IdTipoActividad); // Asegúrate de usar la propiedad correcta
             ViewData["IdValidador"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", registroActividades.IdValidador);
