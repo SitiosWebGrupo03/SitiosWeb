@@ -370,6 +370,25 @@ namespace SitiosWeb.Controllers
             }
             return RedirectToAction("IndexColaborador");
         }
+
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult RegistroActividadesColaborador()
+        {
+            return RedirectToAction("Create", "RegistroActividades");
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult RegistroActividadesSupervisor()
+        {
+            return RedirectToAction("IndexSupervisor", "RegistroActividades");
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult RegistroActividadesJefatura()
+        {
+            return RedirectToAction("ControlGeneral", "RegistroActividades");
+        }
+
     }
 }
 
