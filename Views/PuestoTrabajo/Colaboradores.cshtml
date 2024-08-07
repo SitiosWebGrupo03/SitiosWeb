@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SitiosWeb.Model.Colaboradores>
+
+@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+
+<h2>Modulo puestos empleados</h2>
+
+<table class="table">
+    <thead>
+        <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+        <tr>
+            <th>Identificación</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Fecha de Contratación</th>
+            <th>Fecha Fin de Contrato</th>
+            <th>Puesto</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Identificacion</td>
+                <td>@item.Nombre</td>
+                <td>@item.Apellidos</td>
+                <td>@item.FechaNaciento.ToString("d")</td>
+                <td>@item.FechaContratacion.ToString("d")</td>
+                <td>@item.FechaFinContrato.ToString("d")</td>
+                <td>@item.IdPuestoNavigation?.NombrePuesto ?? "No asignado"</td>
+                <td>@item.Correo</td>
+                <td>@item.Telefono</td>
+            </tr>
+        }
+    </tbody>
+</table>

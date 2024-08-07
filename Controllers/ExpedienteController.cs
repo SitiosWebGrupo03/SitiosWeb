@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using SitiosWeb.Models;
 using System;
+using System.Data;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -129,6 +130,80 @@ namespace SitiosWeb.Controllers
                 return View("HorarioColab");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AsignarPuestoColab(string identificacion, string puesto)
+        {
+            try
+            {
+                var puestos = await _context.Puestos
+                    .Where(p => p.Estado)
+                    .Select(p => p.NombrePuesto)
+                    .ToListAsync();
+
+                ViewBag.Puestos = puestos;
+
+                // Ejecutar el procedimiento almacenado sin devolver una lista
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC ActualizarPuestoColaborador @identificacion, @nombre_puesto",
+                    new SqlParameter("@identificacion", identificacion),
+                    new SqlParameter("@nombre_puesto", puesto)
+                );
+
+                TempData["SuccessMessage"] = "Puesto asignado exitosamente.";
+
+                // Retornar la vista
+                return View("~/Views/ExpedienteEmpleado/AsignarPColab.cshtml");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al asignar el puesto: " + ex.Message;
+                return View("~/Views/ExpedienteEmpleado/AsignarPColab.cshtml");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CrearUsuario(string codigoUsuario, int TipoUsuario, string Contrasena, string IdColaborador, int Estado)
+        {
+            try
+            {
+                // Definir el parámetro de salida para el resultado
+                var resultParam = new SqlParameter("@result", SqlDbType.NVarChar, 100)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                // Ejecutar el procedimiento almacenado
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC InsertUsuario @cod_usuario, @idTipoUsuario, @contrasena, @idColaborador, @estado, @result OUTPUT",
+                    new SqlParameter("@cod_usuario", codigoUsuario),
+                    new SqlParameter("@idTipoUsuario", TipoUsuario),
+                    new SqlParameter("@contrasena", Contrasena),
+                    new SqlParameter("@idColaborador", IdColaborador),
+                    new SqlParameter("@estado", Estado),
+                    resultParam
+                );
+
+                // Obtener el resultado del parámetro de salida
+                string result = (string)resultParam.Value;
+
+                // Manejar el resultado según sea necesario
+                TempData["SuccessMessage"] = result;
+
+                // Retornar la vista
+                return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al crear usuario: " + ex.Message;
+                return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+            }
+        }
+
+
+
+
         [HttpPost]
         public async Task<IActionResult> ConsultarHorario(String Id)
         {

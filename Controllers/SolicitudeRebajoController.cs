@@ -18,6 +18,23 @@ namespace SitiosWeb.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DescargarEvidencia(int id)
+        {
+            var justificacion = await _context.JustificacionesInconsistencias
+                .FirstOrDefaultAsync(j => j.IdJustificacion == id);
+
+            if (justificacion == null || justificacion.Evidencias == null)
+            {
+                return NotFound();
+            }
+
+            var archivoBytes = justificacion.Evidencias;
+            var archivoNombre = $"Evidencia_{justificacion.IdJustificacion}.pdf"; // Ajusta la extensión según el tipo de archivo
+
+            return File(archivoBytes, "application/octet-stream", archivoNombre);
+        }
+
         // GET: SolicitudeRebajo
         public async Task<IActionResult> Index()
         {
@@ -79,7 +96,42 @@ namespace SitiosWeb.Controllers
             _context.SolicitudeRebajo.Add(solicitudRebajo);
             await _context.SaveChangesAsync();
 
-            return View();
+            var solicitudes = await _context.SolicitudeRebajo
+                .Where(s => s.Mostrar == true || s.Mostrar == null)
+                .ToListAsync();
+            return View("~/Views/SolicitudeRebajo/Index.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> enviarRebajo(int IdSolicitud, string IdSolicitante, int IdInconsistencia, string Observaciones, string IdValidador, int IdTipoRebajo, string FechaRebajo, string IdColaborador, bool Aprobacion)
+        {
+            DateOnly fechaRebajoParsed;
+            if (!DateOnly.TryParse(FechaRebajo, out fechaRebajoParsed))
+            {
+                ModelState.AddModelError("FechaRebajo", "La fecha no está en el formato correcto.");
+                return View();
+            }
+
+            var solicitudRebajo = await _context.SolicitudeRebajo.FindAsync(IdSolicitud);
+            if (solicitudRebajo == null)
+            {
+                return NotFound();
+            }
+
+            var rebajo = new Rebajos
+            {
+                IdColaborador = IdColaborador,
+                IdValidador = IdValidador,
+                FechaRebajo = fechaRebajoParsed,
+                Inconsistencia = IdInconsistencia,
+                IdTipoRebajo = IdTipoRebajo,
+                Aprobacion = Aprobacion,
+            };
+
+            _context.Rebajos.Add(rebajo);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -99,111 +151,6 @@ namespace SitiosWeb.Controllers
             await _context.SaveChangesAsync();
 
             return View();
-        }
-
-
-        // GET: SolicitudeRebajo/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdSolicitud,IdSolicitante,IdInconsistencia,Observaciones")] SolicitudeRebajo solicitudeRebajo)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(solicitudeRebajo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(solicitudeRebajo);
-        }
-
-        // GET: SolicitudeRebajo/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var solicitudeRebajo = await _context.SolicitudeRebajo.FindAsync(id);
-            if (solicitudeRebajo == null)
-            {
-                return NotFound();
-            }
-            return View(solicitudeRebajo);
-        }
-
-        // POST: SolicitudeRebajo/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdSolicitud,IdSolicitante,IdInconsistencia,Observaciones")] SolicitudeRebajo solicitudeRebajo)
-        {
-            if (id != solicitudeRebajo.IdSolicitud)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(solicitudeRebajo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SolicitudeRebajoExists(solicitudeRebajo.IdSolicitud))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(solicitudeRebajo);
-        }
-
-        // GET: SolicitudeRebajo/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var solicitudeRebajo = await _context.SolicitudeRebajo
-                .FirstOrDefaultAsync(m => m.IdSolicitud == id);
-            if (solicitudeRebajo == null)
-            {
-                return NotFound();
-            }
-
-            return View(solicitudeRebajo);
-        }
-
-        // POST: SolicitudeRebajo/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var solicitudeRebajo = await _context.SolicitudeRebajo.FindAsync(id);
-            if (solicitudeRebajo != null)
-            {
-                _context.SolicitudeRebajo.Remove(solicitudeRebajo);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool SolicitudeRebajoExists(int id)

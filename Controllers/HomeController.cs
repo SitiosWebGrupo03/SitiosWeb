@@ -133,6 +133,13 @@ namespace SitiosWeb.Controllers
         }
 
 
+        [Authorize(Roles = "JEFATURA")]
+
+        public IActionResult crearUs()
+        {
+            return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+        }
+
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexSupervisor()
         {
@@ -179,8 +186,21 @@ namespace SitiosWeb.Controllers
             return View("~/Views/ExpedienteEmpleado/AsignarPuesto.cshtml");
         }
 
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult AsignarPuestos()
+        {
+            return View("~/Views/PuestoTrabajo/AsignarPuesto.cshtml");
+        }
 
 
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult Colaboradores()
+        {
+            var colaboradores = _context.Colaboradores
+                                        .Include(c => c.IdPuestoNavigation)
+                                        .ToList();
+            return View("~/Views/PuestoTrabajo/Colaboradores.cshtml", colaboradores);
+        }
 
 
         public IActionResult VistaInconsistencias()
@@ -370,7 +390,29 @@ namespace SitiosWeb.Controllers
             }
             return RedirectToAction("IndexColaborador");
         }
+
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult RegistroActividadesColaborador()
+        {
+            return RedirectToAction("Create", "RegistroActividades");
+        }
+
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult RegistroActividadesSupervisor()
+        {
+            return RedirectToAction("IndexSupervisor", "RegistroActividades");
+        }
+
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult RegistroActividadesJefatura()
+        {
+            return RedirectToAction("ControlGeneral", "RegistroActividades");
+        }
+
+
+
     }
 }
+
 
 

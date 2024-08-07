@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SitiosWeb.Model.RegistroActividades>
+@{
+    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+}
+
+<h2>Actividades Pendientes de Aprobación</h2>
+
+<table class="table">
+    <head>
+        <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+
+        <tr>
+            <th>Tipo de Actividad</th>
+            <th>Colaborador</th>
+            <th>Observaciones</th>aa
+            <th>Fecha</th>
+            <th>Duración</th>
+            <th>Acciones</th>
+        </tr>
+    </head>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdTipoActividadNavigation.NomActividad</td>
+                <td>@item.IdColaboradorNavigation.Nombre</td>
+                <td>@item.Observaciones</td>
+                <td>@item.FechaActividad.ToShortDateString()</td>
+                <td>@item.DuracionEnHoras</td>
+                <td>
+                    <form asp-action="ApproveActivity" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.IdRegistro" />
+                        <button type="submit" class="btn btn-success">Aprobar</button>
+                    </form>
+                    <form asp-action="RejectActivity" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.IdRegistro" />
+                        <button type="submit" class="btn btn-danger">Rechazar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
