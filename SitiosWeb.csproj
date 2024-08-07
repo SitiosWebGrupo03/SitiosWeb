@@ -4,18 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <SatelliteResourceLanguages>en;es</SatelliteResourceLanguages>
     <UserSecretsId>6a39d137-1074-4df4-9e0f-2c898c710589</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Views\Home\menuInconsistencias.cshtml" />
-    <Content Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
-    <Content Remove="Views\Paginas\gestion_horas_extras\SolicitudHorasExtra.cshtml" />
-    <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
-    <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
-    <Content Remove="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
-    <Content Remove="Views\Paginas\indicadores\indicadores.cshtml" />
-  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
@@ -59,12 +52,5 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Home\menuInconsistencias.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
-  </ItemGroup>
 
 </Project>

@@ -62,14 +62,6 @@
             </a>
 
 
-
-            <a asp-controller="Home" asp-action="RegistroActividadesColaborador">
-                <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-                Registro de Actividades<br><small>Accede a registrar tus actividades</small>
-            </a>
-
-
-
             @if (inconsistencias.Count() > 0)
             {
                 @foreach (var item in inconsistencias)
@@ -101,7 +93,7 @@
                 Visualizacion de dias festivos<br><small>Dias en los cuales no hay que presentarse al trabajo</small>
             </a>
 
-
+        </div>
     </div>
 </body>
 </html>
