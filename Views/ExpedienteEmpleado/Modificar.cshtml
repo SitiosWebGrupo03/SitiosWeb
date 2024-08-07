@@ -2,7 +2,6 @@
     Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
 }
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,37 +25,38 @@
         <main>
             <div class="main-content">
                 <h2>Modificar Puesto</h2>
-                <form>
+                <form asp-controller="Expediente" asp-action="EditarPuesto" method="post">
                     <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" placeholder="Nombre">
+                        <label for="identificacion">Identificación del Usuario</label>
+                        <input type="text" id="identificacion" name="identificacion" placeholder="Identificación" required />
                     </div>
                     <div class="form-group">
-                        <label for="salario">Salario</label>
-                        <input type="text" id="salario" placeholder="Salario">
-                    </div>
-                    <div class="form-group">
-                        <label for="departamento">Departamento</label>
-                        <select id="departamento">
-                            <option>Departamentos</option>
-                            <!-- Opciones adicionales -->
+                        <label for="idPuesto">Puesto</label>
+                        <select id="idPuesto" name="idPuesto" required>
+                            <option value="">Selecciona un Puesto</option>
+                            @if (ViewBag.Puestos != null)
+                            {
+                                foreach (var puesto in ViewBag.Puestos)
+                                {
+                                    <option value="@puesto.IdPuesto" data-nombre="@puesto.NombrePuesto">
+                                        @puesto.NombrePuesto
+                                    </option>
+                                }
+                            }
+                            else
+                            {
+                                <option disabled>No se cargaron los datos</option>
+                            }
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Estado</label>
-                        <div class="radio-group">
-                            <input type="radio" id="activo" name="estado" value="activo">
-                            <label for="activo">Activo</label>
-                            <input type="radio" id="inactivo" name="estado" value="inactivo">
-                            <label for="inactivo">Inactivo</label>
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <button type="button" class="btn-salir">Salir</button>
+                        <button type="submit" class="btn-salir">Editar</button>
                     </div>
                 </form>
             </div>
         </main>
     </div>
+
+    
 </body>
 </html>

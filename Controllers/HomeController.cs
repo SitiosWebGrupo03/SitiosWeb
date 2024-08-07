@@ -132,9 +132,9 @@ namespace SitiosWeb.Controllers
 
         [Authorize(Roles = "JEFATURA")]
 
-        public IActionResult crearUs()
+        public IActionResult CrearUs()
         {
-            return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+            return View("~/Views/Shared/CreacionUsuario.cshtml");
         }
 
         [Authorize(Roles = "SUPERVISOR")]

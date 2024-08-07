@@ -32,7 +32,7 @@
     <None Include="Views\Paginas\indicadores\indicadores.cshtml" />
     <None Include="Views\Marcas\VisualizacionMarcas.cshtml" />
     <None Include="Views\ExpedienteEmpleado\ConsultarPuesto.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\CreacionUsuario.cshtml" />
+    <None Include="Views\Shared\CreacionUsuario.cshtml" />
     <None Include="Views\ExpedienteEmpleado\GeneradorHorario.cshtml" />
     <None Include="Views\Shared\HorarioColab.cshtml" />
     <None Include="Views\ExpedienteEmpleado\Modificar.cshtml" />
