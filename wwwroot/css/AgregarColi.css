@@ -10,13 +10,6 @@
     gap: 10px;
     color: #6a0dad;
 }
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #ffffff;
-    background: url('/images/waves(1).svg') no-repeat center bottom;
-    background-size: auto 60%;
-    height: 100vh;
-}
 
 #customUploadButton {
     background-color: #6a0dad;
@@ -209,6 +202,12 @@ form {
         padding: 8px 0; /* Reducir el padding de los elementos del menú */
         cursor: pointer;
     }
+
+        .sidebar-menu li a {
+            text-decoration: none;
+            color: inherit;
+        }
+
 
 /* Main Content Styles */
 .main-content {

@@ -162,6 +162,31 @@ namespace SitiosWeb.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ConsultarHorarioJef(string identificacion)
+        {
+            try
+            {
+               
+                var horario = await _context.Database.ExecuteSqlRawAsync(
+     "EXEC ConsultaHcedula @cedula",
+     new SqlParameter("@cedula", identificacion)
+
+ );
+                ViewBag.Puestos = horario;
+
+                TempData["SuccessMessage"] = "Puesto asignado exitosamente.";
+
+                // Retornar la vista
+                return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al asignar el puesto: " + ex.Message;
+                return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> CrearUsuario(string codigoUsuario, int TipoUsuario, string Contrasena, string IdColaborador, int Estado)

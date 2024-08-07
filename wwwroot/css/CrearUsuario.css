@@ -84,7 +84,7 @@ select {
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #e0e0e0;
-    color: #4a00ff;
+    color: #5e58f8;
 }
 
 .radio-buttons {
@@ -103,8 +103,8 @@ select {
     padding: 10px;
     text-align: center;
     margin-bottom: 20px;
-    background-color: #f9f9f9;
-    color: #4a00ff;
+    background-color: #5e58f8;
+    color: #5e58f8;
 }
 
 .save-button {

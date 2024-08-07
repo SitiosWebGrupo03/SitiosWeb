@@ -87,6 +87,27 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Marcas/MarcaNormal.cshtml");
         }
 
+        [HttpPost("EditarMarcas")]
+        public IActionResult EditarMarcas([FromBody] Marcas marca)
+        {
+            if (ModelState.IsValid)
+            {
+                var marcaExistente = _context.Marcas.Find(marca.IdMarca);
+                if (marcaExistente != null)
+                {
+                    marcaExistente.IdEmpleado = marca.IdEmpleado;
+                    marcaExistente.InicioJornada = marca.InicioJornada;
+                    marcaExistente.FinJornada = marca.FinJornada;
+                    _context.SaveChanges();
+                }
+
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> MarcaHorasExtra(string codigo, string contrasena)
         {

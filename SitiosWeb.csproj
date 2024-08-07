@@ -42,7 +42,6 @@
     <None Include="Views\ExpedienteEmpleado\CreacionUsuario.cshtml" />
     <None Include="Views\ExpedienteEmpleado\GeneradorHorario.cshtml" />
     <None Include="Views\Shared\HorarioColab.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\HorarioVistaJef.cshtml" />
     <None Include="Views\ExpedienteEmpleado\Modificar.cshtml" />
     <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
     <None Include="wwwroot\FaceModels\deploy.prototxt" />
