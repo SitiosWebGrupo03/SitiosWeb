@@ -161,31 +161,87 @@ namespace SitiosWeb.Controllers
                 return View("~/Views/ExpedienteEmpleado/AsignarPColab.cshtml");
             }
         }
-
         [HttpPost]
         public async Task<IActionResult> ConsultarHorarioJef(string identificacion)
         {
             try
             {
-               
-                var horario = await _context.Database.ExecuteSqlRawAsync(
-     "EXEC ConsultaHcedula @cedula",
-     new SqlParameter("@cedula", identificacion)
+                var horario = await _context.HorariosXPuesto
+                    .FromSqlRaw("EXEC ConsultaHcedula @cedula", new SqlParameter("@cedula", identificacion))
+                    .ToListAsync();
 
- );
-                ViewBag.Puestos = horario;
+                ViewBag.Horarios = horario;
 
-                TempData["SuccessMessage"] = "Puesto asignado exitosamente.";
+                TempData["SuccessMessage"] = "Horario consultado exitosamente.";
 
                 // Retornar la vista
                 return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Error al asignar el puesto: " + ex.Message;
+                TempData["ErrorMessage"] = "Error al consultar el horario: " + ex.Message;
                 return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
             }
         }
+
+
+        public async Task<IActionResult> CargarComboxEditaP()
+        {
+            try
+            {
+                var puestos = await _context.Puestos
+                    .Select(p => new
+                    {
+                        p.IdPuesto,
+                        p.NombrePuesto,
+                        
+                    })
+                    .ToListAsync();
+
+                ViewBag.Puestos = puestos;
+
+                return View("~/Views/ExpedienteEmpleado/Modificar.cshtml");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
+        }
+        [HttpPost]
+           public IActionResult EditarPuesto(string idPuesto, string identificacion)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuario = _context.Colaboradores.FirstOrDefault(u => u.Identificacion == identificacion);
+                var puesto = _context.Puestos.FirstOrDefault(p => p.IdPuesto == idPuesto);
+
+                if (usuario == null)
+                {
+                    // Manejar el caso donde el usuario no existe
+                    ModelState.AddModelError(string.Empty, "El usuario con esa identificación no existe.");
+                    ViewBag.Puestos = _context.Puestos.ToList(); // Asegurarse de recargar los puestos
+                    return View(); // Retorna la vista con el mensaje de error
+                }
+
+                if (puesto == null)
+                {
+                    // Manejar el caso donde el puesto no existe
+                    ModelState.AddModelError(string.Empty, "El puesto con ese ID no existe.");
+                    ViewBag.Puestos = _context.Puestos.ToList(); // Asegurarse de recargar los puestos
+                    return View(); // Retorna la vista con el mensaje de error
+                }
+
+                // Actualizar el puesto del usuario
+                usuario.IdPuesto = idPuesto;
+                _context.SaveChanges();
+
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+
+
 
 
         [HttpPost]

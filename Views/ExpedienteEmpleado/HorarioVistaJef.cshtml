@@ -40,45 +40,45 @@
                         <button type="submit" class="download-button">Consultar</button>
                     </form>
                     <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>Lunes</td>
-                                    <td>Martes</td>
-                                    <td>Miércoles</td>
-                                    <td>Jueves</td>
-                                    <td>Viernes</td>
-                                    <td>Sábado</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model == null)
-                                {
+                        @if (ViewBag.Horarios != null)
+                        {
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <th>Idhorario</th>
+                                        <th>Lunes</th>
+                                        <th>Martes</th>
+                                        <th>Miércoles</th>
+                                        <th>Jueves</th>
+                                        <th>Viernes</th>
+                                        <th>Sábado</th>
+                                        <th>Estado</th>
                                     </tr>
-                                }
-                                else
-                                {
-                                    foreach (var marca in Model)
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.Horarios)
                                     {
                                         <tr>
-                                            <td>@marca.Lunes</td>
-                                            <td>@marca.Martes</td>
-                                            <td>@marca.Miercoles</td>
-                                            <td>@marca.Jueves</td>
-                                            <td>@marca.Viernes</td>
-                                            <td>@marca.Sabado</td>
+                                            <td>@item.Idhorario</td>
+                                            <td>@item.Lunes</td>
+                                            <td>@item.Martes</td>
+                                            <td>@item.Miercoles</td>
+                                            <td>@item.Jueves</td>
+                                            <td>@item.Viernes</td>
+                                            <td>@item.Sabado</td>
+                                            <td>@item.Estado</td>
                                         </tr>
                                     }
-                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p>No se encontraron horarios.</p>
+
+
+                        }
+                       
                     </div>
                     <button class="download-button" onclick="downloadHorario()">Descargar</button>
                 </div>
