@@ -2,7 +2,62 @@
 @using System.Globalization
 @{
     Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
-    var id = @Model.First().IdReposicion;
+    var dias = Model.FirstOrDefault()?.IdReposicionNavigation.JustificacionesInconsistencias
+    ?.Where(r => r.Reposicion == Model.FirstOrDefault()?.IdReposicion);
+    string diaDeLaSemana = null;
+    string valorColumna = null;
+
+    if (dias != null && dias.Any())
+    {
+        foreach (var item in dias)
+        {
+            // Obtén el nombre del día en español
+            diaDeLaSemana = item.FechaInconsistencia.ToString("dddd", CultureInfo.CreateSpecificCulture("es-ES"));
+            // Convertir la primera letra a mayúscula
+            diaDeLaSemana = char.ToUpper(diaDeLaSemana[0]) + diaDeLaSemana.Substring(1);
+
+            // Obtén la primera entrada del modelo (ajusta según sea necesario)
+            var modelo = Model.FirstOrDefault();
+            if (modelo != null)
+            {
+                var horariosXPuesto = modelo.IdReposicionNavigation.IdcolaboradorNavigation.IdPuestoNavigation.HorariosXPuesto.ToList();
+
+                if (horariosXPuesto != null)
+                {
+                    // Supongamos que HorariosXPuesto es una lista de objetos que tienen una propiedad que representa el día de la semana
+                    var columnaEncontrada = horariosXPuesto.FirstOrDefault(h => h.GetType().GetProperty(diaDeLaSemana) != null);
+
+                    if (columnaEncontrada != null)
+                    {
+                        valorColumna = columnaEncontrada.GetType().GetProperty(diaDeLaSemana).GetValue(columnaEncontrada).ToString();
+                    }
+                }
+            }
+        }
+    }
+    var nombreTerceros = string.Empty;
+    var idSolicitante = string.Empty;
+    @if (Model.FirstOrDefault()?.IdReposicionNavigation.PorTercero == true)
+    {
+        var solicitantes = ViewBag.colaboradores as IEnumerable<Colaboradores>;
+
+        if (solicitantes != null)
+        {
+            var solicitante = Model.FirstOrDefault()?.IdReposicionNavigation?.IdcolaboradorNavigation?.ReposicionTerceroIdterceroNavigation.ToList();
+             idSolicitante = solicitante?.FirstOrDefault()?.Idsolicitante;
+            foreach (var item in solicitantes)
+            {
+                if (item.Identificacion == idSolicitante)
+                {
+                     nombreTerceros = item.Nombre + " " + item.Apellidos;
+                }
+            }
+
+            
+        }
+    }
+    }
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -25,18 +80,45 @@
                 <h1 class="title-page">Aprobación de </h1>
                 <h1 class="title-span">Reposiciones</h1>
             </div>
-            
+
         </div>
         <div class="content">
 
             <div class="form">
                 <div class="text-block">
-                    <p>Colaborador: <br /><label class="font-semibold" id="Colaboradorlbl">@Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Nombre @Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Apellidos</label></p>
+                    <p>Colaborador que repondra: <label class="font-semibold" id="Colaboradorlbl"> @Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Nombre @Model.First().IdReposicionNavigation.IdcolaboradorNavigation.Apellidos</label></p>
+
+                    @if (Model.FirstOrDefault().IdReposicionNavigation.PorTercero == true)
+                    {
+                        <p>Colaborador que debe las horas: <label class="font-semibold" id="Colaboradorlbl"> @nombreTerceros</label></p>
+                   
+                        
+                    }
+                    <p>
+                        Horario del dia de la inconsistecia: <label class="font-semibold"> @diaDeLaSemana @valorColumna</label>
+                    </p>
+                    <p>
+                        <label class="font-semibold"> 
+                            @if (Model.FirstOrDefault().IdReposicionNavigation.JustificacionesInconsistencias.FirstOrDefault().Evidencias != null && Model.FirstOrDefault().IdReposicionNavigation.JustificacionesInconsistencias.FirstOrDefault().Evidencias.Length > 0)
+                            {
+                                <a href="@Url.Action("DescargarEvidencia", "SolicitudeRebajo", new { id = Model.FirstOrDefault().IdReposicionNavigation.JustificacionesInconsistencias.FirstOrDefault().IdJustificacion })">Descargar justificación</a>
+                            }
+                            else
+                            {
+                                <p>No hay evidencia adjunta</p>
+                            }
+                            <a asp-action="IndexPorIdentificacion" asp-controller="Inconsistencias" asp-route-identificacion="@idSolicitante" style="margin-left:20px;">Incosistencias</a>
+                        <label>
+                    </p>
+                    <p>
+                        Dias solicitados para la reposición: <br />
+                    </p>
 
                     @foreach (var item in Model)
                     {
                         <p>@item.DiasReposicion.ToString("dd 'de' MMMM", CultureInfo.CreateSpecificCulture("es-ES")): <label class="font-semibold" id="lblhoras">@Html.DisplayFor(modelItem => item.HorasReposicion) Horas</label></p>
                     }
+
                 </div>
                 <div class="buttons">
                     <form asp-action="Aprobar" asp-controller="Repo" asp-route-id="@Model.First().IdReposicion" method="post">
@@ -56,7 +138,7 @@
                 <div class="days" id="calendarDays">
                 </div>
             </div>
-            
+
         </div>
     </div>
 </body>
@@ -72,6 +154,6 @@
             @:,
         }
     }
-        ];
+                ];
 
 </script>

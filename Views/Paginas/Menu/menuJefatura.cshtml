@@ -14,40 +14,40 @@
 <body>
     <div class="contenedor">
 
-    <div class="menu">
-        <a asp-controller="Home" asp-action="MarcaNormal">
-            <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
-            Control de Marcas<br><small>Registra diariamente tus jornadas en la empresa</small>
-        </a>
+        <div class="menu">
+            <a asp-controller="Home" asp-action="MarcaNormal">
+                <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
+                Control de Marcas<br><small>Registra diariamente tus jornadas en la empresa</small>
+            </a>
 
-        <a href="/Home/Expediente">
-            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-            Expedientes de los colaboradores<br><small>Datos de los colaboradores del sistema</small>
-        </a>    
+            <a asp-controller="Home" asp-action="Expediente">
+                <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
+                Expedientes de los colaboradores<br><small>Datos de los colaboradores del sistema</small>
+            </a>
 
-        <a href="">
-            <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
-            Gestion general de las vacaciones<br><small>Control de las vacaciones de los colaboradores de tu departamento</small>
-        </a>
-       
-        <a asp-controller="Inconsistencias" asp-action="Index">
-            <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
-            Deteccion de inconsistencias<br><small>Gestion general de las inconsistencias generadas en los ultimos 15 dias</small>
-        </a>
-        <a asp-controller="Home" asp-action="SelectRepos">
-            <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
-            Aprobación de reposiciones<br><small>Maneja las horas de reposicion por inconsistencias de los colaboradores</small>
-        </a>
+            <a href="">
+                <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
+                Gestion general de las vacaciones<br><small>Control de las vacaciones de los colaboradores de tu departamento</small>
+            </a>
 
-        <a asp-controller="HorasExtras" asp-action="SolicitarHorasExtras">
-            <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
-            Solicitud de Horas Extras<br><small>Registra solicitudes de horas extras</small>
-        </a>
+            <a asp-controller="Inconsistencias" asp-action="Index">
+                <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
+                Deteccion de inconsistencias<br><small>Gestion general de las inconsistencias generadas en los ultimos 15 dias</small>
+            </a>
+            <a asp-controller="Home" asp-action="SelectRepos">
+                <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
+                Aprobación de reposiciones<br><small>Maneja las horas de reposicion por inconsistencias de los colaboradores</small>
+            </a>
 
-        <a asp-controller="Home" asp-action="RegistroActividadesJefatura">
-            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-            Control General de Actividades<br><small>Accede al control general</small>
-        </a>
+            <a asp-controller="HorasExtras" asp-action="SolicitarHorasExtras">
+                <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
+                Solicitud de Horas Extras<br><small>Registra solicitudes de horas extras</small>
+            </a>
+
+            <a asp-controller="Home" asp-action="RegistroActividadesJefatura">
+                <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
+                Control General de Actividades<br><small>Accede al control general</small>
+            </a>
             <a asp-controller="Home" asp-action="AsignarPuestos">
                 <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
                 Asignación de Puestos<br><small>Gestiona la asignación de puestos y horarios</small>
@@ -57,7 +57,7 @@
                 <i class="fa-regular fa-users" style="width: 20px; height: 20px;"></i><br>
                 Ver Colaboradores<br><small>Gestiona los colaboradores registrados</small>
             </a>
-    </div>
+        </div>
     </div>
 </body>
 </html>

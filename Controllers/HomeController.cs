@@ -127,7 +127,7 @@ namespace SitiosWeb.Controllers
         }
         [Authorize(Roles = "COLABORADOR")]
 
-       
+
 
 
         [Authorize(Roles = "JEFATURA")]
@@ -226,7 +226,7 @@ namespace SitiosWeb.Controllers
                                           .Include(r => r.FechasReposicion)
                                           .Where(r => r.Apobadas == null && r.IdcolaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"])
                                           .ToList();
-            
+
             return View("~/Views/Paginas/reposiciones/seleccionarRepo.cshtml", reposiciones);
         }
 
@@ -298,9 +298,16 @@ namespace SitiosWeb.Controllers
             var reposicion = _context.FechasReposicion
                              .Include(r => r.IdReposicionNavigation)
                              .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation)
+                             .Include(r => r.IdReposicionNavigation.FechasReposicion)
+                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation.IdPuestoNavigation)
+                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation.IdPuestoNavigation.HorariosXPuesto)
+                             .Include(r => r.IdReposicionNavigation.IdcolaboradorNavigation.ReposicionTerceroIdterceroNavigation)
+                             .Include(r => r.IdReposicionNavigation.JustificacionesInconsistencias)
                              .Where(r => r.IdReposicion == id)
                              .ToList();
-
+         ViewBag.colaboradores = _context.Colaboradores
+                                 .Where(c => c.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"])
+                                 .ToList();
             return View("/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
         }
         [Authorize(Roles = "COLABORADOR")]
@@ -315,7 +322,7 @@ namespace SitiosWeb.Controllers
             var terceros = _context.Colaboradores
                 .Where(c =>
                     c.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"] &&
-                    c.Usuarios.Any(x => x.IdTipoUsuario == 3 ) &&
+                    c.Usuarios.Any(x => x.IdTipoUsuario == 3) &&
                     c.Identificacion != Request.Cookies["Id"])
                 .ToList();
             ViewBag.Tercero = terceros;
@@ -363,7 +370,7 @@ namespace SitiosWeb.Controllers
             return View("/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml", solicitudes);
         }
         [Authorize(Roles = "JEFATURA")]
-       
+
         public IActionResult AprobarHorasExtras(int id)
         {
             var solicitud = _context.SolicitudHorasExtra.Find(id);
