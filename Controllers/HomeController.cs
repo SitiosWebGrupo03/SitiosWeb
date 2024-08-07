@@ -127,10 +127,7 @@ namespace SitiosWeb.Controllers
         }
         [Authorize(Roles = "COLABORADOR")]
 
-        public IActionResult ConsultarHorarioJefatura()
-        {
-            return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
-        }
+       
 
 
         [Authorize(Roles = "JEFATURA")]
@@ -162,9 +159,9 @@ namespace SitiosWeb.Controllers
         }
 
         [Authorize(Roles = "JEFATURA")]
-        public IActionResult ConsultarHorario()
+        public IActionResult ConsultarHorarioJefatura()
         {
-            return View("~/Views/ExpedienteEmpleado/ConsultarHorarioJ.cshtml");
+            return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
         }
 
         [Authorize(Roles = "JEFATURA")]

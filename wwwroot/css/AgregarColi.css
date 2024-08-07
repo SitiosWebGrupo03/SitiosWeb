@@ -210,6 +210,12 @@ form {
         cursor: pointer;
     }
 
+        .sidebar-menu li a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
 /* Main Content Styles */
 .main-content {
     flex: 1;

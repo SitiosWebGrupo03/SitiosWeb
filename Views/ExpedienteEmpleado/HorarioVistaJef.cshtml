@@ -30,20 +30,13 @@
                     <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec-1.png" alt="User Photo" class="user-photo">
                 </div>
                 <div class="content-container">
-                    <form id="consultaHorarioForm" asp-controller="Expediente" asp-action="ConsultarHorario" method="post">
+                    <form id="consultaHorarioForm" asp-controller="Expediente" asp-action="ConsultarHorarioJef" method="post">
                         <div class="form-group short-input">
                             <label for="identificacion">Identificación</label>
-                            <input type="text" id="Id" name="Id" placeholder="Identificación">
+                            <input type="text" id="Id" name="identificacion" placeholder="Identificación">
                         </div>
 
-                        <div class="form-group short-input">
-                            <label for="puesto">Puesto</label>
-                            <select class="form-control" id="puesto" name="puesto">
-                                <option>Gerente</option>
-                                <option>Analista</option>
-                                <option>Desarrollador</option>
-                            </select>
-                        </div>
+                        
                         <button type="submit" class="download-button">Consultar</button>
                     </form>
                     <div class="table-container">
@@ -90,7 +83,7 @@
                     <button class="download-button" onclick="downloadHorario()">Descargar</button>
                 </div>
                 <button class="exit-button">Salir</button>
-                
+
             </div>
         </div>
     </div>
