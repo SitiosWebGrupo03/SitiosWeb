@@ -29,17 +29,14 @@
             <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
             Gestion general de las vacaciones<br><small>Control de las vacaciones de los colaboradores de tu departamento</small>
         </a>
-        <a href="#Permisos">
-            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-            Control de permisos<br><small>Verificacion y administracion de los permisos solicitados</small>
-        </a>
+       
         <a asp-controller="Inconsistencias" asp-action="Index">
             <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
             Deteccion de inconsistencias<br><small>Gestion general de las inconsistencias generadas en los ultimos 15 dias</small>
         </a>
         <a asp-controller="Home" asp-action="SelectRepos">
             <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
-            Asignacion de reposiciones<br><small>Maneja las horas de reposicion por inconsistencias de los colaboradores</small>
+            Aprobación de reposiciones<br><small>Maneja las horas de reposicion por inconsistencias de los colaboradores</small>
         </a>
 
         <a asp-controller="HorasExtras" asp-action="SolicitarHorasExtras">
@@ -60,20 +57,6 @@
                 <i class="fa-regular fa-users" style="width: 20px; height: 20px;"></i><br>
                 Ver Colaboradores<br><small>Gestiona los colaboradores registrados</small>
             </a>
-
-
-
-
-
-
-
-
-
-
-        <a href="#festivos">
-            <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
-            Solicitudes de Vacaciones<br><small>Validacion de las solicitudes de vacaciones</small>
-        </a>
     </div>
     </div>
 </body>

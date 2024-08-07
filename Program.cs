@@ -15,21 +15,7 @@ builder.Services.AddDbContext<Tiusr22plProyectoContext>(options =>
  options.UseSqlServer(builder.Configuration.GetConnectionString("Host")));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login/Login";
-        options.LogoutPath = "/Home/Index";
-        options.AccessDeniedPath = "/Home/AccesoDenegado";
-        options.Events.OnRedirectToLogin = context =>
-        {
-            if (context.Request.Path.StartsWithSegments("/Home/Login") && context.Response.StatusCode == 200)
-            {
-                // Prevent redirect to login page if already authenticated
-                context.Response.Redirect("/Home/Index");
-            }
-            return Task.CompletedTask;
-        };
-    });
+    .AddCookie();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
@@ -43,6 +29,7 @@ builder.Services.AddControllers()
         options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 
     });
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("JEFATURA", policy => policy.RequireRole("JEFATURA"));
@@ -52,7 +39,10 @@ builder.Services.AddAuthorization(options =>
     // Add more policies as needed
 });
 var app = builder.Build();
-
+if (!app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();    
