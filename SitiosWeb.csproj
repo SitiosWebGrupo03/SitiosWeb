@@ -4,17 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <SatelliteResourceLanguages>en;es</SatelliteResourceLanguages>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Views\Home\menuInconsistencias.cshtml" />
-    <Content Remove="Views\Inconsistencias\InconsistenciasPorNombre.cshtml" />
-    <Content Remove="Views\Paginas\gestion_horas_extras\SolicitudHorasExtra.cshtml" />
-    <Content Remove="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
-    <Content Remove="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
-    <Content Remove="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
-    <Content Remove="Views\Paginas\indicadores\indicadores.cshtml" />
-  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
@@ -31,40 +24,6 @@
     <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
-    <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
-    <None Include="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
-    <None Include="Views\Paginas\indicadores\indicadores.cshtml" />
-    <None Include="Views\Marcas\VisualizacionMarcas.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\ConsultarPuesto.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\CreacionUsuario.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\GeneradorHorario.cshtml" />
-    <None Include="Views\Shared\HorarioColab.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\HorarioVistaJef.cshtml" />
-    <None Include="Views\ExpedienteEmpleado\Modificar.cshtml" />
-    <None Include="Views\Paginas\reposiciones\aprobacionRepo.cshtml" />
-    <None Include="wwwroot\FaceModels\deploy.prototxt" />
-    <None Include="wwwroot\FaceModels\res10_300x300_ssd_iter_140000.caffemodel" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\js\marcarDias.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\js\reposicicionHorario.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Home\menuInconsistencias.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Home\menuInconsistencias.cshtml" />
-  </ItemGroup>
 
 </Project>
