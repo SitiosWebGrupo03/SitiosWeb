@@ -44,19 +44,19 @@
         if (solicitantes != null)
         {
             var solicitante = Model.FirstOrDefault()?.IdReposicionNavigation?.IdcolaboradorNavigation?.ReposicionTerceroIdterceroNavigation.ToList();
-             idSolicitante = solicitante?.FirstOrDefault()?.Idsolicitante;
+            idSolicitante = solicitante?.FirstOrDefault()?.Idsolicitante;
             foreach (var item in solicitantes)
             {
                 if (item.Identificacion == idSolicitante)
                 {
-                     nombreTerceros = item.Nombre + " " + item.Apellidos;
+                    nombreTerceros = item.Nombre + " " + item.Apellidos;
                 }
             }
 
-            
+
         }
     }
-    }
+}
 
 }
 <!DOCTYPE html>
@@ -68,8 +68,7 @@
     <title>Aprobación de Reposiciones</title>
     <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
-    <script src="/js/reposicicionHorario.js"></script>
-
+    <script src="~/js/reposicicionHorario.js"></script>
 </head>
 <body>
     <div class="contains">
@@ -91,24 +90,34 @@
                     @if (Model.FirstOrDefault().IdReposicionNavigation.PorTercero == true)
                     {
                         <p>Colaborador que debe las horas: <label class="font-semibold" id="Colaboradorlbl"> @nombreTerceros</label></p>
-                   
-                        
+
+
                     }
                     <p>
                         Horario del dia de la inconsistecia: <label class="font-semibold"> @diaDeLaSemana @valorColumna</label>
                     </p>
                     <p>
-                        <label class="font-semibold"> 
+                        <label class="font-semibold">
                             @if (Model.FirstOrDefault().IdReposicionNavigation.JustificacionesInconsistencias.FirstOrDefault().Evidencias != null && Model.FirstOrDefault().IdReposicionNavigation.JustificacionesInconsistencias.FirstOrDefault().Evidencias.Length > 0)
                             {
                                 <a href="@Url.Action("DescargarEvidencia", "SolicitudeRebajo", new { id = Model.FirstOrDefault().IdReposicionNavigation.JustificacionesInconsistencias.FirstOrDefault().IdJustificacion })">Descargar justificación</a>
+
                             }
                             else
                             {
-                                <p>No hay evidencia adjunta</p>
+                                <a>No hay evidencia adjunta</a>
                             }
-                            <a asp-action="IndexPorIdentificacion" asp-controller="Inconsistencias" asp-route-identificacion="@idSolicitante" style="margin-left:20px;">Incosistencias</a>
-                        <label>
+                            @if (Model.FirstOrDefault().IdReposicionNavigation.PorTercero == true)
+                            {
+                                <a asp-action="IndexPorIdentificacion" asp-controller="Inconsistencias" asp-route-identificacion="@idSolicitante" style="margin-left:20px;">Incosistencias</a>
+                            }
+                            else
+                            {
+                                <a asp-action="IndexPorIdentificacion" asp-controller="Inconsistencias" asp-route-identificacion="@Model.FirstOrDefault().IdReposicionNavigation.Idcolaborador" style="margin-left:20px;">Incosistencias</a>
+                            }
+
+
+                            <label>
                     </p>
                     <p>
                         Dias solicitados para la reposición: <br />
@@ -154,6 +163,6 @@
             @:,
         }
     }
-                ];
+                    ];
 
 </script>
