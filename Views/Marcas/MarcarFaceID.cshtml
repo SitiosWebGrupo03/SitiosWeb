@@ -1,5 +1,17 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    string layout = null;
+    if (User.IsInRole("JEFATURA"))
+    {
+
+        layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+
+
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+    Layout = layout;
 }
 
 <!DOCTYPE html>
@@ -13,13 +25,31 @@
 <body>
     <div class="container">
         <aside class="sidebar">
+           @{
+           if(User.IsInRole("JEFATURA"))
+           {
             <div class="sidebar-header">
                 <h2>Opciones de marcas</h2>
             </div>
             <ul class="sidebar-menu">
                 <li><a asp-controller="Home" asp-action="MarcaNormal">Por usuario</a></li>
-                <li>IdentificaciÃ³n facial</li>
+                <li>Identificacion facial</li>
             </ul>
+            }
+            else if (User.IsInRole("COLABORADOR"))
+            {
+
+            <div class="sidebar-header">
+                <h2>Opciones de marcas</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a asp-controller="Home" asp-action="MarcaNormalColab">Por usuario</a></li>
+                <li>Identificacion facial</li>
+            </ul>
+            
+            }
+           
+           }
         </aside>
         <main class="main-content">
             <h1>Control de Marcas</h1>

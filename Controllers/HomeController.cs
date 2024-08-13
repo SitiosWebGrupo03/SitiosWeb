@@ -126,8 +126,10 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Marcas/MarcarHEX.cshtml");
         }
         [Authorize(Roles = "COLABORADOR")]
-
-
+        public IActionResult FaceIDColab()
+        {
+            return View("~/Views/Marcas/MarcarFaceID.cshtml");
+        }
 
 
         [Authorize(Roles = "JEFATURA")]
@@ -175,7 +177,7 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Marcas/MarcarFaceID.cshtml");
         }
-        [Authorize(Roles = "JEFATURA")]
+     
 
         [Authorize(Roles = "JEFATURA")]
         public IActionResult AsignarPuesto()
