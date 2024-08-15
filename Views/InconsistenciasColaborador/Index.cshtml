@@ -7,6 +7,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="~/css/menuInconsistencias.css" />
+    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inconsistencias</title>
@@ -14,17 +15,28 @@
 <body>
     <div class="wrapper">
         <div id="contenedor">
+
             <div id="contenido">
                 @foreach (var item in Model)
                 {
                     <p>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <br />
+                        <br />
                         Fecha Inconsistencia: @item.FechaInconsistencia.ToString()
                         <br />
                         Identificación: @item.IdEmpleado?.ToString()
                         <br />
                         Nombre: @item.IdEmpleadoNavigation?.Nombre
                         <br />
-                        Número de Justificación: @item.IdJustificacion?.ToString()
+                        @if(@item.IdJustificacion == null)
+                        {
+                         <span style="color: red;"> Pendiente de Justificar</span>
+                        }
+                        else
+                        {
+                        <span style="color: green;">Número de Justificación: @item.IdJustificacion?.ToString()</span>
+                        }
                         <br />
                         Tipo de Inconsistencia: @item.IdTipoInconsistenciaNavigation?.Descripcion
                         <br />

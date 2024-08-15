@@ -30,15 +30,28 @@ namespace SitiosWeb.Controllers
             }
 
             var inconsistencias = await _context.Inconsistencias
-                .Include(i => i.IdEmpleadoNavigation)
-                .Include(i => i.IdJustificacionNavigation)
-                .Include(i => i.IdTipoInconsistenciaNavigation)
-                .Where(i => i.IdEmpleadoNavigation.Identificacion == Request.Cookies["Id"])
-                .ToListAsync();
-
+             .Include(i => i.IdEmpleadoNavigation)
+             .Include(i => i.IdJustificacionNavigation)
+             .Include(i => i.IdTipoInconsistenciaNavigation)
+             .Where(i => i.IdEmpleadoNavigation.Identificacion == Request.Cookies["Id"]
+                    && i.IdJustificacion == null
+                    && (i.Mostrar == true || i.Mostrar == null))
+             .ToListAsync();
+                
             return View(inconsistencias);
         }
+        public async Task<int> numeroInconsistencias()
+        {
+            if (string.IsNullOrEmpty(Request.Cookies["Id"]))
+            {
+                throw new ArgumentException("El ID del colaborador es requerido");
+            }
 
+            int cantidadInconsistencias = await _context.Inconsistencias
+                .CountAsync(i => i.IdEmpleadoNavigation.Identificacion == Request.Cookies["Id"]);
+
+            return cantidadInconsistencias;
+        }
         public async Task<IActionResult> Justificacion(string identificacion, string id_puesto, string iddepartamento, int idInconsistencia, int idtipoinconsistencia, string reponetiempo, string horarioid, DateOnly fecha, string observaciones,IFormFile evidencia)
         {
             byte[] evidenciaBytes= null;
