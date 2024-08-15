@@ -9,6 +9,8 @@ public partial class TipoActividades
 
     public string NomActividad { get; set; } = null!;
 
+    public string? Nombre { get; set; }
+
     public virtual ICollection<HorasExtra> HorasExtra { get; set; } = new List<HorasExtra>();
 
     public virtual ICollection<RegistroActividades> RegistroActividades { get; set; } = new List<RegistroActividades>();

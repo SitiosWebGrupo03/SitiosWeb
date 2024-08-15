@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
+@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/calendarBlock.css" />
+    <script src="~/js/blockDias.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="contains">
+        <div class="head">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
+            <div class="titles">
+                <h1 class="title-page">Bloqueo de </h1>
+                <h1 class="title-span">Dias</h1>
+
+            </div>
+        </div>
+        <label class="error" style="display: none;"></label>
+        <label class="success" style="display: none;"></label>
+
+
+          
+            <div class="calendar" ID="calendar">
+                <div class="calendar-header">
+                    <button id="prevMonth">< </button>
+                    <h2 id="monthYear"></h2>
+                    <button id="nextMonth"> ></button>
+                </div>
+                <div class="days" id="calendarDays">
+                </div>
+
+            </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Bloqueo de días</h2>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+
+                <form id="modalForm" asp-action="SolicitudTercero" asp-controller="Repo">
+
+                    <div class="select-container">
+                        <label style="font-size:20px;"for="descripcion">Descripción</label>
+                        <textarea name="descripcion" id="descripcion" required style="height: 100px; width: 400px; resize: none; margin-bottom:10px;"></textarea>
+
+                    </div>
+                    <div class="buttons" style="gap:5rem; margin:0 auto;">
+                        <button type="button">Bloquear días </button>
+                        <button type="button">Añadir festivo</button>
+                    </div>
+                    
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>
+    let diaMarcar = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Day' 
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+            
+        }
+    }
+    ];
+    let tipoDia = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Tipo'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }
+        ];
+</script>

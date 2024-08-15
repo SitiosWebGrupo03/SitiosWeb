@@ -22,7 +22,8 @@
 }
 
 .select-container select,
-.select-container input {
+.select-container input,
+.select-container textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #5E58F8;
@@ -116,7 +117,7 @@ body {
         border-radius: 5px;
         padding: 15px;
         text-decoration: none;
-        color: white;+
+        color: white;
     }
 
         .Tercero a:hover {

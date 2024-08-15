@@ -152,5 +152,9 @@ namespace SitiosWeb.Controllers
         {
             return _context.Configuraciones.Any(e => e.IdConfiguraciones == id);
         }
+        public async Task<IActionResult> BloquearDias()
+        {
+            return View(await _context.BloqueoDias.ToListAsync());
+        }
     }
 }

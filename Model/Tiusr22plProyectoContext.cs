@@ -15,9 +15,9 @@ public partial class Tiusr22plProyectoContext : DbContext
     {
     }
 
-    public virtual DbSet<Actividades> Actividades { get; set; }
-
     public virtual DbSet<AsignacionPcolaboradores> AsignacionPcolaboradores { get; set; }
+
+    public virtual DbSet<BloqueoDias> BloqueoDias { get; set; }
 
     public virtual DbSet<Colaboradores> Colaboradores { get; set; }
 
@@ -84,32 +84,6 @@ public partial class Tiusr22plProyectoContext : DbContext
     {
         modelBuilder.HasDefaultSchema("Grupo03");
 
-        modelBuilder.Entity<Actividades>(entity =>
-        {
-            entity.HasKey(e => e.ActividadId).HasName("PK__Activida__981483F0D22F7408");
-
-            entity.Property(e => e.ActividadId).HasColumnName("ActividadID");
-            entity.Property(e => e.Comentarios).HasColumnType("text");
-            entity.Property(e => e.Descripcion).HasColumnType("text");
-            entity.Property(e => e.Estado)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.FechaActividad).HasColumnType("datetime");
-            entity.Property(e => e.FechaAprobacion).HasColumnType("datetime");
-            entity.Property(e => e.FechaRegistro).HasColumnType("datetime");
-            entity.Property(e => e.Horas).HasColumnType("decimal(5, 2)");
-            entity.Property(e => e.Identificacion)
-                .HasMaxLength(150)
-                .IsUnicode(false);
-            entity.Property(e => e.TipoActividad)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.IdentificacionNavigation).WithMany(p => p.Actividades)
-                .HasForeignKey(d => d.Identificacion)
-                .HasConstraintName("FK__Actividad__Ident__147C05D0");
-        });
-
         modelBuilder.Entity<AsignacionPcolaboradores>(entity =>
         {
             entity.HasKey(e => e.Identificacion);
@@ -130,6 +104,16 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Puesto)
                 .HasMaxLength(20)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<BloqueoDias>(entity =>
+        {
+            entity.HasKey(e => e.DayId);
+
+            entity.Property(e => e.DayId).HasColumnName("DayID");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(300)
                 .IsUnicode(false);
         });
 
@@ -511,7 +495,9 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_validador");
-            
+            entity.Property(e => e.Observaciones)
+                .HasMaxLength(500)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.IdColaboradorNavigation).WithMany(p => p.RegistroActividadesIdColaboradorNavigation)
                 .HasForeignKey(d => d.IdColaborador)
@@ -745,6 +731,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("nom_Actividad");
+            entity.Property(e => e.Nombre).HasMaxLength(255);
         });
 
         modelBuilder.Entity<TipoUsuario>(entity =>
