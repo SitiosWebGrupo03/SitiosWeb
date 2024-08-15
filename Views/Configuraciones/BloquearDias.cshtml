@@ -43,16 +43,21 @@
                     <span class="close" onclick="closeModal()">&times;</span>
                 </div>
 
-                <form id="modalForm" asp-action="SolicitudTercero" asp-controller="Repo">
+                <form id="modalForm" asp-action="ManejarDias">
 
                     <div class="select-container">
                         <label style="font-size:20px;"for="descripcion">Descripción</label>
-                        <textarea name="descripcion" id="descripcion" required style="height: 100px; width: 400px; resize: none; margin-bottom:10px;"></textarea>
+                        <textarea  name="descripcion" id="descripcion" required style="height: 100px; width: 400px; resize: none; margin-bottom:10px;"></textarea>
+                        <input type="text" name="id" id="idDia" hidden/>
+                        <input type="text" name="tipo" id="tipo" hidden />
+                        <input type="text" name="dia" id="dia" hidden />
 
                     </div>
                     <div class="buttons" style="gap:5rem; margin:0 auto;">
-                        <button type="button">Bloquear días </button>
-                        <button type="button">Añadir festivo</button>
+                        <button type="submit" style="display:none;" id="bloquear">Bloquear días </button>
+                        <button type="submit" style="display:none;" id="festivo">Añadir festivo</button>
+                        <button type="submit" style="display:none;" id="editar">Editar</button>
+                        <button type="submit" style="display:none;" id="eliminar">Eliminar</button>
                     </div>
                     
                 </form>
@@ -82,5 +87,25 @@
             @:,
         }
     }
+    ];
+    let idsDia = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).DayId'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }
         ];
+    let DiaDescripcion = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Descripcion'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }
+            ];
 </script>

@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentYear = today.getFullYear(); // Año actual
     const daysContainer = document.getElementById('calendarDays');
 
-
     let total = 0;
 
     const monthNames = [
@@ -81,30 +80,85 @@ document.addEventListener("DOMContentLoaded", function () {
 
     generateCalendar(currentMonth, currentYear);
 
+    const config = document.getElementById('bloquear');
+    const festivo = document.getElementById('festivo');
+    const editar = document.getElementById('editar');
+    const eliminar = document.getElementById('eliminar');
+    const descripcion = document.getElementById('descripcion');
+    const idDia = document.getElementById('idDia');
+    const tipo = document.getElementById('tipo');
+        const dia = document.getElementById('dia');
 
-    
 
+    function ocultarControles(opc)
+    {
+        switch (opc)
+        {
+            case 1:
+                config.style.display = 'block';
+                festivo.style.display = 'block';
+                editar.style.display = 'none';
+                eliminar.style.display = 'none';
+                break;
+            case 2:
+                config.style.display = 'none';
+                festivo.style.display = 'none';
+                editar.style.display = 'block';
+                eliminar.style.display = 'block';
+                break;
+        }
+    }
     daysContainer.addEventListener('click', function (event) {
         const dayCell = event.target;
         const text = document.getElementById('monthYear').textContent;
-        const month = text.replace(/\d+/g, '').trim(); // Extract month name
-        const monthIndex = monthNames.indexOf(month); // Get zero-based index
-        const year = text.match(/\d+/g)[0]; // Extract year
-        const dayNumber = dayCell.textContent.trim();
-        if (dayCell.classList.contains('festivo')) {
-            return;
+        const month = text.replace(/\d+/g, '').trim(); 
+        const monthIndex = monthNames.indexOf(month)+1; 
+        const year = text.match(/\d+/g)[0]; 
+        const day = dayCell.textContent.trim();
+        const formattedDate = `${monthIndex}/${day}/${year}`;
+        dia.value = formattedDate;
+        if (dayCell.classList.contains('festivo') || dayCell.classList.contains('configuracion')) {
+            if (diaMarcar && diaMarcar.includes(formattedDate)) {
+                let index = diaMarcar.indexOf(formattedDate);
+                idDia.value = idsDia[index];
+                descripcion.textContent = DiaDescripcion[index];
+            }
+            ocultarControles(2)
+        } else {
+            idDia.textContent = '';
+            descripcion.textContent = '';
+            ocultarControles(1)
         }
-        if (dayCell.classList.contains('configuracion')) {
-                return;
-        }
-        showModal();
-        
        
-        
-        
-
-
+        showModal();
 
     });
+    config.addEventListener('click', event => {
 
+        // Asignar el valor a los campos correspondientes
+        tipo.value = 0;
+        // Enviar el formulario
+        document.getElementById('modalForm').submit();
+    });
+    festivo.addEventListener('click', event => {
+
+        // Asignar el valor a los campos correspondientes
+        tipo.value = 1;
+        // Enviar el formulario
+        document.getElementById('modalForm').submit();
+    });
+    editar.addEventListener('click', event => {
+
+        // Asignar el valor a los campos correspondientes
+        tipo.value = 2;
+        // Enviar el formulario
+        document.getElementById('modalForm').submit();
+    });
+    eliminar.addEventListener('click', event => {
+
+        // Asignar el valor a los campos correspondientes
+        tipo.value = 3;
+        // Enviar el formulario
+        document.getElementById('modalForm').submit();
+    });
 });

@@ -156,5 +156,55 @@ namespace SitiosWeb.Controllers
         {
             return View(await _context.BloqueoDias.ToListAsync());
         }
+        public async Task<IActionResult> ManejarDias(int id, string descripcion, string tipo, string dia)
+        {
+            BloqueoDias ids = null;
+            if (id != null)
+            {
+                ids = _context.BloqueoDias.FirstOrDefault(c => c.DayId == id);
+            }
+
+            switch (tipo)
+            {
+                case "0":
+                    _context.BloqueoDias.Add(new BloqueoDias
+                    {
+                        Descripcion = descripcion,
+                        Tipo = 0,
+                        Day = DateOnly.Parse(dia)
+                    });
+                    break;
+                case "1":
+                    _context.BloqueoDias.Add(new BloqueoDias
+                    {
+                        Descripcion = descripcion,
+                        Tipo = 1,
+                        Day = DateOnly.Parse(dia)
+                    });
+                    break;
+
+                case "2":
+                    if (ids != null)
+                    {
+                        ids.Descripcion = descripcion;
+                        _context.BloqueoDias.Update(ids);
+                    }
+                    break;
+
+                case "3":
+                    if (ids != null)
+                    {
+                        _context.BloqueoDias.Remove(ids);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("BloquearDias");
+        }
+
     }
 }
