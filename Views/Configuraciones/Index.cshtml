@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SitiosWeb.Model.Configuraciones>
+
+@{
+    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/configuraciones.css" />
+    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Configuraciones</title>
+</head>
+<body>
+<p>
+    <a asp-controller="Configuraciones" class="btn-success" asp-action="Create">Agregar Nueva</a>
+    <a class="btn-primary" asp-route-id="">Bloquear Dias</a>
+
+</p>
+<div id="contenido">
+
+        @foreach (var item in Model)
+        {
+            <p>
+                <i class="fa-solid fa-gear"></i>
+                <br />
+                ID de la Configuracion: @item.IdConfiguraciones.ToString()
+                <br />
+                <br />
+                Nombre de Configuracion: @item.NomConfiguracion.ToString()
+                <br />
+                <br />
+                Valor de la Configuracion: @item.ValorConfig.ToString()
+                <br />
+                <br />
+                Numero de la Configuracion: @item.NumConfig.ToString()
+                <br />
+                <br />
+                <a asp-controller="Configuraciones" asp-action="Edit" class="btn-warning" asp-route-id="@item.IdConfiguraciones">Edit</a> |
+                <a asp-controller="Configuraciones" asp-action="Delete" class="btn-danger" asp-route-id="@item.IdConfiguraciones">Delete</a>
+            </p>
+        }
+</div>
+
+</body>
+</html>

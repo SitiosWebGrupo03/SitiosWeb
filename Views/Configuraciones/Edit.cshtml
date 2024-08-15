@@ -1,0 +1,51 @@
+﻿@model SitiosWeb.Model.Configuraciones
+
+@{
+    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/css/configuraciones.css" />
+    <title>Edit</title>
+</head>
+<body>
+
+<hr />
+<div class="row">
+    <p>
+            <h4>Configuraciones</h4>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdConfiguraciones" />
+            <div class="form-group">
+                <label asp-for="NomConfiguracion" class="control-label"></label>
+                <input asp-for="NomConfiguracion" class="form-control" />
+                <span asp-validation-for="NomConfiguracion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValorConfig" class="control-label"></label>
+                <input asp-for="ValorConfig" class="form-control" />
+                <span asp-validation-for="ValorConfig" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumConfig" class="control-label"></label>
+                <input asp-for="NumConfig" class="form-control" />
+                <span asp-validation-for="NumConfig" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </p>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

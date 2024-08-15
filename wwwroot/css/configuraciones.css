@@ -1,0 +1,80 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background: url('data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22eY1zb0UKOoe1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%201000%20100%22%20shape-rendering%3D%22geometricPrecision%22%20text-rendering%3D%22geometricPrecision%22%3E%3Cpath%20d%3D%22M788.863162%2C33.294348C732.356103%2C43.175113%2C673.7%2C75.1%2C597.9%2C43.1C568.3%2C30.4%2C521%2C12.1%2C497.4%2C7.2s-52.6-7.8-75.5-5.3C411.7%2C3%2C399.3%2C3.3%2C371.8%2C9.3c-27.2%2C6.3-58.2%2C16.6-79.4%2C24.7-41.3%2C15.9-94.9%2C21.9-134%2C22.6C72%2C58.2%2C0%2C25.8%2C0%2C25.8v74.2h1000v-34.7c0%2C0-98.199791-54.318863-132.148973-56s-54.592448%2C19.728591-78.987865%2C23.994348%22%20transform%3D%22translate(0-.492995)%22%20fill%3D%22%235e58f8%22%2F%3E%3C%2Fsvg%3E') no-repeat center bottom;
+    background-size: auto 60%;
+}
+
+
+#contenido {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+    #contenido i {
+        color: white;
+        font-size: 100px;
+
+    }
+
+body a {
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+body i {
+    transition: color 0.5s, transform 0.5s;
+}
+
+    body i:hover {
+        color: black;
+        transform: scale(0.9);
+    }
+
+p {
+    padding: 10px;
+    color: white;
+    margin: 10px;
+    max-width: 352px;
+    background-color: gray;
+    border-radius: 8px;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1 1 300px;
+    box-sizing: border-box;
+}
+
+
+/*#contenido a {
+    background-color: white;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: #7154fc;
+}*/
+
+    #contenido a:hover {
+        text-decoration: underline;
+    }
+
+.row p {
+    padding: 10px;
+    color: white;
+    margin: 10px;
+    max-width: 352px;
+    background-color: gray;
+    border-radius: 8px;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1 1 300px;
+    box-sizing: border-box;
+}

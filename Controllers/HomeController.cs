@@ -201,6 +201,12 @@ namespace SitiosWeb.Controllers
             return View("~/Views/PuestoTrabajo/Colaboradores.cshtml", colaboradores);
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult IndexConfig()
+        {
+            var configuraciones = _context.Configuraciones.ToList();
+            return View("~/Views/Configuraciones/Index.cshtml", configuraciones);
+        }
 
         public IActionResult VistaInconsistencias()
         {
