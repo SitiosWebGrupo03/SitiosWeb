@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/login.css" />
+    <title>Inicio de sesión</title>
+</head>
+<body>
+    <div class="login-box">
+        <form asp-action="MFA" asp-controller="Login" method="post">
+            
+            
+            <div class="user-box">
+                <input type="codigo" name="codigo" required aria-label="codigo" />
+                <label>Código</label>
+            </div>
+            <label>@TempData["Error"]</label>
+            <center>
+                <button id="login" type="submit">Verificar<span></span></button>
+            </center>
+
+        </form>
+    </div>
+</body>
+
+

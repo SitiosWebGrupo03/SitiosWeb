@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
     eliminar.addEventListener('click', event => {
 
         // Asignar el valor a los campos correspondientes
-        tipo.value = 3;
+        tipo.value = 3  ;
         // Enviar el formulario
         document.getElementById('modalForm').submit();
     });
