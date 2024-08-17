@@ -1,6 +1,8 @@
-﻿    using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
+using System.Net.Mail;
+using System.Net;
 
 namespace SitiosWeb.Controllers
 {
@@ -29,6 +31,14 @@ namespace SitiosWeb.Controllers
                 return NotFound("Colaborador no encontrado");
             }
 
+            string config = inconsistenciasPermitidas();
+
+            ViewBag.InconsistenciasPermitidas = config;
+
+            string incon = numeroInconsistencias();
+            ViewBag.NumIncon = incon;
+
+
             var inconsistencias = await _context.Inconsistencias
              .Include(i => i.IdEmpleadoNavigation)
              .Include(i => i.IdJustificacionNavigation)
@@ -40,17 +50,29 @@ namespace SitiosWeb.Controllers
                 
             return View(inconsistencias);
         }
-        public async Task<int> numeroInconsistencias()
+        public string inconsistenciasPermitidas()
+        {
+            var configuracion = _context.Configuraciones
+                .FirstOrDefault(c => c.IdConfiguraciones == 2);
+
+            if (configuracion == null || configuracion.NumConfig == null)
+            {
+                throw new Exception("No se encontró la configuración o NumConfig es nulo.");
+            }
+
+            return configuracion.NumConfig.Value.ToString();
+        }
+        public string numeroInconsistencias()
         {
             if (string.IsNullOrEmpty(Request.Cookies["Id"]))
             {
                 throw new ArgumentException("El ID del colaborador es requerido");
             }
 
-            int cantidadInconsistencias = await _context.Inconsistencias
-                .CountAsync(i => i.IdEmpleadoNavigation.Identificacion == Request.Cookies["Id"]);
+            int cantidadInconsistencias = _context.Inconsistencias
+                .Count(i => i.IdEmpleadoNavigation.Identificacion == Request.Cookies["Id"]);
 
-            return cantidadInconsistencias;
+            return cantidadInconsistencias.ToString();
         }
         public async Task<IActionResult> Justificacion(string identificacion, string id_puesto, string iddepartamento, int idInconsistencia, int idtipoinconsistencia, string reponetiempo, string horarioid, DateOnly fecha, string observaciones,IFormFile evidencia)
         {
@@ -99,12 +121,41 @@ namespace SitiosWeb.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            EnviarCorreo(Request.Cookies["Correo"], "Envio de Justificacion", $"{Request.Cookies["Nombre"]} Usted ha enviado la justificación a su jefatura, se enviará la respuesta por correo");
+
             return View("~/Views/InconsistenciasColaborador/JustificarInconsistenciasColaborador.cshtml");
 
 
         }
+        private void EnviarCorreo(string destinatario, string asunto, string cuerpo)
+        {
+            try
+            {
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("calderonmora6@gmail.com", "qsre xvxi yyvt flyw"),
+                    EnableSsl = true,
+                };
 
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress("calderonmora6@gmail.com"),
+                    Subject = asunto,
+                    Body = cuerpo,
+                    IsBodyHtml = false,
+                };
 
+                mailMessage.To.Add(destinatario);
+
+                smtpClient.Send(mailMessage);
+                Console.WriteLine("Correo enviado con éxito.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar el correo: {ex.Message}");
+            }
+        }
         public async Task<IActionResult> Justificar(int id)
         {
             var inconsistencia = await _context.Inconsistencias.FindAsync(id);

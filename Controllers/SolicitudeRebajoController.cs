@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -71,12 +73,20 @@ namespace SitiosWeb.Controllers
             return View("~/Views/SolicitudeRebajo/evaluacionRebajos.cshtml", solicitud);
         }
 
-        // GET: SolicitudeRebajo/Details/5
         [HttpPost]
         public async Task<IActionResult> solicitarRebajo(int idJustificacion, string observaciones)
         {
             var justificacion = await _context.JustificacionesInconsistencias
                 .FirstOrDefaultAsync(j => j.IdJustificacion == idJustificacion);
+
+            string idColaborador = justificacion?.IdColaborador.ToString();
+
+            var colab = await _context.Colaboradores
+                .FirstOrDefaultAsync(j => j.Identificacion == idColaborador);
+
+            string correo = colab?.Correo.ToString();
+            string nombre = colab?.Nombre.ToString();
+
 
             if (justificacion == null)
             {
@@ -85,6 +95,8 @@ namespace SitiosWeb.Controllers
 
             justificacion.Validacion = false;
             _context.Update(justificacion);
+
+            
 
             var solicitudRebajo = new SolicitudeRebajo
             {
@@ -96,10 +108,54 @@ namespace SitiosWeb.Controllers
             _context.SolicitudeRebajo.Add(solicitudRebajo);
             await _context.SaveChangesAsync();
 
+            var inconsistencia = await _context.Inconsistencias
+             .FirstOrDefaultAsync(i => i.IdJustificacion == idJustificacion);
+
+            if (inconsistencia != null)
+            {
+                _context.Entry(inconsistencia).State = EntityState.Modified;
+                inconsistencia.Mostrar = false;
+                _context.Inconsistencias.Update(inconsistencia);
+                await _context.SaveChangesAsync();
+            }
+
             var solicitudes = await _context.SolicitudeRebajo
                 .Where(s => s.Mostrar == true || s.Mostrar == null)
                 .ToListAsync();
+
+            EnviarCorreo(correo, "Justificacion de tu inconsistencia", $"Querido {nombre} su justificacion ha sido rechazada, por lo tanto se ha enviado una solicitud para que le sea aplicado el rebajo correspondiente");
+
             return View("~/Views/SolicitudeRebajo/Index.cshtml");
+        }
+
+        private void EnviarCorreo(string destinatario, string asunto, string cuerpo)
+        {
+            try
+            {
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("calderonmora6@gmail.com", "qsre xvxi yyvt flyw"),
+                    EnableSsl = true,
+                };
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress("calderonmora6@gmail.com"),
+                    Subject = asunto,
+                    Body = cuerpo,
+                    IsBodyHtml = false,
+                };
+
+                mailMessage.To.Add(destinatario);
+
+                smtpClient.Send(mailMessage);
+                Console.WriteLine("Correo enviado con éxito.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar el correo: {ex.Message}");
+            }
         }
 
         [HttpPost]

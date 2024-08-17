@@ -15,7 +15,16 @@
 <body>
     <div class="wrapper">
         <div id="contenedor">
-
+            <div class="indicador">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h3>Inconsistencias Permitidas:</h3>
+                <span>@ViewBag.InconsistenciasPermitidas</span>
+            </div>
+            <div class="indicador">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h3>Inconsistencias Actuales:</h3>
+                <span>@ViewBag.NumIncon</span>
+            </div>
             <div id="contenido">
                 @foreach (var item in Model)
                 {
