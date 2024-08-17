@@ -122,3 +122,37 @@ p i{
 #contenido a:hover {
     text-decoration: underline;
 }
+.indicador {
+    padding: 10px;
+    color: #5E58F8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    height: 200px;
+    width: 250px;
+    box-sizing: border-box;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    float: right;
+
+}
+
+    .indicador i {
+        font-size: 50px;
+    }
+
+    .indicador h3 {
+        margin: 0;
+        color: #42474C;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .indicador span {
+        font-size: 30px;
+        color: #7154fc;
+    }
