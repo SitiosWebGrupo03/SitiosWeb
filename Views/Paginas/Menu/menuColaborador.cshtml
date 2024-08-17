@@ -55,16 +55,23 @@
                 <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
                 Inconsistencias<br><small>Control de tus inconsistencias y justificacion de ellas</small>
             </a>
-           
+
             <a asp-controller="Expediente" asp-action="CargarCombox">
                 <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
                 Visualizar Horario<br><small>Visualizar horarios por departamento y puesto.</small>
             </a>
 
 
+            <a asp-controller="Home" asp-action="RegistroActividadesColaborador">
+            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
+            Registro de Actividades<br><small>Accede a registrar tus actividades</small>
+        </a>
+            
+
+
             @if (inconsistencias.Count() > 0)
             {
-                @foreach (var item in inconsistencias)
+            @foreach (var item in inconsistencias)
                 {
                     if (item.IdJustificacionNavigation.ReponeTiempo.HasValue && item.IdJustificacionNavigation.ReponeTiempo.Value &&
                     item.FechaInconsistencia <= DateOnly.FromDateTime(DateTime.Now.Date) &&
@@ -79,11 +86,11 @@
                 if (reposiciones.Any())
                 {
                     var reposicionesQuery = string.Join(",", reposiciones);
-                            <a asp-controller="Home" asp-action="SolicitarRepo" asp-route-id="@reposicionesQuery">
-                                <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i>
-                                <i class="fa-solid fa-exclamation" style="color: red; width: 15px; height: 15px;"></i><br>
-                                Reposiciones<br><small>Gestión de tus horas por reponer</small>
-                            </a>
+            <a asp-controller="Home" asp-action="SolicitarRepo" asp-route-id="@reposicionesQuery">
+                <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i>
+                <i class="fa-solid fa-exclamation" style="color: red; width: 15px; height: 15px;"></i><br>
+                Reposiciones<br><small>Gestión de tus horas por reponer</small>
+            </a>
                 }
 
             }
