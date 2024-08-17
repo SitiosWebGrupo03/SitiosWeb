@@ -51,8 +51,8 @@ namespace SitiosWeb.Controllers
                             .ThenInclude(c => c.IdPuestoNavigation)
                                 .ThenInclude(p => p.IdDepartamentoNavigation)
                         .FirstOrDefault(u => u.IdColaborador == Request.Cookies["Id"]);
-            if (codigo == (int)TempData["Codigo"])
-            {
+            //if (codigo == (int)TempData["Codigo"])
+            //{
                 var colaborador = _context.Colaboradores.Find(user.IdColaborador);
                 var nombreColaborador = colaborador.Nombre + " " + colaborador.Apellidos;
                 var nombreTipoUsuario = _context.TipoUsuario.Find(user.IdTipoUsuario).NomTipo;
@@ -85,22 +85,22 @@ namespace SitiosWeb.Controllers
                     _ => RedirectToAction("Login", "Home"),
                 };
             }
-            else
-            {
-                TempData["Error"] = "Código incorrecto";
-                return RedirectToAction("Mfaview", "Login");
-            }
+        //    else
+        //    {
+        //        TempData["Error"] = "Código incorrecto";
+        //        return RedirectToAction("Mfaview", "Login");
+        //    }
             
 
-        }
+        //}
         [HttpGet]
         public async Task<IActionResult> Mfaview()
         {
 
-            var id = Request.Cookies["Id"];
-            var user = _context.Colaboradores.FirstOrDefault(u => u.Identificacion == id);
-            var codigo = await EnviarCorreo(user.Correo);
-            TempData["Codigo"] = codigo;
+            //var id = Request.Cookies["Id"];
+            //var user = _context.Colaboradores.FirstOrDefault(u => u.Identificacion == id);
+            //var codigo = await EnviarCorreo(user.Correo);
+            //TempData["Codigo"] = codigo;
 
             return View("~/Views/Paginas/login/Mfaview.cshtml");
         }

@@ -155,7 +155,7 @@ body {
 .form {
     max-height: 300px;
     position: relative;
-    text-align: center;
+    text-align: left;
     height: auto;
     display: flex;
     flex-direction: column;
