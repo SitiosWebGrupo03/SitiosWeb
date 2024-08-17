@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Incapacidades</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="persona.png" alt="Persona" class="persona-img">
+            <h1>Solicitud de incapacidades</h1>
+        </div>
+        <div class="form-container">
+            <form>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="identificacion">Identificación</label>
+                        <input type="text" id="identificacion" name="identificacion">
+                    </div>
+                    <div class="input-group">
+                        <label for="puestoLaboral">Puesto Laboral</label>
+                        <input type="text" id="puestoLaboral" name="puestoLaboral">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre">
+                    </div>
+                    <div class="input-group">
+                        <label for="tipoIncapacidad">Tipo de Incapacidad</label>
+                        <select id="tipoIncapacidad" name="tipoIncapacidad">
+                            <option value="accidenteTrabajo">Accidente de Trabajo</option>
+                            <option value="enfermedadGeneral">Enfermedad General</option>
+                            <option value="maternidad">Maternidad</option>
+                            <option value="paternidad">Paternidad</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="fechaInicial">Fecha Inicial</label>
+                        <input type="date" id="fechaInicial" name="fechaInicial">
+                    </div>
+                    <div class="input-group">
+                        <label for="fechaFinal">Fecha Final</label>
+                        <input type="date" id="fechaFinal" name="fechaFinal">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="reset" class="btn-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-solicitar">Solicitar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

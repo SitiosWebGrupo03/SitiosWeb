@@ -169,6 +169,22 @@ namespace SitiosWeb.Controllers
                 var horario = await _context.HorariosXPuesto
                     .FromSqlRaw("EXEC ConsultaHcedula @cedula", new SqlParameter("@cedula", identificacion))
                     .ToListAsync();
+                bool tieneError = horario == null || horario.Count == 0||
+     horario.Any(h =>
+         h.IdPuesto == "N/A"||
+         h.Lunes == "N/A"||
+         h.Martes == "N/A"||
+         h.Miercoles == "N/A"||
+         h.Jueves == "N/A"||
+         h.Viernes == "N/A"||
+         h.Sabado == "N/A" ||
+         (h.Estado.HasValue && h.Estado.Value == false));
+
+                if (tieneError)
+                {
+                    TempData["ErrorMessage"] = "No existe colaborador con estos datos.";
+                    return View("~/Views/ExpedienteEmpleado/HorarioVistaJef.cshtml");
+                }
 
                 ViewBag.Horarios = horario;
 
@@ -250,35 +266,46 @@ namespace SitiosWeb.Controllers
             try
             {
                 // Definir el parámetro de salida para el resultado
-                var resultParam = new SqlParameter("@result", SqlDbType.NVarChar, 100)
-                {
-                    Direction = ParameterDirection.Output
-                };
+                //var resultParam = new SqlParameter("@result", SqlDbType.NVarChar, 100)
+                //{
+                //    Direction = ParameterDirection.Output
+                //};
 
                 // Ejecutar el procedimiento almacenado
-                await _context.Database.ExecuteSqlRawAsync(
-                    "EXEC InsertUsuario @cod_usuario, @idTipoUsuario, @contrasena, @idColaborador, @estado, @result OUTPUT",
+               var result= await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC InsertUsuario @cod_usuario, @idTipoUsuario, @contrasena, @idColaborador, @estado ",
                     new SqlParameter("@cod_usuario", codigoUsuario),
                     new SqlParameter("@idTipoUsuario", TipoUsuario),
                     new SqlParameter("@contrasena", Contrasena),
                     new SqlParameter("@idColaborador", IdColaborador),
-                    new SqlParameter("@estado", Estado),
-                    resultParam
+                    new SqlParameter("@estado", Estado)
+                    
                 );
 
                 // Obtener el resultado del parámetro de salida
-                string result = (string)resultParam.Value;
+                //string result = (string)resultParam.Value;
+                if (result == 1)
+                {
 
+                    TempData["SuccessMessage"] = "Se creo el ususario correctamente";
+
+
+
+                }else if (result == -1) {
+
+                    TempData["SuccessMessage"] = "No existe el colaborador"; 
+
+                }
                 // Manejar el resultado según sea necesario
-                TempData["SuccessMessage"] = result;
+               
 
                 // Retornar la vista
-                return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+                return View("~/Views/Shared/CreacionUsuario.cshtml");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Error al crear usuario: " + ex.Message;
-                return View("~/Views/ExpedienteEmpleado/CreacionUsuario.cshtml");
+                return View("~/Views/Shared/CreacionUsuario.cshtml");
             }
         }
 
