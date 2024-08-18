@@ -240,7 +240,11 @@ namespace SitiosWeb.Controllers
 
             return View("~/Views/Paginas/reposiciones/seleccionarRepo.cshtml", reposiciones);
         }
-
+        [Authorize(Roles = "JEFATURA,COLABORADOR,SUPERVISOR")]
+        public IActionResult SolicitudIncapacidad()
+        {
+            return View("~/Views/Incapacidades/SolicitudIncapacidades.cshtml");
+        }
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult menuCRUD()
         {
