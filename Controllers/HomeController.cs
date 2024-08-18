@@ -72,6 +72,7 @@ namespace SitiosWeb.Controllers
                                     .ThenInclude(c => c.IdPuestoNavigation)
                                         .ThenInclude(p => p.IdDepartamentoNavigation)
                                 .FirstOrDefault(u => u.IdColaboradorNavigation.Identificacion == Request.Cookies["Id"]);
+          
 
             try
             {
@@ -86,6 +87,8 @@ namespace SitiosWeb.Controllers
 
                 user.IdColaboradorNavigation.JustificacionesInconsistencias = _context.JustificacionesInconsistencias.ToList();
                 user.IdColaboradorNavigation.Inconsistencias = _context.Inconsistencias.ToList();
+                
+
             }
             catch
             {

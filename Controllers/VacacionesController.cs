@@ -13,7 +13,10 @@ namespace SitiosWeb.Controllers
         {
             _context = context;
         }
-
+        public async Task<IActionResult> MenuVacaciones()
+        {
+            return View();
+        }
         public async Task<IActionResult> AsignarVacacionesColectivas()
         {
             var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;

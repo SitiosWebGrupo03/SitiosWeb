@@ -1,0 +1,53 @@
+﻿@{
+    if(User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if(User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/menuSup.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Master</title>
+</head>
+<body>
+    <div class="contenedor">
+
+        <div class="menu">
+            @if (User.IsInRole("JEFATURA"))
+            {
+                <a asp-action="AsignarVacacionesColectivas">
+                    <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
+                    Solicitud de vacaciones colectivas<br><small>Crea una solicitud al supervisor de dias de vacaciones que seran remunerados para tu departamento</small>
+                </a>
+            }
+            else if (User.IsInRole("SUPERVISOR"))
+            {
+                <a asp-controller="Vacaciones" asp-action="SeleccionarVC">
+                    <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
+                    Manejo de vacaciones colectivas<br><small>Maneja las solicitudes pendientes de vacaciones colectivas para los departamentos de la empresa</small>
+                </a>
+            }
+            else if (User.IsInRole("COLABORADOR"))
+            {
+            }
+            
+
+            
+
+            
+        </div>
+    </div>
+</body>
+</html>

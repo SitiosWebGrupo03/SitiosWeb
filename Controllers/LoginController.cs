@@ -53,44 +53,59 @@ namespace SitiosWeb.Controllers
                         .FirstOrDefault(u => u.IdColaborador == Request.Cookies["Id"]);
             //if (codigo == (int)TempData["Codigo"])
             //{
-                var colaborador = _context.Colaboradores.Find(user.IdColaborador);
-                var nombreColaborador = colaborador.Nombre + " " + colaborador.Apellidos;
-                var nombreTipoUsuario = _context.TipoUsuario.Find(user.IdTipoUsuario).NomTipo;
-                var claims = new List<Claim>
+            var colaborador = _context.Colaboradores.Find(user.IdColaborador);
+            var nombreColaborador = colaborador.Nombre + " " + colaborador.Apellidos;
+            var nombreTipoUsuario = _context.TipoUsuario.Find(user.IdTipoUsuario).NomTipo;
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, nombreColaborador),
                 new Claim(ClaimTypes.NameIdentifier, user.IdColaborador.ToString()),
                 new Claim(ClaimTypes.Role,nombreTipoUsuario)
             };
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                CookieOptions options = new CookieOptions
-                {
-                    Expires = null
-                };
+            CookieOptions options = new CookieOptions
+            {
+                Expires = null
+            };
+            DateOnly hireDate = user.IdColaboradorNavigation.FechaContratacion;
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
 
-                Response.Cookies.Append("Nombre", nombreColaborador, options);
-                Response.Cookies.Append("Rol", nombreTipoUsuario, options);
-                Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);
-                Response.Cookies.Append("Puesto", user.IdColaboradorNavigation.IdPuesto, options);
-                Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento.ToString(), options);
-
-                return user.IdTipoUsuario switch
-                {
-                    1 => RedirectToAction("IndexSupervisor", "Home"),
-                    2 => RedirectToAction("IndexJefatura", "Home"),
-                    3 => RedirectToAction("IndexColaborador", "Home"),
-                    _ => RedirectToAction("Login", "Home"),
-                };
+            int totalMonthsWorked = ((today.Year - hireDate.Year) * 12) + today.Month - hireDate.Month;
+            if (hireDate > today.AddMonths(-totalMonthsWorked))
+            {
+                totalMonthsWorked--;
             }
+            var maxVacaciones = _context.Configuraciones.FirstOrDefault(c => c.IdConfiguraciones == 7).NumConfig;
+            dynamic vacationDays = totalMonthsWorked * float.Parse(_context.Configuraciones.FirstOrDefault(c => c.IdConfiguraciones == 4).ValorConfig);
+            if (vacationDays >= maxVacaciones)
+            {
+                vacationDays = maxVacaciones;
+            }
+            vacationDays-= _context.Vacaciones.Where(v => v.IdEmpleado == user.IdColaborador).Count();
+            Response.Cookies.Append("Nombre", nombreColaborador, options);
+            Response.Cookies.Append("Rol", nombreTipoUsuario, options);
+            Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);
+            Response.Cookies.Append("Puesto", user.IdColaboradorNavigation.IdPuesto, options);
+            Response.Cookies.Append("Departamento", user.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento.ToString(), options);
+            Response.Cookies.Append("Vacaciones", vacationDays.ToString(), options);
+
+            return user.IdTipoUsuario switch
+            {
+                1 => RedirectToAction("IndexSupervisor", "Home"),
+                2 => RedirectToAction("IndexJefatura", "Home"),
+                3 => RedirectToAction("IndexColaborador", "Home"),
+                _ => RedirectToAction("Login", "Home"),
+            };
+        }
         //    else
         //    {
         //        TempData["Error"] = "Código incorrecto";
         //        return RedirectToAction("Mfaview", "Login");
         //    }
-            
+
 
         //}
         [HttpGet]
