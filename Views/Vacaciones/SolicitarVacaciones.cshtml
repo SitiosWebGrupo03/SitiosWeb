@@ -1,0 +1,116 @@
+﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
+@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
+    <script src="~/js/solicitarVP.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="contains">
+        <div class="head">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
+            <div class="titles">
+                <h1 class="title-page">Solicitud de  </h1>
+                <h1 class="title-span">Vacaciones</h1>
+                <h1 class="title-info">Disponibles: @Context.Request.Cookies["Vacaciones"]</h1>
+            </div>
+        </div>
+        <label class="error" style="display: none;"></label>
+        <label class="success" style="display: none;"></label>
+
+        <div class="content">
+
+            <div class="form">
+                <div id="text-block" class="text-block">
+                    <label id="acumuladas" class="font-semibold">Vacaciones acumuladas: @Context.Request.Cookies["Vacaciones"]</label><br />
+                    <label  class="font-semibold"></label><br />
+
+                    <label class="font-semibold">Días a solicitar:</label>
+                    <label  class="font-semibold"></label><br />
+
+
+                </div>
+                <form id="solicitudVC" method="post" asp-action="SolicitarVC" asp-controller="Vacaciones">
+                  
+                    
+                </form>
+                <div class="buttons" style="justify-content:end">
+                    <button id="Solicitar" type="submit">Solicitar</button>
+                </div>
+
+            </div>
+            <div class="calendar" ID="calendar">
+                <div class="calendar-header">
+                    <button id="prevMonth">< </button>
+                    <h2 id="monthYear"></h2>
+                    <button id="nextMonth"> ></button>
+                </div>
+                <div class="days" id="calendarDays">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>
+    let diaMarcar = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Day'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+
+        }
+    }
+                ];
+    let tipoDia = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Tipo'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }
+                ];
+    let DiaDescripcion = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Descripcion'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }];
+    let vcInicio = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaInicio'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let vcFin = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaFin'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let marcarVC = true;
+
+</script>

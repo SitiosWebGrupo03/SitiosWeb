@@ -1,7 +1,7 @@
 ﻿@{
     var tercero = TempData["tercero"] as List<SitiosWeb.Model.ReposicionTercero>;
 
-    var vacaciones = Context.Request.Cookies["Vacaciones"];
+    dynamic vacaciones = Context.Request.Cookies["Vacaciones"];
 
 }
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
         <div class="links">
             <a href="#">Inconsistencias</a>
             <a href="#">
-                Dias de vacaciones @vacaciones @if (int.Parse(vacaciones) > 12)
+                Dias de vacaciones @vacaciones @if (double.Parse(vacaciones) > 12.00)
                 {
                     <i class="fa-solid fa-circle-exclamation" style="color:red;"></i>
                 }

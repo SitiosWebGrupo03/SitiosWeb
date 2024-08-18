@@ -71,7 +71,5 @@ public partial class Colaboradores
 
     public virtual ICollection<Usuarios> Usuarios { get; set; } = new List<Usuarios>();
 
-    public virtual ICollection<Vacaciones> Vacaciones { get; set; } = new List<Vacaciones>();
-
     public virtual ICollection<VacacionesColectivas> VacacionesColectivas { get; set; } = new List<VacacionesColectivas>();
 }

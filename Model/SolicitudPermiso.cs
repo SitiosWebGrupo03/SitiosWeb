@@ -17,6 +17,12 @@ public partial class SolicitudPermiso
 
     public int? IdTipoPermiso { get; set; }
 
+    public string? PuestoLaboral { get; set; }
+
+    public DateOnly? FechaInicio { get; set; }
+
+    public DateOnly? FechaFin { get; set; }
+
     public virtual Colaboradores? IdEmpleadoNavigation { get; set; }
 
     public virtual TiposPermisos? IdTipoPermisoNavigation { get; set; }
