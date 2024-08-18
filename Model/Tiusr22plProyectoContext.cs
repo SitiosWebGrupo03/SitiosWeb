@@ -674,7 +674,9 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdTipoPermiso).HasColumnName("id_tipoPermiso");
-
+            entity.Property(e => e.puestoLaboral).HasColumnName("puestoLaboral");
+            entity.Property(e => e.FechaInicio).HasColumnName("FechaInicio");
+            entity.Property(e => e.FechaFin).HasColumnName("FechaFin");
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudPermiso)
                 .HasForeignKey(d => d.IdEmpleado)
                 .HasConstraintName("FK__solicitud__id_em__778AC167");

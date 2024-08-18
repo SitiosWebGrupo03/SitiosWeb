@@ -1,10 +1,30 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string layout = null;
+    if (User.IsInRole("JEFATURA"))
+    {
+
+        layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+
+
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        layout = "~Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    Layout = layout;
+}
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de Incapacidades</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="~/css/SolicitudIncapacidad.css">
 </head>
 <body>
     <div class="container">
@@ -13,7 +33,7 @@
             <h1>Solicitud de incapacidades</h1>
         </div>
         <div class="form-container">
-            <form>
+            <form asp-controller="SolicitudInca" asp-action="SolicitudIncapacidad">
                 <div class="form-row">
                     <div class="input-group">
                         <label for="identificacion">Identificación</label>
@@ -25,28 +45,28 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="input-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre">
-                    </div>
+                    
                     <div class="input-group">
                         <label for="tipoIncapacidad">Tipo de Incapacidad</label>
-                        <select id="tipoIncapacidad" name="tipoIncapacidad">
-                            <option value="accidenteTrabajo">Accidente de Trabajo</option>
-                            <option value="enfermedadGeneral">Enfermedad General</option>
-                            <option value="maternidad">Maternidad</option>
-                            <option value="paternidad">Paternidad</option>
+                        <select id="tipoIncapacidad" name="idTipoPermiso">
+                            @if (ViewBag.Permisos != null)
+                            {
+                                @foreach (var permiso in ViewBag.Permisos)
+                                {
+                                    <option value="@permiso.IdTipoPermiso">@permiso.Descripcion</option>
+                                }
+                            }
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="input-group">
                         <label for="fechaInicial">Fecha Inicial</label>
-                        <input type="date" id="fechaInicial" name="fechaInicial">
+                        <input type="date" id="fechaInicial" name="FechaInicio">
                     </div>
                     <div class="input-group">
                         <label for="fechaFinal">Fecha Final</label>
-                        <input type="date" id="fechaFinal" name="fechaFinal">
+                        <input type="date" id="fechaFinal" name="FechaFin">
                     </div>
                 </div>
                 <div class="buttons">
