@@ -19,9 +19,24 @@ document.addEventListener("DOMContentLoaded", function () {
     let startMonth = null;
     let endDay = null;
     let endMonth = null;
-
+    const dates = []
     // Almacenar todos los días seleccionados
     let selectedDays = [];
+    function getDatesBetween(startDate, endDate) {
+        const currentDate = new Date(startDate);
+
+        while (currentDate <= endDate) {
+            const month = String(currentDate.getMonth() + 1); // Mes (01-12)
+            const day = String(currentDate.getDate()).padStart(2, '0'); // Día (01-31)
+            const year = currentDate.getFullYear(); // Año (yyyy)
+
+            dates.push(`${month}/${day}/${year}`);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return dates;
+    }
+
 
     function generateCalendar(month, year) {
         daysContainer.innerHTML = '';
@@ -29,7 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDay = new Date(year, month, 1).getDay();
-
+        if (vcInicio !== undefined && vcInicio !== null)
+        {
+            for (let i = 0; i < vcInicio.length; i++) {
+                getDatesBetween(new Date(vcInicio[i]), new Date(vcFin[i]));
+            }
+        }
         const dayLabels = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
         dayLabels.forEach(label => {
             const dayLabel = document.createElement('div');
@@ -53,9 +73,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const cellDate = new Date(year, month, day);
             const formattedDate = `${month + 1}/${day}/${year}`;
 
-            // Asume que diaMarcar, tipoDia y DiaDescripcion están definidos
             if (cellDate < today) {
                 dayCell.classList.add('disabled');
+            }
+
+            if (typeof dates !== 'undefined' && dates.includes(formattedDate)) {
+                dayCell.classList.add('selected-vc');
+                dayCell.dataset.tooltip = `Vacaciones colectivas`;
             }
 
             // Lógica para día marcado (supuesto)
@@ -63,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let index = diaMarcar.indexOf(formattedDate);
                 if (index !== -1) {
                     dayCell.classList.remove('disabled');
+                    dayCell.classList.remove('selected-vc');
                     if (tipoDia[index] === "1") {
                         dayCell.classList.add('festivo');
                     } else {
@@ -71,8 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     dayCell.dataset.tooltip = `${DiaDescripcion[index]}`;
                 }
             }
-
-            // Mantener la selección al cambiar de mes
+            
+            
             if (selectedDays.includes(formattedDate)) {
                 dayCell.classList.add('selected');
             }
@@ -113,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     daysContainer.addEventListener('click', function (event) {
+        if (marcarVC) { 
         const dayCell = event.target;
 
         if (!dayCell.classList.contains('day') || dayCell.classList.contains('disabled') || dayCell.classList.contains('festivo') || dayCell.classList.contains('configuracion')) return;
@@ -128,9 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
             selectedDays = [formattedDate];
             calendar.style.marginLeft = ('135px');
             solicitar.style.display = 'none';
-            start = `${startMonth+1}/${startDay}/${currentYear}`;
-
-
+            start = `${startMonth + 1}/${startDay}/${currentYear}`;
         } else if (endDay === null) {
             endDay = dayNumber;
             endMonth = currentMonth;
@@ -139,8 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 [startDay, endDay] = [endDay, startDay];
                 [startMonth, endMonth] = [endMonth, startMonth];
             }
-            end = `${endMonth+1}/${endDay}/${currentYear}`;
+            end = `${endMonth + 1}/${endDay}/${currentYear}`;
             let excludedDays = [];
+            let hasCollectiveHolidays = false;
 
             for (let i = startMonth; i <= endMonth; i++) {
                 const daysInMonth = new Date(currentYear, i + 1, 0).getDate();
@@ -158,8 +183,18 @@ document.addEventListener("DOMContentLoaded", function () {
                             cell.classList.add('selected');
                             selectedDays.push(`${i + 1}/${j}/${currentYear}`);
                         }
+
+                        // Verificar si el rango incluye vacaciones colectivas
+                        if (cell.classList.contains('selected-vc')) {
+                            hasCollectiveHolidays = true;
+                        }
                     }
                 }
+            }
+
+            if (hasCollectiveHolidays) {
+                resetSelection();
+                return;
             }
 
             const pElement = document.createElement('p');
@@ -180,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (excludedDays.length > 0) {
                 excludedElement.textContent = `Días excluidos:`;
                 p.textContent = excludedDays.join(', ');
-
             } else {
                 excludedElement.textContent = 'No hay días excluidos.';
             }
@@ -196,8 +230,10 @@ document.addEventListener("DOMContentLoaded", function () {
             startMonth = null;
             endDay = null;
             endMonth = null;
+            }
         }
-    });
+        });
+
 
     document.getElementById('prevMonth').addEventListener('click', prevMonth);
     document.getElementById('nextMonth').addEventListener('click', nextMonth);
@@ -211,5 +247,3 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('solicitudVC').submit();
     });
 });
-
-

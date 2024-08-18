@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
+using System.Runtime.Intrinsics.Arm;
 
 namespace SitiosWeb.Controllers
 {
@@ -13,8 +14,10 @@ namespace SitiosWeb.Controllers
             _context = context;
         }
 
-        public async  Task<IActionResult> AsignarVacacionesColectivas()
+        public async Task<IActionResult> AsignarVacacionesColectivas()
         {
+            var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;
+            ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
             return View(await _context.BloqueoDias.ToListAsync());
         }
         [HttpPost]
@@ -25,12 +28,79 @@ namespace SitiosWeb.Controllers
                 IdSolicitador = Request.Cookies["Id"],
                 FechaInicio = DateOnly.Parse(inicio),
                 FechaFin = DateOnly.Parse(fin),
-                IdDepartamento = _context.Departamentos.Where(u=> u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento
+                IdDepartamento = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento
 
             };
             _context.VacacionesColectivas.Add(vacacionesColectivas);
             await _context.SaveChangesAsync();
             return RedirectToAction("AsignarVacacionesColectivas");
+        }
+        public async Task<IActionResult> SeleccionarVC()
+        {
+
+            // Fetch the records where Aprobado is false and FechaInicio is earlier than the current date
+            var result = await _context.VacacionesColectivas
+                .Where(u => u.Aprobado == null && u.FechaInicio > DateOnly.FromDateTime(DateTime.Now.Date))
+                  .ToListAsync();
+            TempData["dep"] = _context.Departamentos.ToListAsync().Result;
+
+            // Return the results to the view
+            return View(result);
+
+        }
+        public async Task<IActionResult> ManejarVC(int id)
+        {
+            // Retrieve VacacionesColectivas matching the id
+            var vacacionesColectivas = await _context.VacacionesColectivas
+                .Where(u => u.IdVacaciones == id)
+                .ToListAsync();
+
+            ViewBag.VC = vacacionesColectivas;
+
+            var vc = vacacionesColectivas.FirstOrDefault();
+
+            if (vc != null)
+            {
+                var departamento = await _context.Departamentos
+                    .Where(u => u.IdDepartamento == vc.IdDepartamento)
+                    .FirstOrDefaultAsync();
+                var jefe = await _context.Colaboradores
+                    .Where(u =>  u.Identificacion == vc.IdSolicitador)
+                    .FirstOrDefaultAsync();
+                TempData["dep"] = departamento.NomDepartamento;
+                TempData["jefe"] = jefe.Nombre + " " + jefe.Apellidos;
+                TempData["inicio"] = vc.FechaInicio;
+                TempData["fin"] = vc.FechaFin;
+                TempData["id"] = vc.IdVacaciones;
+            }
+
+            // Return the BloqueoDias view
+            return View(await _context.BloqueoDias.ToListAsync());
+        }
+
+        public async Task<IActionResult> Aprobar_DenegarVC(int id, int manejo)
+        {
+            // Retrieve the VacacionesColectivas matching the id
+            var vacacionesColectivas = await _context.VacacionesColectivas
+                .Where(u => u.IdVacaciones == id)
+                .FirstOrDefaultAsync();
+
+            if (manejo == 1)
+            {
+                // Set Aprobado to true
+                vacacionesColectivas.Aprobado = true;
+            }
+            else
+            {
+                // Set Aprobado to false
+                vacacionesColectivas.Aprobado = false;
+            }
+
+            // Save changes
+            await _context.SaveChangesAsync();
+
+            // Redirect to the SeleccionarVC view
+            return RedirectToAction("SeleccionarVC");
         }
     }
 }
