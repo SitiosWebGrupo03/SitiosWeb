@@ -11,41 +11,45 @@
     <title>Time Master</title>
 </head>
 <body>
-        <div class="contenedor">
+    <div class="contenedor">
 
-    <div class="menu">
+        <div class="menu">
 
-        <a asp-controller="Home" asp-action="menuCRUD">
-            <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
-            Variables del Sistema<br><small>Cruds requeridos para el funcionamiento del sistema</small>
-        </a>
+            <a asp-controller="Home" asp-action="menuCRUD">
+                <i class="fa-regular fa-hand-point-up" style="width: 20px; height: 20px;"></i><br>
+                Variables del Sistema<br><small>Cruds requeridos para el funcionamiento del sistema</small>
+            </a>
 
-        <a asp-controller="Home" asp-action="RegistroActividadesSupervisor">
-            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-            Supervisar Actividades<br><small>Accede a supervisar actividades</small>
-        </a>
+            <a asp-controller="Home" asp-action="RegistroActividadesSupervisor">
+                <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
+                Supervisar Actividades<br><small>Accede a supervisar actividades</small>
+            </a>
 
-        <a href="#vacaciones">
-            <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
-            Modulo de Comunicacion<br><small>Comunicate con cualquier trabajador de la empresa</small>
-        </a>
-        <a href="#permisos">
-            <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
-            Expedientes de los colaboradores<br><small>Datos de los colaboradores del sistema</small>
-        </a>
+            <a href="#vacaciones">
+                <i class="fa-regular fa-sun" ></i><br>
+                Modulo de Comunicacion<br><small>Comunicate con cualquier trabajador de la empresa</small>
+            </a>
+            <a href="#permisos">
+                <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
+                Expedientes de los colaboradores<br><small>Datos de los colaboradores del sistema</small>
+            </a>
             <a asp-controller="Home" asp-action="IndexConfig">
-            <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
-            Configuraciones del sistema<br><small>Configuraciones del sistema y reglas de negocio</small>
-        </a> 
-        <a asp-controller="SolicitudeRebajo" asp-action="Index">
-            <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
-            Aprobacion de Rebajos<br><small>Aprueba o rechaza rebajos por inconcistencias</small>
-        </a>
+                <i class="fa-regular fa-exclamation-circle" style="width: 20px; height: 20px;"></i><br>
+                Configuraciones del sistema<br><small>Configuraciones del sistema y reglas de negocio</small>
+            </a>
+            <a asp-controller="SolicitudeRebajo" asp-action="Index">
+                <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
+                Aprobacion de Rebajos<br><small>Aprueba o rechaza rebajos por inconcistencias</small>
+            </a>
+            <a asp-controller="Vacaciones" asp-action="MenuVacaciones">
+                <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
+                Gestion general de las vacaciones<br><small>Control de las vacaciones de los colaboradores de tu departamento</small>
+            </a>
             <a asp-controller="Configuraciones" asp-action="BloquearDias">
-            <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
-            Asignacion de calendiaro de dias festivos<br><small>Dias en los cuales no se presentan al trabajo</small>
-        </a>
-    </div>
+                <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
+                Asignacion de calendiaro de dias festivos<br><small>Dias en los cuales no se presentan al trabajo</small>
+            </a>
+        </div>
     </div>
 </body>
 </html>

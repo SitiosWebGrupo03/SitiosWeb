@@ -6,8 +6,43 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* Modal styles */
-/* Modal Background */
+.day[data-tooltip] {
+    position: relative;
+    cursor: pointer;
+}
+
+    .day[data-tooltip]:hover::before,
+    .day[data-tooltip]:hover::after {
+        display: block;
+    }
+
+    .day[data-tooltip]::before {
+        content: attr(data-tooltip);
+        white-space: pre-line;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 10px 10px;
+        border-radius: 4px;
+        white-space: nowrap;
+        font-size: 12px;
+        z-index: 10;
+        display: none;
+    }
+
+    .day[data-tooltip]::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+        z-index: 10;
+        display: none;
+    }
 .modal {
     display: none;
     position: fixed;
@@ -155,7 +190,7 @@ body {
 .form {
     max-height: 300px;
     position: relative;
-    text-align: center;
+    text-align: left;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -209,6 +244,16 @@ body {
     color: #4b5563;
     margin: 2px auto;
 }
+#text-block {
+    display: flex;
+    max-height: 280px;
+    flex-wrap: wrap;
+    width: 450px;
+}
+    #text-block > * {
+        flex: 1 50%;
+        box-sizing: border-box; /* Include padding and border in the element's width */
+    }
 
 .text-block select {
     background: none;

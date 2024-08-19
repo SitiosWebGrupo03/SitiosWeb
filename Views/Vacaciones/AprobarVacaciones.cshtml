@@ -1,0 +1,189 @@
+﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
+@{
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+    var nombre = ViewBag.Nombre as string;
+    var id = ViewBag.Id as int?;
+    var solicitud = ViewBag.Solicitud as IEnumerable<SitiosWeb.Model.SolicitudVacaciones>;
+    dynamic fechas=0;
+    foreach(var fecha in solicitud)
+    {
+        fechas = fecha.Vacaciones.Where(c => c.IdSolicitud == id).ToList();
+    }
+    var fechaAMarcar = fechas as IEnumerable<SitiosWeb.Model.Vacaciones>;
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
+    <script src="~/js/solicitarVP.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="contains">
+        <div class="head">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
+            <div class="titles">
+                <h1 class="title-page">Solicitud de  </h1>
+                <h1 class="title-span">Vacaciones</h1>
+                <h1 class="title-info">Disponibles: @Context.Request.Cookies["Vacaciones"]</h1>
+            </div>
+        </div>
+        <label class="error" style="display: none;"></label>
+        <label class="success" style="display: none;"></label>
+
+        <div class="content">
+
+            <div class="form">
+                <div id="text-block" class="text-block">
+                    <label class="font-semibold">Solicitante: @nombre</label><br />
+                    <label class="font-semibold"></label><br />
+
+                    <label class="font-semibold">Días a solicitar:</label>
+                    <label class="font-semibold"></label><br />
+
+
+                </div>
+                <form id="Aprobar" method="post" asp-action="Aprobar_Denegar" asp-route-id="@id">
+                    <input type="hidden" id="solicitudVP" name="solicitudVP" />
+                    <div class="buttons" style="justify-content:end">
+                        <button type="submit" name="manejo" value="0">Denegar</button>
+                        <button type="submit" name="manejo" value="1">Aprobar</button>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="calendar" ID="calendar">
+                <div class="calendar-header">
+                    <button id="prevMonth">< </button>
+                    <h2 id="monthYear"></h2>
+                    <button id="nextMonth"> ></button>
+                </div>
+                <div class="days" id="calendarDays">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>
+    let aprobar = true;
+    let diaMarcar = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Day'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+
+        }
+    }
+                    ];
+    let tipoDia = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Tipo'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }
+                    ];
+    let DiaDescripcion = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Descripcion'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }];
+    let vcInicio = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaInicio'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let vcFin = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaFin'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let diasPasados = [];
+    let diasAMarcar = [
+    @for (var i = 0; i < fechaAMarcar.Count(); i++)
+    {
+        @: '@fechaAMarcar.ElementAt(i).Fecha'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }];
+    let marcarVC = true;
+    document.addEventListener('DOMContentLoaded', function () {
+        const successLabel = document.querySelector('.success');
+        const successMessage = '@TempData["Success"]'.trim();
+        const errorMessage = '@TempData["Error"]'.trim();
+        const errorLabel = document.querySelector('.error');
+
+        if (successMessage === '') {
+            successLabel.style.display = 'none';
+            successLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            successLabel.textContent = successMessage;
+            successLabel.style.display = 'block';
+            successLabel.classList.remove('fadeOut');
+            successLabel.classList.add('fadeIn');
+
+            setTimeout(() => {
+                successLabel.classList.remove('fadeIn');
+                successLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    successLabel.style.display = 'none';
+                    successLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000);
+        }
+        if (errorMessage === '') {
+            errorLabel.style.display = 'none';
+            errorLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            errorLabel.classList.remove('fadeOut');
+            errorLabel.textContent = text;
+            errorLabel.style.display = 'block';
+            errorLabel.classList.add('shake');
+
+            setTimeout(() => {
+                errorLabel.classList.remove('shake');
+            }, 500);
+
+            setTimeout(() => {
+                errorLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    errorLabel.style.display = 'none';
+                    errorLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000);
+        }
+    });
+</script>

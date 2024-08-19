@@ -7,13 +7,17 @@ public partial class SolicitudVacaciones
 {
     public int IdSolicitud { get; set; }
 
-    public string? IdEmpleado { get; set; }
+    public string IdEmpleado { get; set; } = null!;
 
-    public DateOnly FechaInicio { get; set; }
+    public bool? Aprobadas { get; set; }
+
+    public string? AprobadasPor { get; set; }
+
+    public int TotalDias { get; set; }
 
     public DateOnly FechaFin { get; set; }
 
-    public int? DiasTotales { get; set; }
+    public virtual Colaboradores IdEmpleadoNavigation { get; set; } = null!;
 
-    public virtual Colaboradores? IdEmpleadoNavigation { get; set; }
+    public virtual ICollection<Vacaciones> Vacaciones { get; set; } = new List<Vacaciones>();
 }

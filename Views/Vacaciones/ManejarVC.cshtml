@@ -1,0 +1,126 @@
+﻿@using System.Globalization;
+@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
+@{
+    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+    var inicio = (DateOnly)TempData["inicio"];
+    var fin = (DateOnly)TempData["fin"];
+    var cultura = new CultureInfo("es-ES");
+    string fechaInicio = inicio.ToString("d 'de' MMMM", cultura);
+    string fechaFin = fin.ToString("d 'de' MMMM", cultura);
+
+    string resultado = $"Del {fechaInicio} al {fechaFin}";
+
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
+    <script src="~/js/solicitarVC.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="contains">
+        <div class="head">
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
+            <div class="titles">
+                <h1 class="title-page">Solicitud de  </h1>
+                <h1 class="title-span">Vacaciones Colectivas</h1>
+
+            </div>
+        </div>
+        <label class="error" style="display: none;"></label>
+        <label class="success" style="display: none;"></label>
+
+        <div class="content">
+
+            <div class="form">
+                <div class="text-block">
+                    <label class="font-semibold" t>Departamento solicitante:</label>
+                    <p>@TempData["dep"]</p>
+                    <label class="font-semibold" t>Jefatura del departamento solicitante:</label>
+                    <p>@TempData["jefe"]</p>
+                    <label class="font-semibold" t>Rango de fechas:</label>
+                    <p>@resultado</p>
+
+
+                </div>
+                <form id="solicitudVC" method="post" asp-action="Aprobar_DenegarVC" asp-controller="Vacaciones" asp-route-id="@TempData["id"]">
+                     
+                    <div class="buttons">
+                        <button id="Aprobar" type="submit" value="1" name="manejo">Aprobar</button>
+                        <button id="Denegar" type="submit" value="2" name="manejo">Denegar</button>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="calendar" ID="calendar">
+                <div class="calendar-header">
+                    <button id="prevMonth">< </button>
+                    <h2 id="monthYear"></h2>
+                    <button id="nextMonth"> ></button>
+                </div>
+                <div class="days" id="calendarDays">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>
+    let marcarVC = false;
+    let diaMarcar = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Day'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+
+        }
+    }
+                ];
+    let tipoDia = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Tipo'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }
+                ];
+    let DiaDescripcion = [
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @: '@Model.ElementAt(i).Descripcion'
+        @if (i < Model.Count() - 1)
+        {
+            @:,
+        }
+    }];
+    let vcInicio = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaInicio'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let vcFin = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaFin'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+ </script>

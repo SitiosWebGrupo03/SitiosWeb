@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,7 @@
                 Expedientes de los colaboradores<br><small>Datos de los colaboradores del sistema</small>
             </a>
 
-            <a href="">
+            <a asp-controller="Vacaciones" asp-action="MenuVacaciones">
                 <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
                 Gestion general de las vacaciones<br><small>Control de las vacaciones de los colaboradores de tu departamento</small>
             </a>
@@ -56,6 +55,11 @@
             <a asp-controller="Home" asp-action="Colaboradores">
                 <i class="fa-regular fa-users" style="width: 20px; height: 20px;"></i><br>
                 Ver Colaboradores<br><small>Gestiona los colaboradores registrados</small>
+            </a>
+
+            <a asp-controller="Home" asp-action="SolicitudIncapacidad">
+                <i class="fa-regular fa-users" style="width: 20px; height: 20px;"></i><br>
+                Permisos<br><small>Revision de tus solicitudes de permisos</small>
             </a>
         </div>
     </div>

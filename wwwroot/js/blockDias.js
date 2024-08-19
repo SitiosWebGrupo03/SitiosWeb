@@ -4,14 +4,28 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentMonth = today.getMonth(); // Mes actual (0-indexed)
     let currentYear = today.getFullYear(); // Año actual
     const daysContainer = document.getElementById('calendarDays');
+    const close = document.getElementById('close');
+    const tipos = document.getElementById('tipos');
+    function showModalBlock() {
+        document.getElementById('dayBlock').style.display = 'block';
+    }
+    function closeModalBlock() {
+        document.getElementById('dayBlock').style.display = 'none';
+    }
 
+
+    // Cerrar el modal si se hace clic fuera del contenido del modal
+    window.onclick = function (event) {
+        if (event.target == document.getElementById('dayBlock')) {
+            closeModalBlock();
+        }
+    }
     let total = 0;
 
     const monthNames = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ]
-    const errorLabel = document.querySelector('.error');
     function generateCalendar(month, year) {
         daysContainer.innerHTML = '';
         month = month + 1;
@@ -48,6 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
                         dayCell.classList.add('configuracion');
                     }
+                    dayCell.dataset.tooltip = DiaDescripcion[index];
+
                 }
 
             }
@@ -87,13 +103,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const descripcion = document.getElementById('descripcion');
     const idDia = document.getElementById('idDia');
     const tipo = document.getElementById('tipo');
-        const dia = document.getElementById('dia');
+    const dia = document.getElementById('dia');
 
 
-    function ocultarControles(opc)
-    {
-        switch (opc)
-        {
+    function ocultarControles(opc) {
+        switch (opc) {
             case 1:
                 config.style.display = 'block';
                 festivo.style.display = 'block';
@@ -106,14 +120,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 editar.style.display = 'block';
                 eliminar.style.display = 'block';
                 break;
+            case 3:
+                config.style.display = 'none';
+                festivo.style.display = 'none';
+                editar.style.display = 'none';
+                eliminar.style.display = 'none';
+                break;
         }
     }
+    close.addEventListener('click', function () {
+        closeModalBlock();
+    });
     daysContainer.addEventListener('click', function (event) {
         const dayCell = event.target;
         const text = document.getElementById('monthYear').textContent;
-        const month = text.replace(/\d+/g, '').trim(); 
-        const monthIndex = monthNames.indexOf(month)+1; 
-        const year = text.match(/\d+/g)[0]; 
+        const month = text.replace(/\d+/g, '').trim();
+        const monthIndex = monthNames.indexOf(month) + 1;
+        const year = text.match(/\d+/g)[0];
         const day = dayCell.textContent.trim();
         const formattedDate = `${monthIndex}/${day}/${year}`;
         dia.value = formattedDate;
@@ -122,17 +145,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 let index = diaMarcar.indexOf(formattedDate);
                 idDia.value = idsDia[index];
                 descripcion.textContent = DiaDescripcion[index];
+                if (tipoDia[index] == "1") {
+                    tipos.textContent = 'Festivo';
+                }
+                else {
+                    tipos.textContent = 'Configuración';
+                }
+
             }
+
             ocultarControles(2)
+            if (!edita) ocultarControles(3);
+            if (!edita) descripcion.disabled = true;
+            else descripcion.disabled = false;
         } else {
+            if (!edita) return;
             idDia.textContent = '';
             descripcion.textContent = '';
+            tipos.textContent = '';
             ocultarControles(1)
+
         }
-       
-        showModal();
+
+        showModalBlock();
 
     });
+
     config.addEventListener('click', event => {
 
         // Asignar el valor a los campos correspondientes
@@ -157,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
     eliminar.addEventListener('click', event => {
 
         // Asignar el valor a los campos correspondientes
-        tipo.value = 3  ;
+        tipo.value = 3;
         // Enviar el formulario
         document.getElementById('modalForm').submit();
     });

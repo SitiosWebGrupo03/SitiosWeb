@@ -1,17 +1,14 @@
-﻿@model SitiosWeb.Model.ReposicionTercero
+﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
 @{
-    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
     var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
-    var diasPasados = ViewBag.DiasPasados as IEnumerable<SitiosWeb.Model.Vacaciones>;
-    var diasBlock = ViewBag.DiasBlock as IEnumerable<SitiosWeb.Model.BloqueoDias>;
-
 }
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
-    <script src="~/js/reposicicionHorario.js"></script>
+    <script src="~/js/solicitarVC.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
@@ -20,9 +17,8 @@
         <div class="head">
             <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
             <div class="titles">
-                <h1 class="title-page">Horas por </h1>
-                <h1 class="title-span">Reponer</h1>
-                <h1 class="title-info" id="horasRestantes">Restantes: @Model.Horas</h1>
+                <h1 class="title-page">Solicitud de  </h1>
+                <h1 class="title-span">Vacaciones Colectivas</h1>
 
             </div>
         </div>
@@ -32,17 +28,21 @@
         <div class="content">
 
             <div class="form">
-                <form class="text-block" id="counterForm" method="post" asp-action="SolicitarTercero" asp-controller="Repo">
-                    <input type="hidden" name="day" id="diasReposicion">
-                    <input type="hidden" name="hora" id="horasReposicion">
-                    <input type="hidden" name="justificacion" value="@Model.Justificacion">
-                </form>
-                <div class="buttons">
-                    <button id="Solicitar" style="display:none;" onclick="submitForm()">Solicitar</button>
+                <div class="text-block">
+                    <label class="font-semibold" t>Seleccionar el rango de vacaciones a<br /> solicitar para el departamento</label>
+
                 </div>
+                <form id="solicitudVC" method="post" asp-action="SolicitarVC" asp-controller="Vacaciones">
+                    <input type="hidden" id="diaInicio" name="inicio" />
+                    <input type="hidden" id="diaFinal" name="fin" />
+                    <div class="buttons">
+                        <button id="Solicitar" type="submit" style="display:none;">Solicitar</button>
+                    </div>
+                </form>
+                
 
             </div>
-            <div class="calendar" ID="calendar" style="margin-left:135px;">
+            <div class="calendar" ID="calendar">
                 <div class="calendar-header">
                     <button id="prevMonth">< </button>
                     <h2 id="monthYear"></h2>
@@ -57,31 +57,32 @@
     </div>
 </body>
 <script>
-    let diasMarcar = [
-    @for (var i = 0; i < diasBlock.Count(); i++)
+    let diaMarcar = [
+    @for (var i = 0; i < Model.Count(); i++)
     {
-        @:'@diasBlock.ElementAt(i).Day'
-        @if (i < diasBlock.Count() - 1)
+        @: '@Model.ElementAt(i).Day'
+        @if (i < Model.Count() - 1)
         {
             @:,
+
         }
     }
-        ];
+            ];
     let tipoDia = [
-    @for (var i = 0; i < diasBlock.Count(); i++)
+    @for (var i = 0; i < Model.Count(); i++)
     {
-        @: '@diasBlock.ElementAt(i).Tipo'
-        @if (i < diasBlock.Count() - 1)
+        @: '@Model.ElementAt(i).Tipo'
+        @if (i < Model.Count() - 1)
         {
             @:,
         }
     }
-        ];
+            ];
     let DiaDescripcion = [
-    @for (var i = 0; i < diasBlock.Count(); i++)
+    @for (var i = 0; i < Model.Count(); i++)
     {
-        @: '@diasBlock.ElementAt(i).Descripcion'
-        @if (i < diasBlock.Count() - 1)
+        @: '@Model.ElementAt(i).Descripcion'
+        @if (i < Model.Count() - 1)
         {
             @:,
         }
@@ -93,7 +94,7 @@
         @if (i < vc.Count() - 1)
         {
             @:,
-
+           
         }
     }];
     let vcFin = [
@@ -106,24 +107,12 @@
 
         }
     }];
-    let diasPasados = [
-    @for (var i = 0; i < diasPasados.Count(); i++)
-    {
-        @: '@diasPasados.ElementAt(i).Fecha'
-        @if (i < diasPasados.Count() - 1)
-        {
-            @:,
-
-        }
-    }];
-    let diaMarcar = [];
-    const Marcar = true;
-    let Horas = 0;
-    var label = document.getElementById('horasRestantes');
-    Horas = parseInt(label.textContent.replace(/\D/g, ''), 10);
+    let marcarVC = true;
     document.addEventListener('DOMContentLoaded', function () {
         const successLabel = document.querySelector('.success');
-        const successMessage = '@TempData["SuccessMessage"]'.trim();
+        const successMessage = '@TempData["Success"]'.trim();
+        const errorMessage = '@TempData["Error"]'.trim();
+        const errorLabel = document.querySelector('.error');
 
         if (successMessage === '') {
             successLabel.style.display = 'none';
@@ -140,12 +129,29 @@
                 setTimeout(() => {
                     successLabel.style.display = 'none';
                     successLabel.classList.remove('fadeOut');
-                }, 2000); // Duración de la animación fadeOut
-            }, 2000); // Retraso antes de comenzar fadeOut
+                }, 2000);
+            }, 2000);
+        }
+        if (errorMessage === '') {
+            errorLabel.style.display = 'none';
+            errorLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            errorLabel.classList.remove('fadeOut');
+            errorLabel.textContent = text;
+            errorLabel.style.display = 'block';
+            errorLabel.classList.add('shake');
+
+            setTimeout(() => {
+                errorLabel.classList.remove('shake');
+            }, 500);
+
+            setTimeout(() => {
+                errorLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    errorLabel.style.display = 'none';
+                    errorLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000);
         }
     });
-
-   
-   
-
 </script>

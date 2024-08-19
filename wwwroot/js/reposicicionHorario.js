@@ -11,6 +11,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // Inicializa la variable Horas con un valor predeterminado (por ejemplo, 0)
 
     let total = 0;
+    const dates = []
+    function getDatesBetween(startDate, endDate) {
+        const currentDate = new Date(startDate);
+
+        while (currentDate <= endDate) {
+            const month = String(currentDate.getMonth() + 1); // Mes (01-12)
+            const day = String(currentDate.getDate()).padStart(2, '0'); // Día (01-31)
+            const year = currentDate.getFullYear(); // Año (yyyy)
+
+            dates.push(`${month}/${day}/${year}`);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return dates;
+    }
 
     const monthNames = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -19,12 +34,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorLabel = document.querySelector('.error');
     function generateCalendar(month, year) {
         daysContainer.innerHTML = '';
-        month = month + 1;
-        document.getElementById('monthYear').textContent = `${monthNames[month - 1]} ${year}`;
+        document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDay = new Date(year, month, 1).getDay();
-
+        if (vcInicio !== undefined && vcInicio !== null) {
+            for (let i = 0; i < vcInicio.length; i++) {
+                getDatesBetween(new Date(vcInicio[i]), new Date(vcFin[i]));
+            }
+        }
         const dayLabels = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
         dayLabels.forEach(label => {
             const dayLabel = document.createElement('div');
@@ -44,10 +62,34 @@ document.addEventListener("DOMContentLoaded", function () {
             dayCell.textContent = day;
             dayCell.classList.add('day');
 
-            const cellDate = new Date(year, month - 1, day);
-            const formattedDate = `${month}/${day}/${year}`;
+            const cellDate = new Date(year, month, day);
+            const formattedDate = `${month + 1}/${day}/${year}`;
             if (diaMarcar && diaMarcar.includes(formattedDate)) {
                 dayCell.classList.add('selected');
+            }
+            if (typeof dates !== 'undefined' && dates.includes(formattedDate)) {
+                dayCell.classList.add('selected-vc');
+                dayCell.classList.remove('disabled');
+                dayCell.dataset.tooltip = `Vacaciones colectivas`;
+
+            }
+            if (typeof diasMarcar !== 'undefined' && diasMarcar.includes(formattedDate)) {
+                let index = diasMarcar.indexOf(formattedDate);
+                if (index !== -1) {
+                    dayCell.classList.remove('disabled');
+                    dayCell.classList.remove('selected-vc');
+                    if (tipoDia[index] === "1") {
+                        dayCell.classList.add('festivo');
+                    } else {
+                        dayCell.classList.add('configuracion');
+                    }
+                    dayCell.dataset.tooltip = `${DiaDescripcion[index]}`;
+                }
+            }
+            if (diasPasados !== undefined && diasPasados.includes(formattedDate)) {
+                dayCell.classList.remove('disabled');
+                dayCell.classList.add('selected-vc');
+                dayCell.dataset.tooltip = `Dia pendiente de vacaciones`;
             }
 
             if (cellDate < today) {
@@ -144,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const monthIndex = monthNames.indexOf(month); // Get zero-based index
         const year = text.match(/\d+/g)[0]; // Extract year
 
-        if (!dayCell.classList.contains('day') || dayCell.classList.contains('disabled')) return;
+        if (!dayCell.classList.contains('day') || dayCell.classList.contains('disabled') || dayCell.classList.contains('selected-vc') || dayCell.classList.contains('festivo') || dayCell.classList.contains('configuracion')) return;
         const dayNumber = dayCell.textContent.trim();
         const index = selectedDays.indexOf(dayNumber);
         if (index > -1) {
@@ -253,10 +295,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Enviar el formulario
             document.getElementById('counterForm').submit();
         });
-
-
-
-
     });
 
 });

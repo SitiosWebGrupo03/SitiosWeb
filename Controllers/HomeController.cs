@@ -72,6 +72,7 @@ namespace SitiosWeb.Controllers
                                     .ThenInclude(c => c.IdPuestoNavigation)
                                         .ThenInclude(p => p.IdDepartamentoNavigation)
                                 .FirstOrDefault(u => u.IdColaboradorNavigation.Identificacion == Request.Cookies["Id"]);
+          
 
             try
             {
@@ -86,6 +87,8 @@ namespace SitiosWeb.Controllers
 
                 user.IdColaboradorNavigation.JustificacionesInconsistencias = _context.JustificacionesInconsistencias.ToList();
                 user.IdColaboradorNavigation.Inconsistencias = _context.Inconsistencias.ToList();
+                
+
             }
             catch
             {
@@ -158,6 +161,11 @@ namespace SitiosWeb.Controllers
         public IActionResult Expediente()
         {
             return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
+        }
+        [Authorize(Roles = "JEFATURA,SUPERVISOR")]
+        public IActionResult AprobacionIncapacidades()
+        {
+            return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml");
         }
 
         [Authorize(Roles = "JEFATURA")]
@@ -237,7 +245,11 @@ namespace SitiosWeb.Controllers
 
             return View("~/Views/Paginas/reposiciones/seleccionarRepo.cshtml", reposiciones);
         }
-
+        [Authorize(Roles = "JEFATURA,COLABORADOR,SUPERVISOR")]
+        public IActionResult SolicitudIncapacidad()
+        {
+            return View("~/Views/Incapacidades/SolicitudIncapacidades.cshtml");
+        }
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult menuCRUD()
         {
@@ -301,7 +313,7 @@ namespace SitiosWeb.Controllers
         }
 
         [Authorize(Roles = "JEFATURA")]
-        public IActionResult SelectRepo(int id)
+        public async Task<IActionResult> SelectRepo(int id)
         {
             var reposicion = _context.FechasReposicion
                              .Include(r => r.IdReposicionNavigation)
@@ -316,10 +328,16 @@ namespace SitiosWeb.Controllers
          ViewBag.colaboradores = _context.Colaboradores
                                  .Where(c => c.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"])
                                  .ToList();
+            var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;
+            ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
+            ViewBag.DiasBlock = await _context.BloqueoDias.ToListAsync();
+            ViewBag.DiasPasados = await _context.Vacaciones.Where(v => v.IdSolicitudNavigation.IdEmpleado == _context.Colaboradores.FirstOrDefault(c=>c.Identificacion == _context.Reposiciones.FirstOrDefault(c=>c.IdReposicion==id).Idcolaborador).Identificacion && v.IdSolicitudNavigation.Aprobadas != false && v.IdSolicitudNavigation.FechaFin > DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+
+
             return View("/Views/Paginas/reposiciones/aprobacionRepo.cshtml", reposicion);
         }
         [Authorize(Roles = "COLABORADOR")]
-        public IActionResult SolicitarRepo(string id)
+        public async Task<IActionResult> SolicitarRepo(string id)
         {
             if (id == null)
             {
@@ -334,6 +352,11 @@ namespace SitiosWeb.Controllers
                     c.Identificacion != Request.Cookies["Id"])
                 .ToList();
             ViewBag.Tercero = terceros;
+
+            var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;
+            ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
+            ViewBag.DiasBlock = await _context.BloqueoDias.ToListAsync();
+            ViewBag.DiasPasados = await _context.Vacaciones.Where(v => v.IdSolicitudNavigation.IdEmpleado == Request.Cookies["Id"] && v.IdSolicitudNavigation.Aprobadas != false && v.IdSolicitudNavigation.FechaFin > DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
 
             var repos = _context.JustificacionesInconsistencias
                 .Where(r => reposicionesList.Contains(r.IdJustificacion) && r.Reposicion == null)

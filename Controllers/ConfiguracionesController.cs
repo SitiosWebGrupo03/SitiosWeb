@@ -173,6 +173,8 @@ namespace SitiosWeb.Controllers
                         Tipo = 0,
                         Day = DateOnly.Parse(dia)
                     });
+                    TempData["Success"] = "Dia bloqueado por la empresa correctamente.";
+
                     break;
                 case "1":
                     _context.BloqueoDias.Add(new BloqueoDias
@@ -181,6 +183,9 @@ namespace SitiosWeb.Controllers
                         Tipo = 1,
                         Day = DateOnly.Parse(dia)
                     });
+                    TempData["Success"] = "Dia festivo agregado correctamente.";
+
+
                     break;
 
                 case "2":
@@ -189,6 +194,7 @@ namespace SitiosWeb.Controllers
                         ids.Descripcion = descripcion;
                         _context.BloqueoDias.Update(ids);
                     }
+                    TempData["Success"] = "Dia actualizado correctamente.";
                     break;
 
                 case "3":
@@ -196,6 +202,8 @@ namespace SitiosWeb.Controllers
                     {
                         _context.BloqueoDias.Remove(ids);
                     }
+                    TempData["Success"] = "Dia eliminado correctamente.";
+
                     break;
 
                 default:

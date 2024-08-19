@@ -1,10 +1,27 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string layout = null;
+    if (User.IsInRole("JEFATURA"))
+    {
+        layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        layout = "~/Views/Shared/_LayoutSupervisor.cshtml"; // Corregido
+    }
+    Layout = layout;
+}
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de Incapacidades</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="~/css/SolicitudIncapacidad.css">
 </head>
 <body>
     <div class="container">
@@ -13,6 +30,16 @@
             <h1>Solicitud de incapacidades</h1>
         </div>
         <div class="form-container">
+            @if (User.IsInRole("JEFATURA") || User.IsInRole("SUPERVISOR"))
+            {
+                <aside class="sidebar">
+                    <h2>Opciones de marcas</h2>
+                    <ul>
+                        <li><a asp-controller="SolicitudInca" asp-action="cargarTablaIncapacidades">Gestión de Incapacidades</a></li>
+                    </ul>
+                </aside>
+            }
+
             <form>
                 <div class="form-row">
                     <div class="input-group">
@@ -32,10 +59,13 @@
                     <div class="input-group">
                         <label for="tipoIncapacidad">Tipo de Incapacidad</label>
                         <select id="tipoIncapacidad" name="tipoIncapacidad">
-                            <option value="accidenteTrabajo">Accidente de Trabajo</option>
-                            <option value="enfermedadGeneral">Enfermedad General</option>
-                            <option value="maternidad">Maternidad</option>
-                            <option value="paternidad">Paternidad</option>
+                            @if (ViewBag.Permisos != null)
+                            {
+                                @foreach (var permiso in ViewBag.Permisos)
+                                {
+                                    <option value="@permiso.IdTipoPermiso">@permiso.Descripcion</option>
+                                }
+                            }
                         </select>
                     </div>
                 </div>

@@ -24,11 +24,12 @@
     padding: 5px 10px;
     cursor: pointer;
 }
-.calendar .days .day.selected {
+.calendar .days .day.selected{
     background-color: #007bff;
     color: #ffffff;
     border: 1px solid #0056b3;
 }
+
 .calendar-header button:hover {
     background-color: #0056b3;
 }
@@ -69,6 +70,22 @@
     cursor: pointer;
 }
 
+.calendar .days .day.festivo {
+    background-color: #9700ff;
+    color: #ffffff;
+    border: 1px solid #9700ff;
+}
+
+.calendar .days .day.configuracion {
+    background-color: #6000ffbe;
+    color: #ffffff;
+    border: 1px solid #6000ffbe;
+}
+.calendar .days .day.selected-vc {
+    background-color: #9d2bae;
+    color: #ffffff;
+    border: 1px solid #9d2bae;
+}
 .calendar .days .gray-text {
     color: #cbd5e0;
 }

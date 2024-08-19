@@ -13,7 +13,7 @@ public partial class VacacionesColectivas
 
     public DateOnly FechaFin { get; set; }
 
-    public bool Aprobado { get; set; }
+    public bool? Aprobado { get; set; }
 
     public int? IdDepartamento { get; set; }
 

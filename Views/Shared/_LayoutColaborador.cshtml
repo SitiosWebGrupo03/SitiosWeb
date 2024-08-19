@@ -1,5 +1,9 @@
 ﻿@{
     var tercero = TempData["tercero"] as List<SitiosWeb.Model.ReposicionTercero>;
+
+    dynamic vacaciones = Context.Request.Cookies["Vacaciones"];
+
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +28,13 @@
 
         <div class="links">
             <a href="#">Inconsistencias</a>
-            <a href="#">Horas Extras</a>
+            <a asp-controller="Vacaciones" asp-action="SolicitarVacaciones">
+                Vacaciones acumuladas: @vacaciones @if (double.Parse(vacaciones) > 12.00)
+                {
+                    <i class="fa-solid fa-circle-exclamation" style="color:red;"></i>
+                }
+            </a>
+
 
             @if (tercero != null)
             {
