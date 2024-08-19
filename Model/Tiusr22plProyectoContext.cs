@@ -666,8 +666,7 @@ public partial class Tiusr22plProyectoContext : DbContext
 
             entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
             entity.Property(e => e.Comentarios)
-                .HasMaxLength(200)
-                .IsUnicode(false)
+                .HasMaxLength(250)
                 .HasColumnName("comentarios");
             entity.Property(e => e.DOH).HasColumnName("d_o_h");
             entity.Property(e => e.DiasHorasFuera).HasColumnName("dias_horas_fuera");
@@ -689,28 +688,30 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasConstraintName("FK__solicitud__id_ti__797309D9");
         });
 
-        //modelBuilder.Entity<SolicitudVacaciones>(entity =>
-        //{
-        //    entity.HasKey(e => e.IdSolicitud).HasName("PK__solicitu__5C0C31F33D7958E7");
+        modelBuilder.Entity<SolicitudVacaciones>(entity =>
+        {
+            entity.HasKey(e => e.IdSolicitud).HasName("PK__solicitu__5C0C31F33D7958E7");
 
-        //    entity.ToTable("solicitud_vacaciones");
+            entity.ToTable("solicitud_vacaciones");
 
-        //    entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
-        //    entity.Property(e => e.Aprobadas).HasColumnName("aprobadas");
-        //    entity.Property(e => e.AprobadasPor)
-        //        .HasMaxLength(150)
-        //        .IsUnicode(false)
-        //        .HasColumnName("aprobadas_por");
-        //    entity.Property(e => e.IdEmpleado)
-        //        .HasMaxLength(150)
-        //        .IsUnicode(false)
-        //        .HasColumnName("id_empleado");
-        //    entity.Property(e => e.TotalDias).HasColumnName("total_dias");
+            entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
+            entity.Property(e => e.Aprobadas).HasColumnName("aprobadas");
+            entity.Property(e => e.AprobadasPor)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("aprobadas_por");
+            entity.Property(e => e.FechaFin).HasColumnName("fecha_fin");
+            entity.Property(e => e.IdEmpleado)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("id_empleado");
+            entity.Property(e => e.TotalDias).HasColumnName("total_dias");
 
-        //    entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudVacaciones)
-        //        .HasForeignKey(d => d.IdEmpleado)
-        //        .HasConstraintName("FK__solicitud__id_em__04E4BC85");
-        //});
+            entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudVacaciones)
+                .HasForeignKey(d => d.IdEmpleado)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__solicitud__id_em__04E4BC85");
+        });
 
         modelBuilder.Entity<SolicitudeRebajo>(entity =>
         {
