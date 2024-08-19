@@ -196,6 +196,14 @@ namespace SitiosWeb.Controllers
             var justificacion = await _context.JustificacionesInconsistencias
                 .FirstOrDefaultAsync(j => j.IdJustificacion == idJustificacion);
 
+            string idColaborador = justificacion?.IdColaborador.ToString();
+
+            var colab = await _context.Colaboradores
+                .FirstOrDefaultAsync(j => j.Identificacion == idColaborador);
+
+            string correo = colab?.Correo.ToString();
+            string nombre = colab?.Nombre.ToString();
+
             if (justificacion == null)
             {
                 return NotFound();
@@ -206,6 +214,18 @@ namespace SitiosWeb.Controllers
 
             await _context.SaveChangesAsync();
 
+            var inconsistencia = await _context.Inconsistencias
+             .FirstOrDefaultAsync(i => i.IdJustificacion == idJustificacion);
+
+            if (inconsistencia != null)
+            {
+                _context.Entry(inconsistencia).State = EntityState.Modified;
+                inconsistencia.Mostrar = false;
+                _context.Inconsistencias.Update(inconsistencia);
+                await _context.SaveChangesAsync();
+            }
+
+            EnviarCorreo(correo, "Justificacion de tu inconsistencia", $"Querido {nombre} su justificacion ha sido aceptada, por lo tanto no se enviara una solicitud de rebajo a la jefatura");
             return View();
         }
 
