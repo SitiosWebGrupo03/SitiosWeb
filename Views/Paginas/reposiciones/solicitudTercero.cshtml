@@ -1,6 +1,10 @@
 ﻿@model SitiosWeb.Model.ReposicionTercero
 @{
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+    var diasPasados = ViewBag.DiasPasados as IEnumerable<SitiosWeb.Model.Vacaciones>;
+    var diasBlock = ViewBag.DiasBlock as IEnumerable<SitiosWeb.Model.BloqueoDias>;
+
 }
 <head>
     <meta charset="UTF-8">
@@ -53,6 +57,67 @@
     </div>
 </body>
 <script>
+    let diasMarcar = [
+    @for (var i = 0; i < diasBlock.Count(); i++)
+    {
+        @:'@diasBlock.ElementAt(i).Day'
+        @if (i < diasBlock.Count() - 1)
+        {
+            @:,
+        }
+    }
+        ];
+    let tipoDia = [
+    @for (var i = 0; i < diasBlock.Count(); i++)
+    {
+        @: '@diasBlock.ElementAt(i).Tipo'
+        @if (i < diasBlock.Count() - 1)
+        {
+            @:,
+        }
+    }
+        ];
+    let DiaDescripcion = [
+    @for (var i = 0; i < diasBlock.Count(); i++)
+    {
+        @: '@diasBlock.ElementAt(i).Descripcion'
+        @if (i < diasBlock.Count() - 1)
+        {
+            @:,
+        }
+    }];
+    let vcInicio = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaInicio'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let vcFin = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaFin'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let diasPasados = [
+    @for (var i = 0; i < diasPasados.Count(); i++)
+    {
+        @: '@diasPasados.ElementAt(i).Fecha'
+        @if (i < diasPasados.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let diaMarcar = [];
+    const Marcar = true;
     let Horas = 0;
     var label = document.getElementById('horasRestantes');
     Horas = parseInt(label.textContent.replace(/\D/g, ''), 10);
@@ -80,8 +145,7 @@
         }
     });
 
-    let diaMarcar = [];
-    const Marcar = true;
+   
    
 
 </script>

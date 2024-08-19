@@ -3,6 +3,9 @@
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
     var inconsistencias = Model.Where(x => x.Reposicion == null).ToList();
     var colaboradores = ViewBag.Tercero as IEnumerable<Colaboradores>;
+    var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+    var diasPasados = ViewBag.DiasPasados as IEnumerable<SitiosWeb.Model.Vacaciones>;
+    var diasBlock = ViewBag.DiasBlock as IEnumerable<SitiosWeb.Model.BloqueoDias>;
 }
 <head>
     <meta charset="UTF-8">
@@ -102,7 +105,85 @@
 
 </body>
 <script>
+    let diasMarcar = [
+    @for (var i = 0; i < diasBlock.Count(); i++)
+    {
+        @:'@diasBlock.ElementAt(i).Day'
+        @if (i < diasBlock.Count() - 1)
+        {
+            @:,
+        }
+    }
+    ];
+    let tipoDia = [
+    @for (var i = 0; i < diasBlock.Count(); i++)
+    {
+        @: '@diasBlock.ElementAt(i).Tipo'
+        @if (i < diasBlock.Count() - 1)
+        {
+            @:,
+        }
+    }
+    ];
+    let DiaDescripcion = [
+    @for (var i = 0; i < diasBlock.Count(); i++)
+    {
+        @: '@diasBlock.ElementAt(i).Descripcion'
+        @if (i < diasBlock.Count() - 1)
+        {
+            @:,
+        }
+    }];
+    let vcInicio = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaInicio'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let vcFin = [
+    @for (var i = 0; i < vc.Count(); i++)
+    {
+        @: '@vc.ElementAt(i).FechaFin'
+        @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let diasPasados = [
+    @for (var i= 0; i < diasPasados.Count(); i++)
+    {
+        @: '@diasPasados.ElementAt(i).Fecha'
+        @if (i < diasPasados.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
     let Horas = 0;
+
+    let diaMarcar = [];
+    const Marcar = true;
+    // Función para mostrar el modal
+    function showModal() {
+        document.getElementById('myModal').style.display = 'block';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    // Cerrar el modal si se hace clic fuera del contenido del modal
+    window.onclick = function (event) {
+        if (event.target == document.getElementById('myModal')) {
+            closeModal();
+        }
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
         const successLabel = document.querySelector('.success');
@@ -151,25 +232,6 @@
             }
         });
     });
-
-    let diaMarcar = [];
-    const Marcar = true;
-    // Función para mostrar el modal
-    function showModal() {
-        document.getElementById('myModal').style.display = 'block';
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-        document.getElementById('myModal').style.display = 'none';
-    }
-
-    // Cerrar el modal si se hace clic fuera del contenido del modal
-    window.onclick = function (event) {
-        if (event.target == document.getElementById('myModal')) {
-            closeModal();
-        }
-    }
 
 </script>
 <script>

@@ -1,6 +1,26 @@
 ﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
 @{
-    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    bool edita;
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+        edita = true;
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+        edita = false;
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+        edita = false;
+    }
+    else
+    {
+        edita = false;
+    }
+}
 }
 <head>
     <meta charset="UTF-8">
@@ -25,30 +45,31 @@
         <label class="success" style="display: none;"></label>
 
 
-          
-            <div class="calendar" ID="calendar">
-                <div class="calendar-header">
-                    <button id="prevMonth">< </button>
-                    <h2 id="monthYear"></h2>
-                    <button id="nextMonth"> ></button>
-                </div>
-                <div class="days" id="calendarDays">
-                </div>
 
+        <div class="calendar" ID="calendar">
+            <div class="calendar-header">
+                <button id="prevMonth">< </button>
+                <h2 id="monthYear"></h2>
+                <button id="nextMonth"> ></button>
             </div>
-        <div id="myModal" class="modal">
+            <div class="days" id="calendarDays">
+            </div>
+
+        </div>
+        <div id="dayBlock" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Bloqueo de días</h2>
-                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2 id="tipos">Bloqueo de días</h2>
+                    <span id="close" class="close">&times;</span>
                 </div>
 
                 <form id="modalForm" asp-action="ManejarDias">
 
                     <div class="select-container">
-                        <label style="font-size:20px;"for="descripcion">Descripción</label>
-                        <textarea  name="descripcion" id="descripcion" required style="height: 100px; width: 400px; resize: none; margin-bottom:10px;"></textarea>
-                        <input type="text" name="id" id="idDia" hidden/>
+                        <label style="font-size:20px;  margin-bottom:10px;">Descripción</label><br />
+                        <textarea name="descripcion" id="descripcion" required maxlength="300"
+                                  style="height: 100px; width: 400px; resize: none; margin-bottom: 10px; line-height: 70px; overflow: hidden;"></textarea>
+                        <input type="text" name="id" id="idDia" hidden />
                         <input type="text" name="tipo" id="tipo" hidden />
                         <input type="text" name="dia" id="dia" hidden />
 
@@ -59,7 +80,7 @@
                         <button type="submit" style="display:none;" id="editar">Editar</button>
                         <button type="submit" style="display:none;" id="eliminar">Eliminar</button>
                     </div>
-                    
+
                 </form>
             </div>
 
@@ -70,14 +91,14 @@
     let diaMarcar = [
     @for (var i = 0; i < Model.Count(); i++)
     {
-        @: '@Model.ElementAt(i).Day' 
+        @: '@Model.ElementAt(i).Day'
         @if (i < Model.Count() - 1)
         {
             @:,
-            
+
         }
     }
-    ];
+];
     let tipoDia = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -87,7 +108,7 @@
             @:,
         }
     }
-    ];
+];
     let idsDia = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -97,7 +118,7 @@
             @:,
         }
     }
-        ];
+];
     let DiaDescripcion = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -107,5 +128,33 @@
             @:,
         }
     }
-            ];
+];
+
+</script>
+<script>
+    let edita = @edita.ToString().ToLower();
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const successLabel = document.querySelector('.success');
+        const successMessage = '@TempData["Success"]'.trim();
+
+        if (successMessage === '') {
+            successLabel.style.display = 'none';
+            successLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            successLabel.textContent = successMessage;
+            successLabel.style.display = 'block';
+            successLabel.classList.remove('fadeOut');
+            successLabel.classList.add('fadeIn');
+
+            setTimeout(() => {
+                successLabel.classList.remove('fadeIn');
+                successLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    successLabel.style.display = 'none';
+                    successLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000);
+        }
+    });
 </script>
