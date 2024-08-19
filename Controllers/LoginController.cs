@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Options;
+using System.Globalization;
 
 namespace SitiosWeb.Controllers
 {
@@ -80,7 +81,9 @@ namespace SitiosWeb.Controllers
                 totalMonthsWorked--;
             }
             var maxVacaciones = _context.Configuraciones.FirstOrDefault(c => c.IdConfiguraciones == 7).NumConfig;
-            dynamic vacationDays = totalMonthsWorked * float.Parse(_context.Configuraciones.FirstOrDefault(c => c.IdConfiguraciones == 4).ValorConfig);
+            dynamic vacationDays = totalMonthsWorked * float.Parse(
+     _context.Configuraciones.FirstOrDefault(c => c.IdConfiguraciones == 4).ValorConfig,
+     CultureInfo.InvariantCulture);//se corrigio por que se estaba casteando mal 
             if (vacationDays >= maxVacaciones)
             {
                 vacationDays = maxVacaciones;
