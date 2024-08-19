@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OpenCvSharp;
 using SitiosWeb.Model;
 using System.Runtime.Intrinsics.Arm;
 
@@ -104,6 +105,8 @@ namespace SitiosWeb.Controllers
         {
             var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;
             ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
+            var solicitudes = await _context.SolicitudVacaciones.Where(u => u.IdEmpleado == Request.Cookies["Id"]).ToListAsync();
+            ViewBag.DiasPasados = await _context.Vacaciones.Where(v => v.IdSolicitudNavigation.IdEmpleado == Request.Cookies["Id"] && v.IdSolicitudNavigation.Aprobadas != false && v.IdSolicitudNavigation.FechaFin > DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
             return View(await _context.BloqueoDias.ToListAsync());
         }
         public async Task<IActionResult> SolicitarVP(string solicitudVP)
@@ -122,9 +125,6 @@ namespace SitiosWeb.Controllers
                 FechaFin = DateOnly.Parse(fechas.Max())
             };
             _context.SolicitudVacaciones.Add(solicitud);
-                var vacaciones = Request.Cookies["Vacaciones"];
-                Response.Cookies.Delete("Vacaciones");
-                Response.Cookies.Append("Vacaciones", (int.Parse(vacaciones) - fechas.Count()).ToString());
                 await _context.SaveChangesAsync();
             foreach (var fecha in fechas)
             {
@@ -135,7 +135,7 @@ namespace SitiosWeb.Controllers
                 };
                 _context.Vacaciones.Add(fechaVacaciones);
             }
-               
+                Response.Cookies.Append("Vacaciones", (double.Parse(Request.Cookies["Vacaciones"]) - fechas.Count()).ToString());
                 await _context.SaveChangesAsync();
                 
                 TempData["Success"] = "Vacaciones solicitadas";
