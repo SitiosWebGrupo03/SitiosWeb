@@ -111,5 +111,35 @@ namespace SitiosWeb.Controllers
             ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
             return View(await _context.BloqueoDias.ToListAsync());
         }
+        public async Task<IActionResult> SolicitarVP(string solicitudVP)
+        {
+            try { 
+            string[] fechas = solicitudVP.Split(",");
+            var solicitud = new SolicitudVacaciones
+            {
+                IdEmpleado = Request.Cookies["Id"],
+                TotalDias = fechas.Count()
+            };
+            _context.SolicitudVacaciones.Add(solicitud);
+            await _context.SaveChangesAsync();
+            foreach (var fecha in fechas)
+            {
+                var fechaVacaciones = new Vacaciones
+                {
+                    IdSolicitud = solicitud.IdSolicitud,
+                    Fecha = DateOnly.Parse(fecha)
+                };
+                _context.Vacaciones.Add(fechaVacaciones);
+            }
+            await _context.SaveChangesAsync();
+                TempData["Success"] = "Error al solicitar vacaciones";
+                Response.Cookies.Append("Vacaciones", (int.Parse(Request.Cookies["Vacaciones"]) - fechas.Count()).ToString());
+                return RedirectToAction("SolicitarVacaciones");
+            }
+            catch (Exception e) {
+                TempData["Error"] = "Error al solicitar vacaciones";
+                return RedirectToAction("SolicitarVacaciones");
+            }
+        }
     }
 }

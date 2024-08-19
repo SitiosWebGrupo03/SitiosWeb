@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const acumuladas = document.getElementById('acumuladas');
     const textBlock = document.querySelector('.text-block');
     const solicitar = document.getElementById('Solicitar');
-
+    const solicitudVP = document.getElementById('solicitudVP');
 
     const monthNames = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -158,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const pElement = document.createElement('p');
             pElement.textContent = `${dayNumber} de ${monthNames[currentMonth + 1]}`;
             textBlock.appendChild(pElement);
+            solicitudVP.value = selectedDays.join(',');
         }
 
 

@@ -27,8 +27,8 @@
 
         <div class="links">
             <a href="#">Inconsistencias</a>
-            <a href="#">
-                Dias de vacaciones @vacaciones @if (double.Parse(vacaciones) > 12.00)
+            <a asp-controller="Vacaciones" asp-action="SolicitarVacaciones">
+                Vacaciones acumuladas: @vacaciones @if (double.Parse(vacaciones) > 12.00)
                 {
                     <i class="fa-solid fa-circle-exclamation" style="color:red;"></i>
                 }

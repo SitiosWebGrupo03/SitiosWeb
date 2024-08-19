@@ -37,13 +37,13 @@
 
 
                 </div>
-                <form id="solicitudVC" method="post" asp-action="SolicitarVC" asp-controller="Vacaciones">
-                  
-                    
-                </form>
-                <div class="buttons" style="justify-content:end">
+                <form id="solicitudVC" method="post" asp-action="SolicitarVP">
+                    <input type="hidden" id="solicitudVP" name="solicitudVP" />
+                    <div class="buttons" style="justify-content:end">
                     <button id="Solicitar" type="submit">Solicitar</button>
                 </div>
+                </form>
+                
 
             </div>
             <div class="calendar" ID="calendar">
