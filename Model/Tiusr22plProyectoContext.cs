@@ -832,7 +832,7 @@ public partial class Tiusr22plProyectoContext : DbContext
 
         modelBuilder.Entity<Vacaciones>(entity =>
         {
-            entity.HasKey(e => new { e.IdSolicitud, e.Fecha }).HasName("PK_vacacion_3F50DB1ECA79E337");
+            entity.HasKey(e => new { e.IdSolicitud, e.Fecha }).HasName("pk__vacacion__3f50db1eca79e337");
 
             entity.ToTable("vacaciones");
 
@@ -842,9 +842,8 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.HasOne(d => d.IdSolicitudNavigation).WithMany(p => p.Vacaciones)
                 .HasForeignKey(d => d.IdSolicitud)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_vacaciones_solicitud_vacaciones");
+                .HasConstraintName("fk_vacaciones_solicitud_vacaciones");
         });
-
 
         modelBuilder.Entity<VacacionesColectivas>(entity =>
         {

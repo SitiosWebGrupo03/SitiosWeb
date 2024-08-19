@@ -146,5 +146,15 @@ namespace SitiosWeb.Controllers
                 return RedirectToAction("SolicitarVacaciones");
             }
         }
+        public async Task<IActionResult> SeleccionarVacaciones()
+        {
+            var result = await _context.SolicitudVacaciones
+                .Where(u => u.Aprobadas == null)
+                .ToListAsync();
+            ViewBag.Nombres = await _context.Colaboradores.ToListAsync();
+           
+            
+            return View(result);
+        }
     }
 }
