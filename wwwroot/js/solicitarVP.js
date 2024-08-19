@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (typeof dates !== 'undefined' && dates.includes(formattedDate)) {
                 dayCell.classList.add('selected-vc');
+                dayCell.classList.add('disabled');
                 dayCell.dataset.tooltip = `Vacaciones colectivas`;
             }
 
@@ -92,7 +93,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
             
-            
+            if (diasPasados !== undefined && diasPasados.includes(formattedDate)) {
+                dayCell.classList.add('disabled');
+                dayCell.classList.add('selected-vc');
+                dayCell.classList.add('disabled');
+                dayCell.dataset.tooltip = `Dia pendiente de vacaciones`;
+            }
             if (selectedDays.includes(formattedDate)) {
                 dayCell.classList.add('selected');
             }

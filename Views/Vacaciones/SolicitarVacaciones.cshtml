@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
     var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+    var diasPasados = ViewBag.DiasPasados as IEnumerable<SitiosWeb.Model.Vacaciones>;
 }
 <head>
     <meta charset="UTF-8">
@@ -106,6 +107,16 @@
     {
         @: '@vc.ElementAt(i).FechaFin'
         @if (i < vc.Count() - 1)
+        {
+            @:,
+
+        }
+    }];
+    let diasPasados = [
+    @for (var i= 0; i < diasPasados.Count(); i++)
+    {
+        @: '@diasPasados.ElementAt(i).Fecha'
+        @if (i < diasPasados.Count() - 1)
         {
             @:,
 
