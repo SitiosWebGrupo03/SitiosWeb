@@ -26,4 +26,5 @@ public partial class SolicitudPermiso
     public virtual Colaboradores? IdEmpleadoNavigation { get; set; }
 
     public virtual TiposPermisos? IdTipoPermisoNavigation { get; set; }
+
 }
