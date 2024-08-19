@@ -112,5 +112,50 @@
         }
     }];
     let marcarVC = true;
+    document.addEventListener('DOMContentLoaded', function () {
+        const successLabel = document.querySelector('.success');
+        const successMessage = '@TempData["Success"]'.trim();
+        const errorMessage = '@TempData["Error"]'.trim();
+        const errorLabel = document.querySelector('.error');
 
+        if (successMessage === '') {
+            successLabel.style.display = 'none';
+            successLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            successLabel.textContent = successMessage;
+            successLabel.style.display = 'block';
+            successLabel.classList.remove('fadeOut');
+            successLabel.classList.add('fadeIn');
+
+            setTimeout(() => {
+                successLabel.classList.remove('fadeIn');
+                successLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    successLabel.style.display = 'none';
+                    successLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000); 
+        }
+        if (errorMessage === '') {
+            errorLabel.style.display = 'none';
+            errorLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            errorLabel.classList.remove('fadeOut');
+            errorLabel.textContent = text;
+            errorLabel.style.display = 'block';
+            errorLabel.classList.add('shake');
+
+            setTimeout(() => {
+                errorLabel.classList.remove('shake');
+            }, 500); 
+
+            setTimeout(() => {
+                errorLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    errorLabel.style.display = 'none';
+                    errorLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000);
+        }
+    });
 </script>

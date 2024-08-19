@@ -83,26 +83,21 @@ namespace SitiosWeb.Controllers
 
         public async Task<IActionResult> Aprobar_DenegarVC(int id, int manejo)
         {
-            // Retrieve the VacacionesColectivas matching the id
             var vacacionesColectivas = await _context.VacacionesColectivas
                 .Where(u => u.IdVacaciones == id)
                 .FirstOrDefaultAsync();
 
             if (manejo == 1)
             {
-                // Set Aprobado to true
                 vacacionesColectivas.Aprobado = true;
             }
             else
             {
-                // Set Aprobado to false
                 vacacionesColectivas.Aprobado = false;
             }
 
-            // Save changes
             await _context.SaveChangesAsync();
 
-            // Redirect to the SeleccionarVC view
             return RedirectToAction("SeleccionarVC");
         }
         public async Task<IActionResult> SolicitarVacaciones()
@@ -113,15 +108,24 @@ namespace SitiosWeb.Controllers
         }
         public async Task<IActionResult> SolicitarVP(string solicitudVP)
         {
+            if(solicitudVP == null)
+            {
+                TempData["Error"] = "Error al solicitar vacaciones";
+                return RedirectToAction("SolicitarVacaciones");
+            }
             try { 
             string[] fechas = solicitudVP.Split(",");
             var solicitud = new SolicitudVacaciones
             {
                 IdEmpleado = Request.Cookies["Id"],
-                TotalDias = fechas.Count()
+                TotalDias = fechas.Count(), 
+                FechaFin = DateOnly.Parse(fechas.Max())
             };
             _context.SolicitudVacaciones.Add(solicitud);
-            await _context.SaveChangesAsync();
+                var vacaciones = Request.Cookies["Vacaciones"];
+                Response.Cookies.Delete("Vacaciones");
+                Response.Cookies.Append("Vacaciones", (int.Parse(vacaciones) - fechas.Count()).ToString());
+                await _context.SaveChangesAsync();
             foreach (var fecha in fechas)
             {
                 var fechaVacaciones = new Vacaciones
@@ -131,9 +135,10 @@ namespace SitiosWeb.Controllers
                 };
                 _context.Vacaciones.Add(fechaVacaciones);
             }
-            await _context.SaveChangesAsync();
-                TempData["Success"] = "Error al solicitar vacaciones";
-                Response.Cookies.Append("Vacaciones", (int.Parse(Request.Cookies["Vacaciones"]) - fechas.Count()).ToString());
+               
+                await _context.SaveChangesAsync();
+                
+                TempData["Success"] = "Vacaciones solicitadas";
                 return RedirectToAction("SolicitarVacaciones");
             }
             catch (Exception e) {

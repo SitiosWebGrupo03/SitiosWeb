@@ -86,7 +86,7 @@ namespace SitiosWeb.Controllers
                 vacationDays = maxVacaciones;
             }
             
-            vacationDays-= _context.SolicitudVacaciones.Where(v => v.IdEmpleado == user.IdColaborador && v.Aprobadas != false).Sum(U => U.TotalDias);
+            vacationDays-= _context.SolicitudVacaciones.Where(v => v.IdEmpleado == user.IdColaborador && v.Aprobadas != false && v.FechaFin > today).Sum(U => U.TotalDias);
             Response.Cookies.Append("Nombre", nombreColaborador, options);
             Response.Cookies.Append("Rol", nombreTipoUsuario, options);
             Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);
