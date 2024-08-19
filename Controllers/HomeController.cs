@@ -162,6 +162,11 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
         }
+        [Authorize(Roles = "JEFATURA,SUPERVISOR")]
+        public IActionResult AprobacionIncapacidades()
+        {
+            return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml");
+        }
 
         [Authorize(Roles = "JEFATURA")]
         public IActionResult ConsultarHorarioJefatura()

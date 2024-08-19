@@ -21,7 +21,7 @@ namespace SitiosWeb.Controllers
             var permisos = await _context.SolicitudPermiso.AsNoTracking().ToListAsync();
 
 
-            return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml", permisos);
+            return View("~/Views/Incapacidades/AprobacionInco.cshtml", permisos);
         }
 
 
