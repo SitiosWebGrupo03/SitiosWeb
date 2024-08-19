@@ -676,7 +676,7 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdTipoPermiso).HasColumnName("id_tipoPermiso");
-            entity.Property(e => e.PuestoLaboral)
+            entity.Property(e => e.puestoLaboral)
                 .HasMaxLength(100)
                 .HasColumnName("puestoLaboral");
 
@@ -689,28 +689,28 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasConstraintName("FK__solicitud__id_ti__797309D9");
         });
 
-        modelBuilder.Entity<SolicitudVacaciones>(entity =>
-        {
-            entity.HasKey(e => e.IdSolicitud).HasName("PK__solicitu__5C0C31F33D7958E7");
+        //modelBuilder.Entity<SolicitudVacaciones>(entity =>
+        //{
+        //    entity.HasKey(e => e.IdSolicitud).HasName("PK__solicitu__5C0C31F33D7958E7");
 
-            entity.ToTable("solicitud_vacaciones");
+        //    entity.ToTable("solicitud_vacaciones");
 
-            entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
-            entity.Property(e => e.Aprobadas).HasColumnName("aprobadas");
-            entity.Property(e => e.AprobadasPor)
-                .HasMaxLength(150)
-                .IsUnicode(false)
-                .HasColumnName("aprobadas_por");
-            entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(150)
-                .IsUnicode(false)
-                .HasColumnName("id_empleado");
-            entity.Property(e => e.TotalDias).HasColumnName("total_dias");
+        //    entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
+        //    entity.Property(e => e.Aprobadas).HasColumnName("aprobadas");
+        //    entity.Property(e => e.AprobadasPor)
+        //        .HasMaxLength(150)
+        //        .IsUnicode(false)
+        //        .HasColumnName("aprobadas_por");
+        //    entity.Property(e => e.IdEmpleado)
+        //        .HasMaxLength(150)
+        //        .IsUnicode(false)
+        //        .HasColumnName("id_empleado");
+        //    entity.Property(e => e.TotalDias).HasColumnName("total_dias");
 
-            entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudVacaciones)
-                .HasForeignKey(d => d.IdEmpleado)
-                .HasConstraintName("FK__solicitud__id_em__04E4BC85");
-        });
+        //    entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudVacaciones)
+        //        .HasForeignKey(d => d.IdEmpleado)
+        //        .HasConstraintName("FK__solicitud__id_em__04E4BC85");
+        //});
 
         modelBuilder.Entity<SolicitudeRebajo>(entity =>
         {
@@ -829,20 +829,20 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasConstraintName("FK__usuarios__idTipo__4222D4EF");
         });
 
-        modelBuilder.Entity<Vacaciones>(entity =>
-        {
-            entity.HasKey(e => new { e.IdSolicitud, e.Fecha }).HasName("PK__vacacion__3F50DB1ECA79E337");
+        //modelBuilder.Entity<Vacaciones>(entity =>
+        //{
+        //    entity.Haskey(e => new { e.idsolicitud, e.fecha }).Hasname("pk__vacacion__3f50db1eca79e337");
 
-            entity.ToTable("vacaciones");
+        //    entity.ToTable("vacaciones");
 
-            entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
-            entity.Property(e => e.Fecha).HasColumnName("fecha");
+        //    entity.Property(e => e.Idsolicitud).hascolumnname("id_solicitud");
+        //    entity.Property(e => e.fecha).hascolumnname("fecha");
 
-            entity.HasOne(d => d.IdSolicitudNavigation).WithMany(p => p.Vacaciones)
-                .HasForeignKey(d => d.IdSolicitud)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_vacaciones_solicitud_vacaciones");
-        });
+        //    entity.Hasone(d => d.idsolicitudnavigation).withmany(p => p.vacaciones)
+        //        .hasforeignkey(d => d.idsolicitud)
+        //        .ondelete(deletebehavior.clientsetnull)
+        //        .hasconstraintname("fk_vacaciones_solicitud_vacaciones");
+        //});
 
         modelBuilder.Entity<VacacionesColectivas>(entity =>
         {

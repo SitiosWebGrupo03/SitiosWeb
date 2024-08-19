@@ -2,10 +2,7 @@
     string layout = null;
     if (User.IsInRole("JEFATURA"))
     {
-
         layout = "~/Views/Shared/_LayoutJefatura.cshtml";
-
-
     }
     else if (User.IsInRole("COLABORADOR"))
     {
@@ -13,7 +10,7 @@
     }
     else if (User.IsInRole("SUPERVISOR"))
     {
-        layout = "~Views/Shared/_LayoutSupervisor.cshtml";
+        layout = "~/Views/Shared/_LayoutSupervisor.cshtml"; // Corregido
     }
     Layout = layout;
 }
@@ -24,7 +21,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitud de Incapacidades</title>
-    <link rel="stylesheet" href="~/css/SolicitudIncapacidad.css">
+    <link rel="stylesheet" type="text/css" href="~/css/SolicitudIncapacidad.css">
 </head>
 <body>
     <div class="container">
@@ -33,7 +30,17 @@
             <h1>Solicitud de incapacidades</h1>
         </div>
         <div class="form-container">
-            <form asp-controller="SolicitudInca" asp-action="SolicitudIncapacidad">
+            @if (User.IsInRole("JEFATURA") || User.IsInRole("SUPERVISOR"))
+            {
+                <aside class="sidebar">
+                    <h2>Opciones de marcas</h2>
+                    <ul>
+                        <li><a asp-controller="PermisosInca" asp-action="cargarTablaIncapacidades">Gestión de Incapacidades</a></li>
+                    </ul>
+                </aside>
+            }
+
+            <form>
                 <div class="form-row">
                     <div class="input-group">
                         <label for="identificacion">Identificación</label>
@@ -45,10 +52,13 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    
+                    <div class="input-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre">
+                    </div>
                     <div class="input-group">
                         <label for="tipoIncapacidad">Tipo de Incapacidad</label>
-                        <select id="tipoIncapacidad" name="idTipoPermiso">
+                        <select id="tipoIncapacidad" name="tipoIncapacidad">
                             @if (ViewBag.Permisos != null)
                             {
                                 @foreach (var permiso in ViewBag.Permisos)
@@ -62,11 +72,11 @@
                 <div class="form-row">
                     <div class="input-group">
                         <label for="fechaInicial">Fecha Inicial</label>
-                        <input type="date" id="fechaInicial" name="FechaInicio">
+                        <input type="date" id="fechaInicial" name="fechaInicial">
                     </div>
                     <div class="input-group">
                         <label for="fechaFinal">Fecha Final</label>
-                        <input type="date" id="fechaFinal" name="FechaFin">
+                        <input type="date" id="fechaFinal" name="fechaFinal">
                     </div>
                 </div>
                 <div class="buttons">

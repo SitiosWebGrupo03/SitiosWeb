@@ -21,7 +21,8 @@ public partial class SolicitudPermiso
     public DateTime? FechaInicio { get; set; }
     public DateTime? FechaFin { get; set; }
 
-    public string? PuestoLaboral { get; set; }
+
+
 
     public virtual Colaboradores? IdEmpleadoNavigation { get; set; }
 

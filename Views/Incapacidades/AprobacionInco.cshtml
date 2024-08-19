@@ -1,10 +1,26 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<SitiosWeb.Model.SolicitudPermiso>
+
+@{
+    string layout = null;
+    if (User.IsInRole("JEFATURA"))
+    {
+        layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    Layout = layout;
+}
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aprobación de incapacidades</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Incapacidades.css">
+    <script src="~/js/AprovacionODen.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -23,9 +39,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th></th> <!-- Columna para los checkboxes -->
+                        <th></th>
                         <th>Identificación</th>
-                        <th>Nombre</th>
+                        <th>Cantidad Días Fuera</th>
                         <th>Fecha Inicio</th>
                         <th>Fecha Final</th>
                         <th>Puesto Laboral</th>
@@ -33,51 +49,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Texto de celda A1</td>
-                        <td>Texto de celda B1</td>
-                        <td>Texto de celda C1</td>
-                        <td>Texto de celda C2</td>
-                        <td>Texto de celda C3</td>
-                        <td>Texto de celda C4</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Texto de celda A2</td>
-                        <td>Texto de celda B2</td>
-                        <td>Texto de celda C2</td>
-                        <td>Texto de celda C3</td>
-                        <td>Texto de celda C4</td>
-                        <td>Texto de celda C5</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Texto de celda A3</td>
-                        <td>Texto de celda B3</td>
-                        <td>Texto de celda C3</td>
-                        <td>Texto de celda C4</td>
-                        <td>Texto de celda C5</td>
-                        <td>Texto de celda C6</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Texto de celda A4</td>
-                        <td>Texto de celda B4</td>
-                        <td>Texto de celda C4</td>
-                        <td>Texto de celda C5</td>
-                        <td>Texto de celda C6</td>
-                        <td>Texto de celda C7</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Texto de celda A5</td>
-                        <td>Texto de celda B5</td>
-                        <td>Texto de celda C5</td>
-                        <td>Texto de celda C6</td>
-                        <td>Texto de celda C7</td>
-                        <td>Texto de celda C8</td>
-                    </tr>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var permisos in Model)
+                        {
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>@permisos.IdEmpleado</td>
+                                <td>@permisos.DiasHorasFuera</td>
+                                <td>@permisos.FechaInicio</td>
+                                <td>@permisos.FechaFin</td>
+                                <td>@permisos.puestoLaboral</td>
+                                <td>@permisos.IdTipoPermiso</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7">No se encontraron registros.</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
             <div class="action-buttons">
@@ -86,7 +78,7 @@
             </div>
         </div>
     </div>
+
+
 </body>
 </html>
-
-

@@ -14,7 +14,17 @@ namespace SitiosWeb.Controllers
             _context = context;
            
         }
-       
+
+        [HttpGet]
+        public async Task<IActionResult> cargarTablaIncapacidades()
+        {
+            var permisos = await _context.SolicitudPermiso.AsNoTracking().ToListAsync();
+
+
+            return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml", permisos);
+        }
+
+
         [HttpPost]
         public IActionResult SolicitudIncapacidad(string identificacion, string puestoLaboral, DateTime FechaInicio, DateTime FechaFin, string idTipoPermiso)
         {
