@@ -5,13 +5,9 @@ namespace SitiosWeb.Model;
 
 public partial class Vacaciones
 {
-    public int IdVacaciones { get; set; }
+    public int IdSolicitud { get; set; }
 
-    public string? IdEmpleado { get; set; }
+    public DateOnly Fecha { get; set; }
 
-    public int? DiasAcumulados { get; set; }
-
-    public int? AniosEnEmpresa { get; set; }
-
-    public virtual Colaboradores? IdEmpleadoNavigation { get; set; }
+    public virtual SolicitudVacaciones IdSolicitudNavigation { get; set; } = null!;
 }

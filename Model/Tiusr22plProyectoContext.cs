@@ -111,6 +111,8 @@ public partial class Tiusr22plProyectoContext : DbContext
         {
             entity.HasKey(e => e.DayId);
 
+            entity.HasIndex(e => e.Day, "IX_BloqueoDias").IsUnique();
+
             entity.Property(e => e.DayId).HasColumnName("DayID");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(300)
@@ -674,9 +676,10 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
             entity.Property(e => e.IdTipoPermiso).HasColumnName("id_tipoPermiso");
-            entity.Property(e => e.puestoLaboral).HasColumnName("puestoLaboral");
-            entity.Property(e => e.FechaInicio).HasColumnName("FechaInicio");
-            entity.Property(e => e.FechaFin).HasColumnName("FechaFin");
+            entity.Property(e => e.PuestoLaboral)
+                .HasMaxLength(100)
+                .HasColumnName("puestoLaboral");
+
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudPermiso)
                 .HasForeignKey(d => d.IdEmpleado)
                 .HasConstraintName("FK__solicitud__id_em__778AC167");
@@ -693,11 +696,16 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.ToTable("solicitud_vacaciones");
 
             entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
-            entity.Property(e => e.DiasTotales).HasColumnName("diasTotales");
+            entity.Property(e => e.Aprobadas).HasColumnName("aprobadas");
+            entity.Property(e => e.AprobadasPor)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("aprobadas_por");
             entity.Property(e => e.IdEmpleado)
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("id_empleado");
+            entity.Property(e => e.TotalDias).HasColumnName("total_dias");
 
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.SolicitudVacaciones)
                 .HasForeignKey(d => d.IdEmpleado)
@@ -823,21 +831,17 @@ public partial class Tiusr22plProyectoContext : DbContext
 
         modelBuilder.Entity<Vacaciones>(entity =>
         {
-            entity.HasKey(e => e.IdVacaciones).HasName("PK__vacacion__3F50DB1ECA79E337");
+            entity.HasKey(e => new { e.IdSolicitud, e.Fecha }).HasName("PK__vacacion__3F50DB1ECA79E337");
 
             entity.ToTable("vacaciones");
 
-            entity.Property(e => e.IdVacaciones).HasColumnName("id_Vacaciones");
-            entity.Property(e => e.AniosEnEmpresa).HasColumnName("anios_enEmpresa");
-            entity.Property(e => e.DiasAcumulados).HasColumnName("diasAcumulados");
-            entity.Property(e => e.IdEmpleado)
-                .HasMaxLength(150)
-                .IsUnicode(false)
-                .HasColumnName("id_empleado");
+            entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
+            entity.Property(e => e.Fecha).HasColumnName("fecha");
 
-            entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.Vacaciones)
-                .HasForeignKey(d => d.IdEmpleado)
-                .HasConstraintName("FK__vacacione__id_em__02084FDA");
+            entity.HasOne(d => d.IdSolicitudNavigation).WithMany(p => p.Vacaciones)
+                .HasForeignKey(d => d.IdSolicitud)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_vacaciones_solicitud_vacaciones");
         });
 
         modelBuilder.Entity<VacacionesColectivas>(entity =>

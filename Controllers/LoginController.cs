@@ -70,6 +70,7 @@ namespace SitiosWeb.Controllers
             {
                 Expires = null
             };
+            
             DateOnly hireDate = user.IdColaboradorNavigation.FechaContratacion;
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
 
@@ -84,7 +85,7 @@ namespace SitiosWeb.Controllers
             {
                 vacationDays = maxVacaciones;
             }
-            vacationDays-= _context.Vacaciones.Where(v => v.IdEmpleado == user.IdColaborador).Count();
+            vacationDays-= _context.SolicitudVacaciones.Where(v => v.IdEmpleado == user.IdColaborador).Sum(U => U.TotalDias);
             Response.Cookies.Append("Nombre", nombreColaborador, options);
             Response.Cookies.Append("Rol", nombreTipoUsuario, options);
             Response.Cookies.Append("Correo", user.IdColaboradorNavigation.Correo, options);

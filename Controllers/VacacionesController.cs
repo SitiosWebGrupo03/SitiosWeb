@@ -105,5 +105,11 @@ namespace SitiosWeb.Controllers
             // Redirect to the SeleccionarVC view
             return RedirectToAction("SeleccionarVC");
         }
+        public async Task<IActionResult> SolicitarVacaciones()
+        {
+            var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;
+            ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
+            return View(await _context.BloqueoDias.ToListAsync());
+        }
     }
 }
