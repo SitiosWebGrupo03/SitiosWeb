@@ -47,12 +47,27 @@
 
                     <div class="form-group">
                         <label for="FechaRebajo" class="control-label">Fecha:</label>
-                        <input type="date" id="FechaRebajo" name="FechaRebajo" class="form-control" />
+                        <input type="date" id="FechaRebajo" name="FechaRebajo" class="form-control" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IdColaborador">Tipo Inconsistencia: </label>
+                        <input type="text" class="form-control" id="Departamento" name="" value="@ViewBag.Inconsistencia" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IdColaborador">Departamento: </label>
+                        <input type="text" class="form-control" id="Departamento" name="" value="@ViewBag.Departamento" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IdColaborador">Nombre del Colaborador</label>
+                        <input type="text" class="form-control" id="Nombre" name="" value="@ViewBag.Nombre" readonly />
                     </div>
 
                     <div class="form-group">
                         <label for="IdColaborador">Colaborador</label>
-                        <input type="text" class="form-control" id="IdColaborador" name="IdColaborador" value="" />
+                        <input type="text" class="form-control" id="IdColaborador" name="IdColaborador" value="@ViewBag.Identificacion" readonly />
                     </div>
 
                     <div class="form-group">

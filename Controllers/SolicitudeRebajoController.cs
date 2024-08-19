@@ -65,6 +65,42 @@ namespace SitiosWeb.Controllers
             var solicitud = await _context.SolicitudeRebajo
                 .FirstOrDefaultAsync(s => s.IdSolicitud == id);
 
+            int? inconsistencia = solicitud.IdInconsistencia;
+
+            var incon = await _context.Inconsistencias
+                .FirstOrDefaultAsync(s => s.IdInconsistencia == inconsistencia);
+
+            int? tipo = incon.IdTipoInconsistencia;
+
+            var tipoIncon = await _context.TiposInconsistencias
+                .FirstOrDefaultAsync(s => s.IdTipoInconsistencia == tipo);
+
+            string nomTipo = tipoIncon.Descripcion;
+
+            string identificacion = incon.IdEmpleado.ToString();
+
+            var empleado = await _context.Colaboradores
+                .FirstOrDefaultAsync(s => s.Identificacion == identificacion);
+
+            string depa = empleado.IdPuesto.ToString();
+
+            var puestos = await _context.Puestos
+                .FirstOrDefaultAsync(s => s.IdPuesto == depa);
+
+            int? idDepa = puestos.IdDepartamento;
+
+            var departamentos = await _context.Departamentos
+                .FirstOrDefaultAsync(s => s.IdDepartamento == idDepa);
+
+            string nomDepa = departamentos.NomDepartamento.ToString();
+
+            string nombre = empleado.Nombre.ToString();
+
+            ViewBag.Identificacion = identificacion;
+            ViewBag.Nombre = nombre;
+            ViewBag.Departamento = nomDepa;
+            ViewBag.Inconsistencia = nomTipo;
+
             if (solicitud == null)
             {
                 return NotFound();
@@ -174,6 +210,28 @@ namespace SitiosWeb.Controllers
                 return NotFound();
             }
 
+            int? idInconsistencia = solicitudRebajo.IdInconsistencia;
+            var inconsistencia = await _context.Inconsistencias
+                .FirstOrDefaultAsync(s => s.IdInconsistencia == idInconsistencia);
+
+            string idColab = inconsistencia.IdEmpleado;
+            var colaborador = await _context.Colaboradores
+               .FirstOrDefaultAsync(s => s.Identificacion == idColab);
+
+            string correo = colaborador.Correo;
+            string nombre = colaborador.Nombre;
+
+            if (Aprobacion == false) 
+            {
+                solicitudRebajo.Mostrar = false;
+                await _context.SaveChangesAsync();
+                EnviarCorreo(correo, "Solicitud de Rebajo", $"Estimado {nombre} la solicitud de rebajo ha sido rechazada, por lo tanto no sera aplicado a su salario");
+                var soli = await _context.SolicitudeRebajo
+                           .Where(s => s.Mostrar == true || s.Mostrar == null)
+                           .ToListAsync();
+                return View("~/Views/SolicitudeRebajo/Index.cshtml", soli);
+            }
+
             var rebajo = new Rebajos
             {
                 IdColaborador = IdColaborador,
@@ -184,10 +242,21 @@ namespace SitiosWeb.Controllers
                 Aprobacion = Aprobacion,
             };
 
+            var tipoRebajo = await _context.TiposRebajos
+               .FirstOrDefaultAsync(s => s.IdTipoRebajo == IdTipoRebajo);
+            int? cantidad = tipoRebajo.Cantidad;
+            string desc = tipoRebajo.Descripcion;
+
+            solicitudRebajo.Mostrar = false;
+            await _context.SaveChangesAsync();
             _context.Rebajos.Add(rebajo);
             await _context.SaveChangesAsync();
+            EnviarCorreo(correo, "Solicitud de Rebajo", $"Estimado {nombre} la solicitud de rebajo ha sido aceptada, por lo tanto se le aplicara un rebajo por {desc} con una cantidad de ₡{cantidad}  en su siguiente fecha de pago");
 
-            return RedirectToAction("Index");
+            var solicitudes = await _context.SolicitudeRebajo
+                           .Where(s => s.Mostrar == true || s.Mostrar == null)
+                           .ToListAsync();
+            return View("~/Views/SolicitudeRebajo/Index.cshtml", solicitudes);
         }
 
         [HttpPost]
@@ -226,7 +295,7 @@ namespace SitiosWeb.Controllers
             }
 
             EnviarCorreo(correo, "Justificacion de tu inconsistencia", $"Querido {nombre} su justificacion ha sido aceptada, por lo tanto no se enviara una solicitud de rebajo a la jefatura");
-            return View();
+            return View("~/Views/SolicitudeRebajo/Index.cshtml");
         }
 
         private bool SolicitudeRebajoExists(int id)
