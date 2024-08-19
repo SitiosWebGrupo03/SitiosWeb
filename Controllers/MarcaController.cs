@@ -85,7 +85,7 @@ namespace SitiosWeb.Controllers
                 TempData["ErrorMessage"] = "Usuario no encontrado.";
             }
 
-            return View("~/Views/Marcas/MarcaNormal.cshtml");
+            return View("~/Views/Marcas/MarcaNormalColab.cshtml");
         }
 
         [HttpPost("EditarMarcas")]
