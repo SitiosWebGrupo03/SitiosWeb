@@ -136,7 +136,34 @@ namespace SitiosWeb.Controllers
 
             return View(rebajos);
         }
+        public IActionResult HistoricoRebajos()
+        {
+            dynamic result=0;
+            if (User.IsInRole("COLABORADOR")) 
+            {
+                result = _context.Rebajos.Where(r => r.IdColaborador == Request.Cookies["Id"])
+                    .Include(r => r.IdTipoRebajoNavigation)
+                    .ToList();
+            }
+            else if (User.IsInRole("JEFATURA")) 
+            { 
+                ViewBag.Nombres = _context.Colaboradores.ToList();
+                result = _context.Rebajos.Where(r => r.IdColaboradorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.IdDepartamento == int.Parse(Request.Cookies["IDDepartamento"]))
+                                        .Include(r => r.IdTipoRebajoNavigation)
 
+                    .ToList();
+            }
+            else if (User.IsInRole("SUPERVISOR"))
+            {
+                ViewBag.Nombres = _context.Colaboradores.ToList();
+                result = _context.Rebajos
+                    .Include(r => r.IdTipoRebajoNavigation)
+                    .ToList();
+               
+            }
+            
+            return View(result);
+        }
         // POST: Rebajos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -156,5 +183,6 @@ namespace SitiosWeb.Controllers
         {
             return _context.Rebajos.Any(e => e.IdRebajo == id);
         }
+
     }
 }

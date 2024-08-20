@@ -1,0 +1,144 @@
+﻿@model IEnumerable<SitiosWeb.Model.Rebajos>;
+@using System.Globalization
+@{
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+    var cultura = new CultureInfo("es-ES");
+    var Nombres = ViewBag.Nombres as IEnumerable<SitiosWeb.Model.Colaboradores>;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Vacaciones Colectivas</title>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+</head>
+
+<body>
+
+    <div class="content-table">
+
+        <div class="contenedor">
+            <h2 id="titulolbl">Historicos de rebajos</h2>
+
+
+            <label class="success" id="succ"></label>
+            @if (Model.Count() == 0)
+            {
+                <label style="font-weight:bold; font-size:30px; align-self:center;">No hay históricos</label>
+            }
+            else if (Model.Count() >= 9)
+            {
+                <div class="TablaForm-Container">
+
+                    <table class="table table-striped tabla">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label>Nombre Colaborador</label>
+                                </th>
+                                <th>
+                                    <label>Nombre Validador</label>
+                                </th>
+                                <th>
+                                    <label>Fecha del rebajo</label>
+                                </th>
+                                <th>
+                                    <label>Tipo de rebajo</label>
+                                </th>
+                                <th>
+                                    <label>Aprobacion</label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var nombreColab = Nombres.FirstOrDefault(c => c.Identificacion == item.IdColaborador);
+                                var nombreValid = Nombres.FirstOrDefault(c => c.Identificacion == item.IdValidador);
+
+
+                                <tr>
+                                    <td>
+
+                                        @Html.DisplayFor(modelItem => nombreColab != null ? nombreColab.Nombre + " " + nombreColab.Apellidos : "Nombre no encontrado")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => nombreValid != null ? nombreValid.Nombre + " " + nombreValid.Apellidos : "Nombre no encontrado")
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaRebajo)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IdTipoRebajoNavigation.Descripcion)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Aprobacion)
+
+                                    </td>
+
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+            else
+            {
+                <div class="tarjetas">
+                    @foreach (var item in Model)
+                    {
+                        var nombreValid = Nombres.FirstOrDefault(c => c.Identificacion == item.IdValidador);
+
+                        @if (User.IsInRole("JEFATURA") || User.IsInRole("SUPERVISOR"))
+                        {
+                            var nombreColab = Nombres.FirstOrDefault(c => c.Identificacion == item.IdColaborador);
+
+                            <div href="#" class="tarjeta">
+                                <p>Nombre Colaborador:</p>   @nombreColab.Nombre @nombreColab.Apellidos
+                                <p>Nombre Validador:</p> @nombreValid.Nombre @nombreValid.Apellidos
+                                <p>Fecha del rebajo:</p> @item.FechaRebajo.ToString("d 'de' MMMM", cultura)
+                                <p>Tipo de rebajo:</p> @item.IdTipoRebajoNavigation.Descripcion
+                                <p>Aprobacion:</p> @item.Aprobacion
+                            </div>
+                        }
+                        else
+                        {
+                            <div href="#" class="tarjeta">
+                                <p>Nombre Colaborador:</p>   @Context.Request.Cookies["Nombre"]
+                                <p>Nombre Validador:</p> @nombreValid.Nombre @nombreValid.Apellidos
+                                <p>Fecha del rebajo:</p> @item.FechaRebajo.ToString("d 'de' MMMM", cultura)
+                                <p>Tipo de rebajo:</p> @item.IdTipoRebajoNavigation.Descripcion
+                                <p>Aprobacion:</p> @item.Aprobacion
+                            </div>
+                        }
+
+                    }
+                </div>
+
+            }
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-subscribe-737x1024.png" alt="Form Image">
+            
+        </div>
+    </div>
+</body>
+</html>
+

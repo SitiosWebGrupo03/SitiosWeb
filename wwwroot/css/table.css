@@ -103,6 +103,7 @@ body {
     max-height: 500px;
     max-width: 1000px;
     gap: 20px;
+    color: white;
 }
     .tarjeta{
         padding: 20px;
@@ -114,13 +115,11 @@ body {
         height: fit-content;
         width: fit-content;
         text-decoration:none;
-        color: black;
         transition: transform 0.2s;
         text-align: center;
     }
         .tarjeta:hover {
             text-decoration: none;
-            color: black;
             transform:scale(1.2);
         }
         .tarjeta p {
