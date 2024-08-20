@@ -82,7 +82,7 @@ namespace SitiosWeb.Controllers
             ViewBag.Permisos = PermisosCount;
             ViewBag.HorasExtra = HorasExtrasCount;
             ViewBag.DiasLaburados = MarcasCount;
-            return View("~/Views/indicadores/indicadores.cshtml");
+            return View("~/Views/indicadores/indicadores1.cshtml");
         }
     }
 }

@@ -1,18 +1,30 @@
-﻿
-
-/* Container for the content */
-.container {
+﻿.container {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 2;
     width: 80%;
-    max-width: 800px;
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
 }
 
-/* Header section */
+.sidebar {
+    width: 25%;
+    background-color: #f3eafc;
+    padding: 20px;
+    border-radius: 15px 0 0 15px;
+    box-sizing: border-box;
+}
+
+
+.main-content {
+    width: 75%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 .header {
     text-align: center;
     margin-bottom: 20px;
@@ -29,9 +41,8 @@ h1 {
     color: #4a4a4a;
 }
 
-/* Form container */
 .form-container {
-    max-width: 600px;
+    max-width: 100%;
     margin: auto;
 }
 
@@ -59,6 +70,7 @@ input, select {
     border: 1px solid #ddd;
 }
 
+
 .buttons {
     display: flex;
     justify-content: space-between;
@@ -78,11 +90,10 @@ button {
 }
 
 .btn-solicitar {
-    background-color: #5e58f8;
+    background-color: #4a90e2;
     color: white;
 }
 
-/* Background circular shapes */
 body::before, body::after {
     content: "";
     position: absolute;

@@ -14,9 +14,9 @@ public partial class Tiusr22plProyectoContext : DbContext
         : base(options)
     {
     }
-
+    public virtual DbSet<TiposIcapacidad> TiposInc { get; set; }
     public virtual DbSet<AsignacionPcolaboradores> AsignacionPcolaboradores { get; set; }
-
+    public virtual DbSet<ImpactoMonetarioResult> ImpactoMonetarioResults { get; set; }
     public virtual DbSet<BloqueoDias> BloqueoDias { get; set; }
 
     public virtual DbSet<Colaboradores> Colaboradores { get; set; }
@@ -56,6 +56,8 @@ public partial class Tiusr22plProyectoContext : DbContext
     public virtual DbSet<SolicitudHorasExtra> SolicitudHorasExtra { get; set; }
 
     public virtual DbSet<SolicitudPermiso> SolicitudPermiso { get; set; }
+
+    public virtual DbSet<SoliciditudIncapacida> SolicidtudIncapadad { get; set; }
 
     public virtual DbSet<SolicitudVacaciones> SolicitudVacaciones { get; set; }
 
@@ -106,7 +108,8 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
         });
-
+        //ejecuta el spImpactoMonetario
+        modelBuilder.Entity<ImpactoMonetarioResult>().HasNoKey();
         modelBuilder.Entity<BloqueoDias>(entity =>
         {
             entity.HasKey(e => e.DayId);
@@ -712,6 +715,29 @@ public partial class Tiusr22plProyectoContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__solicitud__id_em__04E4BC85");
         });
+        modelBuilder.Entity<SoliciditudIncapacida>(entity =>
+        {
+            entity.HasKey(e => e.IdSolicitud).HasName("PKsolicitu5C0C31F33821F86F");
+
+            entity.ToTable("SolicitudIncapacidad");
+
+            entity.Property(e => e.IdSolicitud).HasColumnName("id_solicitud");
+            entity.Property(e => e.Comentarios)
+                .HasMaxLength(250)
+                .HasColumnName("comentarios");
+            entity.Property(e => e.DOH).HasColumnName("d_o_h");
+            entity.Property(e => e.DiasHorasFuera).HasColumnName("dias_horas_fuera");
+            entity.Property(e => e.IdEmpleado)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("id_empleado");
+            entity.Property(e => e.IdTipoPermiso).HasColumnName("id_tipoPermiso");
+            entity.Property(e => e.puestoLaboral)
+                .HasMaxLength(100)
+                .HasColumnName("puestoLaboral");
+        });
+
+        
 
         modelBuilder.Entity<SolicitudeRebajo>(entity =>
         {
@@ -797,6 +823,20 @@ public partial class Tiusr22plProyectoContext : DbContext
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(200)
                 .IsUnicode(false);
+            entity.Property(e => e.Estado).HasColumnName("estado");
+        });
+
+        modelBuilder.Entity<TiposIcapacidad>(entity =>
+        {
+            entity.HasKey(e => e.IdTipoPermiso).HasName("PKtipos_peAA886AABAEB53886");
+
+            entity.ToTable("TiposIncapacidad");
+
+            entity.Property(e => e.IdTipoPermiso).HasColumnName("idTipoInc");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("descripcion");
             entity.Property(e => e.Estado).HasColumnName("estado");
         });
 

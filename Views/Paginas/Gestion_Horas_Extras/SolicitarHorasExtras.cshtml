@@ -14,22 +14,30 @@
     <title>Solicitar Horas Extras</title>
 </head>
 <body>
-    <div class="form-container">
-        @using (Html.BeginForm("SolicitarHorasExtras", "HorasExtras", FormMethod.Post))
-        {
+    <form asp-controller="HorasExtras" asp-action="SolicitarHorasExtras">
+        <div class="form-group">
+            <label for="">Identificacion del empleado: </label>
+            <input type="text" class="form-control" id="idEmpleado" name="" value="" />
+        </div>
+
+        <div class="form-group">
             <label for="fecha">Fecha:</label>
             <input type="date" id="fecha" name="fecha" required />
+        </div>
 
-            <label for="horas">Horas:</label>
-            <input type="number" id="horas" name="horas" step="0.01" required />
+        <div class="form-group">
+            <label for="fecha">Cantidad de horas:</label>
+            <input type="date" id="fecha" name="horas" required />
+        </div>
 
+        <div class="form-group">
             <label for="idTipoActividad">Tipo de Actividad:</label>
             <select id="idTipoActividad" name="idTipoActividad" required>
                 <!-- Opciones aquí -->
             </select>
-
-            <button type="submit">Enviar Solicitud</button>
-        }
-    </div>
+        </div>
+        <button type="submit">Enviar Solicitud</button>
+    </form>
+   
 </body>
 </html>
