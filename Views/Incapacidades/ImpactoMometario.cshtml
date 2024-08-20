@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Globalization
+@{
     string layout = null;
     if (User.IsInRole("JEFATURA"))
     {
@@ -21,61 +22,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impacto Monetario de la Incapacidad</title>
     <link rel="stylesheet" href="~/css/impactoMonetario.css">
-    <style>
-        .container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
-
-
-        <div class="container">
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger">@errorMessage</div>
-            }
-            <div class="top-section">
-                <form asp-controller="SolicitudInca" asp-action="ObtenerImpactoMonetario">
-                    <div class="input-group">
-                        <label for="identificacion">Identificación</label>
-                        <input type="text" id="identificacion" name="identificacion" placeholder="Identificación" required>
-                    </div>
-                    <div class="action-buttons">
-                        <button type="submit" class="accept-btn">Calcular</button>
-                    </div>
-                </form>
-            </div>
-            <div class="bottom-section">
-                <div class="form-section">
-                    <div class="input-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" placeholder="Nombre" value="@(ViewBag.Resultado?.NombreColaborador ?? string.Empty)" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label for="salario">Salario</label>
-                        <input type="text" id="salario" placeholder="Salario" value="@(ViewBag.Resultado?.SalarioDiario.ToString() ?? string.Empty)" disabled>
-                    </div>
-                    <div class="percentage-section">
-                        <div class="percentage-box">
-                            <label for="empresa">Porcentaje pagado por la empresa:</label>
-                            <input type="text" id="empresa" value="@(ViewBag.Resultado?.DiasIncapacidad.ToString() ?? string.Empty)" disabled>
-                        </div>
-                        <div class="percentage-box">
-                            <label for="ins">Porcentaje pagado por la ccss:</label>
-                            <input type="text" id="ins" placeholder="" value="@(ViewBag.Resultado?.PagoDLCaja.ToString() ?? string.Empty)" disabled>
-                        </div>
-                    </div>
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger">@errorMessage</div>
+        }
+        <div class="top-section">
+            <form asp-controller="SolicitudInca" asp-action="ObtenerImpactoMonetario" method="post">
+                <div class="input-group">
+                    <label for="identificacion">Identificación</label>
+                    <input type="text" id="identificacion" name="identificacion" placeholder="Identificación" required>
                 </div>
                 <div class="action-buttons">
-                    <button class="cancel-btn" onclick="descargarArchivo()">Descargar</button>
+                    <button type="submit" class="accept-btn">Calcular</button>
+                </div>
+            </form>
+        </div>
+        <div class="bottom-section">
+            <div class="form-section">
+                <div class="input-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" placeholder="Nombre" value="@(ViewBag.Resultado?.NombreColaborador ?? string.Empty)" disabled>
+                </div>
+                <div class="input-group">
+                    <label for="salario">Salario</label>
+                    <input type="text" id="salario" placeholder="Salario" value="@(ViewBag.Resultado?.SalarioDiario.ToString(CultureInfo.InvariantCulture) ?? string.Empty)" disabled>
+                </div>
+                <div class="percentage-section">
+                    <div class="percentage-box">
+                        <label for="empresa">Porcentaje pagado por la empresa:</label>
+                        <input type="text" id="empresa" value="@(ViewBag.Resultado?.DiasIncapacidad.ToString(CultureInfo.InvariantCulture) ?? string.Empty)" disabled>
+                    </div>
+                    <div class="percentage-box">
+                        <label for="ins">Porcentaje pagado por la CCSS:</label>
+                        <input type="text" id="ins" placeholder="" value="@(ViewBag.Resultado?.PagoDLCaja.ToString(CultureInfo.InvariantCulture) ?? string.Empty)" disabled>
+                    </div>
                 </div>
             </div>
+            <div class="action-buttons">
+                <button class="cancel-btn" onclick="descargarArchivo()">Descargar</button>
+            </div>
         </div>
-
-
+    </div>
+    <script src="~/js/PdfImpactoMonetarios.js"></script>
 </body>
 </html>
