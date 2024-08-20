@@ -47,20 +47,9 @@ namespace SitiosWeb.Controllers
             return View(solicitudPermiso);
         }
 
-        // GET: SolicitudPermisoes/Create
-        public IActionResult Create()
-        {
-            // Obtener empleados desde la base de datos
-            ViewData["IdEmpleado"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion");
 
-            // Obtener tipos de permisos desde la base de datos
-            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "Descripcion");
-
-            return View();
-        }
 
         // POST: SolicitudPermisoes/Create
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdSolicitud,IdEmpleado,DOH,DiasHorasFuera,Comentarios,IdTipoPermiso")] SolicitudPermiso solicitudPermiso)
         {
@@ -68,14 +57,11 @@ namespace SitiosWeb.Controllers
             {
                 _context.Add(solicitudPermiso);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
 
-            // En caso de error, volver a cargar los datos para los selectores
-            ViewData["IdEmpleado"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", solicitudPermiso.IdEmpleado);
-            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "Descripcion", solicitudPermiso.IdTipoPermiso);
 
-            return View(solicitudPermiso);
+            return View("~/Views/SolicitudPermiso/Aprobacion.cshtml", _context.SolicitudPermiso.Where(u => u.IdEmpleadoNavigation.IdPuestoNavigation.IdDepartamento == int.Parse(Request.Cookies["IDDepartamento"])).ToList());
+
         }
 
         // GET: SolicitudPermisoes/Edit/5

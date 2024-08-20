@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
@@ -22,7 +23,7 @@ namespace SitiosWeb.Controllers
         [HttpGet]
         public IActionResult SolicitarHorasExtras()
         {
-            return View();
+            return View("~/Views/Paginas/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
         }
 
         [HttpPost]

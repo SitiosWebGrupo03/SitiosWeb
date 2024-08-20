@@ -16,43 +16,50 @@
 <body>
     <div class="content-table">
         <div class="TablaForm-Container">
-            <table class="table table-striped tabla">
-                <thead>
-                    <tr>
-                        <th>
-                            <label>Nombre solicitante</label>
-                        </th>
-                        <th>
-                            <label>Horas solicitadas</label>
-                        </th>
-                        <th>
-                            <label>Fecha de solicitud</label>
-                        </th>
-                        <th>
-                            <label>Tipo de actividad</label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+            @if (!Model.Any())
+            {
+                <h1>No hay solicitudes de horas extras</h1>
+            }
+            else
+            {
+                <table class="table table-striped tabla">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdSolicitanteNavigation.Nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Horas)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FechaSolicitud.ToString("dd/MM/yyyy"))
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdTipoActividadNavigation.NomActividad)
-                            </td>
+                            <th>
+                                <label>Nombre solicitante</label>
+                            </th>
+                            <th>
+                                <label>Horas solicitadas</label>
+                            </th>
+                            <th>
+                                <label>Fecha de solicitud</label>
+                            </th>
+                            <th>
+                                <label>Tipo de actividad</label>
+                            </th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.IdSolicitanteNavigation.Nombre
+                                </td>
+                                <td>
+                                    @item.Horas
+                                </td>
+                                <td>
+                                    @item.FechaSolicitud.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.IdTipoActividadNavigation.NomActividad
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
         <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image">
     </div>

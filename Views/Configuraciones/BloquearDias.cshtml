@@ -4,12 +4,12 @@
     if (User.IsInRole("JEFATURA"))
     {
         Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
-        edita = true;
+        edita = false ;
     }
     else if (User.IsInRole("SUPERVISOR"))
     {
         Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
-        edita = false;
+        edita = true;
     }
     else if (User.IsInRole("COLABORADOR"))
     {

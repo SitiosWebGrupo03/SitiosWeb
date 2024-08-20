@@ -15,7 +15,7 @@
 <body>
     <div class="background-circle circle1"></div>
     <div class="background-circle circle2"></div>
-    <div class="container">
+    <div class="container" >
         <div class="header">
             <h1>Aprobar/Rechazar Horas Extras</h1>
         </div>
@@ -38,7 +38,7 @@
                         <td>@solicitud.IdEmpleado</td>
                         <td>@solicitud.FechaSolicitud.ToString("yyyy-MM-dd")</td>
                         <td>@solicitud.Horas</td>
-                        <td>@solicitud.IdTipoActividadNavigation?.NomActividad ?? "Desconocido"</td>
+                        <td>@solicitud.IdTipoActividadNavigation?.NomActividad</td>
                         <td>
                             <form asp-action="Aprobar" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="@solicitud.IdSolicitud" />
@@ -53,7 +53,7 @@
                 }
             </tbody>
         </table>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancelar</a>
+        <a href="@Url.Action("IndexColaborador", "Home")" class="btn btn-secondary">Cancelar</a>
     </div>
 </body>
 </html>

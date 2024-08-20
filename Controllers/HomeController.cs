@@ -394,6 +394,13 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult SolicitudPermisoColaborador()
         {
+            ViewBag.IdTipoPermiso = _context.TiposPermisos
+                .Select(t => new SelectListItem
+                {
+                    Value = t.IdTipoPermiso.ToString(),
+                    Text = t.Descripcion
+                })
+                .ToList();
             return View("~/Views/SolicitudPermiso/create.cshtml");
         }
 
@@ -401,35 +408,41 @@ namespace SitiosWeb.Controllers
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult SolicitudPermisoSupervisor()
         {
-            return View("~/Views/SolicitudPermiso/ReporteGeneral.cshtml" );
+            return View("~/Views/SolicitudPermiso/ReporteGeneral.cshtml", _context.SolicitudPermiso.Where(u => u.EstaAprobado==true).ToList());
         }
 
         // Para la jefatura
         [Authorize(Roles = "JEFATURA")]
         public IActionResult SolicitudPermisoJefatura()
         {
-            return View("~/Views/SolicitudPermiso/Aprobacion.cshtml");
+            return View("~/Views/SolicitudPermiso/Aprobacion.cshtml", _context.SolicitudPermiso.Where(u => u.IdEmpleadoNavigation.IdPuestoNavigation.IdDepartamento == int.Parse(Request.Cookies["IDDepartamento"])).ToList()
+);
         }
 
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult Horasextrascolaborador()
         {
-            return View("~/Views/Paginas/Gestion_Horas_Extras/AprobacionHorasExtras.cshtml");
+            var colaborador = _context.SolicitudHorasExtra
+                .Where(c => c.IdEmpleado == Request.Cookies["Id"])
+                .Include(c => c.IdTipoActividadNavigation)
+                .ToList();
+            return View("~/Views/Paginas/Gestion_Horas_Extras/AprobacionHorasExtras.cshtml", colaborador);
         }
 
         // Para los supervisores
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult Horasextrassupervisor()
         {
-            return View("~/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml");
+            var horas = _context.SolicitudHorasExtra
+                .Include(s => s.IdEmpleadoNavigation)
+                .Include(s => s.IdSolicitanteNavigation)
+                .Include(s => s.IdTipoActividadNavigation)
+                .ToList();
+            return View("~/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml", horas);
         }
 
         // Para la jefatura
-        [Authorize(Roles = "JEFATURA")]
-        public IActionResult HorasextrasJefatura()
-        {
-            return View("~/Views/Paginas/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
-        }
+        
 
     }
 }

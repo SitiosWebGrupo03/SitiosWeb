@@ -28,14 +28,13 @@
             </div>
         }
 
-        <form asp-action="Create">
+        <form asp-action="Create" asp-controller="SolicitudPermiso">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-section">
                 <div class="form-group">
                     <label asp-for="IdEmpleado" class="control-label"></label>
-                    <select asp-for="IdEmpleado" class="form-control" asp-items="ViewBag.IdEmpleado"></select>
-                    <span asp-validation-for="IdEmpleado" class="text-danger"></span>
+                    <input asp-for="IdEmpleado" class="form-control" readonly value="@Context.Request.Cookies["Id"] ">
                 </div>
 
                 <div class="form-group">
@@ -70,16 +69,19 @@
             </div>
 
             <div class="buttons">
-                <input type="submit" value="Crear" class="accept" />
+                <input type="submit" value="Create" class="accept" />
             </div>
         </form>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index"></a>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>
