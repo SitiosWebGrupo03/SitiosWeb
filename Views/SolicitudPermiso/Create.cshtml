@@ -1,4 +1,4 @@
-﻿@model SitiosWeb.Model.SolicitudPermiso
+@model SitiosWeb.Model.SolicitudPermiso
 
 @{
     Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
@@ -73,16 +73,13 @@
                 <input type="submit" value="Crear" class="accept" />
             </div>
         </form>
-
-        <div>
-            <a asp-action="Index">Volver a la lista</a>
-        </div>
     </div>
+</div>
 
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
-</body>
-</html>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
