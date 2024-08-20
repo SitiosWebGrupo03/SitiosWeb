@@ -42,6 +42,31 @@ namespace SitiosWeb.Controllers
                 return StatusCode(500, new { message = "Error: " + ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> carcarComboxActividades()
+        {
+            try
+            {
+                var actividades = await _context.TipoActividades
+                    .Select(p => new
+                    {
+                        p.IdTipoActividad,
+                        p.NomActividad,
+
+                    })
+                    .ToListAsync();
+
+                ViewBag.Actividades = actividades;
+
+                return View("~/Views/Marcas/MarcarHex.cshtml");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error: " + ex.Message });
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> MarcaNormal(string codigo)
         {

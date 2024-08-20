@@ -1,14 +1,4 @@
-﻿body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #ebe6f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
+﻿
 
 .container {
     background-color: #ffffff;
@@ -21,12 +11,6 @@
     position: relative;
 }
 
-.header-content h1 {
-    font-size: 24px;
-    color: #7b2cbf;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
 
 .content-section {
     overflow-x: auto; /* Para manejar tablas que exceden el ancho */

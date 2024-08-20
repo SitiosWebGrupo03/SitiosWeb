@@ -6,6 +6,7 @@
 @{
     var userId = HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
+@model SitiosWeb.Model.TipoActividades
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,6 +14,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Marcas - Horas Extra</title>
+    <style>
+        .date, .entry-time {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -23,35 +29,32 @@
             <ul class="sidebar-menu">
                 <li>Por usuario</li>
                 <li>Identificación facial</li>
-                <li> Marcar horas extra</li>
+                <li>Marcar horas extra</li>
             </ul>
         </aside>
         <main class="main-content">
             <h1>Control de Marcas</h1>
-            <h2>Marcar Horas extra</h2>
+            <h2>Marcar Horas Extra</h2>
             <div class="user-info">
                 <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-subscribe-737x1024.png" alt="Usuario">
             </div>
             <div class="check-in-out">
                 <div class="date">
-                    <h3>Fecha: xx/xx/xxxx</h3>
+                    <h3>Fecha: <span id="current-date"></span></h3>
                 </div>
                 <div class="credentials">
                     <div class="form-group">
                         <input type="text" id="codigo" placeholder="Código" readonly value="@userId" style=" width: auto;text-align: center; display: inline-block;border: none; background-color: white;">
                     </div>
-
                 </div>
                 <div class="time">
                     <div class="entry-time">
                         <h4>Hora</h4>
-                        <p>08:00 a.m.</p>
+                        <p id="current-time"></p>
                     </div>
-
                 </div>
                 <div class="buttons">
                     <button class="btn btn-entry">Marcar</button>
-
                 </div>
                 <div class="extra-info">
                     <label>Arrastre acá la evidencia:</label>
@@ -60,8 +63,13 @@
                 <div class="activity">
                     <label for="actividad">Tipo de actividad</label>
                     <select id="actividad">
-                        <option>Actividades</option>
-                        <!-- Otras opciones -->
+                        @if (ViewBag.Actividades != null)
+                        {
+                            @foreach (var actividades in ViewBag.Actividades)
+                            {
+                                <option value="@actividades.IdTipoActividad">@actividades.NomActividad</option>
+                            }
+                        }
                     </select>
                 </div>
                 <div class="comments">
@@ -71,5 +79,7 @@
             </div>
         </main>
     </div>
+
+    <script src="~/js/HorasExtra.js"></script>
 </body>
 </html>

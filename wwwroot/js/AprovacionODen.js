@@ -1,95 +1,79 @@
-﻿@model IEnumerable < SitiosWeb.Model.SoliciditudIncapacida >
+﻿document.addEventListener('DOMContentLoaded', function () {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('identificacion');
 
-    @{
+    searchBtn.addEventListener('click', function () {
+        const searchValue = searchInput.value.trim().toLowerCase();
+        const rows = document.querySelectorAll('table tbody tr');
+        let found = false;
 
-        string layout = null;
-        if(User.IsInRole("JEFATURA"))
-    {
-    layout = "~/Views/Shared/_LayoutJefatura.cshtml";
-}
-    else if (User.IsInRole("SUPERVISOR")) {
-    layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
-}
-Layout = layout;
-}
-@{
-    var successMessage = TempData["SuccessMessage"] as string;
-    var errorMessage = TempData["ErrorMessage"] as string;
-}
-< !DOCTYPE html >
-    <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Aprobación de incapacidades</title>
-                    <link rel="stylesheet" type="text/css" href="~/css/AprobacionInc.css">
+        rows.forEach(row => {
+            const idEmpleado = row.cells[1].textContent.trim().toLowerCase();
+            if (idEmpleado.includes(searchValue) || searchValue === '') {
+                row.style.display = '';
+                found = true;
+            } else {
+                row.style.display = 'none';
+            }
+        });
 
-                    </head>
-                    <body>
-                        <div class="container">
-                            <header>
-                                <h1>Aprobación de incapacidades</h1>
-                            </header>
-                            <div class="search-section">
-                                <label for="identificacion">Buscar Funcionario por identificación</label>
-                                <div class="search-bar">
-                                    <input type="text" id="identificacion" placeholder="Identificación">
-                                        <button>Buscar</button>
-                                </div>
-                            </div>
-                            <div class="results-section">
-                                @if (!string.IsNullOrEmpty(successMessage))
-                                {
-                                    <div class="alert alert-success">@successMessage</div>
-                                }
+        if (!found && searchValue !== '') {
+            alert('No se encontraron resultados para la identificación proporcionada.');
+        }
+    });
 
-                                @if (!string.IsNullOrEmpty(errorMessage))
-                                {
-                                    <div class="alert alert-danger">@errorMessage</div>
-                                }
-                                <h2>Seleccione el colaborador que desea gestionar</h2>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Identificación</th>
-                                            <th>Cantidad Días Fuera</th>
-                                            <th>Fecha Inicio</th>
-                                            <th>Fecha Final</th>
-                                            <th>Puesto Laboral</th>
-                                            <th>Tipo de Incapacidad</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (Model != null && Model.Any())
-                                        {
-                                            foreach(var permisos in Model)
-                                        {
-                                            <tr>
-                                                <td><input type="checkbox" class="select-row" data-id="@permisos.IdEmpleado"></td>
-                                                <td>@permisos.IdEmpleado</td>
-                                                <td>@permisos.DiasHorasFuera</td>
-                                                <td>@permisos.FechaInicio</td>
-                                                <td>@permisos.FechaFin</td>
-                                                <td>@permisos.puestoLaboral</td>
-                                                <td>@permisos.IdTipoPermiso</td>
-                                            </tr>
-                                        }
-                    }
-                                        else
-                                        {
-                                            <tr>
-                                                <td colspan="7">No se encontraron registros.</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                                <div class="action-buttons">
-                                    <button class="accept-btn">Aceptar</button>
-                                    <button class="cancel-btn">Denegar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <script src="~/js/AprovacionODen.js"></script>
-                    </body>
-                </html>
+    document.querySelector('.accept-btn').addEventListener('click', function () {
+        enviarDatos(1);
+    });
+
+    document.querySelector('.cancel-btn').addEventListener('click', function () {
+        enviarDatos(2);
+    });
+});
+
+function enviarDatos(estado) {
+    const selectedRows = document.querySelectorAll('input.select-row:checked');
+    const data = [];
+
+    selectedRows.forEach(function (checkbox) {
+        const row = checkbox.closest('tr');
+        const rowData = {
+            IdEmpleado: row.querySelector('input.select-row').getAttribute('data-id'),
+            DOH: true,
+            DiasHorasFuera: parseInt(row.cells[2].textContent.trim()) || 0,
+            IdTipoPermiso: parseInt(row.cells[6].textContent.trim()) || null,
+            PuestoLaboral: row.cells[5].textContent.trim(),
+            FechaInicio: row.cells[3].textContent.trim(),
+            FechaFin: row.cells[4].textContent.trim(),
+            Estado: estado
+        };
+
+        data.push(rowData);
+    });
+
+    if (data.length > 0) {
+        fetch('/Aprob', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Acción si la solicitud fue exitosa
+                    console.error('Datos enviados exitosamente.');
+                    window.location.reload();
+                } else {
+                    // Manejo de errores
+                    console.error('Error al enviar los datos.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+
+            });
+    } else {
+        alert('No se han seleccionado filas.');
+    }
+}
