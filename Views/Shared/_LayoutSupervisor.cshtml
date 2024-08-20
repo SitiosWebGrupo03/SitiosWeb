@@ -16,9 +16,10 @@
             <img class="logo" src="~/images/logoMaster.jpeg" alt="Logo">
         </a>
         <div class="links">
-            <a href="">Incapacidades Nuevas </a>
-        </div>
 
+        <a asp-controller="Rebajos" asp-action="HistoricoRebajos"> Historico de rebajos</a>
+
+        </div>
         <div class="user" style="position: relative;">
             <div class="borde"><i class="fa-solid fa-user"></i></div>
             <a href="#" onclick="toggleDropdown()">@User.Identity.Name<br />Supervisor</a>
