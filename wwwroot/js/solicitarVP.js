@@ -99,15 +99,23 @@ document.addEventListener("DOMContentLoaded", function () {
             if (diasAMarcar.includes(formattedDate)) {
                 dayCell.classList.remove('selected');
 
-
-                if (new Date(formattedDate) >= today) {
+                if (marco) {
+                    dayCell.classList.add('selected');
+                    if (aprobar) selectedDays = diasAMarcar;
+                    const pElement = document.createElement('p');
+                    pElement.textContent = `${day} de ${monthNames[month + 1]}`;
+                    textBlock.appendChild(pElement);
+                }
+                else if (new Date(formattedDate) >= today) {
                     dayCell.classList.add('selected');
                     if (aprobar) selectedDays = diasAMarcar;
                     const pElement = document.createElement('p');
                     pElement.textContent = `${day} de ${monthNames[month + 1]}`;
                     textBlock.appendChild(pElement);
                     solicitudVP.value = selectedDays.join(',');
-                } else {
+                } 
+                else {
+
                     diasAMarcar.splice(diasAMarcar.indexOf(formattedDate), 1);
                 }
 
@@ -144,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     daysContainer.addEventListener('click', function (event) {
-
+        if (marco) { return; }
         const dayCell = event.target;
         let acumulado
         if (aprobar) {

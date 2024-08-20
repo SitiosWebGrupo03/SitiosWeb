@@ -1,0 +1,207 @@
+﻿@using System.Globalization
+@{
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+    var cultura = new CultureInfo("es-ES");
+    var Nombres = ViewBag.Nombres as IEnumerable<SitiosWeb.Model.Colaboradores>;
+    var Vacaciones = ViewBag.Vacaciones as IEnumerable<SitiosWeb.Model.SolicitudVacaciones>;
+    var VacacionesColectivas = ViewBag.VacacionesColectivas as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+    Colaboradores? nombre = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Vacaciones Colectivas</title>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+</head>
+
+<body>
+
+    <div class="content-table">
+
+        <div class="contenedor">
+            <h2 id="titulolbl">Historicos de vacaciones</h2>
+            <h2 id ="titulolbl2">Vacaciones personales </h2>
+            <h2 id="titulolbl3">Vacaciones colectivas </h2>
+
+
+            <label class="success" id="succ"></label>
+            @if (Vacaciones.Count() == 0)
+            {
+                <label style="font-weight:bold; font-size:30px; align-self:center;">No hay históricos</label>
+            }
+            else if (Vacaciones.Count() >= 9)
+            {
+                <div class="TablaForm-Container">
+
+                    <table class="table table-striped tabla">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label>Nombre Colaborador</label>
+                                </th>
+                                <th>
+                                    <label>Total de dias</label>
+                                </th>
+                                <th>
+                                    <label>Fecha de finalizacion</label>
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Vacaciones)
+                            {
+
+                                var asd = Nombres.FirstOrDefault(c => c.Identificacion == item.IdEmpleado);
+
+                                <tr>
+                                    <td>
+                                        var nombre = Nombres.FirstOrDefault(c => c.Identificacion == item.IdEmpleado);
+
+                                        @Html.DisplayFor(modelItem => nombre != null ? nombre.Nombre + " " + nombre.Apellidos : "Nombre no encontrado")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalDias)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaFin)
+
+                                    </td>
+                                    <td>
+                                        <a asp-action="ReportePersonales" asp-route-id="@item.IdSolicitud" class="btn btn-danger">Manejar solicitud</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+            else
+            {
+                <div class="tarjetas">
+                    @foreach (var item in Vacaciones)
+                    {
+                        @if (User.IsInRole("JEFATURA") || User.IsInRole("SUPERVISOR"))
+                        {
+                            nombre = Nombres.FirstOrDefault(c => c.Identificacion == item.IdEmpleado);
+
+
+                            <a asp-action="ReportePersonales" asp-route-id="@item.IdSolicitud" class="tarjeta">
+                                <p>Nombre Colaborador:</p>   @nombre.Nombre @nombre.Apellidos
+                                <p>Total de dias:</p> @item.TotalDias
+                                <p>Fecha de finalizacion:</p> @item.FechaFin.ToString("d 'de' MMMM", cultura)
+                                <br>
+                                <br>
+                                <h5>Click para ver</h5>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="ReportePersonales" asp-route-id="@item.IdSolicitud" class="tarjeta">
+                                <p>Nombre Colaborador:</p> @Context.Request.Cookies["Nombre"]
+                                <p>Total de dias:</p> @item.TotalDias
+                                <p>Fecha de finalizacion:</p> @item.FechaFin.ToString("d 'de' MMMM", cultura)
+                                <br>
+                                <br>
+                                <h5>Click para ver</h5>
+                            </a>
+                        }
+
+                    }
+                </div>
+
+            }
+            <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image">
+            @if (VacacionesColectivas.Count() == 0)
+            {
+                <label style="font-weight:bold; font-size:30px; align-self:center;">No hay históricos</label>
+            }
+            else if (VacacionesColectivas.Count() >= 9)
+            {
+                <div class="TablaForm-Container">
+
+                    <table class="table table-striped tabla">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label>Nombre solicitante</label>
+                                </th>
+                                <th>
+                                    <label>Fecha de inicio</label>
+                                </th>
+                                <th>
+                                    <label>Fecha de finalizacion</label>
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in VacacionesColectivas)
+                            {
+                                nombre = Nombres.FirstOrDefault(c => c.Identificacion == item.IdSolicitador);
+                                <tr>
+                                    <td>
+
+                                        @Html.DisplayFor(modelItem => nombre != null ? nombre.Nombre + " " + nombre.Apellidos : "Nombre no encontrado")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaInicio)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaFin)
+
+                                    </td>
+                                    <td>
+                                        <a asp-action="ReporteColectivas" asp-route-id="@item.IdVacaciones" class="btn btn-danger">Manejar solicitud</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+            else
+            {
+                <div class="tarjetas">
+                    @foreach (var item in VacacionesColectivas)
+                    {
+                        nombre = Nombres.FirstOrDefault(c => c.Identificacion == item.IdSolicitador);
+                        <a asp-action="ReporteColectivas" asp-route-id="@item.IdVacaciones" class="tarjeta">
+                            <p>Nombre Solicitante:</p>   @nombre.Nombre @nombre.Apellidos
+                            <p>Fecha de inicio:</p> @item.FechaInicio.ToString("d 'de' MMMM", cultura)
+                            <p>Fecha de finalizacion:</p> @item.FechaFin.ToString("d 'de' MMMM", cultura)
+                            <br>
+                            <br>
+                            <h5>Click para ver</h5>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+
