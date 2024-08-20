@@ -27,8 +27,8 @@ namespace SitiosWeb.Controllers
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
-        // GET: Colaboradores/Details/5
-        public async Task<IActionResult> Details(string id)
+        // GET: Colaboradores/Detalles/5
+        public async Task<IActionResult> Detalles(string id)
         {
             if (id == null)
             {
@@ -68,7 +68,7 @@ namespace SitiosWeb.Controllers
             return View(colaboradores);
         }
 
-        // GET: Colaboradores/Edit/5
+        // GET: Colaboradores/Editar/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -85,7 +85,7 @@ namespace SitiosWeb.Controllers
             return View(colaboradores);
         }
 
-        // POST: Colaboradores/Edit/5
+        // POST: Colaboradores/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Identificacion,Nombre,Apellidos,FechaNacimiento,FechaContratacion,FechaFinContrato,IdPuesto")] Colaboradores colaboradores)

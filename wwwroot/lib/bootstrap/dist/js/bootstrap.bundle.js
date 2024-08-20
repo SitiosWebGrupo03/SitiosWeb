@@ -1053,7 +1053,7 @@
     },
 
     focusableChildren(element) {
-      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
+      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'Detalles', '[tabindex]', '[contentEditarable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
       return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
     }
 

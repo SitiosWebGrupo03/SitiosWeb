@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const config = document.getElementById('bloquear');
     const festivo = document.getElementById('festivo');
-    const editar = document.getElementById('editar');
+    const Editarar = document.getElementById('Editarar');
     const eliminar = document.getElementById('eliminar');
     const descripcion = document.getElementById('descripcion');
     const idDia = document.getElementById('idDia');
@@ -111,19 +111,19 @@ document.addEventListener("DOMContentLoaded", function () {
             case 1:
                 config.style.display = 'block';
                 festivo.style.display = 'block';
-                editar.style.display = 'none';
+                Editarar.style.display = 'none';
                 eliminar.style.display = 'none';
                 break;
             case 2:
                 config.style.display = 'none';
                 festivo.style.display = 'none';
-                editar.style.display = 'block';
+                Editarar.style.display = 'block';
                 eliminar.style.display = 'block';
                 break;
             case 3:
                 config.style.display = 'none';
                 festivo.style.display = 'none';
-                editar.style.display = 'none';
+                Editarar.style.display = 'none';
                 eliminar.style.display = 'none';
                 break;
         }
@@ -155,11 +155,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             ocultarControles(2)
-            if (!edita) ocultarControles(3);
-            if (!edita) descripcion.disabled = true;
+            if (!Editara) ocultarControles(3);
+            if (!Editara) descripcion.disabled = true;
             else descripcion.disabled = false;
         } else {
-            if (!edita) return;
+            if (!Editara) return;
             idDia.textContent = '';
             descripcion.textContent = '';
             tipos.textContent = '';
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Enviar el formulario
         document.getElementById('modalForm').submit();
     });
-    editar.addEventListener('click', event => {
+    Editarar.addEventListener('click', event => {
 
         // Asignar el valor a los campos correspondientes
         tipo.value = 2;
