@@ -1,7 +1,14 @@
-﻿@* @using System.Globalization
+﻿@using System.Globalization
 @model IEnumerable<SitiosWeb.Model.SolicitudVacaciones>
 @{
-    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    if(User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if(User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
     var cultura = new CultureInfo("es-ES");
     var Nombres = ViewBag.Nombres as IEnumerable<SitiosWeb.Model.Colaboradores>;
 
@@ -22,12 +29,12 @@
     <div class="content-table">
 
         <div class="contenedor">
-            <h2 id="titulolbl">Selección de vacaciones colectivas</h2>
+            <h2 id="titulolbl">Selección de vacaciones personales</h2>
 
             <label class="success" id="succ"></label>
             @if (Model.Count() == 0)
             {
-                <label style="font-weight:bold; font-size:30px; align-self:center;">No hay vacaciones colectivas pendientes</label>
+                <label style="font-weight:bold; font-size:30px; align-self:center;">No hay vacaciones pendientes</label>
             }
             else if (Model.Count() >= 9)
             {
@@ -40,7 +47,7 @@
                                     <label>Nombre Colaborador</label>
                                 </th>
                                 <th>
-                                    <label>Fecha de inicio</label>
+                                    <label>Total de dias</label>
                                 </th>
                                 <th>
                                     <label>Fecha de finalizacion</label>
@@ -52,13 +59,14 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
+                                var nombre = Nombres.FirstOrDefault(c => c.Identificacion == item.IdEmpleado);
                                 <tr>
                                     <td>
 
-                                        @Html.DisplayFor(modelItem => dep.FirstOrDefault(c => c.IdDepartamento == item.IdDepartamento).NomDepartamento)
+                                        @Html.DisplayFor(modelItem => nombre != null ? nombre.Nombre + " " + nombre.Apellidos : "Nombre no encontrado")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                                        @Html.DisplayFor(modelItem => item.TotalDias)
 
                                     </td>
                                     <td>
@@ -66,7 +74,7 @@
 
                                     </td>
                                     <td>
-                                        <a asp-action="ManejarVC" asp-route-id="@item.IdVacaciones" class="btn btn-danger">Manejar solicitud</a>
+                                        <a asp-action="AprobarVacaciones" asp-route-id="@item.IdSolicitud" asp-route-name="@nombre.Nombre @nombre.Apellidos" class="btn btn-danger">Manejar solicitud</a>
                                     </td>
                                 </tr>
 
@@ -80,10 +88,12 @@
             {
                 <div class="tarjetas">
                 @foreach (var item in Model)
-                {
-                    <a asp-action="ManejarVC" asp-route-id="@item.IdVacaciones" class="tarjeta">
-                        <p>Departamento:</p>   @dep.FirstOrDefault(c => c.IdDepartamento == item.IdDepartamento).NomDepartamento
-                        <p>Fecha de inicio:</p> @item.FechaInicio.ToString("d 'de' MMMM", cultura)
+                    {
+                        var nombre = Nombres.FirstOrDefault(c => c.Identificacion == item.IdEmpleado);
+
+                        <a asp-action="AprobarVacaciones" asp-route-id="@item.IdSolicitud" asp-route-name="@nombre.Nombre @nombre.Apellidos" class="tarjeta">
+                            <p>Nombre Colaborador:</p>   @nombre.Nombre @nombre.Apellidos
+                            <p>Total de dias:</p> @item.TotalDias
                         <p>Fecha de finalizacion:</p> @item.FechaFin.ToString("d 'de' MMMM", cultura)
                         <br>
                         <br>
@@ -103,5 +113,28 @@
     </div>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const successLabel = document.querySelector('.success');
+        const successMessage = '@TempData["Success"]'.trim();
 
- *@
+        if (successMessage === '') {
+            successLabel.style.display = 'none';
+            successLabel.classList.remove('fadeIn', 'fadeOut');
+        } else {
+            successLabel.textContent = successMessage;
+            successLabel.style.display = 'block';
+            successLabel.classList.remove('fadeOut');
+            successLabel.classList.add('fadeIn');
+
+            setTimeout(() => {
+                successLabel.classList.remove('fadeIn');
+                successLabel.classList.add('fadeOut');
+                setTimeout(() => {
+                    successLabel.style.display = 'none';
+                    successLabel.classList.remove('fadeOut');
+                }, 2000);
+            }, 2000);
+        }
+    });
+</script>

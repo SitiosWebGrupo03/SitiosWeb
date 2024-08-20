@@ -1,22 +1,30 @@
-﻿@using System.Globalization;
-@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
+﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
 @{
-    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
-    var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
-    var inicio = (DateOnly)TempData["inicio"];
-    var fin = (DateOnly)TempData["fin"];
-    var cultura = new CultureInfo("es-ES");
-    string fechaInicio = inicio.ToString("d 'de' MMMM", cultura);
-    string fechaFin = fin.ToString("d 'de' MMMM", cultura);
-    string resultado = $"Del {fechaInicio} al {fechaFin}";
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    var vacaciones = ViewBag.Vacaciones as SitiosWeb.Model.SolicitudVacaciones;
+    dynamic fechas = 0;
+    var id = ViewBag.Id as int?;
+    fechas = vacaciones.Vacaciones.Where(c => c.IdSolicitud == id).ToList();
     
+    var fechaAMarcar = fechas as IEnumerable<SitiosWeb.Model.Vacaciones>;
 }
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="~/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
-    <script src="~/js/solicitarVC.js"></script>
+    <script src="~/js/solicitarVP.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
@@ -25,9 +33,8 @@
         <div class="head">
             <img src="https://ld-wp73.template-help.com/imperion/corporatelanding/wp-content/uploads/2019/07/img-1-sec.png" alt="Form Image" class="image">
             <div class="titles">
-                <h1 class="title-page">Solicitud de  </h1>
-                <h1 class="title-span">Vacaciones Colectivas</h1>
-
+                <h1 class="title-page">Reporte de  </h1>
+                <h1 class="title-span">Vacaciones Personales</h1>
             </div>
         </div>
         <label class="error" style="display: none;"></label>
@@ -36,21 +43,18 @@
         <div class="content">
 
             <div class="form">
-                <div class="text-block">
-                    <label class="font-semibold" t>Departamento solicitante:</label>
-                    <p>@TempData["dep"]</p>
-                    <label class="font-semibold" t>Jefatura del departamento solicitante:</label>
-                    <p>@TempData["jefe"]</p>
-                    <label class="font-semibold" t>Rango de fechas:</label>
-                    <p>@resultado</p>
+                <div id="text-block" class="text-block">
+                    <label id="acumuladas" class="font-semibold">Cantidad de dias solicitados: @vacaciones.TotalDias.</label><br />
+                    <label class="font-semibold"></label><br />
+
+                    <label class="font-semibold">Días solicitados:</label>
+                    <label class="font-semibold"></label><br />
 
 
                 </div>
-                <form id="solicitudVC" method="post" asp-action="Aprobar_DenegarVC" asp-controller="Vacaciones" asp-route-id="@TempData["id"]">
-                     
-                    <div class="buttons">
-                        <button id="Aprobar" type="submit" value="1" name="manejo">Aprobar</button>
-                        <button id="Denegar" type="submit" value="2" name="manejo">Denegar</button>
+                <form id="solicitudVC" method="post" asp-action="ReporteVacaciones">
+                    <div class="buttons" style="justify-content:end">
+                        <button id="Solicitar" type="submit">Volver</button>
                     </div>
                 </form>
 
@@ -71,7 +75,6 @@
     </div>
 </body>
 <script>
-    let marcarVC = false;
     let diaMarcar = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -82,7 +85,7 @@
 
         }
     }
-                ];
+                    ];
     let tipoDia = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -92,7 +95,7 @@
             @:,
         }
     }
-                ];
+                    ];
     let DiaDescripcion = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -102,24 +105,19 @@
             @:,
         }
     }];
-    let vcInicio = [
-    @for (var i = 0; i < vc.Count(); i++)
+    let vcInicio = [];
+    let vcFin = [];
+    let diasAMarcar = [
+    @for (var i = 0; i < fechaAMarcar.Count(); i++)
     {
-        @: '@vc.ElementAt(i).FechaInicio'
-        @if (i < vc.Count() - 1)
+        @: '@fechaAMarcar.ElementAt(i).Fecha'
+        @if (i < Model.Count() - 1)
         {
             @:,
-
         }
     }];
-    let vcFin = [
-    @for (var i = 0; i < vc.Count(); i++)
-    {
-        @: '@vc.ElementAt(i).FechaFin'
-        @if (i < vc.Count() - 1)
-        {
-            @:,
-
-        }
-    }];
- </script>
+    let diasPasados = [];
+    let aprobar = false;
+    let marcarVC = true; 
+    let marco = true;
+</script>

@@ -76,7 +76,7 @@ namespace SitiosWeb.Controllers
             var idAprobador = User.FindFirstValue(ClaimTypes.NameIdentifier);
             repo.Apobadas = true;
             repo.AprobadasPor = idAprobador;
-            TempData["SuccessMessage"] = "Solicitud de reposicion denegada.";
+            TempData["SuccessMessage"] = "Solicitud de reposicion aprobada.";
             _context.SaveChanges();
             return RedirectToAction("SelectRepos", "Home");
 
@@ -187,6 +187,12 @@ namespace SitiosWeb.Controllers
                 tercero.Aceptado = true;
                 tercero.IdterceroNavigation = _context.Colaboradores.Find(tercero.Idtercero);
                 _context.SaveChanges();
+                var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;
+                ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
+                ViewBag.DiasBlock = await _context.BloqueoDias.ToListAsync();
+                ViewBag.DiasPasados = await _context.Vacaciones.Where(v => v.IdSolicitudNavigation.IdEmpleado == Request.Cookies["Id"] && v.IdSolicitudNavigation.Aprobadas != false && v.IdSolicitudNavigation.FechaFin > DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+
+
                 return View("~/Views/Paginas/reposiciones/solicitudTercero.cshtml", tercero);
 
             }

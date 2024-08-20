@@ -28,24 +28,49 @@
             @if (User.IsInRole("JEFATURA"))
             {
                 <a asp-action="AsignarVacacionesColectivas">
-                    <i class="fa-regular fa-sun" style="width: 20px; height: 20px;"></i><br>
-                    Solicitud de vacaciones colectivas<br><small>Crea una solicitud al supervisor de dias de vacaciones que seran remunerados para tu departamento</small>
+                    <i class="fa-solid fa-users" style="width: 20px; height: 20px;"></i><br>
+                    Solicitud de vacaciones colectivas<br><small>Crea una solicitud al supervisor de días de vacaciones que serán remunerados para tu departamento</small>
+                </a>
+                <a asp-controller="Vacaciones" asp-action="SeleccionarVacaciones">
+                    <i class="fa-solid fa-user-clock" style="width: 20px; height: 20px;"></i><br>
+                    Manejo de vacaciones personales<br><small>Maneja las solicitudes pendientes de vacaciones personales para los colaboradores de tu departamento</small>
+                </a>
+                <a asp-controller="Vacaciones" asp-action="SolicitarVacaciones">
+                    <i class="fa-solid fa-suitcase-rolling" style="width: 20px; height: 20px;"></i><br>
+                    Solicitud de vacaciones<br><small>Solicita los días acumulados de vacaciones de los que dispones</small>
+                </a>
+                <a asp-controller="Vacaciones" asp-action="ReporteVacaciones">
+                    <i class="fa-solid fa-history" style="width: 20px; height: 20px;"></i><br>
+                    Históricos de vacaciones<br><small>Visualización de los días de vacaciones tanto colectivas como personales</small>
                 </a>
             }
             else if (User.IsInRole("SUPERVISOR"))
             {
                 <a asp-controller="Vacaciones" asp-action="SeleccionarVC">
-                    <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
+                    <i class="fa-solid fa-users" style="width: 20px; height: 20px;"></i><br>
                     Manejo de vacaciones colectivas<br><small>Maneja las solicitudes pendientes de vacaciones colectivas para los departamentos de la empresa</small>
+                </a>
+                <a asp-controller="Vacaciones" asp-action="SeleccionarVacaciones">
+                    <i class="fa-solid fa-user-clock" style="width: 20px; height: 20px;"></i><br>
+                    Manejo de vacaciones personales<br><small>Maneja las solicitudes pendientes de vacaciones personales para los colaboradores de la empresa</small>
+                </a>
+                <a asp-controller="Vacaciones" asp-action="ReporteVacaciones">
+                    <i class="fa-solid fa-history" style="width: 20px; height: 20px;"></i><br>
+                    Históricos de vacaciones<br><small>Visualización de los días de vacaciones tanto colectivas como personales</small>
                 </a>
             }
             else if (User.IsInRole("COLABORADOR"))
             {
                 <a asp-controller="Vacaciones" asp-action="SolicitarVacaciones">
-                    <i class="fa-regular fa-clock" style="width: 20px; height: 20px;"></i><br>
-                    Solicitud de vacaciones<br><small>Solicita los dias acumulados de vacaciones de los que dispones</small>
+                    <i class="fa-solid fa-suitcase-rolling" style="width: 20px; height: 20px;"></i><br>
+                    Solicitud de vacaciones<br><small>Solicita los días acumulados de vacaciones de los que dispones</small>
+                </a>
+                <a asp-controller="Vacaciones" asp-action="ReporteVacaciones">
+                    <i class="fa-solid fa-history" style="width: 20px; height: 20px;"></i><br>
+                    Históricos de vacaciones<br><small>Visualización de los días de vacaciones tanto colectivas como personales</small>
                 </a>
             }
+
             
 
             

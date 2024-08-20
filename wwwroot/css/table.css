@@ -133,3 +133,13 @@ body {
     left: 37%;
     top: 11%;
 }
+#titulolbl2 {
+    position: absolute;
+    left: 20%;
+    top: 18%;
+}
+#titulolbl3 {
+    position: absolute;
+    left: 60%;
+    top: 18%;
+}

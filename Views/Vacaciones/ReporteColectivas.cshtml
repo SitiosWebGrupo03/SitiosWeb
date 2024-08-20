@@ -2,14 +2,15 @@
 @model IEnumerable<SitiosWeb.Model.BloqueoDias>;
 @{
     Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
-    var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
+    var vc = ViewBag.VC as SitiosWeb.Model.VacacionesColectivas;
     var inicio = (DateOnly)TempData["inicio"];
     var fin = (DateOnly)TempData["fin"];
     var cultura = new CultureInfo("es-ES");
     string fechaInicio = inicio.ToString("d 'de' MMMM", cultura);
     string fechaFin = fin.ToString("d 'de' MMMM", cultura);
+
     string resultado = $"Del {fechaInicio} al {fechaFin}";
-    
+
 }
 <head>
     <meta charset="UTF-8">
@@ -46,11 +47,9 @@
 
 
                 </div>
-                <form id="solicitudVC" method="post" asp-action="Aprobar_DenegarVC" asp-controller="Vacaciones" asp-route-id="@TempData["id"]">
-                     
-                    <div class="buttons">
-                        <button id="Aprobar" type="submit" value="1" name="manejo">Aprobar</button>
-                        <button id="Denegar" type="submit" value="2" name="manejo">Denegar</button>
+                <form id="solicitudVC" method="post" asp-action="ReporteVacaciones">
+                    <div class="buttons" style="justify-content:end">
+                        <button id="Solicitar" type="submit">Volver</button>
                     </div>
                 </form>
 
@@ -102,24 +101,6 @@
             @:,
         }
     }];
-    let vcInicio = [
-    @for (var i = 0; i < vc.Count(); i++)
-    {
-        @: '@vc.ElementAt(i).FechaInicio'
-        @if (i < vc.Count() - 1)
-        {
-            @:,
-
-        }
-    }];
-    let vcFin = [
-    @for (var i = 0; i < vc.Count(); i++)
-    {
-        @: '@vc.ElementAt(i).FechaFin'
-        @if (i < vc.Count() - 1)
-        {
-            @:,
-
-        }
-    }];
+    let vcInicio = ['@vc.FechaInicio'];
+    let vcFin = ['@vc.FechaFin'];
  </script>

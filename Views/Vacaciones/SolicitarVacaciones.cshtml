@@ -1,6 +1,13 @@
 ﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
 @{
-    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
     var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
     var diasPasados = ViewBag.DiasPasados as IEnumerable<SitiosWeb.Model.Vacaciones>;
 }
@@ -122,6 +129,10 @@
 
         }
     }];
+    let diasAMarcar = [];
+    let aprobar = false;
+    let marco = false;
+
     let marcarVC = true;
     document.addEventListener('DOMContentLoaded', function () {
         const successLabel = document.querySelector('.success');

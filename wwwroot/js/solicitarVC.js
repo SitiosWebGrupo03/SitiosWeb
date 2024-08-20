@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         while (currentDate <= endDate) {
             const month = String(currentDate.getMonth() + 1); // Mes (01-12)
-            const day = String(currentDate.getDate()).padStart(2, '0'); // Día (01-31)
+            const day = String(currentDate.getDate()); // Día (01-31)
             const year = currentDate.getFullYear(); // Año (yyyy)
 
             dates.push(`${month}/${day}/${year}`);

@@ -1,8 +1,23 @@
 ﻿@model IEnumerable<SitiosWeb.Model.BloqueoDias>;
 @{
-    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
     var vc = ViewBag.VC as IEnumerable<SitiosWeb.Model.VacacionesColectivas>;
-    var diasPasados = ViewBag.DiasPasados as IEnumerable<SitiosWeb.Model.Vacaciones>;
+    var nombre = ViewBag.Nombre as string;
+    var id = ViewBag.Id as int?;
+    var solicitud = ViewBag.Solicitud as IEnumerable<SitiosWeb.Model.SolicitudVacaciones>;
+    dynamic fechas=0;
+    foreach(var fecha in solicitud)
+    {
+        fechas = fecha.Vacaciones.Where(c => c.IdSolicitud == id).ToList();
+    }
+    var fechaAMarcar = fechas as IEnumerable<SitiosWeb.Model.Vacaciones>;
 }
 <head>
     <meta charset="UTF-8">
@@ -30,21 +45,22 @@
 
             <div class="form">
                 <div id="text-block" class="text-block">
-                    <label id="acumuladas" class="font-semibold">Vacaciones acumuladas: @Context.Request.Cookies["Vacaciones"]</label><br />
-                    <label  class="font-semibold"></label><br />
+                    <label class="font-semibold">Solicitante: @nombre</label><br />
+                    <label class="font-semibold"></label><br />
 
                     <label class="font-semibold">Días a solicitar:</label>
-                    <label  class="font-semibold"></label><br />
+                    <label class="font-semibold"></label><br />
 
 
                 </div>
-                <form id="solicitudVC" method="post" asp-action="SolicitarVP">
+                <form id="Aprobar" method="post" asp-action="Aprobar_Denegar" asp-route-id="@id">
                     <input type="hidden" id="solicitudVP" name="solicitudVP" />
                     <div class="buttons" style="justify-content:end">
-                    <button id="Solicitar" type="submit">Solicitar</button>
-                </div>
+                        <button type="submit" name="manejo" value="0">Denegar</button>
+                        <button type="submit" name="manejo" value="1">Aprobar</button>
+                    </div>
                 </form>
-                
+
 
             </div>
             <div class="calendar" ID="calendar">
@@ -62,6 +78,7 @@
     </div>
 </body>
 <script>
+    let aprobar = true;
     let diaMarcar = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -72,7 +89,7 @@
 
         }
     }
-                ];
+                    ];
     let tipoDia = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -82,7 +99,7 @@
             @:,
         }
     }
-                ];
+                    ];
     let DiaDescripcion = [
     @for (var i = 0; i < Model.Count(); i++)
     {
@@ -112,14 +129,16 @@
 
         }
     }];
-    let diasPasados = [
-    @for (var i= 0; i < diasPasados.Count(); i++)
+    let diasPasados = [];
+    let marco = false;
+
+    let diasAMarcar = [
+    @for (var i = 0; i < fechaAMarcar.Count(); i++)
     {
-        @: '@diasPasados.ElementAt(i).Fecha'
-        @if (i < diasPasados.Count() - 1)
+        @: '@fechaAMarcar.ElementAt(i).Fecha'
+        @if (i < Model.Count() - 1)
         {
             @:,
-
         }
     }];
     let marcarVC = true;
@@ -145,7 +164,7 @@
                     successLabel.style.display = 'none';
                     successLabel.classList.remove('fadeOut');
                 }, 2000);
-            }, 2000); 
+            }, 2000);
         }
         if (errorMessage === '') {
             errorLabel.style.display = 'none';
@@ -158,7 +177,7 @@
 
             setTimeout(() => {
                 errorLabel.classList.remove('shake');
-            }, 500); 
+            }, 500);
 
             setTimeout(() => {
                 errorLabel.classList.add('fadeOut');

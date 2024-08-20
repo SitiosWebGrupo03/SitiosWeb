@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="~/css/menuInconsistencias.css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitude</title>
+    <title>Solicitud de Rebajo</title>
 </head>
 <body>
     <div class="wrapper">
@@ -35,7 +35,9 @@
                             Observaciones: @item.Observaciones?.ToString()
                             <br />
                             <br />
-                            <a asp-controller="SolicitudeRebajo" asp-action="formRebajo" asp-route-id="@item.IdSolicitud">Aplicar Rebajo</a>
+                            <a asp-controller="SolicitudeRebajo" asp-action="formRebajo" asp-route-id="@item.IdSolicitud">Revisar Solicitud
+
+                            </a>
                         </p>
                     }
                 }
