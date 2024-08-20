@@ -114,8 +114,35 @@ namespace SitiosWeb.Controllers
         {
             var dep = _context.Departamentos.Where(u => u.NomDepartamento == Request.Cookies["Departamento"]).FirstOrDefaultAsync().Result.IdDepartamento;
             ViewBag.VC = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == dep && u.Aprobado == true).ToListAsync();
-            var solicitudes = await _context.SolicitudVacaciones.Where(u => u.IdEmpleado == Request.Cookies["Id"]).ToListAsync();
             ViewBag.DiasPasados = await _context.Vacaciones.Where(v => v.IdSolicitudNavigation.IdEmpleado == Request.Cookies["Id"] && v.IdSolicitudNavigation.Aprobadas != false && v.IdSolicitudNavigation.FechaFin > DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+            return View(await _context.BloqueoDias.ToListAsync());
+        }
+        public async Task<IActionResult> ReportePersonales(int id)
+        {
+            var vacaciones = await _context.SolicitudVacaciones
+                .Where(u => u.IdSolicitud == id)
+                .Include(u => u.Vacaciones)
+                .FirstOrDefaultAsync();
+            ViewBag.Vacaciones = vacaciones;
+            ViewBag.Id = id;
+
+            return View(await _context.BloqueoDias.ToListAsync());
+        }
+        public async Task<IActionResult> ReporteColectivas(int id)
+        {
+            var vacaciones = await _context.VacacionesColectivas
+                .Where(u => u.IdVacaciones == id)
+                .Include(u => u.IdSolicitadorNavigation.IdPuestoNavigation.IdDepartamentoNavigation)
+                .Include(u => u.IdSolicitadorNavigation)
+                .FirstOrDefaultAsync();
+            var dep = vacaciones.IdSolicitadorNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento;
+            var jefe = vacaciones.IdSolicitadorNavigation.Nombre + " " + vacaciones.IdSolicitadorNavigation.Apellidos;
+            ViewBag.Id = id;
+            ViewBag.VC = vacaciones;
+            TempData["dep"] = dep;
+            TempData["jefe"] = jefe;
+            TempData["inicio"] = vacaciones.FechaInicio;
+            TempData["fin"] = vacaciones.FechaFin;
             return View(await _context.BloqueoDias.ToListAsync());
         }
         public async Task<IActionResult> SolicitarVP(string solicitudVP)
@@ -241,6 +268,27 @@ namespace SitiosWeb.Controllers
             
             return RedirectToAction("SeleccionarVacaciones");
         }
+        public async Task<IActionResult> ReporteVacaciones()
+        {
+            ViewBag.Nombres = await _context.Colaboradores.ToListAsync();
+            if(User.IsInRole("JEFATURA"))
+            {
+                ViewBag.VacacionesColectivas = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == _context.Departamentos.FirstOrDefault(c => c.NomDepartamento == Request.Cookies["Departamento"]).IdDepartamento && u.Aprobado == true && u.FechaFin < DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+                ViewBag.Vacaciones = await _context.SolicitudVacaciones.Where(u => u.IdEmpleadoNavigation.IdPuestoNavigation.IdDepartamentoNavigation.NomDepartamento == Request.Cookies["Departamento"] && u.Aprobadas == true && u.FechaFin < DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
 
+            }
+            else if (User.IsInRole("SUPERVISOR"))
+            {
+                ViewBag.VacacionesColectivas = await _context.VacacionesColectivas.Where(u => u.Aprobado == true && u.FechaFin < DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+                ViewBag.Vacaciones = await _context.SolicitudVacaciones.Where(u => u.Aprobadas == true && u.FechaFin < DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+            }
+            else if (User.IsInRole("COLABORADOR"))
+            {
+                ViewBag.VacacionesColectivas = await _context.VacacionesColectivas.Where(u => u.IdDepartamento == _context.Departamentos.FirstOrDefault(c => c.NomDepartamento == Request.Cookies["Departamento"]).IdDepartamento && u.Aprobado == true && u.FechaFin < DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+                ViewBag.Vacaciones = await _context.SolicitudVacaciones.Where(u => u.IdEmpleado == Request.Cookies["Id"] && u.Aprobadas == true && u.FechaFin < DateOnly.FromDateTime(DateTime.Now)).ToListAsync();
+            }
+            return View();
+
+        }
     }
 }
