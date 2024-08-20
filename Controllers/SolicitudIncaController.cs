@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
 using SitiosWeb.ServicesClass;
+using System.Data;
 
 namespace SitiosWeb.Controllers
 {
@@ -15,15 +19,138 @@ namespace SitiosWeb.Controllers
            
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ObtenerImpactoMonetario(string identificacion)
+        {
+            if (string.IsNullOrEmpty(identificacion))
+            {
+                TempData["ErrorMessage"] = "Debe proporcionar un IdEmpleado.";
+                return View("~/Views/Incapacidades/ImpactoMometario.cshtml");
+            }
+
+            try
+            {
+                // Parametrización y llamada al procedimiento almacenado
+                var nombreColaboradorParam = new SqlParameter("@NombreColaborador", SqlDbType.NVarChar, 300)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                var salarioDiarioParam = new SqlParameter("@SalarioDiario", SqlDbType.Decimal)
+                {
+                    Precision = 10,
+                    Scale = 2,
+                    Direction = ParameterDirection.Output
+                };
+                var diasIncapacidadParam = new SqlParameter("@DiasIncapacidad", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC Grupo03.CalcularImpactoMonetario @IdEmpleado, @NombreColaborador OUTPUT, @SalarioDiario OUTPUT, @DiasIncapacidad OUTPUT",
+                    new SqlParameter("@IdEmpleado", identificacion),
+                    nombreColaboradorParam,
+                    salarioDiarioParam,
+                    diasIncapacidadParam
+                );
+
+                var pagoPatrono = 0.0;
+                var nombreColaborador = nombreColaboradorParam.Value as string;
+                var salarioDiario = (decimal)(salarioDiarioParam.Value ?? 0);
+                var diasIncapacidad = (int)(diasIncapacidadParam.Value ?? 0);
+                var pagoCaja = 0.0;
+                var pagoDCaja = 0.0;
+                if (salarioDiario == 0 && nombreColaborador == null && diasIncapacidad == 0)
+                {
+                    TempData["ErrorMessage"] = "No Existen Datos para esa Identificacion.";
+                    return View("~/Views/Incapacidades/ImpactoMometario.cshtml");
+
+                }
+                else if (diasIncapacidad <= 3)
+                {
+                    var pagoDiarioPatrono = salarioDiario / 30;
+                    pagoPatrono = ((int)(diasIncapacidad * pagoDiarioPatrono / 100) * 50);
+                }
+                else if (diasIncapacidad > 3)
+                {
+                    var pagoDiarioCaja = salarioDiario / 30;
+                    pagoDCaja = ((int)(diasIncapacidad * pagoDiarioCaja / 100) * 60);
+                }
+
+                ViewBag.Resultado = new ImpactoMonetarioResult
+                {
+                    NombreColaborador = nombreColaborador,
+                    SalarioDiario = salarioDiario,
+                    DiasIncapacidad = (int?)pagoPatrono,
+                    PagoDLCaja = pagoDCaja
+                };
+                return View("~/Views/Incapacidades/ImpactoMometario.cshtml");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Ocurrió un error al obtener el impacto monetario: " + ex.Message;
+                return View("~/Views/Incapacidades/ImpactoMometario.cshtml");
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> CargarTAblaCg()
+        {
+            var permisos = await _context.SolicidtudIncapadad.AsNoTracking().ToListAsync();
+
+
+            return View("~/Views/Incapacidades/ControlGenrenalInc.cshtml", permisos);
+
+        }
+
+
+
         [HttpGet]
         public async Task<IActionResult> cargarTablaIncapacidades()
         {
-            var permisos = await _context.SolicitudPermiso.AsNoTracking().ToListAsync();
+            var permisos = await _context.SolicidtudIncapadad.AsNoTracking().ToListAsync();
 
 
             return View("~/Views/Incapacidades/AprobacionInco.cshtml", permisos);
         }
+        [HttpPost("Aprob")]
+        public async Task<IActionResult> GestionAprob([FromBody] List<Incapacidades> permisos)
+        {
+            if (permisos == null || !permisos.Any())
+            {
+                TempData["ErrorMessage"] = "No se recibieron permisos.";
+                return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml", await _context.SolicitudPermiso.AsNoTracking().ToListAsync());
+            }
 
+            try
+            {
+                foreach (var permiso in permisos)
+                {
+                    await _context.Database.ExecuteSqlRawAsync(
+                        "EXEC ProcesarSolicitudPermiso @estado, @IdEmpleado, @DOH, @DiasHorasFuera, @IdTipoPermiso, @PuestoLaboral, @FechaInicio, @FechaFin",
+                        new SqlParameter("@estado", permiso.Estado),
+                        new SqlParameter("@IdEmpleado", permiso.IdEmpleado),
+                        new SqlParameter("@DOH", true),
+                        new SqlParameter("@DiasHorasFuera", permiso.DiasHorasFuera),
+                        new SqlParameter("@IdTipoPermiso", permiso.IdTipoPermiso),
+                        new SqlParameter("@PuestoLaboral", permiso.puestoLaboral),
+                        new SqlParameter("@FechaInicio", permiso.FechaInicio),
+                        new SqlParameter("@FechaFin", permiso.FechaFin)
+                    );
+                }
+
+                TempData["SuccessMessage"] = "Puesto asignado exitosamente.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al realizar su transacción: " + ex.Message;
+            }
+
+
+            var permisosActualizados = await _context.SolicidtudIncapadad.AsNoTracking().ToListAsync();
+            return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml", permisosActualizados);
+        }
 
         [HttpPost]
         public IActionResult SolicitudIncapacidad(string identificacion, string puestoLaboral, DateTime FechaInicio, DateTime FechaFin, string idTipoPermiso)
@@ -44,7 +171,7 @@ namespace SitiosWeb.Controllers
 
                     int cantidadDias = (FechaFin - FechaInicio).Days;
 
-                    var nuevaSolicitud = new SolicitudPermiso
+                    var nuevaSolicitud = new SoliciditudIncapacida
                     {
                         IdEmpleado = identificacion,
                         puestoLaboral = puestoLaboral,
@@ -55,7 +182,7 @@ namespace SitiosWeb.Controllers
                         DiasHorasFuera = cantidadDias
                     };
 
-                    _context.SolicitudPermiso.Add(nuevaSolicitud);
+                    _context.SolicidtudIncapadad.Add(nuevaSolicitud);
                     _context.SaveChanges();
 
                     TempData["SuccessMessage"] = "Su solicitud ha sido enviada con éxito.";
@@ -79,7 +206,7 @@ namespace SitiosWeb.Controllers
         {
             try
             {
-                var permisos = await _context.TiposPermisos
+                var permisos = await _context.TiposInc
                     .Where(tp => tp.Estado)
                     .Select(tp => new
                     {

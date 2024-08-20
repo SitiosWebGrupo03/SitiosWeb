@@ -88,8 +88,8 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Marcas/MarcaNormalColab.cshtml");
         }
 
-        [HttpPost("EditararMarcas")]
-        public IActionResult EditararMarcas([FromBody] Marcas marca)
+        [HttpPost("EditarMarcas")]
+        public IActionResult EditarMarcas([FromBody] Marcas marca)
         {
             if (ModelState.IsValid)
             {

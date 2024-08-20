@@ -122,6 +122,13 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Marcas/MarcaNormalColab.cshtml");
         }
 
+        [Authorize(Roles = "JEFATURA,SUPERVISOR")]
+        public IActionResult ImpactoMonetario()
+        {
+            return View("~/Views/Incapacidades/ImpactoMometario.cshtml");
+        }
+
+
         [Authorize(Roles = "COLABORADOR")]
 
         public IActionResult MarcarHEX()
@@ -250,7 +257,11 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Incapacidades/SolicitudIncapacidades.cshtml");
         }
-
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult menuCRUD()
+        {
+            return View("~/Views/Home/menuCRUD.cshtml");
+        }
 
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexActividades()

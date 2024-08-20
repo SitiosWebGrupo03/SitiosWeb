@@ -38,7 +38,7 @@ namespace SitiosWeb.Controllers
 
         // POST: Rebajos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdRebajo,IdColaborador,IdValidador,FechaRebajo,Inconsistencia,IdTipoRebajo,Aprobacion")] Rebajos rebajos)
@@ -56,7 +56,7 @@ namespace SitiosWeb.Controllers
             return View(rebajos);
         }
 
-        // GET: Rebajos/Editar/5
+        // GET: Rebajos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,9 +76,9 @@ namespace SitiosWeb.Controllers
             return View(rebajos);
         }
 
-        // POST: Rebajos/Editar/5
+        // POST: Rebajos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdRebajo,IdColaborador,IdValidador,FechaRebajo,Inconsistencia,IdTipoRebajo,Aprobacion")] Rebajos rebajos)
