@@ -1,18 +1,18 @@
-﻿document.querySelectorAll('.Editar-button').forEach(button => {
+﻿document.querySelectorAll('.edit-button').forEach(button => {
     button.addEventListener('click', () => {
         const row = button.closest('tr');
-        const currentlyEditarableRow = document.querySelector('.Editarable');
+        const currentlyEditableRow = document.querySelector('.editable');
 
 
-        if (currentlyEditarableRow && currentlyEditarableRow !== row) {
-            currentlyEditarableRow.classList.remove('Editarable');
-            currentlyEditarableRow.querySelectorAll('input').forEach(input => {
+        if (currentlyEditableRow && currentlyEditableRow !== row) {
+            currentlyEditableRow.classList.remove('editable');
+            currentlyEditableRow.querySelectorAll('input').forEach(input => {
                 input.readOnly = true;
             });
         }
 
 
-        row.classList.toggle('Editarable');
+        row.classList.toggle('editable');
         row.querySelectorAll('input').forEach(input => {
             input.readOnly = !input.readOnly;
             if (!input.readOnly) {
@@ -36,14 +36,14 @@ document.getElementById('buscarButton').addEventListener('click', () => {
 });
 
 document.getElementById('saveButton').addEventListener('click', () => {
-    const EditarableRow = document.querySelector('.Editarable');
-    if (EditarableRow) {
+    const editableRow = document.querySelector('.editable');
+    if (editableRow) {
         const data = {};
-        EditarableRow.querySelectorAll('input').forEach(input => {
+        editableRow.querySelectorAll('input').forEach(input => {
             data[input.name] = input.value;
         });
 
-        fetch('/EditararMarcas', {
+        fetch('/EditarMarcas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -54,8 +54,8 @@ document.getElementById('saveButton').addEventListener('click', () => {
             .then(result => {
                 if (result.success) {
                     alert('Marca actualizada correctamente');
-                    EditarableRow.classList.remove('Editarable');
-                    EditarableRow.querySelectorAll('input').forEach(input => {
+                    editableRow.classList.remove('editable');
+                    editableRow.querySelectorAll('input').forEach(input => {
                         input.readOnly = true;
                     });
                 } else {

@@ -21,8 +21,7 @@ body i:hover {
     width: fit-content;
     gap: 30px;
     margin: auto;
-    max-width: 1300px;
-    margin-top: 200px;
+    max-width: 1500px;
 }
 
 .indicador {

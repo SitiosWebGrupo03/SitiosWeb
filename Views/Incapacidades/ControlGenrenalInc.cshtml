@@ -1,0 +1,80 @@
+﻿@model IEnumerable<SitiosWeb.Model.SoliciditudIncapacida>
+@{
+    string layout = null;
+    if (User.IsInRole("JEFATURA"))
+    {
+        layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    Layout = layout;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control General de Incapacidades</title>
+    <link rel="stylesheet" href="~/css/ControlGeneral.csz
+
+
+s">
+</head>
+<body>
+    <div class="container">
+        <header class="header-content">
+            <h1>Control General de Incapacidades</h1>
+        </header>
+        <div class="content-section">
+            <h2>Historial de Incapacidades</h2>
+            <table class="records-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Identificación</th>
+                        <th>Cantidad Días Fuera</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Final</th>
+                        <th>Puesto Laboral</th>
+                        <th>Tipo de Incapacidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var permiso in Model)
+                        {
+                            <tr>
+                                <td><input type="checkbox" class="select-row" data-id="@permiso.IdEmpleado"></td>
+                                <td>@permiso.IdEmpleado</td>
+                                <td>@permiso.DiasHorasFuera</td>
+                                <td>@permiso.FechaInicio</td>
+                                <td>@permiso.FechaFin</td>
+                                <td>@permiso.puestoLaboral</td>
+                                <td>@permiso.IdTipoPermiso</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7">No se encontraron registros.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="action-buttons">
+                <button class="download-btn">Descargar Reporte</button>
+            </div>
+        </div>
+    </div>
+    <div class="background-circle circle1"></div>
+    <div class="background-circle circle2"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="~/js/controlGeneralInc.js"></script>
+</body>
+</html>
+

@@ -21,7 +21,7 @@ header {
 }
 
     header h1 {
-        color: #5e58f8;
+        color: #6f42c1;
     }
 
 .search-section {
@@ -50,7 +50,7 @@ header {
 
     .search-bar button {
         padding: 10px 20px;
-        background-color: #5e58f8;
+        background-color: #6f42c1;
         color: white;
         border: none;
         border-radius: 5px;
@@ -76,7 +76,7 @@ table {
 }
 
     table thead th {
-        background-color: #5e58f8;
+        background-color: #6f42c1;
         color: white;
         padding: 10px;
         text-align: left;
@@ -111,7 +111,7 @@ table {
 }
 
 .accept-btn {
-    background-color: #5e58f8;
+    background-color: #28a745;
     color: white;
 }
 
