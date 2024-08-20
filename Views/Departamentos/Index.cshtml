@@ -15,14 +15,16 @@
 <body>
     <div id="contenedor">
         <div class="vertical-menu">
-            <a href="/Home/menuCRUD" class="active">Menu</a>
-            <a href="/Home/IndexActividades">Actividades</a>
-            <a href="/Home/IndexInconsistencias">Inconcistencias</a>
-            <a href="/Home/IndexPermisos">Permisos</a>
-            <a href="/Home/IndexRebajos">Rebajos</a>
-            <a href="/Home/IndexUsuarios">Usuarios</a>
-            <a href="/Home/IndexDepartamentos">Departamentos</a>
-            <a href="/Home/IndexPuestos">Puestos</a>
+
+            <a asp-controller="Home" asp-action="IndexActividades">Actividades</a>
+            <a asp-controller="Home" asp-action="IndexInconsistencias">Inconsistencias</a>
+            <a asp-controller="Home" asp-action="IndexPermisos">Permisos</a>
+            <a asp-controller="Home" asp-action="IndexRebajos">Rebajos</a>
+            <a asp-controller="Home" asp-action="IndexUsuarios">Usuarios</a>
+            <a asp-controller="Home" asp-action="IndexDepartamentos">Departamentos</a>
+            <a asp-controller="Home" asp-action="IndexPuestos">Puestos</a>
+            <a asp-action="IndexSupervisor" asp-controller="Home"> Volver al menu</a>
+
         </div>
 
         <div id="contenido">
@@ -53,9 +55,8 @@
                                 @Html.DisplayFor(modelItem => item.Estado)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.IdDepartamento">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.IdDepartamento">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.IdDepartamento">Delete</a>
+                                <a asp-controller="Departamentos" asp-action="Edit" asp-route-id="@item.IdDepartamento">Editar</a>
+                                <a asp-controller="Departamentos" asp-action="Delete" asp-route-id="@item.IdDepartamento">Eliminar</a>
                             </td>
                         </tr>
                     }
@@ -63,9 +64,6 @@
             </table>
         </div>
 
-        <div id="pie">
-            <a href="../Menu/menuSupervisor.html"> Volver al menu</a>
-        </div>
     </div>
 
 </body>

@@ -33,7 +33,7 @@
             <div class="borde"><i class="fa-solid fa-user"></i></div>
             <a href="#" onclick="toggleDropdown()">@User.Identity.Name<br />Jefatura</a>
             <div class="dropdown" id="dropdown">
-                <a href="#">Acerca de</a>
+                <a asp-controller="Indicadores" asp-action="IndexIndicadores">Indicadores</a>
                 <a asp-controller="Home" asp-action="CerrarSesion">Cerrar sesión</a>
             </div>
         </div>
