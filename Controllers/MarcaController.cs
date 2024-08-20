@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using SitiosWeb.Models;
 using Microsoft.Data.SqlClient;
 using SitiosWeb.ServicesClass;
+using System.Data;
 
 namespace SitiosWeb.Controllers
 {
@@ -83,23 +84,44 @@ namespace SitiosWeb.Controllers
             {
                 try
                 {
-                    var marca = await _context.Database.ExecuteSqlRawAsync(
-                        "EXEC RegistrarMarca @p0, @p1",
-                        parameters: new[] { colaborador.IdColaborador, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }
-                    );
 
-                    TempData["SuccessMessage"] = "Marca registrada exitosamente.";
-                    IQueryable<Marcas> query = _context.Marcas.Include(m => m.IdEmpleadoNavigation);
+                    var idEmpleadoParam = new SqlParameter("@id_empleado", colaborador.IdColaborador);
+                    var horaParam = new SqlParameter("@hora", DateTime.Now);
 
-                    if (!string.IsNullOrEmpty(codigo))
+
+                    var resultadoParam = new SqlParameter("@resultado", SqlDbType.Int)
                     {
-                        query = query.Where(m => m.IdEmpleado == codigo);
+                        Direction = ParameterDirection.Output
+                    };
+
+                    await _context.Database.ExecuteSqlRawAsync(
+                        "EXEC Grupo03.RegistrarMarca @id_empleado, @hora, @resultado OUTPUT",
+                        idEmpleadoParam, horaParam, resultadoParam);
+
+
+
+                    int resultado = (int)resultadoParam.Value;
+
+                    if (resultado == 1)
+                    {
+                        TempData["SuccessMessage"] = "Salida tardía registrada.";
                     }
-
-                    var marcas = await query.ToListAsync();
-                    return View("~/Views/Marcas/MarcaNormalColab.cshtml", marcas);
+                    else if (resultado == 2)
+                    {
+                        TempData["SuccessMessage"] = "Entrada temprana registrada.";
+                    }
+                    else if (resultado == 3)
+                    {
+                        TempData["SuccessMessage"] = "Marca registrada exitosamente.";
+                        IQueryable<Marcas> query = _context.Marcas.Include(m => m.IdEmpleadoNavigation);
+                        var marcas = await query.ToListAsync();
+                        return View("~/Views/Marcas/MarcaNormalColab.cshtml", marcas);
+                    }
+                    else if (resultado == 4)
+                    {
+                        TempData["ErrorMessage"] = "No puedes marcar dentro de los 20 minutos de la última marca.";
+                    }
                 }
-
                 catch (Exception ex)
                 {
                     TempData["ErrorMessage"] = "Error al registrar la marca: " + ex.Message;
@@ -109,6 +131,7 @@ namespace SitiosWeb.Controllers
             {
                 TempData["ErrorMessage"] = "Usuario no encontrado.";
             }
+
 
             return View("~/Views/Marcas/MarcaNormalColab.cshtml");
         }
