@@ -30,8 +30,8 @@ namespace SitiosWeb.Controllers
             return View(actividades);
         }
 
-        // GET: RegistroActividades/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: RegistroActividades/Detalles/5
+        public async Task<IActionResult> Detalles(int? id)
         {
             if (id == null)
             {
@@ -77,7 +77,7 @@ namespace SitiosWeb.Controllers
             return View(registroActividades);
         }
 
-        // GET: RegistroActividades/Edit/5
+        // GET: RegistroActividades/Editar/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,7 +96,7 @@ namespace SitiosWeb.Controllers
             return View(registroActividades);
         }
 
-        // POST: RegistroActividades/Edit/5
+        // POST: RegistroActividades/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdRegistro,IdTipoActividad,IdColaborador,IdValidador,Observaciones,FechaActividad,DuracionEnHoras,Aprobado")] RegistroActividades registroActividades)

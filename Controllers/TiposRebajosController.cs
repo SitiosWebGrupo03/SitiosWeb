@@ -52,7 +52,7 @@ namespace SitiosWeb.Controllers
             return View(tiposRebajos);
         }
 
-        // GET: TiposRebajos/Edit/5
+        // GET: TiposRebajos/Editar/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,9 +68,9 @@ namespace SitiosWeb.Controllers
             return View(tiposRebajos);
         }
 
-        // POST: TiposRebajos/Edit/5
+        // POST: TiposRebajos/Editar/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdTipoRebajo,Descripcion,Cantidad,Estado")] TiposRebajos tiposRebajos)

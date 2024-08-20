@@ -24,8 +24,8 @@ namespace SitiosWeb.Controllers
             return View(await _context.TipoActividades.ToListAsync());
         }
 
-        // GET: TipoActividades/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: TipoActividades/Detalles/5
+        public async Task<IActionResult> Detalles(int? id)
         {
             if (id == null)
             {
@@ -62,7 +62,7 @@ namespace SitiosWeb.Controllers
             return View(tipoActividades);
         }
 
-        // GET: TipoActividades/Edit/5
+        // GET: TipoActividades/Editar/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

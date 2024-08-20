@@ -1,0 +1,71 @@
+﻿@{
+    if (User.IsInRole("JEFATURA"))
+    {
+        Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("COLABORADOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+
+    var inconsistenciasCount = ViewBag.Inconsistencias;
+    var permisosCount = ViewBag.Permisos;
+    var horas = ViewBag.Horas;
+    var marcasCount = ViewBag.DiasLaburados;
+    var VacacionesColectivas = ViewBag.VacacionesColectivas;
+    var HorasRepuestas = ViewBag.HorasRepuestas;
+    var Vacaciones = ViewBag.Vacaciones;
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores</title>
+    <link rel="stylesheet" type="text/css" href="~/css/indicadores.css" />
+    <script src="https://kit.fontawesome.com/4d99acc268.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="indicadores-form">
+        <div class="indicador">
+            <i class="fa-sharp fa-solid fa-circle-exclamation"></i>
+            <h3>@inconsistenciasCount</h3>
+            <p>Inconsistencias</p>
+        </div>
+        <div class="indicador">
+            <i class="fa-sharp fa-solid fa-file-contract"></i>
+            <h3>@permisosCount</h3>
+            <p>Permisos</p>
+        </div>
+        <div class="indicador">
+            <i class="fa-sharp fa-solid fa-clock"></i>
+            <h3>@horas</h3>
+            <p>Horas Trabajadas</p>
+        </div>
+        <div class="indicador">
+            <i class="fa-sharp fa-solid fa-calendar-check"></i>
+            <h3>@marcasCount</h3>
+            <p>Marcas Registradas</p>
+        </div>
+        <div class="indicador">
+            <i class="fa-sharp fa-solid fa-calendar"></i>
+            <h3>@VacacionesColectivas</h3>
+            <p>Dias de Vacaciones Colectivas</p>
+        </div>
+        <div class="indicador">
+            <i class="fa-sharp fa-solid fa-clock"></i>
+            <h3>@HorasRepuestas</h3>
+            <p>Horas Repuestas</p>
+        </div>
+        <div class="indicador">
+            <i class="fa-sharp fa-solid fa-calendar"></i>
+            <h3>@Vacaciones</h3>
+            <p>Dias de Vacaciones</p>
+            </div>
+    </div>
+</body>

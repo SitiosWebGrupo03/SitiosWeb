@@ -33,7 +33,6 @@
     <None Include="Views\Paginas\Inconsistencias\Aprobacion.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\ImpactoMonetario.cshtml" />
     <None Include="Views\Paginas\Inconsistencias\Solicitud.cshtml" />
-    <None Include="Views\Paginas\indicadores\indicadores.cshtml" />
     <None Include="Views\Marcas\VisualizacionMarcas.cshtml" />
     <None Include="Views\ExpedienteEmpleado\ConsultarPuesto.cshtml" />
     <None Include="Views\Shared\CreacionUsuario.cshtml" />
