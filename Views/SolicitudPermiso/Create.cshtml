@@ -1,51 +1,88 @@
 ﻿@model SitiosWeb.Model.SolicitudPermiso
 
 @{
-    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
 }
 
-<h1>Create</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/Solic.css" />
+    <title>Crear Solicitud de Permiso</title>
+</head>
+<body>
+    <div class="background-circle circle1"></div>
+    <div class="background-circle circle2"></div>
 
-<h4>SolicitudPermiso</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="container">
+        <div class="header">
+            <h1>Crear Solicitud de Permiso</h1>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdEmpleado" class="control-label"></label>
-                <select asp-for="IdEmpleado" class ="form-control" asp-items="ViewBag.IdEmpleado"></select>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label asp-for="IdEmpleado" class="control-label"></label>
+                    <select asp-for="IdEmpleado" class="form-control" asp-items="ViewBag.IdEmpleado"></select>
+                    <span asp-validation-for="IdEmpleado" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IdTipoPermiso" class="control-label"></label>
+                    <select asp-for="IdTipoPermiso" class="form-control" asp-items="ViewBag.IdTipoPermiso"></select>
+                    <span asp-validation-for="IdTipoPermiso" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FechaInicio" class="control-label"></label>
+                    <input asp-for="FechaInicio" class="form-control" type="date" />
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FechaFin" class="control-label"></label>
+                    <input asp-for="FechaFin" class="form-control" type="date" />
+                    <span asp-validation-for="FechaFin" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DiasHorasFuera" class="control-label"></label>
+                    <input asp-for="DiasHorasFuera" class="form-control" type="number" step="1" min="0" />
+                    <span asp-validation-for="DiasHorasFuera" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Comentarios" class="control-label"></label>
+                    <textarea asp-for="Comentarios" class="form-control"></textarea>
+                    <span asp-validation-for="Comentarios" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DOH" /> @Html.DisplayNameFor(model => model.DOH)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiasHorasFuera" class="control-label"></label>
-                <input asp-for="DiasHorasFuera" class="form-control" />
-                <span asp-validation-for="DiasHorasFuera" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Comentarios" class="control-label"></label>
-                <input asp-for="Comentarios" class="form-control" />
-                <span asp-validation-for="Comentarios" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdTipoPermiso" class="control-label"></label>
-                <select asp-for="IdTipoPermiso" class ="form-control" asp-items="ViewBag.IdTipoPermiso"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="buttons">
+                <input type="submit" value="Crear" class="accept" />
             </div>
         </form>
+
+        <div>
+            <a asp-action="Index">Volver a la lista</a>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>

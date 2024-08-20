@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SitiosWeb.Model.SolicitudPermiso>
+
+@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+    <title>Reporte General de Solicitudes</title>
+</head>
+<body>
+    <h2>Reporte General de Solicitudes de Permiso</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Tipo de Permiso</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Días/Horas</th>
+                <th>Comentarios</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdEmpleadoNavigation?.Nombre</td>
+                    <td>@item.IdTipoPermisoNavigation?.Descripcion</td>
+                    <td>@item.FechaInicio?.ToShortDateString()</td>
+                    <td>@item.FechaFin?.ToShortDateString()</td>
+                    <td>@item.DiasHorasFuera</td>
+                    <td>@item.Comentarios</td>
+                    <td>@(item.EstaAprobado.HasValue ? (item.EstaAprobado.Value ? "Aprobado" : "Rechazado") : "Pendiente")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

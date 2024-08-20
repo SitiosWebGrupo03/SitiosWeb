@@ -1,4 +1,8 @@
-﻿@model SitiosWeb.Model.SolicitudHorasExtra
+﻿@model IEnumerable<SitiosWeb.Model.SolicitudHorasExtra>
+
+@{
+    Layout = "~/Views/Shared/_LayoutColaborador.cshtml";
+}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -15,35 +19,41 @@
         <div class="header">
             <h1>Aprobar/Rechazar Horas Extras</h1>
         </div>
-        <form asp-action="Aprobar" method="post">
-            <div class="form-section">
-                <div class="form-group">
-                    <label asp-for="IdSolicitante">ID del Solicitante:</label>
-                    <input asp-for="IdSolicitante" readonly class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="IdEmpleado">ID del Empleado:</label>
-                    <input asp-for="IdEmpleado" readonly class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="FechaSolicitud">Fecha de Solicitud:</label>
-                    <input asp-for="FechaSolicitud" readonly type="date" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="Horas">Horas Extras:</label>
-                    <input asp-for="Horas" readonly type="number" step="0.01" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="IdTipoActividad">Tipo de Actividad:</label>
-                    <input asp-for="IdTipoActividadNavigation.NomActividad" readonly class="form-control" />
-                </div>
-            </div>
-            <div class="buttons">
-                <button type="submit" name="action" value="Aprobar" class="accept">Aprobar</button>
-                <button type="submit" name="action" value="Rechazar" class="deny">Rechazar</button>
-                <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID del Solicitante</th>
+                    <th>ID del Empleado</th>
+                    <th>Fecha de Solicitud</th>
+                    <th>Horas Extras</th>
+                    <th>Tipo de Actividad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var solicitud in Model)
+                {
+                    <tr>
+                        <td>@solicitud.IdSolicitante</td>
+                        <td>@solicitud.IdEmpleado</td>
+                        <td>@solicitud.FechaSolicitud.ToString("yyyy-MM-dd")</td>
+                        <td>@solicitud.Horas</td>
+                        <td>@solicitud.IdTipoActividadNavigation?.NomActividad ?? "Desconocido"</td>
+                        <td>
+                            <form asp-action="Aprobar" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@solicitud.IdSolicitud" />
+                                <button type="submit" name="action" value="Aprobar" class="accept">Aprobar</button>
+                            </form>
+                            <form asp-action="Denegar" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@solicitud.IdSolicitud" />
+                                <button type="submit" name="action" value="Rechazar" class="deny">Rechazar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancelar</a>
     </div>
 </body>
 </html>

@@ -372,66 +372,6 @@ namespace SitiosWeb.Controllers
             return View("/Views/Paginas/reposiciones/solicitarRepo.cshtml", repos);
         }
 
-        [Authorize(Roles = "COLABORADOR")]
-        public IActionResult SolicitarHorasExtras()
-        {
-            ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
-            return View("/Views/Paginas/gestion_horas_extras/SolicitarHorasExtras.cshtml"); ;
-        }
-
-        [Authorize(Roles = "JEFATURA")]
-
-
-        public IActionResult SolicitarHorasExtras(SolicitudHorasExtra solicitud)
-        {
-            if (ModelState.IsValid)
-            {
-                solicitud.Estado = "Pendiente";
-                _context.SolicitudHorasExtra.Add(solicitud);
-                _context.SaveChanges();
-                return RedirectToAction("IndexColaborador");
-            }
-            ViewBag.TipoActividades = new SelectList(_context.TipoActividades, "IdTipoActividad", "NomActividad");
-            return View(solicitud);
-        }
-        [Authorize(Roles = "JEFATURA")]
-
-
-        public IActionResult ReporteHorasExtras()
-        {
-            var solicitudes = _context.SolicitudHorasExtra
-                                      .Include(s => s.IdSolicitanteNavigation)
-                                      .Include(s => s.IdTipoActividadNavigation)
-                                      .Where(s => s.Estado == "Pendiente")
-                                      .ToList();
-
-            return View("/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml", solicitudes);
-        }
-        [Authorize(Roles = "JEFATURA")]
-
-        public IActionResult AprobarHorasExtras(int id)
-        {
-            var solicitud = _context.SolicitudHorasExtra.Find(id);
-            if (solicitud != null)
-            {
-                solicitud.Estado = "Aprobada";
-                solicitud.AprobadaPor = User.Identity.Name; // O cualquier lógica para asignar quien aprobó
-                _context.SaveChanges();
-            }
-            return RedirectToAction("ReporteHorasExtras");
-        }
-        [Authorize(Roles = "COLABORADOR")]
-
-        public IActionResult AprobarSolicitud(int id)
-        {
-            var solicitud = _context.SolicitudHorasExtra.Find(id);
-            if (solicitud != null)
-            {
-                solicitud.Estado = "Aprobada";
-                _context.SaveChanges();
-            }
-            return RedirectToAction("IndexColaborador");
-        }
 
         [Authorize(Roles = "COLABORADOR")]
         public IActionResult RegistroActividadesColaborador()
@@ -450,11 +390,51 @@ namespace SitiosWeb.Controllers
         {
             return RedirectToAction("ControlGeneral", "RegistroActividades");
         }
+        // Para los colaboradores
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult SolicitudPermisoColaborador()
+        {
+            return View("~/Views/SolicitudPermiso/create.cshtml");
+        }
 
+        // Para los supervisores
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult SolicitudPermisoSupervisor()
+        {
+            return View("~/Views/SolicitudPermiso/ReporteGeneral.cshtml" );
+        }
 
+        // Para la jefatura
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult SolicitudPermisoJefatura()
+        {
+            return View("~/Views/SolicitudPermiso/Aprobacion.cshtml");
+        }
+
+        [Authorize(Roles = "COLABORADOR")]
+        public IActionResult Horasextrascolaborador()
+        {
+            return View("~/Views/Paginas/Gestion_Horas_Extras/AprobacionHorasExtras.cshtml");
+        }
+
+        // Para los supervisores
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult Horasextrassupervisor()
+        {
+            return View("~/Views/Paginas/Gestion_Horas_Extras/ReporteHorasExtras.cshtml");
+        }
+
+        // Para la jefatura
+        [Authorize(Roles = "JEFATURA")]
+        public IActionResult HorasextrasJefatura()
+        {
+            return View("~/Views/Paginas/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
+        }
 
     }
 }
+
+
 
 
 

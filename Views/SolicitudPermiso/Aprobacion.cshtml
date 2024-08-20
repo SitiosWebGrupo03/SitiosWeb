@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SitiosWeb.Model.SolicitudPermiso>
+
+@{
+    Layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+    <title>Solicitudes de Permiso Pendientes</title>
+</head>
+<body>
+    <h1>Solicitudes de Permiso Pendientes</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Tipo de Permiso</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Días/Horas</th>
+                <th>Comentarios</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdEmpleadoNavigation?.Nombre</td>
+                    <td>@item.IdTipoPermisoNavigation?.Descripcion</td>
+                    <td>@item.FechaInicio?.ToShortDateString()</td>
+                    <td>@item.FechaFin?.ToShortDateString()</td>
+                    <td>@item.DiasHorasFuera</td>
+                    <td>@item.Comentarios</td>
+                    <td>
+                        <form asp-action="Approve" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.IdSolicitud" />
+                            <button type="submit" class="btn btn-success">Aprobar</button>
+                        </form>
+                        <form asp-action="Reject" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.IdSolicitud" />
+                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

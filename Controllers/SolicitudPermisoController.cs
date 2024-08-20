@@ -21,7 +21,9 @@ namespace SitiosWeb.Controllers
         // GET: SolicitudPermisoes
         public async Task<IActionResult> Index()
         {
-            var tiusr22plProyectoContext = _context.SolicitudPermiso.Include(s => s.IdEmpleadoNavigation).Include(s => s.IdTipoPermisoNavigation);
+            var tiusr22plProyectoContext = _context.SolicitudPermiso
+                .Include(s => s.IdEmpleadoNavigation)
+                .Include(s => s.IdTipoPermisoNavigation);
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
@@ -48,14 +50,16 @@ namespace SitiosWeb.Controllers
         // GET: SolicitudPermisoes/Create
         public IActionResult Create()
         {
+            // Obtener empleados desde la base de datos
             ViewData["IdEmpleado"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion");
-            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "IdTipoPermiso");
+
+            // Obtener tipos de permisos desde la base de datos
+            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "Descripcion");
+
             return View();
         }
 
         // POST: SolicitudPermisoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdSolicitud,IdEmpleado,DOH,DiasHorasFuera,Comentarios,IdTipoPermiso")] SolicitudPermiso solicitudPermiso)
@@ -66,8 +70,11 @@ namespace SitiosWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // En caso de error, volver a cargar los datos para los selectores
             ViewData["IdEmpleado"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", solicitudPermiso.IdEmpleado);
-            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "IdTipoPermiso", solicitudPermiso.IdTipoPermiso);
+            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "Descripcion", solicitudPermiso.IdTipoPermiso);
+
             return View(solicitudPermiso);
         }
 
@@ -84,14 +91,15 @@ namespace SitiosWeb.Controllers
             {
                 return NotFound();
             }
+
+            // Cargar los datos para los selectores en la vista de edición
             ViewData["IdEmpleado"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", solicitudPermiso.IdEmpleado);
-            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "IdTipoPermiso", solicitudPermiso.IdTipoPermiso);
+            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "Descripcion", solicitudPermiso.IdTipoPermiso);
+
             return View(solicitudPermiso);
         }
 
         // POST: SolicitudPermisoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdSolicitud,IdEmpleado,DOH,DiasHorasFuera,Comentarios,IdTipoPermiso")] SolicitudPermiso solicitudPermiso)
@@ -121,8 +129,11 @@ namespace SitiosWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // En caso de error, volver a cargar los datos para los selectores
             ViewData["IdEmpleado"] = new SelectList(_context.Colaboradores, "Identificacion", "Identificacion", solicitudPermiso.IdEmpleado);
-            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "IdTipoPermiso", solicitudPermiso.IdTipoPermiso);
+            ViewData["IdTipoPermiso"] = new SelectList(_context.TiposPermisos, "IdTipoPermiso", "Descripcion", solicitudPermiso.IdTipoPermiso);
+
             return View(solicitudPermiso);
         }
 
@@ -155,15 +166,68 @@ namespace SitiosWeb.Controllers
             if (solicitudPermiso != null)
             {
                 _context.SolicitudPermiso.Remove(solicitudPermiso);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SolicitudPermisoExists(int id)
         {
             return _context.SolicitudPermiso.Any(e => e.IdSolicitud == id);
+        }
+
+        // GET: SolicitudPermisoes/Aprobacion
+        public async Task<IActionResult> Aprobacion()
+        {
+            var permisos = await _context.SolicitudPermiso
+                .Include(s => s.IdEmpleadoNavigation)
+                .Include(s => s.IdTipoPermisoNavigation)
+                .Where(s => !s.EstaAprobado.HasValue) // Opcional: Solo mostrar pendientes
+                .ToListAsync();
+            return View(permisos);
+        }
+
+        // GET: SolicitudPermisoes/Approve/5
+        public async Task<IActionResult> Approve(int id)
+        {
+            var solicitud = await _context.SolicitudPermiso.FindAsync(id);
+            if (solicitud == null)
+            {
+                return NotFound();
+            }
+
+            solicitud.EstaAprobado = true;
+            _context.Update(solicitud);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Aprobacion));
+        }
+
+        // GET: SolicitudPermisoes/Reject/5
+        public async Task<IActionResult> Reject(int id)
+        {
+            var solicitud = await _context.SolicitudPermiso.FindAsync(id);
+            if (solicitud == null)
+            {
+                return NotFound();
+            }
+
+            solicitud.EstaAprobado = false;
+            _context.Update(solicitud);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Aprobacion));
+        }
+
+        // GET: SolicitudPermisoes/ReporteGeneral
+        public async Task<IActionResult> ReporteGeneral()
+        {
+            var permisos = await _context.SolicitudPermiso
+                .Include(s => s.IdEmpleadoNavigation)
+                .Include(s => s.IdTipoPermisoNavigation)
+                .ToListAsync();
+            return View(permisos);
         }
     }
 }

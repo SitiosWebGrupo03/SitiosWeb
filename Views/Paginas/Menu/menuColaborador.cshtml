@@ -65,7 +65,18 @@
             <i class="fa-regular fa-calendar-check" style="width: 20px; height: 20px;"></i><br>
             Registro de Actividades<br><small>Accede a registrar tus actividades</small>
         </a>
-            
+
+            <a asp-controller="Home" asp-action="SolicitudPermisoColaborador" class="menu-item">
+                <i class="fa-solid fa-calendar-plus" style="width: 20px; height: 20px;"></i><br>
+                Solicitud de Permiso<br>
+                <small>Registra una solicitud de permiso</small>
+            </a>
+
+            <a asp-controller="Home" asp-action="Horasextrascolaborador">
+                <i class="fa-regular fa-calendar-alt" style="width: 20px; height: 20px;"></i><br>
+                Aprobación de Horas Extras<br><small>Solicitar y gestionar horas extras</small>
+            </a>
+
 
 
             @if (inconsistencias.Count() > 0)

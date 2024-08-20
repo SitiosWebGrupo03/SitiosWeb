@@ -21,6 +21,7 @@ public partial class SolicitudPermiso
     public DateTime? FechaInicio { get; set; }
     public DateTime? FechaFin { get; set; }
 
+    public bool? EstaAprobado { get; set; } // Nullable bool to indicate pending, approved, or rejected
 
 
 

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SitiosWeb.Model;
-using System.Net.Mail;
-using System.Net;
-using System.Security.Claims;
 
 namespace SitiosWeb.Controllers
 {
@@ -20,36 +22,58 @@ namespace SitiosWeb.Controllers
         [HttpGet]
         public IActionResult SolicitarHorasExtras()
         {
-            return View(); 
+            return View();
         }
 
         [HttpPost]
-        public IActionResult SolicitarHorasExtras(string idEmpleado,DateOnly fecha, int horas, int? idTipoActividad)
+        public IActionResult SolicitarHorasExtras(string idEmpleado, DateOnly fecha, decimal horas, int? idTipoActividad)
         {
             var empleado = _context.Colaboradores
                 .FirstOrDefault(c => c.Identificacion == idEmpleado);
+
+            if (empleado == null)
+            {
+                TempData["ErrorMessage"] = "El empleado no existe.";
+                return RedirectToAction("SolicitarHorasExtras");
+            }
+
             var jefatura = _context.Colaboradores
                 .FirstOrDefault(c => c.Identificacion == Request.Cookies["Id"]);
 
-            string correo = empleado.Correo;
-            string nombre = empleado.Nombre;
-            string nomJefe = jefatura.Nombre;
+            if (jefatura == null)
+            {
+                TempData["ErrorMessage"] = "No se pudo identificar al jefe.";
+                return RedirectToAction("SolicitarHorasExtras");
+            }
+
             var solicitud = new SolicitudHorasExtra
             {
                 IdSolicitante = Request.Cookies["Id"],
-                IdEmpleado = "idEmpleado",
+                IdEmpleado = idEmpleado,
                 FechaSolicitud = fecha,
                 Horas = horas,
                 IdTipoActividad = idTipoActividad,
-                Estado = "Pendiente" 
+                Estado = "Pendiente"
             };
 
-            EnviarCorreo(correo, "Solicitud de horas extras", $"{nombre} se le ha solicitado la realizacion de horas extra por parte de {nomJefe} favor revisar la solicitud");
+            if (idTipoActividad.HasValue)
+            {
+                var tipoActividad = _context.TipoActividades
+                    .FirstOrDefault(t => t.IdTipoActividad == idTipoActividad.Value);
+
+                if (tipoActividad == null)
+                {
+                    TempData["ErrorMessage"] = "Tipo de actividad no válido.";
+                    return RedirectToAction("SolicitarHorasExtras");
+                }
+            }
+
+            EnviarCorreo(empleado.Correo, "Solicitud de horas extras", $"{empleado.Nombre} ha solicitado horas extras por parte de {jefatura.Nombre}. Favor revisar la solicitud.");
             _context.SolicitudHorasExtra.Add(solicitud);
             _context.SaveChanges();
-            TempData["SuccessMessage"] = "Solicitud de horas extras enviada correctamente.";
 
-            return RedirectToAction("~/Views/Paginas/Gestion_Horas_Extras/SolicitarHorasExtras.cshtml");
+            TempData["SuccessMessage"] = "Solicitud de horas extras enviada correctamente.";
+            return RedirectToAction("SolicitarHorasExtras");
         }
 
         private void EnviarCorreo(string destinatario, string asunto, string cuerpo)
@@ -85,10 +109,14 @@ namespace SitiosWeb.Controllers
         [HttpPost]
         public IActionResult Aprobar(int id)
         {
-            var solicitud = _context.SolicitudHorasExtra.FirstOrDefault(x => x.IdSolicitud == id);
+            var solicitud = _context.SolicitudHorasExtra
+                .Include(s => s.IdEmpleadoNavigation)
+                .Include(s => s.IdSolicitanteNavigation)
+                .FirstOrDefault(x => x.IdSolicitud == id);
+
             if (solicitud != null)
             {
-                solicitud.Estado = "Aprobada"; // Cambia el estado a 'Aprobada'
+                solicitud.Estado = "Aprobada";
                 solicitud.AprobadaPor = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChanges();
                 TempData["SuccessMessage"] = "Solicitud de horas extras aprobada correctamente.";
@@ -98,17 +126,20 @@ namespace SitiosWeb.Controllers
                 TempData["ErrorMessage"] = "Solicitud no encontrada.";
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Reporte");
         }
 
-        // Acción para denegar una solicitud de horas extras
         [HttpPost]
         public IActionResult Denegar(int id)
         {
-            var solicitud = _context.SolicitudHorasExtra.FirstOrDefault(x => x.IdSolicitud == id);
+            var solicitud = _context.SolicitudHorasExtra
+                .Include(s => s.IdEmpleadoNavigation)
+                .Include(s => s.IdSolicitanteNavigation)
+                .FirstOrDefault(x => x.IdSolicitud == id);
+
             if (solicitud != null)
             {
-                solicitud.Estado = "Denegada"; // Cambia el estado a 'Denegada'
+                solicitud.Estado = "Denegada";
                 solicitud.AprobadaPor = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.SaveChanges();
                 TempData["SuccessMessage"] = "Solicitud de horas extras denegada correctamente.";
@@ -118,18 +149,19 @@ namespace SitiosWeb.Controllers
                 TempData["ErrorMessage"] = "Solicitud no encontrada.";
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Reporte");
         }
 
-        // Acción para mostrar el reporte de solicitudes (para el Supervisor)
         [HttpGet]
         public IActionResult Reporte()
         {
             var solicitudes = _context.SolicitudHorasExtra
-                .Include(s => s.IdTipoActividadNavigation) // Incluye los detalles del tipo de actividad
+                .Include(s => s.IdTipoActividadNavigation)
+                .Include(s => s.IdEmpleadoNavigation)  // Incluye información del empleado
+                .Include(s => s.IdSolicitanteNavigation) // Incluye información del solicitante
                 .ToList();
 
-            return View(solicitudes); // Asegúrate de tener una vista Reporte.cshtml para mostrar las solicitudes
+            return View(solicitudes);
         }
     }
 }
