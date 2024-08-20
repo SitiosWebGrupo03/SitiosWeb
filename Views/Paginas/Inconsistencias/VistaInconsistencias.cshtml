@@ -13,7 +13,7 @@
 </head>
 <body>
     <p>
-        <a asp-action="Create">Nuevo</a>
+        <a asp-action="Create">Create New</a>
     </p>
     <table class="table">
         <thead>
@@ -50,9 +50,9 @@
                         @Html.DisplayFor(modelItem => item.IdTipoInconsistenciaNavigation.IdTipoInconsistencia)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.IdInconsistencia">Editar</a>
-                        <a asp-action="Detalles" asp-route-id="@item.IdInconsistencia">Detalles</a>
-                        <a asp-action="Delete" asp-route-id="@item.IdInconsistencia">Borrar</a>
+                        <a asp-action="Edit" asp-route-id="@item.IdInconsistencia">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.IdInconsistencia">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IdInconsistencia">Delete</a>
                     </td>
                 </tr>
             }

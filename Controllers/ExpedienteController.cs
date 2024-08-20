@@ -201,7 +201,7 @@ namespace SitiosWeb.Controllers
         }
 
 
-        public async Task<IActionResult> CargarComboxEditaraP()
+        public async Task<IActionResult> CargarComboxEditaP()
         {
             try
             {
@@ -224,7 +224,7 @@ namespace SitiosWeb.Controllers
             }
         }
         [HttpPost]
-           public IActionResult EditararPuesto(string idPuesto, string identificacion)
+           public IActionResult EditarPuesto(string idPuesto, string identificacion)
         {
             if (ModelState.IsValid)
             {

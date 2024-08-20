@@ -143,7 +143,7 @@ $.extend( $.fn, {
 	// https://jqueryvalidation.org/rules/
 	rules: function( command, argument ) {
 		var element = this[ 0 ],
-			isContentEditarable = typeof this.attr( "contentEditarable" ) !== "undefined" && this.attr( "contentEditarable" ) !== "false",
+			isContentEditable = typeof this.attr( "contenteditable" ) !== "undefined" && this.attr( "contenteditable" ) !== "false",
 			settings, staticRules, existingRules, data, param, filtered;
 
 		// If nothing is selected, return empty object; can't chain anyway
@@ -151,7 +151,7 @@ $.extend( $.fn, {
 			return;
 		}
 
-		if ( !element.form && isContentEditarable ) {
+		if ( !element.form && isContentEditable ) {
 			element.form = this.closest( "form" )[ 0 ];
 			element.name = this.attr( "name" );
 		}
@@ -419,10 +419,10 @@ $.extend( $.validator, {
 			} );
 
 			function delegate( event ) {
-				var isContentEditarable = typeof $( this ).attr( "contentEditarable" ) !== "undefined" && $( this ).attr( "contentEditarable" ) !== "false";
+				var isContentEditable = typeof $( this ).attr( "contenteditable" ) !== "undefined" && $( this ).attr( "contenteditable" ) !== "false";
 
-				// Set form expando on contentEditarable
-				if ( !this.form && isContentEditarable ) {
+				// Set form expando on contenteditable
+				if ( !this.form && isContentEditable ) {
 					this.form = $( this ).closest( "form" )[ 0 ];
 					this.name = $( this ).attr( "name" );
 				}
@@ -446,7 +446,7 @@ $.extend( $.validator, {
 					":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'], " +
 					"[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], " +
 					"[type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], " +
-					"[type='radio'], [type='checkbox'], [contentEditarable], [type='button']", delegate )
+					"[type='radio'], [type='checkbox'], [contenteditable], [type='button']", delegate )
 
 				// Support: Chrome, oldIE
 				// "select" is provided as event.target when clicking a option
@@ -651,19 +651,19 @@ $.extend( $.validator, {
 
 			// Select all valid inputs inside the form (no submit or reset buttons)
 			return $( this.currentForm )
-			.find( "input, select, textarea, [contentEditarable]" )
+			.find( "input, select, textarea, [contenteditable]" )
 			.not( ":submit, :reset, :image, :disabled" )
 			.not( this.settings.ignore )
 			.filter( function() {
-				var name = this.name || $( this ).attr( "name" ); // For contentEditarable
-				var isContentEditarable = typeof $( this ).attr( "contentEditarable" ) !== "undefined" && $( this ).attr( "contentEditarable" ) !== "false";
+				var name = this.name || $( this ).attr( "name" ); // For contenteditable
+				var isContentEditable = typeof $( this ).attr( "contenteditable" ) !== "undefined" && $( this ).attr( "contenteditable" ) !== "false";
 
 				if ( !name && validator.settings.debug && window.console ) {
 					console.error( "%o has no name assigned", this );
 				}
 
-				// Set form expando on contentEditarable
-				if ( isContentEditarable ) {
+				// Set form expando on contenteditable
+				if ( isContentEditable ) {
 					this.form = $( this ).closest( "form" )[ 0 ];
 					this.name = name;
 				}
@@ -718,7 +718,7 @@ $.extend( $.validator, {
 		elementValue: function( element ) {
 			var $element = $( element ),
 				type = element.type,
-				isContentEditarable = typeof $element.attr( "contentEditarable" ) !== "undefined" && $element.attr( "contentEditarable" ) !== "false",
+				isContentEditable = typeof $element.attr( "contenteditable" ) !== "undefined" && $element.attr( "contenteditable" ) !== "false",
 				val, idx;
 
 			if ( type === "radio" || type === "checkbox" ) {
@@ -727,7 +727,7 @@ $.extend( $.validator, {
 				return element.validity.badInput ? "NaN" : $element.val();
 			}
 
-			if ( isContentEditarable ) {
+			if ( isContentEditable ) {
 				val = $element.text();
 			} else {
 				val = $element.val();
@@ -1192,7 +1192,7 @@ $.extend( $.validator, {
 		dateISO: { dateISO: true },
 		number: { number: true },
 		digits: { digits: true },
-		crEditarcard: { crEditarcard: true }
+		creditcard: { creditcard: true }
 	},
 
 	addClassRules: function( className, rules ) {

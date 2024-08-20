@@ -25,8 +25,8 @@ namespace SitiosWeb.Controllers
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
-        // GET: SolicitudPermisoes/Detalles/5
-        public async Task<IActionResult> Detalles(int? id)
+        // GET: SolicitudPermisoes/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -55,7 +55,7 @@ namespace SitiosWeb.Controllers
 
         // POST: SolicitudPermisoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdSolicitud,IdEmpleado,DOH,DiasHorasFuera,Comentarios,IdTipoPermiso")] SolicitudPermiso solicitudPermiso)
@@ -71,7 +71,7 @@ namespace SitiosWeb.Controllers
             return View(solicitudPermiso);
         }
 
-        // GET: SolicitudPermisoes/Editar/5
+        // GET: SolicitudPermisoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,9 +89,9 @@ namespace SitiosWeb.Controllers
             return View(solicitudPermiso);
         }
 
-        // POST: SolicitudPermisoes/Editar/5
+        // POST: SolicitudPermisoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdSolicitud,IdEmpleado,DOH,DiasHorasFuera,Comentarios,IdTipoPermiso")] SolicitudPermiso solicitudPermiso)

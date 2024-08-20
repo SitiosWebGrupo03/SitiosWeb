@@ -250,7 +250,11 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Incapacidades/SolicitudIncapacidades.cshtml");
         }
-
+        [Authorize(Roles = "SUPERVISOR")]
+        public IActionResult menuCRUD()
+        {
+            return View("~/Views/Home/menuCRUD.cshtml");
+        }
 
         [Authorize(Roles = "SUPERVISOR")]
         public IActionResult IndexActividades()

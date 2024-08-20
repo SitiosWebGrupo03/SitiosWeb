@@ -25,8 +25,8 @@ namespace SitiosWeb.Controllers
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
-        // GET: Puestos/Detalles/5
-        public async Task<IActionResult> Detalles(string id)
+        // GET: Puestos/Details/5
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -53,7 +53,7 @@ namespace SitiosWeb.Controllers
 
         // POST: Puestos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdPuesto,NombrePuesto,Salario,IdDepartamento,Estado")] Puestos puestos)
@@ -68,7 +68,7 @@ namespace SitiosWeb.Controllers
             return View(puestos);
         }
 
-        // GET: Puestos/Editar/5
+        // GET: Puestos/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -85,9 +85,9 @@ namespace SitiosWeb.Controllers
             return View(puestos);
         }
 
-        // POST: Puestos/Editar/5
+        // POST: Puestos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("IdPuesto,NombrePuesto,Salario,IdDepartamento,Estado")] Puestos puestos)

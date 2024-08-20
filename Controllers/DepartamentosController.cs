@@ -24,8 +24,8 @@ namespace SitiosWeb.Controllers
             return View(await _context.Departamentos.ToListAsync());
         }
 
-        // GET: Departamentos/Detalles/5
-        public async Task<IActionResult> Detalles(int? id)
+        // GET: Departamentos/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -50,7 +50,7 @@ namespace SitiosWeb.Controllers
 
         // POST: Departamentos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdDepartamento,NomDepartamento,Estado")] Departamentos departamentos)
@@ -64,7 +64,7 @@ namespace SitiosWeb.Controllers
             return View(departamentos);
         }
 
-        // GET: Departamentos/Editar/5
+        // GET: Departamentos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,9 +80,9 @@ namespace SitiosWeb.Controllers
             return View(departamentos);
         }
 
-        // POST: Departamentos/Editar/5
+        // POST: Departamentos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more Detalles, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdDepartamento,NomDepartamento,Estado")] Departamentos departamentos)

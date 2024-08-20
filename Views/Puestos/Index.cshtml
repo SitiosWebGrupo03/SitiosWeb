@@ -15,16 +15,14 @@
 <body>
     <div id="contenedor">
         <div class="vertical-menu">
-            
-            <a asp-controller="Home" asp-action="IndexActividades">Actividades</a>
-            <a asp-controller="Home" asp-action="IndexInconsistencias">Inconsistencias</a>
-            <a asp-controller="Home" asp-action="IndexPermisos">Permisos</a>
-            <a asp-controller="Home" asp-action="IndexRebajos">Rebajos</a>
-            <a asp-controller="Home" asp-action="IndexUsuarios">Usuarios</a>
-            <a asp-controller="Home" asp-action="IndexDepartamentos">Departamentos</a>
-            <a asp-controller="Home" asp-action="IndexPuestos">Puestos</a>
-            <a asp-action="IndexSupervisor" asp-controller="Home"> Volver al menu</a>
-
+            <a href="/Home/menuCRUD" class="active">Menu</a>
+            <a href="/Home/IndexActividades">Actividades</a>
+            <a href="/Home/IndexInconsistencias">Inconcistencias</a>
+            <a href="/Home/IndexPermisos">Permisos</a>
+            <a href="/Home/IndexRebajos">Rebajos</a>
+            <a href="/Home/IndexUsuarios">Usuarios</a>
+            <a href="/Home/IndexDepartamentos">Departamentos</a>
+            <a href="/Home/IndexPuestos">Puestos</a>
         </div>
 
         <div id="contenido">
@@ -44,7 +42,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Estado)
                         </th>
-
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdDepartamentoNavigation)
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -61,10 +61,13 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Estado)
                             </td>
-
                             <td>
-                                <a asp-controller="Puestos" asp-action="Edit" asp-route-id="@item.IdPuesto">Editar</a>
-                                <a asp-controller="Puestos" asp-action="Delete" asp-route-id="@item.IdPuesto">Borrar</a>
+                                @Html.DisplayFor(modelItem => item.IdDepartamentoNavigation.IdDepartamento)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.IdPuesto">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.IdPuesto">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.IdPuesto">Delete</a>
                             </td>
                         </tr>
                     }
@@ -72,7 +75,9 @@
             </table>
         </div>
 
-
+        <div id="pie">
+            <a href="../Menu/menuSupervisor.html"> Volver al menu</a>
+        </div>
     </div>
 
 </body>

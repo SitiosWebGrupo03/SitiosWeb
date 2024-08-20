@@ -15,16 +15,14 @@
 <body>
     <div id="contenedor">
         <div class="vertical-menu">
-            
-            <a asp-controller="Home" asp-action="IndexActividades">Actividades</a>
-            <a asp-controller="Home" asp-action="IndexInconsistencias">Inconsistencias</a>
-            <a asp-controller="Home" asp-action="IndexPermisos">Permisos</a>
-            <a asp-controller="Home" asp-action="IndexRebajos">Rebajos</a>
-            <a asp-controller="Home" asp-action="IndexUsuarios">Usuarios</a>
-            <a asp-controller="Home" asp-action="IndexDepartamentos">Departamentos</a>
-            <a asp-controller="Home" asp-action="IndexPuestos">Puestos</a>
-            <a asp-action="IndexSupervisor" asp-controller="Home"> Volver al menu</a>
-
+            <a href="/Home/menuCRUD" class="active">Menu</a>
+            <a href="/Home/IndexActividades">Actividades</a>
+            <a href="/Home/IndexInconsistencias">Inconcistencias</a>
+            <a href="/Home/IndexPermisos">Permisos</a>
+            <a href="/Home/IndexRebajos">Rebajos</a>
+            <a href="/Home/IndexUsuarios">Usuarios</a>
+            <a href="/Home/IndexDepartamentos">Departamentos</a>
+            <a href="/Home/IndexPuestos">Puestos</a>
         </div>
 
         <div id="contenido">
@@ -62,13 +60,15 @@
 
                 <form asp-action="Delete">
                     <input type="hidden" asp-for="IdPuesto" />
-                    <input type="submit" value="Delete" class="btn btn-danger" />
-                    
+                    <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    <a asp-action="Index">Back to List</a>
                 </form>
             </div>
         </div>
 
-
+        <div id="pie">
+            <a href="../Menu/menuSupervisor.html"> Volver al menu</a>
+        </div>
     </div>
 
 </body>
