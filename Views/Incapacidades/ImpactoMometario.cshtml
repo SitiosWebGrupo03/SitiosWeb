@@ -1,61 +1,81 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string layout = null;
+    if (User.IsInRole("JEFATURA"))
+    {
+        layout = "~/Views/Shared/_LayoutJefatura.cshtml";
+    }
+    else if (User.IsInRole("SUPERVISOR"))
+    {
+        layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
+    }
+    Layout = layout;
+}
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impacto Monetario de la Incapacidad</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="~/css/impactoMonetario.css">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="header-content">
-                <img src="imagen_usuario.jpg" alt="Usuario" class="user-image">
-                <h1>Impacto monetario de la incapacidad</h1>
+
+
+        <div class="container">
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+            <div class="top-section">
+                <form asp-controller="SolicitudInca" asp-action="ObtenerImpactoMonetario">
+                    <div class="input-group">
+                        <label for="identificacion">Identificación</label>
+                        <input type="text" id="identificacion" name="identificacion" placeholder="Identificación" required>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="submit" class="accept-btn">Calcular</button>
+                    </div>
+                </form>
             </div>
-        </header>
-        <div class="content-section">
-            <div class="percentage-section">
-                <div class="percentage-box">
-                    <label for="empresa">Porcentaje pagado por la empresa:</label>
-                    <input type="text" id="empresa" placeholder="$100" disabled>
+            <div class="bottom-section">
+                <div class="form-section">
+                    <div class="input-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" placeholder="Nombre" value="@(ViewBag.Resultado?.NombreColaborador ?? string.Empty)" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label for="salario">Salario</label>
+                        <input type="text" id="salario" placeholder="Salario" value="@(ViewBag.Resultado?.SalarioDiario.ToString() ?? string.Empty)" disabled>
+                    </div>
+                    <div class="percentage-section">
+                        <div class="percentage-box">
+                            <label for="empresa">Porcentaje pagado por la empresa:</label>
+                            <input type="text" id="empresa" value="@(ViewBag.Resultado?.DiasIncapacidad.ToString() ?? string.Empty)" disabled>
+                        </div>
+                        <div class="percentage-box">
+                            <label for="ins">Porcentaje pagado por la ccss:</label>
+                            <input type="text" id="ins" placeholder="" value="@(ViewBag.Resultado?.PagoDLCaja.ToString() ?? string.Empty)" disabled>
+                        </div>
+                    </div>
                 </div>
-                <div class="percentage-box">
-                    <label for="ins">Porcentaje pagado por el INS:</label>
-                    <input type="text" id="ins" placeholder="%" disabled>
+                <div class="action-buttons">
+                    <button class="cancel-btn" onclick="descargarArchivo()">Descargar</button>
                 </div>
-            </div>
-            <div class="form-section">
-                <div class="input-group">
-                    <label for="identificacion">Identificación</label>
-                    <input type="text" id="identificacion" placeholder="Identificación">
-                </div>
-                <div class="input-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" placeholder="Nombre">
-                </div>
-                <div class="input-group">
-                    <label for="fecha-final">Fecha Final</label>
-                    <input type="date" id="fecha-final" placeholder="Fecha Final">
-                </div>
-                <div class="input-group">
-                    <label for="salario">Salario</label>
-                    <input type="text" id="salario" placeholder="Salario">
-                </div>
-                <div class="input-group">
-                    <label for="fecha-inicio">Fecha Inicio</label>
-                    <input type="date" id="fecha-inicio" placeholder="Fecha Inicio">
-                </div>
-                <div class="input-group">
-                    <label for="fecha-final">Fecha Final</label>
-                    <input type="date" id="fecha-final" placeholder="Fecha Final">
-                </div>
-            </div>
-            <div class="action-buttons">
-                <button class="accept-btn">Aceptar</button>
-                <button class="cancel-btn">Denegar</button>
             </div>
         </div>
-    </div>
+
+
 </body>
 </html>

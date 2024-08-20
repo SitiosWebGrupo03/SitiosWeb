@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     string layout = null;
     if (User.IsInRole("JEFATURA"))
     {
@@ -10,9 +11,18 @@
     }
     else if (User.IsInRole("SUPERVISOR"))
     {
-        layout = "~/Views/Shared/_LayoutSupervisor.cshtml"; // Corregido
+        layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
     }
     Layout = layout;
+}
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var userId = HttpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 }
 
 <!DOCTYPE html>
@@ -20,31 +30,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de Incapacidades</title>
+    <title>Expediente de los Colaboradores</title>
     <link rel="stylesheet" type="text/css" href="~/css/SolicitudIncapacidad.css">
-</head>
+</head> 
 <body>
     <div class="container">
-        <div class="header">
-            <img src="persona.png" alt="Persona" class="persona-img">
-            <h1>Solicitud de incapacidades</h1>
-        </div>
-        <div class="form-container">
+        <aside class="sidebar">
             @if (User.IsInRole("JEFATURA") || User.IsInRole("SUPERVISOR"))
             {
-                <aside class="sidebar">
-                    <h2>Opciones de marcas</h2>
+                <aside class="sidebar-menu">
+                    <h2>Gestion Incapacidades</h2>
                     <ul>
-                        <li><a asp-controller="SolicitudInca" asp-action="cargarTablaIncapacidades">Gestión de Incapacidades</a></li>
+                        <li><a asp-controller="SolicitudInca" asp-action="cargarTablaIncapacidades" style="text-decoration:none; color:inherit;">Gestión de Incapacidades</a></li>
+                        <li><a asp-controller="Home" asp-action="ImpactoMonetario" style="text-decoration:none; color:inherit;">Calcular Impacto Monetario</a></li>
+                        <li><a asp-controller="SolicitudInca" asp-action="CargarTAblaCg" style="text-decoration:none; color:inherit;">Control General</a></li>
                     </ul>
                 </aside>
             }
+        </aside>
+        <main class="main-content">
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success">@successMessage</div>
+            }
 
-            <form>
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+            <h1>Solicitud de incapacidades</h1>
+            <form asp-controller="SolicitudInca" asp-action="SolicitudIncapacidad">
                 <div class="form-row">
                     <div class="input-group">
                         <label for="identificacion">Identificación</label>
-                        <input type="text" id="identificacion" name="identificacion">
+                        <input type="text" id="identificacion" name="identificacion" value="@userId" readonly>
                     </div>
                     <div class="input-group">
                         <label for="puestoLaboral">Puesto Laboral</label>
@@ -52,13 +71,10 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="input-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre">
-                    </div>
+                    
                     <div class="input-group">
                         <label for="tipoIncapacidad">Tipo de Incapacidad</label>
-                        <select id="tipoIncapacidad" name="tipoIncapacidad">
+                        <select id="tipoIncapacidad" name="IdTipoPermiso">
                             @if (ViewBag.Permisos != null)
                             {
                                 @foreach (var permiso in ViewBag.Permisos)
@@ -72,11 +88,11 @@
                 <div class="form-row">
                     <div class="input-group">
                         <label for="fechaInicial">Fecha Inicial</label>
-                        <input type="date" id="fechaInicial" name="fechaInicial">
+                        <input type="date" id="FechaInicio" name="FechaInicio">
                     </div>
                     <div class="input-group">
                         <label for="fechaFinal">Fecha Final</label>
-                        <input type="date" id="fechaFinal" name="fechaFinal">
+                        <input type="date" id="fechaFinal" name="FechaFin">
                     </div>
                 </div>
                 <div class="buttons">
@@ -84,7 +100,8 @@
                     <button type="submit" class="btn-solicitar">Solicitar</button>
                 </div>
             </form>
-        </div>
+
+        </main>
     </div>
 </body>
 </html>

@@ -1,6 +1,7 @@
-﻿@model IEnumerable<SitiosWeb.Model.SolicitudPermiso>
+﻿@model IEnumerable<SitiosWeb.Model.SoliciditudIncapacida>
 
 @{
+
     string layout = null;
     if (User.IsInRole("JEFATURA"))
     {
@@ -12,7 +13,10 @@
     }
     Layout = layout;
 }
-
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -35,6 +39,15 @@
             </div>
         </div>
         <div class="results-section">
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success">@successMessage</div>
+            }
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
             <h2>Seleccione el colaborador que desea gestionar</h2>
             <table>
                 <thead>
@@ -54,7 +67,7 @@
                         foreach (var permisos in Model)
                         {
                             <tr>
-                                <td><input type="checkbox"></td>
+                                <td><input type="checkbox" class="select-row" data-id="@permisos.IdEmpleado"></td>
                                 <td>@permisos.IdEmpleado</td>
                                 <td>@permisos.DiasHorasFuera</td>
                                 <td>@permisos.FechaInicio</td>
