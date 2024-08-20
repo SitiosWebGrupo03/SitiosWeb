@@ -1,36 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #ffffff;
-    background: url('data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22eY1zb0UKOoe1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%201000%20100%22%20shape-rendering%3D%22geometricPrecision%22%20text-rendering%3D%22geometricPrecision%22%3E%3Cpath%20d%3D%22M788.863162%2C33.294348C732.356103%2C43.175113%2C673.7%2C75.1%2C597.9%2C43.1C568.3%2C30.4%2C521%2C12.1%2C497.4%2C7.2s-52.6-7.8-75.5-5.3C411.7%2C3%2C399.3%2C3.3%2C371.8%2C9.3c-27.2%2C6.3-58.2%2C16.6-79.4%2C24.7-41.3%2C15.9-94.9%2C21.9-134%2C22.6C72%2C58.2%2C0%2C25.8%2C0%2C25.8v74.2h1000v-34.7c0%2C0-98.199791-54.318863-132.148973-56s-54.592448%2C19.728591-78.987865%2C23.994348%22%20transform%3D%22translate(0-.492995)%22%20fill%3D%22%235e58f8%22%2F%3E%3C%2Fsvg%3E') no-repeat center bottom;
-    background-size: auto 35%;
-    height: 100vh;
-}
+
 #contenedor{
     width: auto;
     margin: 0 auto;
     min-width: 300px;
 }
-p a {
-    color: #5E58F8;
-    text-decoration: none;
-    border: solid 1px #5E58F8;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-}
-
 
 .vertical-menu {
-    border: 1px solid #7154fc;
-    margin-left: 1rem;
-    margin-top:83px;
     height: auto;
     width: 125px;
     float: left;
-    top : 20px;
-    position:sticky;
     display: flex;
     flex-direction: column;
     border-color: black;
@@ -44,21 +24,9 @@ p a {
         text-decoration: none;
         font-size: 14px;
     }
-
-    /* Apply styles to odd-numbered vertical menu items */
-        .vertical-menu a:nth-child(odd) {
-            background-color: #5d58f86b;
-            color: black;
-        }
-        .vertical-menu a:last-child {
-            border-top: 2px solid #ddd; /* Add a border on top for separation */
-            margin-top: 20px; /* Optional: adjust the margin as needed */
-            background: #5E58F8;
-            color:white;
-        }
+  
   .vertical-menu a:hover {
-        background: #5d58f86b;
-
+    background-color: #ccc; 
   }
 
         .vertical-menu a.active {
@@ -67,107 +35,29 @@ p a {
         }
 
 #contenido {
-    margin-left: 5rem;
-    margin-top: 5.5rem;
     float: left;
     font-family: 'Montserrat', sans-serif;
 }
-    #contenido .row{
-        display: flex;
-        flex-direction: column;
+
+    #contenido .row {
+        width: auto;
+        height: auto;
+        align-items: center;
     }
 
-.col-sm-10{
-        width: 200px;
+#pie {
+    clear: both;
+    background-color: #7154fc;
+    margin: 20px;
+    color: #eee;
 }
-#contenido input[type="text"] {
-    width: 350px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    text-align: left; /* Alinea el texto a la izquierda */
-    overflow-wrap: break-word; /* Asegura el ajuste del texto largo */
+
+#pie a{
+    text-decoration: none;
+    color: white;
 }
-#contenido input[type="number"] {
-    width:100px;
-}
-    #contenido input[type="submit"]{
-        background-color: #5E58F8;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    #contenido input[type="submit"]:hover {
-        background-color: #5d58f86b;
-    }
-    #contenido span {
+
+    #pie a:hover {
+        text-decoration: auto;
         color: red;
-        width: 250px;
-    }
-
-
-
-
-.table {
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: collapse;
-    border: 1px solid #ddd; /* Bordes de la tabla */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 18px;
-    max-height: 100%;
-}
-
-    .table th,
-    .table td {
-        padding: 0.75rem;
-        text-align: center;
-        justify-content: center;
-        border-right: 2px solid #dee2e6;
-        border-top: 1px solid #dee2e6;
-    }
-
-        .table td a {
-            padding: 5px 10px; /* Ajustar el padding según sea necesario */
-            margin: 0; /* Asegurarse de que no haya margen adicional */
-            border-radius: 5px;
-            text-align: center;
-            background-color: #5E58F8;
-            color: white;
-            cursor: pointer;
-            text-decoration:none;
-        }
-
-
-    .table thead th {
-        vertical-align: bottom;
-        justify-content: center;
-        border-right: 2px solid #dee2e6;
-        color: #5E58F8;
-    }
-
-    .table tbody + tbody {
-        border-top: 2px solid #dee2e6;
-    }
-
-    .table tbody tr:nth-of-type(odd) {
-        background: #5d58f86b;
-    }
-
-        .table tbody tr:nth-of-type(odd) a {
-            background-color: white;
-            color: black;
-        }
-
-    .table tbody tr:hover {
-        background-color: #5d58f825;
-    }
-
-    .table tbody tr:nth-of-type(odd):hover a {
-        background-color: #5d58f825;
     }
