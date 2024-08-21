@@ -10,10 +10,6 @@
     const form = document.getElementById('colaboradorForm');
     const btnGuardar = document.getElementById('btnGuardar');
 
-    if (!camera || !photo || !captureButton || !uploadInput || !customUploadButton || !removeButton || !removeLabel || !photoData || !form || !btnGuardar) {
-        console.error('Uno o más elementos DOM no se encuentran.');
-        return;
-    }
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true })
@@ -83,26 +79,7 @@
         event.preventDefault();
 
         const formData = new FormData(form);
-        const photoBase64 = photoData ? photoData.value : '';
 
-        if (photoBase64) {
-            formData.append('photoBase64', photoBase64);
-        }
-
-        fetch('/Asignar', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        form.submit();
     });
 });
