@@ -14,7 +14,7 @@ using System.Data;
 
 namespace SitiosWeb.Controllers
 {
-    [Route("api/[controller]")]
+   
     public class MarcaController : Controller
     {
         private readonly Tiusr22plProyectoContext _context;
@@ -202,23 +202,25 @@ namespace SitiosWeb.Controllers
 
             return View("~/Views/Marcas/MarcarHEX.cshtml");
         }
-    
 
-[HttpPost("processImage")]
-        public async Task<IActionResult> ProcessImage([FromBody] JObject data)
+
+        [HttpPost]
+        public async Task<IActionResult> ProcessImage(string photo)
         {
             try
             {
-                if (data == null||!data.ContainsKey("image"))
-         {
-                    return BadRequest(new { message = "No se recibió una imagen." });
+                if (string.IsNullOrEmpty(photo))
+                {
+                    TempData["ErrorMessage"] = "No se recibió una imagen.";
+                    return View("~/Views/Marcas/MarcarFaceID.cshtml");
                 }
 
-                var result = _faceRecognitionService.ProcessImage(data);
+                var result = _faceRecognitionService.ProcessImage(photo);
 
-                if (result.StartsWith("No hay coincidencia de rostros.")  ||result.StartsWith("Error"))
-         {
-                    return Ok(new { message = result });
+                if (result.StartsWith("No hay coincidencia de rostros.") || result.StartsWith("Error"))
+                {
+                    TempData["ErrorMessage"] = result;
+                    return View("~/Views/Marcas/MarcarFaceID.cshtml");
                 }
 
                 // Registro de la marca
@@ -230,7 +232,8 @@ namespace SitiosWeb.Controllers
 
                 if (colaborador == null)
                 {
-                    return BadRequest(new { message = "Colaborador no encontrado." });
+                    TempData["ErrorMessage"] = "Colaborador no encontrado.";
+                    return View("~/Views/Marcas/MarcarFaceID.cshtml");
                 }
 
                 await _context.Database.ExecuteSqlRawAsync(
@@ -239,11 +242,13 @@ namespace SitiosWeb.Controllers
                     new SqlParameter("@p1", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 );
 
-                return Ok(new { message = $"Marca registrada exitosamente para: {colaborador.Nombre} cedula: {colaborador.Identificacion} " });
+                TempData["SuccessMessage"] = $"Marca registrada exitosamente para: {colaborador.Nombre} cédula: {colaborador.Identificacion}";
+                return View("~/Views/Marcas/MarcarFaceID.cshtml");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Error: " + ex.Message });
+                TempData["ErrorMessage"] = "Error: " + ex.Message;
+                return View("~/Views/Marcas/MarcarFaceID.cshtml");
             }
         }
     }
