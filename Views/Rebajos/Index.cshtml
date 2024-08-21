@@ -10,11 +10,12 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="~/css/justificaciones.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Aplicar Rebajo</title>
 </head>
 <body>
  <div class="container">
-        <h2>Justificar Inconsistencia</h2>
+        <h2>Aplicar Rebajo</h2>
         <hr />
         <div class="row">
             <div class="col-md-6">
@@ -56,16 +57,17 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: '@Url.Action("GetTiposInconsistencias", "InconsistenciasColaborador")',
+            url: '@Url.Action("GetTiposInconsistencias", "Rebajos")',
             method: 'GET',
             success: function (data) {
+                console.log(data); // Verificar la respuesta en la consola
                 var $comboBox = $('#comboBox3');
                 $comboBox.empty();
 
                 if (data && data.length > 0) {
                     $.each(data, function (index, tipo) {
                         $comboBox.append($('<option>', {
-                            value: tipo.idTipoInconsistencia,
+                            value: tipo.idTipoInconsistencia, // Asegúrate que los nombres de las propiedades coincidan
                             text: tipo.descripcion
                         }));
                     });
@@ -80,6 +82,37 @@
                 $('#comboBox3').append($('<option>', {
                     value: '',
                     text: 'Error cargando los tipos de inconsistencia'
+                }));
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetTiposRebajos", "SolicitudeRebajo")',
+            method: 'GET',
+            success: function (data) {
+                var $comboBox = $('#comboBox4');
+                $comboBox.empty();
+
+                if (data && data.length > 0) {
+                    $.each(data, function (index, tipo) {
+                        $comboBox.append($('<option>', {
+                            value: tipo.idTipoRebajo,
+                            text: tipo.descripcion
+                        }));
+                    });
+                } else {
+                    $comboBox.append($('<option>', {
+                        value: '',
+                        text: 'No hay tipos disponibles'
+                    }));
+                }
+            },
+            error: function () {
+                $('#comboBox3').append($('<option>', {
+                    value: '',
+                    text: 'Error'
                 }));
             }
         });

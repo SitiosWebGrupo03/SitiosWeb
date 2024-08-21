@@ -27,6 +27,18 @@ namespace SitiosWeb.Controllers
             return View(await tiusr22plProyectoContext.ToListAsync());
         }
 
+        public async Task<IActionResult> GetTiposInconsistencias()
+        {
+            var tiposInconsistencias = await _context.TiposInconsistencias
+                .Select(ti => new
+                {
+                    IdTipoInconsistencia = ti.IdTipoInconsistencia,
+                    Descripcion = ti.Descripcion
+                })
+                .ToListAsync();
+
+            return Json(tiposInconsistencias);
+        }
 
         // GET: Rebajos/Create
         public IActionResult Create()
