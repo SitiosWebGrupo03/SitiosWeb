@@ -207,4 +207,72 @@ video {
         padding: 10px;
         font-size: 14px;
     }
+
+
+    @media (max-width: 768px) {
+        /* Ajustar el layout */
+        .container {
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+        }
+
+        .sidebar {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+
+            .main-content h1 {
+                font-size: 24px;
+            }
+
+        .check-in-out {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .date h3, .time h4 {
+            font-size: 18px;
+        }
+
+        .time {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .containerFace {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+
+        .buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+        }
+    }
+
+    Enviar mensaje a @Mauricio
+
 }
