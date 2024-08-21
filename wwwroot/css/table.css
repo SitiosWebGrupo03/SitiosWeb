@@ -105,23 +105,25 @@ body {
     gap: 20px;
     color: white;
 }
-    .tarjeta{
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #5d58f8ff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        font-size: 17px;
-        height: fit-content;
-        width: fit-content;
-        text-decoration:none;
-        transition: transform 0.2s;
-        text-align: center;
+.tarjeta {
+    color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #5d58f8ff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-size: 17px;
+    height: fit-content;
+    width: fit-content;
+    text-decoration: none;
+    transition: transform 0.2s;
+    text-align: center;
+}
+    .tarjeta:hover {
+        text-decoration: none;
+        transform: scale(1.2);
+        color: white;
     }
-        .tarjeta:hover {
-            text-decoration: none;
-            transform:scale(1.2);
-        }
         .tarjeta p {
             margin: 0 auto;
             padding: 0;
@@ -139,6 +141,6 @@ body {
 }
 #titulolbl3 {
     position: absolute;
-    left: 60%;
+    left: 65%;
     top: 18%;
 }
