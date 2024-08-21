@@ -226,7 +226,7 @@ namespace SitiosWeb.Controllers
                 // Registro de la marca
                 var identificacion = result; // Nombre del archivo, que es el número de cédula
 
-                // Aquí debes buscar el colaborador por identificacion
+                // Buscar el colaborador por identificación
                 var colaborador = await _context.Colaboradores
                     .FirstOrDefaultAsync(c => c.Identificacion == identificacion);
 
@@ -236,24 +236,57 @@ namespace SitiosWeb.Controllers
                     return View("~/Views/Marcas/MarcarFaceID.cshtml");
                 }
 
+                // Hora actual
+                var horaActual = DateTime.Now;
+
+                // Llamar al procedimiento almacenado para registrar la marca
+                var idEmpleadoParam = new SqlParameter("@id_empleado", colaborador.Identificacion);
+                var horaParam = new SqlParameter("@hora", horaActual);
+
+                var resultadoParam = new SqlParameter("@resultado", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
                 await _context.Database.ExecuteSqlRawAsync(
-                    "EXEC RegistrarMarca @p0, @p1",
-                    new SqlParameter("@p0", colaborador.Identificacion),
-                    new SqlParameter("@p1", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                    "EXEC Grupo03.RegistrarMarca @id_empleado, @hora, @resultado OUTPUT",
+                    idEmpleadoParam, horaParam, resultadoParam
                 );
 
-                TempData["SuccessMessage"] = $"Marca registrada exitosamente para: {colaborador.Nombre} cédula: {colaborador.Identificacion}";
-                return View("~/Views/Marcas/MarcarFaceID.cshtml");
+                int resultado = (int)resultadoParam.Value;
+
+                if (resultado == 1)
+                {
+                    TempData["SuccessMessage"] = "Salida tardía registrada.";
+                }
+                else if (resultado == 2)
+                {
+                    TempData["SuccessMessage"] = "Entrada temprana registrada.";
+                }
+                else if (resultado == 3)
+                {
+                    TempData["SuccessMessage"] = "Marca registrada exitosamente.";
+                    IQueryable<Marcas> query = _context.Marcas.Include(m => m.IdEmpleadoNavigation);
+                    var marcas = await query.ToListAsync();
+                    return View("~/Views/Marcas/MarcaNormalColab.cshtml", marcas);
+                }
+                else if (resultado == 4)
+                {
+                    TempData["ErrorMessage"] = "No puedes marcar dentro de los 20 minutos de la última marca.";
+                }
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Error: " + ex.Message;
-                return View("~/Views/Marcas/MarcarFaceID.cshtml");
+                TempData["ErrorMessage"] = "Error al registrar la marca: " + ex.Message;
             }
+
+            // Redirigir a la vista de error o éxito, según el caso
+            return View("~/Views/Marcas/MarcarFaceID.cshtml");
         }
-    }
 
     }
+
+}
 
 
 
