@@ -17,7 +17,6 @@
     var successMessage = TempData["SuccessMessage"] as string;
     var errorMessage = TempData["ErrorMessage"] as string;
 }
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -49,48 +48,67 @@
         </div>
         <div class="results-section">
             <h2>Seleccione el colaborador que desea gestionar</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Identificación</th>
-                        <th>Cantidad Días Fuera</th>
-                        <th>Fecha Inicio</th>
-                        <th>Fecha Final</th>
-                        <th>Puesto Laboral</th>
-                        <th>Tipo de Incapacidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any())
-                    {
-                        foreach (var permiso in Model)
+            <form asp-controller="SolicitudInca" asp-action="GestionAprobr" id="formAprobacion" method="post">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Identificación</th>
+                            <th>Cantidad Días Fuera</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Final</th>
+                            <th>Puesto Laboral</th>
+                            <th>Tipo de Incapacidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var permiso in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="select-row"
+                                               data-id="@permiso.IdEmpleado"
+                                               data-diasHorasFuera="@permiso.DiasHorasFuera"
+                                               data-idTipoPermiso="@permiso.IdTipoPermiso"
+                                               data-puestoLaboral="@permiso.puestoLaboral"
+                                               data-fechaInicio="@permiso.FechaInicio"
+                                               data-fechaFin="@permiso.FechaFin">
+                                    </td>
+                                    <td>@permiso.IdEmpleado</td>
+                                    <td>@permiso.DiasHorasFuera</td>
+                                    <td>@permiso.FechaInicio</td>
+                                    <td>@permiso.FechaFin</td>
+                                    <td>@permiso.puestoLaboral</td>
+                                    <td>@permiso.IdTipoPermiso</td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td><input type="checkbox" class="select-row" data-id="@permiso.IdEmpleado"></td>
-                                <td>@permiso.IdEmpleado</td>
-                                <td>@permiso.DiasHorasFuera</td>
-                                <td>@permiso.FechaInicio</td>
-                                <td>@permiso.FechaFin</td>
-                                <td>@permiso.puestoLaboral</td>
-                                <td>@permiso.IdTipoPermiso</td>
+                                <td colspan="7">No se encontraron registros.</td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="7">No se encontraron registros.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <div class="action-buttons">
-                <button class="accept-btn">Aceptar</button>
-                <button class="cancel-btn">Denegar</button>
-            </div>
+                    </tbody>
+                </table>
+                <div class="action-buttons">
+                    <button type="button" class="accept-btn" onclick="enviarDatos(1)">Aceptar</button>
+                    <button type="button" class="cancel-btn" onclick="enviarDatos(0)">Denegar</button>
+                </div>
+
+                <input type="hidden" id="hiddenIdEmpleado" name="identificacion">
+                <input type="hidden" id="hiddenDiasHorasFuera" name="diasFuera">
+                <input type="hidden" id="hiddenFechaInicio" name="FechaInicio">
+                <input type="hidden" id="hiddenFechaFin" name="FechaFin">
+                <input type="hidden" id="hiddenPuestoLaboral" name="puestoLaboral">
+                <input type="hidden" id="hiddenIdTipoPermiso" name="IdTipoPermiso">
+                <input type="hidden" id="hiddenEstado" name="estado">
+            </form>
         </div>
     </div>
+
     <script src="~/js/AprovacionODen.js"></script>
 </body>
 </html>

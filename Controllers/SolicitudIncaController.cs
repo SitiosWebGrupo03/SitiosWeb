@@ -114,43 +114,7 @@ namespace SitiosWeb.Controllers
 
             return View("~/Views/Incapacidades/AprobacionInco.cshtml", permisos);
         }
-        [HttpPost("Aprob")]
-        public async Task<IActionResult> GestionAprob([FromBody] List<Incapacidades> permisos)
-        {
-            if (permisos == null || !permisos.Any())
-            {
-                TempData["ErrorMessage"] = "No se recibieron permisos.";
-                return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml", await _context.SolicitudPermiso.AsNoTracking().ToListAsync());
-            }
-
-            try
-            {
-                foreach (var permiso in permisos)
-                {
-                    await _context.Database.ExecuteSqlRawAsync(
-                        "EXEC ProcesarSolicitudPermiso @estado, @IdEmpleado, @DOH, @DiasHorasFuera, @IdTipoPermiso, @PuestoLaboral, @FechaInicio, @FechaFin",
-                        new SqlParameter("@estado", permiso.Estado),
-                        new SqlParameter("@IdEmpleado", permiso.IdEmpleado),
-                        new SqlParameter("@DOH", true),
-                        new SqlParameter("@DiasHorasFuera", permiso.DiasHorasFuera),
-                        new SqlParameter("@IdTipoPermiso", permiso.IdTipoPermiso),
-                        new SqlParameter("@PuestoLaboral", permiso.puestoLaboral),
-                        new SqlParameter("@FechaInicio", permiso.FechaInicio),
-                        new SqlParameter("@FechaFin", permiso.FechaFin)
-                    );
-                }
-
-                TempData["SuccessMessage"] = "Puesto asignado exitosamente.";
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = "Error al realizar su transacción: " + ex.Message;
-            }
-
-
-            var permisosActualizados = await _context.SolicidtudIncapadad.AsNoTracking().ToListAsync();
-            return View("~/Views/Incapacidades/AprobacionoDeneInca.cshtml", permisosActualizados);
-        }
+ 
 
         [HttpPost]
         public IActionResult SolicitudIncapacidad(string identificacion, string puestoLaboral, DateTime FechaInicio, DateTime FechaFin, string idTipoPermiso)
@@ -198,6 +162,52 @@ namespace SitiosWeb.Controllers
             return View("~/Views/Incapacidades/SolicitudIncapacidades.cshtml");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GestionAprobr(string identificacion, string diasFuera, DateTime[] FechaInicio, DateTime[] FechaFin, string puestoLaboral, string IdTipoPermiso, int estado)
+        {
+            // Convertir los valores separados por comas en listas
+            var ids = identificacion?.Split(',') ?? Array.Empty<string>();
+            var diasHoras = diasFuera?.Split(',') ?? Array.Empty<string>();
+            var puestos = puestoLaboral?.Split(',') ?? Array.Empty<string>();
+            var tiposPermiso = IdTipoPermiso?.Split(',') ?? Array.Empty<string>();
+
+            // Convertir fechas desde los arrays de strings a DateTime
+            var fechasInicio = FechaInicio;
+            var fechasFin = FechaFin;
+
+            // Validar los datos recibidos
+            if (!ids.Any() || ids.Length != diasHoras.Length || ids.Length != puestos.Length || ids.Length != tiposPermiso.Length || ids.Length != fechasInicio.Length || ids.Length != fechasFin.Length)
+            {
+                TempData["ErrorMessage"] = "Datos incompletos o incorrectos.";
+                return View("~/Views/Incapacidades/AprobacionInco.cshtml", await _context.SolicidtudIncapadad.AsNoTracking().ToListAsync());
+            }
+
+            try
+            {
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    await _context.Database.ExecuteSqlRawAsync(
+                        "EXEC ProcesarSolicitudPermiso @estado, @IdEmpleado, @DOH, @DiasHorasFuera, @IdTipoPermiso, @PuestoLaboral, @FechaInicio, @FechaFin",
+                        new SqlParameter("@estado", estado),
+                        new SqlParameter("@IdEmpleado", ids[i]),
+                        new SqlParameter("@DOH", true),
+                        new SqlParameter("@DiasHorasFuera", int.Parse(diasHoras[i])),
+                        new SqlParameter("@IdTipoPermiso", tiposPermiso[i]),
+                        new SqlParameter("@PuestoLaboral", puestos[i]),
+                        new SqlParameter("@FechaInicio", fechasInicio[i]),
+                        new SqlParameter("@FechaFin", fechasFin[i])
+                    );
+                }
+
+                TempData["SuccessMessage"] = "Las solicitudes han sido procesadas con Ã©xito.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Se produjo un error al procesar las solicitudes: {ex.Message}";
+            }
+
+            return View("~/Views/Incapacidades/AprobacionInco.cshtml", await _context.SolicidtudIncapadad.AsNoTracking().ToListAsync());
+        }
 
 
 
