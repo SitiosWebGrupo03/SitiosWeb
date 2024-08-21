@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SitiosWeb.Controllers
 {
+    [Route("api/[controller]")]
     public class ExpedienteController : Controller
     {
         private readonly Tiusr22plProyectoContext _context;

@@ -14,6 +14,7 @@ using System.Data;
 
 namespace SitiosWeb.Controllers
 {
+    [Route("api/[controller]")]
     public class MarcaController : Controller
     {
         private readonly Tiusr22plProyectoContext _context;
