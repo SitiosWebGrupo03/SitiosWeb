@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace SitiosWeb.Controllers
 {
-    [Route("api/[controller]")]
     public class ExpedienteController : Controller
     {
         private readonly Tiusr22plProyectoContext _context;
@@ -346,24 +345,30 @@ namespace SitiosWeb.Controllers
             //return Json(new { success = true, nombre = colaborador.Nombre, puesto = colaborador.IdPuesto /*, horario = horario*/ });
         }
 
-        [HttpPost("Asignar")]
-        public async Task<IActionResult> AgregarColaborador([FromForm] Colaboradores colaboradorDto, [FromForm] string photoBase64)
+        public async Task<IActionResult> AgregarColaborador(string identificacion, string nombre,
+string apellidos, DateOnly fecha_nacimiento, DateOnly fecha_contratacion, DateOnly fecha_fin_contrato,
+string correo, int telefono, string photo, string photoData)
         {
-            if (colaboradorDto == null || string.IsNullOrEmpty(photoBase64))
+            string photoBase64 = string.Empty;
+            if (photo != null)
             {
-                return Json(new { success = false, message = "Todos los campos son requeridos." });
+                photoBase64 = photo;
+            }
+            else if (photoData != null)
+            {
+                photoBase64 = photoData;
             }
 
             var colaborador = new Colaboradores
             {
-                Identificacion = colaboradorDto.Identificacion,
-                Nombre = colaboradorDto.Nombre,
-                Apellidos = colaboradorDto.Apellidos,
-                FechaNaciento = colaboradorDto.FechaNaciento,
-                FechaContratacion = colaboradorDto.FechaContratacion,
-                FechaFinContrato = colaboradorDto.FechaFinContrato,
-                Correo = colaboradorDto.Correo,
-                Telefono = colaboradorDto.Telefono
+                Identificacion = identificacion,
+                Nombre = nombre,
+                Apellidos = apellidos,
+                FechaNaciento = fecha_nacimiento,
+                FechaContratacion = fecha_contratacion,
+                FechaFinContrato = fecha_fin_contrato,
+                Correo = correo,
+                Telefono = telefono
             };
 
             try
@@ -379,40 +384,33 @@ namespace SitiosWeb.Controllers
                         var base64Data = photoBase64.Replace($"data:image/{imageType};base64,", "");
                         var imageBytes = Convert.FromBase64String(base64Data);
 
-                        var imagePath = Path.Combine(_env.WebRootPath, "imageFaceID", $"{colaboradorDto.Identificacion}.jpg");
+                        var imagePath = Path.Combine(_env.WebRootPath, "imageFaceID", $"{identificacion}.jpg");
                         await System.IO.File.WriteAllBytesAsync(imagePath, imageBytes);
                     }
                     else
                     {
-                        return Json(new { success = false, message = "El formato de la imagen no es vÃ¡lido." });
+                        TempData["ErrorMessage"] = "El formato de la imagen no es vÃ¡lido.";
+                        return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
                     }
                 }
 
-                return Json(new { success = true, message = "Colaborador agregado exitosamente." });
+                TempData["SuccessMessage"] = "Colaborador agregado exitosamente.";
+                return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Error al agregar el colaborador: " + ex.Message });
+                TempData["ErrorMessage"] = "Error al agregar el colaborador: " + ex.Message;
+                return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
             }
         }
 
-
-        public IActionResult AgregarColaborador()
-        {
-            return View("~/Views/ExpedienteEmpleado/AgregarC.cshtml");
-        }
-
-        public class ImagenDto
-        {
-            public string ImagenBase64 { get; set; }
-        }
 
 
 
 
     }
 
-   
+
 
 
 }

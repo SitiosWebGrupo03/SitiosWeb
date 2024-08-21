@@ -22,7 +22,7 @@
             <ul class="sidebar-menu">
 
                 <li> <a asp-action="CargarComboxAP" asp-controller="Expediente">Asignar Puesto</a></li>
-                <li> <a asp-action="CrearUS" asp-controller="Home" >Crear Usuario</a></li>
+                <li> <a asp-action="CrearUS" asp-controller="Home">Crear Usuario</a></li>
             </ul>
         </aside>
         <main class="main-content">
@@ -39,7 +39,7 @@
             <div class="form-photo-container">
                 <div class="form-container">
                     <h2>Formulario de nuevo colaborador</h2>
-                    <form id="colaboradorForm" enctype="multipart/form-data">
+                    <form asp-controller="Expediente" asp-action="AgregarColaborador" id="colaboradorForm" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="identificacion">Identificación</label>
                             <input type="text" id="identificacion" name="identificacion" required>
@@ -54,15 +54,15 @@
                         </div>
                         <div class="form-group">
                             <label for="fecha-nacimiento">Fecha Nacimiento</label>
-                            <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" required>
+                            <input type="date" id="fecha-nacimiento" name="fecha_nacimiento" required>
                         </div>
                         <div class="form-group">
                             <label for="fecha-contratacion">Fecha Contratación</label>
-                            <input type="date" id="fecha-contratacion" name="fecha-contratacion" required>
+                            <input type="date" id="fecha-contratacion" name="fecha_contratacion" required>
                         </div>
                         <div class="form-group">
                             <label for="fecha-fin-contrato">Fecha Fin Contrato</label>
-                            <input type="date" id="fecha-fin-contrato" name="fecha-fin-contrato" required>
+                            <input type="date" id="fecha-fin-contrato" name="fecha_fin_contrato" required>
                         </div>
                         <div class="form-group">
                             <label for="correo">Correo</label>
@@ -77,7 +77,7 @@
                             <button type="button" id="btnCrearUsuario" class="btn">Crear Usuario</button>
                         </div>
                         <div class="submit-button">
-                            <button type="button" id="btnGuardar" class="btn">Guardar</button>
+                            <button type="submit" id="btnGuardar" class="btn">Guardar</button>
                         </div>
                         <input type="file" id="uploadPhoto" name="photo" accept="image/*" style="display:none;">
                         <input type="hidden" id="photoData" name="photoData">

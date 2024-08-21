@@ -1,78 +1,42 @@
-﻿const video = document.getElementById('video');
-const captureBtn = document.getElementById('captureBtn');
-const statusDiv = document.getElementById('status');
-const dateDiv = document.querySelector('.date h3');
-const entryTimeDiv = document.querySelector('.entry-time p');
-const exitTimeDiv = document.querySelector('.exit-time p');
+﻿document.addEventListener('DOMContentLoaded', (event) => {
+    // Obtén los elementos del DOM
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureBtn = document.getElementById('captureBtn');
+    const photoField = document.getElementById('photoField');
+    const form = document.getElementById('captureForm');
 
-async function initCamera() {
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-    } catch (err) {
-        console.error('Error al acceder a la cámara: ', err);
-        statusDiv.innerText = 'Error al acceder a la cámara: ' + err.message;
-    }
-}
-
-function updateTime() {
-    const now = new Date();
-    const dateString = now.toLocaleDateString('es-ES');
-    const timeString = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-
-    dateDiv.innerText = `Fecha: ${dateString}`;
-    entryTimeDiv.innerText = timeString;
-    exitTimeDiv.innerText = timeString; // Actualiza con la misma hora por defecto
-}
-
-function isValidBase64(base64String) {
-    // Verifica si la cadena tiene el formato que se ocupa
-    const base64Regex = /^data:image\/(jpeg|png);base64,[a-zA-Z0-9+/=]+$/;
-    return base64Regex.test(base64String);
-}
-
-captureBtn.addEventListener('click', () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    const dataURL = canvas.toDataURL('image/jpeg');
-    const imageParts = dataURL.split(',');
-
-    // verifica que la cadena base64 tenga el formato que se ocupa
-    if (imageParts.length !== 2 || !isValidBase64(dataURL)) {
-        statusDiv.innerText = 'La cadena base64 de la imagen no es válida.';
-        return;
-    }
-
-    const base64Data = imageParts[1]; // Extraer solo los datos base64
-
-    fetch('/processImage', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ image: base64Data })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+    // Configura el video para que capture desde la cámara
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+            video.play();
         })
-        .then(data => {
-            console.log('Server Response:', data);
-            statusDiv.innerText = data.message;
-        })
-        .catch(err => {
-            console.error('Error al procesar la imagen: ', err);
-            statusDiv.innerText = 'Error al procesar la imagen: ' + err.message;
+        .catch(error => {
+            console.error('Error accessing the camera: ', error);
         });
-});
 
-document.addEventListener('DOMContentLoaded', () => {
-    initCamera();
-    updateTime();
+    captureBtn.addEventListener('click', function (event) {
+        event.preventDefault(); // Evita el comportamiento por defecto del botón
+
+        // Configura el canvas con las dimensiones del video
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Dibuja la imagen del video en el canvas
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Convierte el contenido del canvas a base64
+        const photoBase64 = canvas.toDataURL('image/jpeg');
+
+        // Asigna el valor base64 al campo oculto
+        photoField.value = photoBase64;
+
+        // Opcional: Agrega un mensaje de estado
+        document.getElementById('status').innerText = 'Imagen capturada y lista para enviar.';
+
+        // Envía el formulario
+        form.submit();
+    });
 });

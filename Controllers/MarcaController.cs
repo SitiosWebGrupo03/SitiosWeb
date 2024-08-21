@@ -14,7 +14,7 @@ using System.Data;
 
 namespace SitiosWeb.Controllers
 {
-    [Route("api/[controller]")]
+   
     public class MarcaController : Controller
     {
         private readonly Tiusr22plProyectoContext _context;
@@ -202,53 +202,91 @@ namespace SitiosWeb.Controllers
 
             return View("~/Views/Marcas/MarcarHEX.cshtml");
         }
-    
 
-[HttpPost("processImage")]
-        public async Task<IActionResult> ProcessImage([FromBody] JObject data)
+
+        [HttpPost]
+        public async Task<IActionResult> ProcessImage(string photo)
         {
             try
             {
-                if (data == null||!data.ContainsKey("image"))
-         {
-                    return BadRequest(new { message = "No se recibió una imagen." });
+                if (string.IsNullOrEmpty(photo))
+                {
+                    TempData["ErrorMessage"] = "No se recibió una imagen.";
+                    return View("~/Views/Marcas/MarcarFaceID.cshtml");
                 }
 
-                var result = _faceRecognitionService.ProcessImage(data);
+                var result = _faceRecognitionService.ProcessImage(photo);
 
-                if (result.StartsWith("No hay coincidencia de rostros.")  ||result.StartsWith("Error"))
-         {
-                    return Ok(new { message = result });
+                if (result.StartsWith("No hay coincidencia de rostros.") || result.StartsWith("Error"))
+                {
+                    TempData["ErrorMessage"] = result;
+                    return View("~/Views/Marcas/MarcarFaceID.cshtml");
                 }
 
                 // Registro de la marca
                 var identificacion = result; // Nombre del archivo, que es el número de cédula
 
-                // Aquí debes buscar el colaborador por identificacion
+                // Buscar el colaborador por identificación
                 var colaborador = await _context.Colaboradores
                     .FirstOrDefaultAsync(c => c.Identificacion == identificacion);
 
                 if (colaborador == null)
                 {
-                    return BadRequest(new { message = "Colaborador no encontrado." });
+                    TempData["ErrorMessage"] = "Colaborador no encontrado.";
+                    return View("~/Views/Marcas/MarcarFaceID.cshtml");
                 }
 
+                // Hora actual
+                var horaActual = DateTime.Now;
+
+                // Llamar al procedimiento almacenado para registrar la marca
+                var idEmpleadoParam = new SqlParameter("@id_empleado", colaborador.Identificacion);
+                var horaParam = new SqlParameter("@hora", horaActual);
+
+                var resultadoParam = new SqlParameter("@resultado", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
                 await _context.Database.ExecuteSqlRawAsync(
-                    "EXEC RegistrarMarca @p0, @p1",
-                    new SqlParameter("@p0", colaborador.Identificacion),
-                    new SqlParameter("@p1", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                    "EXEC Grupo03.RegistrarMarca @id_empleado, @hora, @resultado OUTPUT",
+                    idEmpleadoParam, horaParam, resultadoParam
                 );
 
-                return Ok(new { message = $"Marca registrada exitosamente para: {colaborador.Nombre} cedula: {colaborador.Identificacion} " });
+                int resultado = (int)resultadoParam.Value;
+
+                if (resultado == 1)
+                {
+                    TempData["SuccessMessage"] = "Salida tardía registrada.";
+                }
+                else if (resultado == 2)
+                {
+                    TempData["SuccessMessage"] = "Entrada temprana registrada.";
+                }
+                else if (resultado == 3)
+                {
+                    TempData["SuccessMessage"] = "Marca registrada exitosamente.";
+                    IQueryable<Marcas> query = _context.Marcas.Include(m => m.IdEmpleadoNavigation);
+                    var marcas = await query.ToListAsync();
+                    return View("~/Views/Marcas/MarcaNormalColab.cshtml", marcas);
+                }
+                else if (resultado == 4)
+                {
+                    TempData["ErrorMessage"] = "No puedes marcar dentro de los 20 minutos de la última marca.";
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Error: " + ex.Message });
+                TempData["ErrorMessage"] = "Error al registrar la marca: " + ex.Message;
             }
+
+            // Redirigir a la vista de error o éxito, según el caso
+            return View("~/Views/Marcas/MarcarFaceID.cshtml");
         }
-    }
 
     }
+
+}
 
 
 

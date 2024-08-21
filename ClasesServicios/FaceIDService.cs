@@ -29,16 +29,16 @@ namespace SitiosWeb.ServicesClass
             }
         }
 
-        public string ProcessImage(JObject data)
+        public string ProcessImage(string base64Image)
         {
             try
             {
-                if (data == null || !data.ContainsKey("image"))
+                if (string.IsNullOrEmpty(base64Image))
                 {
                     return "No se recibió una imagen.";
                 }
 
-                string base64Image = data["image"].ToString();
+                // Eliminar el encabezado "data:image/jpeg;base64," si está presente
                 string base64Data = base64Image.Contains(',') ? base64Image.Split(',')[1] : base64Image;
 
                 byte[] imageBytes = Convert.FromBase64String(base64Data);
