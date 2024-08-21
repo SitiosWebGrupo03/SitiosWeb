@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SitiosWeb.Model.Rebajos>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSupervisor.cshtml";
 }
 
 <!DOCTYPE html>
@@ -9,65 +9,79 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="~/css/justificaciones.css" />
+    <title>Aplicar Rebajo</title>
 </head>
 <body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaRebajo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aprobacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdColaboradorNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdTipoRebajoNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdValidadorNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InconsistenciaNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRebajo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aprobacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdColaboradorNavigation.Identificacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdTipoRebajoNavigation.IdTipoRebajo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdValidadorNavigation.Identificacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InconsistenciaNavigation.IdInconsistencia)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdRebajo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdRebajo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdRebajo">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+ <div class="container">
+        <h2>Justificar Inconsistencia</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-controller="Rebajos" asp-action="aplicarRebajo">
+
+                    <div class="form-group">
+                        <label for="idInconsistencia" class="control-label">Colaborador: </label>
+                        <input type="text" id="" name="colab" class="form-control" value=""  />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha" class="control-label">Fecha:</label>
+                        <input type="date" id="fecha" name="fecha" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comboBox3" class="control-label">Tipo Inconsistencia:</label>
+                        <select id="comboBox3" name="idtipoinconsistencia" class="form-control">
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comboBox4" class="control-label">Tipo Rebajo:</label>
+                        <select id="comboBox4" name="IdTipoRebajo" class="form-control">
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Enviar" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+ </div>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetTiposInconsistencias", "InconsistenciasColaborador")',
+            method: 'GET',
+            success: function (data) {
+                var $comboBox = $('#comboBox3');
+                $comboBox.empty();
+
+                if (data && data.length > 0) {
+                    $.each(data, function (index, tipo) {
+                        $comboBox.append($('<option>', {
+                            value: tipo.idTipoInconsistencia,
+                            text: tipo.descripcion
+                        }));
+                    });
+                } else {
+                    $comboBox.append($('<option>', {
+                        value: '',
+                        text: 'No hay tipos de inconsistencia disponibles'
+                    }));
+                }
+            },
+            error: function () {
+                $('#comboBox3').append($('<option>', {
+                    value: '',
+                    text: 'Error cargando los tipos de inconsistencia'
+                }));
+            }
+        });
+    });
+</script>

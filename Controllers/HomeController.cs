@@ -46,7 +46,10 @@ namespace SitiosWeb.Controllers
         {
             return View("~/Views/Paginas/login/login.cshtml");
         }
-
+        public IActionResult AplicarReb()
+        {
+            return View("~/Views/Rebajos/Index.cshtml");
+        }
         public IActionResult CerrarSesion()
         {
 

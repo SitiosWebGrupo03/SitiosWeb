@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -36,9 +38,63 @@ namespace SitiosWeb.Controllers
             return View();
         }
 
-        // POST: Rebajos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public async Task<IActionResult> aplicarRebajo(string colab, DateOnly fecha, int idtipoinconsistencia, int IdTipoRebajo) 
+        {
+
+            var colaborador = _context.Colaboradores
+                .FirstOrDefault(c => c.Identificacion == colab);
+
+            var rebajo = new Rebajos
+            {
+                IdColaborador = colab,
+                IdValidador = Request.Cookies["Id"],
+                FechaRebajo = fecha,
+                Inconsistencia = idtipoinconsistencia,
+                IdTipoRebajo = IdTipoRebajo,
+                Aprobacion = true
+            };
+
+            _context.Rebajos.Add(rebajo);
+            await _context.SaveChangesAsync();
+
+            string nombre = colaborador.Nombre;
+            string correo = colaborador.Correo;
+
+            EnviarCorreo(correo, "Rebajo aplicado", $"Estimado {nombre} se le ha aplicado un rebajo, por informacion consulte a su jefatura");
+
+            return View("~/Views/Rebajos/Index.cshtml");
+
+        }
+
+        private void EnviarCorreo(string destinatario, string asunto, string cuerpo)
+        {
+            try
+            {
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("calderonmora6@gmail.com", "qsre xvxi yyvt flyw"),
+                    EnableSsl = true,
+                };
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress("calderonmora6@gmail.com"),
+                    Subject = asunto,
+                    Body = cuerpo,
+                    IsBodyHtml = false,
+                };
+
+                mailMessage.To.Add(destinatario);
+
+                smtpClient.Send(mailMessage);
+                Console.WriteLine("Correo enviado con éxito.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar el correo: {ex.Message}");
+            }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdRebajo,IdColaborador,IdValidador,FechaRebajo,Inconsistencia,IdTipoRebajo,Aprobacion")] Rebajos rebajos)
@@ -115,27 +171,6 @@ namespace SitiosWeb.Controllers
             return View(rebajos);
         }
 
-        // GET: Rebajos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rebajos = await _context.Rebajos
-                .Include(r => r.IdColaboradorNavigation)
-                .Include(r => r.IdTipoRebajoNavigation)
-                .Include(r => r.IdValidadorNavigation)
-                .Include(r => r.InconsistenciaNavigation)
-                .FirstOrDefaultAsync(m => m.IdRebajo == id);
-            if (rebajos == null)
-            {
-                return NotFound();
-            }
-
-            return View(rebajos);
-        }
         public IActionResult HistoricoRebajos()
         {
             dynamic result=0;
@@ -164,21 +199,6 @@ namespace SitiosWeb.Controllers
             
             return View(result);
         }
-        // POST: Rebajos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var rebajos = await _context.Rebajos.FindAsync(id);
-            if (rebajos != null)
-            {
-                _context.Rebajos.Remove(rebajos);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool RebajosExists(int id)
         {
             return _context.Rebajos.Any(e => e.IdRebajo == id);
